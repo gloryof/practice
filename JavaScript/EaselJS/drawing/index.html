@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>お絵描き〜</title>
+  </head>
+  <body>
+    <article id="drawing">
+      <section>
+        <button v-on:click="load">ロード</button>
+      </section>
+      <section>
+        <canvas id="canvas-area" style="width: 600px; height: 400px;"></canvas>
+      </section>
+      <section>
+        <ul class="buttons">
+          <li>
+            <button v-on:click="clear">クリア</button>
+          </li>
+          <li>
+            <button v-on:click="changeToPencil">鉛筆</button>
+          </li>
+          <li>
+            <button v-on:click="changeToEraser">消しゴム</button>
+          </li>
+        </ul>
+      </section>
+    </article>
+    <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
