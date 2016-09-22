@@ -53,6 +53,11 @@ module.exports = function (grunt) {
         },
         copy: {
             target: {
+                options: {
+                    process: function(content, srcpath) {
+                        return content.replace(/css/g, 'min.css');
+                    }
+                },
                 files: [{
                     expand: true,
                     src: ["build/ready/**"],
