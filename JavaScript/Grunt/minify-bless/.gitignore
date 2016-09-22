@@ -1,3 +1,10 @@
 node_modules/
-build/*
+build/bless/*.css
+build/bless/*.map
+build/concat/*.css
+build/concat/*.map
+build/minify/*.css
+build/minify/*.map
+build/ready/*.css
+build/ready/*.map
 .sass-cache/

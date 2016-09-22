@@ -10,7 +10,7 @@ module.exports = function (grunt) {
             }
         },
         clean: {
-            before_build: ["build/concat/*", "build/minify/*", "build/bless/*", "build/ready/*"],
+            before_build: ["build/concat/*.css", "build/minify/*.css", "build/bless/*.css", "build/ready/*.css"],
             result: ["result/css/*"]
         },
         sass: {
