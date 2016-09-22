@@ -37,6 +37,20 @@ module.exports = function (grunt) {
                 }
             }
         },
+        cssmin: {
+            targets: {
+                options: {
+                    processImport: false
+                },
+                files: [{
+                    expand: true,
+                    src: ["build/minify/**"],
+                    dest: "build/ready/",
+                    flatten: true,
+                    filter: "isFile"
+                }]
+            }
+        },
         copy: {
             target: {
                 files: [{
@@ -60,6 +74,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-bless');
 
     grunt.registerTask("package", ["build-css", "publish"]);
-    grunt.registerTask("build-css", ["clean:before_build", "sass", "concat", "bless"]);
+    grunt.registerTask("build-css", ["clean:before_build", "sass", "concat", "bless", "cssmin"]);
     grunt.registerTask("publish", ["clean:result", "copy"]);
 }
