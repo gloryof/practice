@@ -1,0 +1,4 @@
+@for $i from 1 through 5000 {
+    .concat-item-b-#{$i} { width: #{$i}px; }
+}
+
