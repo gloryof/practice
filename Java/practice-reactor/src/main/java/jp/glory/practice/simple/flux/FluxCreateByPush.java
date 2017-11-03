@@ -1,5 +1,6 @@
 package jp.glory.practice.simple.flux;
 
+import jp.glory.practice.TimeTools;
 import jp.glory.practice.simple.Tools;
 import reactor.core.publisher.Flux;
 
@@ -22,7 +23,7 @@ public class FluxCreateByPush extends SimpleFluxBase {
 
                 Tools.log("push flux : " + i);
                 sink.next("Test" + i);
-                Tools.slowExecution(waitSecond);
+                TimeTools.stay(waitSecond);
             }
 
             sink.complete();

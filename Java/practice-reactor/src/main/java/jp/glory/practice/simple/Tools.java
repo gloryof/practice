@@ -2,6 +2,8 @@ package jp.glory.practice.simple;
 
 import java.time.LocalDateTime;
 
+import jp.glory.practice.TimeTools;
+
 public class Tools {
 
     private static final String SEP = "=============";
@@ -17,17 +19,7 @@ public class Tools {
 
     public static void slowExecution() {
 
-        slowExecution(1);
-    }
-
-
-    public static void slowExecution(long second) {
-
-        try {
-            Thread.sleep(second * 1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        TimeTools.stay(1);
     }
 
     public static void methodStartLog(String methodName) {
