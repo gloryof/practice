@@ -18,13 +18,23 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class Routing {
 
+    /**
+     * ルート部分ルーティング設定.
+     * @param messageHandler メッセージハンドラー
+     * @return ルータファンクション
+     */
     @Bean
-    public RouterFunction<ServerResponse> routeSetting(MessageHandler handler) {
+    public RouterFunction<ServerResponse> routeSetting(final MessageHandler messageHandler) {
 
-        return nest(path("/messages"), messageRoute(handler));
+        return nest(path("/messages"), messageRoute(messageHandler));
     }
 
-    private RouterFunction<ServerResponse> messageRoute(MessageHandler handler) {
+    /**
+     * メッセージ周りのルーティング設定
+     * @param handler メッセージハンドラー
+     * @return ルータファンクション
+     */
+    private RouterFunction<ServerResponse> messageRoute(final MessageHandler handler) {
 
         return route(GET("/"), handler::getMessages)
                 .andRoute(GET("/add"), handler::addMessage);
