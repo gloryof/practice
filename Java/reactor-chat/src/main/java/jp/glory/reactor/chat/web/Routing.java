@@ -21,12 +21,15 @@ public class Routing {
     /**
      * ルート部分ルーティング設定.
      * @param messageHandler メッセージハンドラー
+     * @param userHandler ユーザハンドラー
      * @return ルータファンクション
      */
     @Bean
-    public RouterFunction<ServerResponse> routeSetting(final MessageHandler messageHandler) {
+    public RouterFunction<ServerResponse> routeSetting(final MessageHandler messageHandler,
+            final UserHandler userHandler) {
 
-        return nest(path("/messages"), messageRoute(messageHandler));
+        return nest(path("/messages"), messageRoute(messageHandler))
+                .andNest(path("/users"), userRoute(userHandler));
     }
 
     /**
@@ -38,5 +41,16 @@ public class Routing {
 
         return route(GET("/"), handler::getMessages)
                 .andRoute(GET("/add"), handler::addMessage);
+    }
+
+    /**
+     * ユーザ周りのルーティング設定
+     * @param handler メッセージハンドラー
+     * @return ルータファンクション
+     */
+    private RouterFunction<ServerResponse> userRoute(final UserHandler handler) {
+
+        return route(GET("/"), handler::getUsers)
+                .andRoute(GET("/add"), handler::addUser);
     }
 }

@@ -20,10 +20,19 @@ import reactor.core.publisher.Mono;
 @Component
 public class MessageHandler {
 
+    /**
+     * メッセージ通知.
+     */
     private final MessageNotify notify = new MessageNotify();
 
+    /**
+     * メッセージリストFluxオブジェクト.
+     */
     private final Flux<Message> flux;
 
+    /**
+     * コンストラクタ.
+     */
     public MessageHandler() {
 
         flux = Flux.<Message>create(sink -> {
@@ -40,11 +49,21 @@ public class MessageHandler {
         .log();
     }
 
+    /**
+     * メッセージ一覧を取得する.
+     * @param request リクエスト
+     * @return レスポンス
+     */
     public Mono<ServerResponse> getMessages(final ServerRequest request) {
 
         return ServerResponse.ok().contentType(MediaType.APPLICATION_STREAM_JSON).body(flux, Message.class);
     }
 
+    /**
+     * メッセージを追加する.
+     * @param request リクエスト
+     * @return レスポンス
+     */
     public Mono<ServerResponse> addMessage(final ServerRequest request) {
 
         String value = request.queryParam("message").orElse("");
