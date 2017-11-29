@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import jp.glory.reactor.chat.domain.entity.User;
 import jp.glory.reactor.chat.domain.repository.UserRepository;
+import jp.glory.reactor.chat.infra.notify.UserNotify;
 
 /**
  * ユーザリポジトリインメモリ実装.
@@ -18,10 +19,25 @@ import jp.glory.reactor.chat.domain.repository.UserRepository;
 @Repository
 public class UserRepositoryInMemoryImpl implements UserRepository {
 
+
     /**
      * ユーザMap.
      */
     private final Map<String, User> users = new LinkedHashMap<>();
+
+    /**
+     * ユーザ通知.
+     */
+    private final UserNotify notify;
+
+    /**
+     * コンストラクタ.
+     * @param notify ユーザ通知
+     */
+    public UserRepositoryInMemoryImpl(final UserNotify notify) {
+
+        this.notify = notify;
+    }
 
     /**
      * {@inheritDoc}
@@ -41,6 +57,15 @@ public class UserRepositoryInMemoryImpl implements UserRepository {
         return users.entrySet().stream()
                 .map(v -> v.getValue())
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void notifyToUsers() {
+
+        notify.publish(findAll());
     }
 
 }

@@ -22,4 +22,9 @@ public interface UserRepository {
      * @return
      */
     List<User> findAll();
+
+    /**
+     * 現在のユーザリストをユーザに通知する.
+     */
+    void notifyToUsers();
 }

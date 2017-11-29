@@ -9,14 +9,11 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import jp.glory.reactor.chat.domain.entity.User;
-import jp.glory.reactor.chat.domain.repository.UserRepository;
 import jp.glory.reactor.chat.domain.value.ChatType;
 import jp.glory.reactor.chat.domain.value.Name;
-import jp.glory.reactor.chat.infra.notify.NotifyEventListener;
 import jp.glory.reactor.chat.infra.notify.UserNotify;
-import reactor.core.publisher.Flux;
+import jp.glory.reactor.chat.usecase.user.AddUser;
 import reactor.core.publisher.Mono;
-import reactor.core.publisher.FluxSink.OverflowStrategy;
 
 /**
  * ユーザハンドラ.
@@ -27,40 +24,24 @@ import reactor.core.publisher.FluxSink.OverflowStrategy;
 public class UserHandler {
 
     /**
-     * リポジトリ.
+     * ユーザ追加ユースケース.
      */
-    private final UserRepository repository;
+    private final AddUser addUser;
 
     /**
      * ユーザ通知.
      */
-    private final UserNotify notify = new UserNotify();
-
-    /**
-     * ユーザ一覧fluxオブジェクト.
-     */
-    private final Flux<List<User>> flux;
+    private final UserNotify notify;
 
     /**
      * コンストラクタ.
-     * @param repository リポジトリ
+     * @param addUser ユーザ追加ユースケース
+     * @param notify ユーザ通知
      */
-    public UserHandler(final UserRepository repository) {
+    public UserHandler(final AddUser addUser, final UserNotify notify) {
 
-        this.repository = repository;
-        this.flux = Flux.<List<User>>create(sink -> {
-
-            sink.next(repository.findAll());
-            notify.addListener(new NotifyEventListener<User>() {
-                
-                @Override
-                public void addData(User data) {
-
-                    sink.next(repository.findAll());
-                }
-            });
-        }, OverflowStrategy.LATEST)
-        .log();
+        this.addUser = addUser;
+        this.notify = notify;
     }
 
     /**
@@ -72,7 +53,7 @@ public class UserHandler {
 
         final ParameterizedTypeReference<List<User>> type = new ParameterizedTypeReference<List<User>>() {};
 
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_STREAM_JSON).body(flux, type);
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_STREAM_JSON).body(notify.getFlux(), type);
     }
 
     /**
@@ -85,8 +66,7 @@ public class UserHandler {
         String value = request.queryParam("name").orElse("");
         final User user = new User(new Name(value), ChatType.Cold);
 
-        repository.add(user);
-        notify.addUser(user);
+        addUser.addUser(user);
 
         return ServerResponse.ok().build();
     }
