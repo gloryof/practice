@@ -68,10 +68,7 @@ public class MessageHandler {
     public Mono<ServerResponse> addMessage(final ServerRequest request) {
 
         request.bodyToMono(MessageRequest.class)
-            .map(v -> {
-                System.out.println(v);
-                return new Message(new Name("test-user"), v.getMessage());
-            })
+            .map(v -> new Message(new Name("test-user"), v.getMessage()))
             .subscribe(addMessage::add);
 
         return ServerResponse.ok().build();
