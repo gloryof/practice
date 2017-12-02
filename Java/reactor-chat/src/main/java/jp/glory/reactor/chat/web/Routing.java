@@ -1,6 +1,7 @@
 package jp.glory.reactor.chat.web;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
 import static org.springframework.web.reactive.function.server.RequestPredicates.path;
 import static org.springframework.web.reactive.function.server.RouterFunctions.nest;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
@@ -40,7 +41,7 @@ public class Routing {
     private RouterFunction<ServerResponse> messageRoute(final MessageHandler handler) {
 
         return route(GET("/"), handler::getMessages)
-                .andRoute(GET("/add"), handler::addMessage);
+                .andRoute(POST("/add"), handler::addMessage);
     }
 
     /**

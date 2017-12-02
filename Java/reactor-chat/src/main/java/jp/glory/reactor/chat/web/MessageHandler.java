@@ -9,6 +9,7 @@ import jp.glory.reactor.chat.domain.entity.Message;
 import jp.glory.reactor.chat.domain.value.Name;
 import jp.glory.reactor.chat.infra.notify.MessageNotify;
 import jp.glory.reactor.chat.usecase.message.AddMessage;
+import jp.glory.reactor.chat.web.request.MessageRequest;
 import reactor.core.publisher.Mono;
 
 /**
@@ -41,7 +42,11 @@ public class MessageHandler {
     }
 
     /**
-     * メッセージ一覧を取得する.
+     * メッセージ一覧を取得する.<br>
+     * <pre>
+     * curl -v http://localhost:8080/messages
+     * </pre>
+     * で待つ。
      * @param request リクエスト
      * @return レスポンス
      */
@@ -51,15 +56,23 @@ public class MessageHandler {
     }
 
     /**
-     * メッセージを追加する.
+     * メッセージを追加する.<br>
+     * <pre>
+     * curl -X POST -v http://localhost:8080/messages/add --data "{ \"message\" : \"value\" }"  -H 'Content-Type: application/stream+json' 
+     * </pre>
+     * でリクエスト送信。
+     * 
      * @param request リクエスト
      * @return レスポンス
      */
     public Mono<ServerResponse> addMessage(final ServerRequest request) {
 
-        final String value = request.queryParam("message").orElse("");
-
-        addMessage.add(new Message(new Name("test-user"), value));
+        request.bodyToMono(MessageRequest.class)
+            .map(v -> {
+                System.out.println(v);
+                return new Message(new Name("test-user"), v.getMessage());
+            })
+            .subscribe(addMessage::add);
 
         return ServerResponse.ok().build();
     }
