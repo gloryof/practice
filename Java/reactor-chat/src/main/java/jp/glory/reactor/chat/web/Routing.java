@@ -52,6 +52,6 @@ public class Routing {
     private RouterFunction<ServerResponse> userRoute(final UserHandler handler) {
 
         return route(GET("/"), handler::getUsers)
-                .andRoute(GET("/add"), handler::addUser);
+                .andRoute(POST("/add"), handler::addUser);
     }
 }

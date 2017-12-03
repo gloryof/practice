@@ -9,10 +9,10 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import jp.glory.reactor.chat.domain.entity.User;
-import jp.glory.reactor.chat.domain.value.ChatType;
 import jp.glory.reactor.chat.domain.value.Name;
 import jp.glory.reactor.chat.infra.notify.UserNotify;
 import jp.glory.reactor.chat.usecase.user.AddUser;
+import jp.glory.reactor.chat.web.request.UserRequest;
 import reactor.core.publisher.Mono;
 
 /**
@@ -63,10 +63,9 @@ public class UserHandler {
      */
     public Mono<ServerResponse> addUser(final ServerRequest request) {
 
-        String value = request.queryParam("name").orElse("");
-        final User user = new User(new Name(value), ChatType.Cold);
-
-        addUser.addUser(user);
+        request.bodyToMono(UserRequest.class)
+            .map(v -> new User(new Name(v.getName()), v.getType()))
+            .subscribe(addUser::addUser);
 
         return ServerResponse.ok().build();
     }
