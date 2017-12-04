@@ -10,6 +10,8 @@ import jp.glory.reactor.chat.domain.value.Name;
 import jp.glory.reactor.chat.infra.notify.MessageNotify;
 import jp.glory.reactor.chat.usecase.message.AddMessage;
 import jp.glory.reactor.chat.web.request.MessageRequest;
+import jp.glory.reactor.chat.web.response.MessageResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -52,7 +54,8 @@ public class MessageHandler {
      */
     public Mono<ServerResponse> getMessages(final ServerRequest request) {
 
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_STREAM_JSON).body(notify.getFlux(), Message.class);
+        Flux<MessageResponse> flux = notify.getFlux().map(MessageResponse::new);
+        return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM).body(flux, MessageResponse.class);
     }
 
     /**

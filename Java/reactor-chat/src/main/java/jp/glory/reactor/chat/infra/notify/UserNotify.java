@@ -40,8 +40,7 @@ public class UserNotify {
                     sink.next(data);
                 }
             });
-        }, OverflowStrategy.LATEST)
-        .log();
+        }, OverflowStrategy.LATEST);
     }
 
     /**

@@ -1,8 +1,5 @@
 package jp.glory.reactor.chat.web;
 
-import java.util.List;
-
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -13,6 +10,8 @@ import jp.glory.reactor.chat.domain.value.Name;
 import jp.glory.reactor.chat.infra.notify.UserNotify;
 import jp.glory.reactor.chat.usecase.user.AddUser;
 import jp.glory.reactor.chat.web.request.UserRequest;
+import jp.glory.reactor.chat.web.response.UsersResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -51,9 +50,9 @@ public class UserHandler {
      */
     public Mono<ServerResponse> getUsers(final ServerRequest request) {
 
-        final ParameterizedTypeReference<List<User>> type = new ParameterizedTypeReference<List<User>>() {};
+        Flux<UsersResponse> flux = notify.getFlux().map(UsersResponse::new);
 
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_STREAM_JSON).body(notify.getFlux(), type);
+        return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM).body(flux, UsersResponse.class);
     }
 
     /**
