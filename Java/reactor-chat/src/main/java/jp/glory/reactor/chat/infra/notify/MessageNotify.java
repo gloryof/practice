@@ -38,8 +38,7 @@ public class MessageNotify {
                     sink.next(data);
                 }
             });
-        })
-        .log();
+        });
     }
 
 

@@ -8,7 +8,7 @@ var user = new Vue({
 			count: 0,
 			users: []
 		}
-	}
+	},
 });
 
 var userEvent = new EventSource("/users");

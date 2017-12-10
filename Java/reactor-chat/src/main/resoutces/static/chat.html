@@ -19,6 +19,12 @@
 
     <article id="message">
       <h3>メッセージ</h3>
+      <div>
+        <input type="text" v-model="message" />
+      </div>
+      <div>
+        <button v-on:click="submitMessage">投稿</button>
+      </div>
       <ul>
         <li v-for="row in messages">
             <span v-text="row.name"></span>
@@ -28,6 +34,7 @@
       </ul>
     </article>
     <script src ="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/3.8.2/superagent.min.js"></script>
     <script src ="lib/message.js"></script>
     <script src ="lib/user.js"></script>
   </body>
