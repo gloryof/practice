@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+  </head>
+  <body>
+
+    <article id="user">
+      <section v-show="isLogin == false">
+        <p>あなたの名前を入力してください。</p>
+        <div>
+          <input type="text" v-model="own.name" />
+        </div>
+        <div>
+          <button v-on:click="join">参加</button>
+        </div>
+      </section>
+      <section v-show="isLogin">
+        <h3>あなた</h3>
+        <div v-text="own.name"></div>
+        <h3>他のユーザ(<span v-text="other.count"></span>)</h3>
+        <ul>
+          <li v-for="value in other.users">
+            <span v-text="value.name"></span>
+          </li>
+        </ul>
+      </section>
+    </article>
+
+    <article id="message">
+      <input type="hidden" v-model="name" id="send-name" />
+      <h3>メッセージ</h3>
+      <section v-if="isSendable">
+        <div>
+          <input type="text" v-model="message" />
+        </div>
+        <div>
+          <button v-on:click="submitMessage">投稿</button>
+        </div>
+      </section>
+      <section>
+        <ul>
+          <li v-for="row in messages">
+              <span v-text="row.name"></span>
+              :
+              <span v-text="row.content"></span>
+          </li>
+        </ul>
+      </section>
+    </article>
+    <script src ="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/3.8.2/superagent.min.js"></script>
+    <script src ="lib/message.js"></script>
+    <script src ="lib/user.js"></script>
+  </body>
+</html>

@@ -1,9 +1,14 @@
 var message = new Vue({
 	el: "#message",
 	data: {
-		name: "test " + new Date(),
+		name: "",
 		message: "",
 		messages: []
+	},
+	computed: {
+		isSendable: function() {
+			return (this.name != "" && this.name != null);
+		}
 	},
 	methods: {
 		submitMessage: function() {
