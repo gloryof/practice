@@ -16,7 +16,7 @@ var message = new Vue({
 			request
 				.post("/messages/add")
 				.send({
-					name: this.name,
+					username: this.name,
 					message: this.message
 				})
 				.end((err, res) => {
@@ -30,5 +30,5 @@ var messageEvent = new EventSource("/messages");
 
 messageEvent.addEventListener("message", function(event) {
 	var data = JSON.parse(event.data);
-	message.messages.push(data);
+	message.messages.unshift(data);
 });

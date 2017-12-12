@@ -44,11 +44,7 @@ public class MessageHandler {
     }
 
     /**
-     * メッセージ一覧を取得する.<br>
-     * <pre>
-     * curl -v http://localhost:8080/messages
-     * </pre>
-     * で待つ。
+     * メッセージ一覧を取得する.
      * @param request リクエスト
      * @return レスポンス
      */
@@ -59,11 +55,7 @@ public class MessageHandler {
     }
 
     /**
-     * メッセージを追加する.<br>
-     * <pre>
-     * curl -X POST -v http://localhost:8080/messages/add --data "{ \"message\" : \"value\" }"  -H 'Content-Type: application/stream+json' 
-     * </pre>
-     * でリクエスト送信。
+     * メッセージを追加する.
      * 
      * @param request リクエスト
      * @return レスポンス
@@ -71,7 +63,7 @@ public class MessageHandler {
     public Mono<ServerResponse> addMessage(final ServerRequest request) {
 
         request.bodyToMono(MessageRequest.class)
-            .map(v -> new Message(new Name("test-user"), v.getMessage()))
+            .map(v -> new Message(new Name(v.getUsername()), v.getMessage()))
             .subscribe(addMessage::add);
 
         return ServerResponse.ok().build();

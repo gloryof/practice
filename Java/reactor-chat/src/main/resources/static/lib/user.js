@@ -3,7 +3,7 @@ var user = new Vue({
 	data: {
 		isLogin: false,
 		own: {
-			name: "test"
+			name: ""
 		},
 		other: {
 			count: 0,
