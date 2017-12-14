@@ -3,6 +3,7 @@ package jp.glory.reactor.chat.domain.repository;
 import java.util.List;
 
 import jp.glory.reactor.chat.domain.entity.User;
+import jp.glory.reactor.chat.domain.value.Name;
 
 /**
  * ユーザリポジトリ.
@@ -27,4 +28,10 @@ public interface UserRepository {
      * 現在のユーザリストをユーザに通知する.
      */
     void notifyToUsers();
+
+    /**
+     * ユーザを削除する.
+     * @param name 名前
+     */
+    void delete(Name name);
 }

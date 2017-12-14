@@ -23,6 +23,19 @@ var user = new Vue({
 					this.isLogin = true;
 					message.name = this.own.name; // 本当はイベントでやるべきだけど面倒なので直接
 				})
+		},
+		leave: function() {
+			var request = window.superagent;
+			request
+				.post("/users/leave")
+				.send({
+					name: this.own.name
+				})
+				.end((err, res) => {
+					this.isLogin = false;
+					this.own.name = "";
+					message.name = ""; // 本当はイベントでやるべきだけど面倒なので直接
+				})
 		}
 	}
 });

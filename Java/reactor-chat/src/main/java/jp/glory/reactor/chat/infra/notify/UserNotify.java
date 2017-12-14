@@ -1,6 +1,5 @@
 package jp.glory.reactor.chat.infra.notify;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -17,11 +16,10 @@ import reactor.core.publisher.FluxSink.OverflowStrategy;
 @Component
 public class UserNotify {
 
-
     /**
-     * リスナーリスト.
+     * イベントリスナー.
      */
-    private final List<NotifyEventListener<List<User>>> listeners = new ArrayList<>();
+    private UserEventListener listener;
 
     /**
      * ユーザリストFlux.
@@ -32,14 +30,7 @@ public class UserNotify {
 
         this.flux = Flux.<List<User>>create(sink -> {
 
-            listeners.add(new NotifyEventListener<List<User>>() {
-                
-                @Override
-                public void addData(List<User> data) {
-
-                    sink.next(data);
-                }
-            });
+            listener = new UserEventListener(sink);
         }, OverflowStrategy.LATEST);
     }
 
@@ -49,7 +40,7 @@ public class UserNotify {
      */
     public void publish(final List<User> users) {
 
-        listeners.forEach(v -> v.addData(users));
+        listener.changeData(users);
     }
 
     /**

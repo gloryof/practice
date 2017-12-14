@@ -9,6 +9,8 @@ import jp.glory.reactor.chat.domain.entity.User;
 import jp.glory.reactor.chat.domain.value.Name;
 import jp.glory.reactor.chat.infra.notify.UserNotify;
 import jp.glory.reactor.chat.usecase.user.AddUser;
+import jp.glory.reactor.chat.usecase.user.LeaveUser;
+import jp.glory.reactor.chat.web.request.LeaveRequest;
 import jp.glory.reactor.chat.web.request.UserRequest;
 import jp.glory.reactor.chat.web.response.UsersResponse;
 import reactor.core.publisher.Flux;
@@ -28,6 +30,11 @@ public class UserHandler {
     private final AddUser addUser;
 
     /**
+     * 退室ユースケース.
+     */
+    private final LeaveUser leaveUser;
+
+    /**
      * ユーザ通知.
      */
     private final UserNotify notify;
@@ -35,11 +42,13 @@ public class UserHandler {
     /**
      * コンストラクタ.
      * @param addUser ユーザ追加ユースケース
+     * @param leaveUser 退室ユースケース
      * @param notify ユーザ通知
      */
-    public UserHandler(final AddUser addUser, final UserNotify notify) {
+    public UserHandler(final AddUser addUser, final LeaveUser leaveUser, final UserNotify notify) {
 
         this.addUser = addUser;
+        this.leaveUser = leaveUser;
         this.notify = notify;
     }
 
@@ -65,6 +74,20 @@ public class UserHandler {
         request.bodyToMono(UserRequest.class)
             .map(v -> new User(new Name(v.getName()), v.getType()))
             .subscribe(addUser::addUser);
+
+        return ServerResponse.ok().build();
+    }
+
+    /**
+     * ユーザを追加する.
+     * @param request リクエスト
+     * @return レスポンス
+     */
+    public Mono<ServerResponse> leave(final ServerRequest request) {
+
+        request.bodyToMono(LeaveRequest.class)
+            .map(v -> new Name(v.getName()))
+            .subscribe(leaveUser::leave);
 
         return ServerResponse.ok().build();
     }

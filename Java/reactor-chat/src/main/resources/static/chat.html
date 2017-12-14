@@ -18,7 +18,10 @@
       </section>
       <section v-show="isLogin">
         <h3>あなた</h3>
-        <div v-text="own.name"></div>
+        <div>
+          <span v-text="own.name"></span>
+          <button v-on:click="leave">退室</button>
+        </div>
         <h3>他のユーザ(<span v-text="other.count"></span>)</h3>
         <ul>
           <li v-for="value in other.users">

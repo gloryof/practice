@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import jp.glory.reactor.chat.domain.entity.User;
 import jp.glory.reactor.chat.domain.repository.UserRepository;
+import jp.glory.reactor.chat.domain.value.Name;
 import jp.glory.reactor.chat.infra.notify.UserNotify;
 
 /**
@@ -66,6 +67,13 @@ public class UserRepositoryInMemoryImpl implements UserRepository {
     public void notifyToUsers() {
 
         notify.publish(findAll());
+    }
+
+    @Override
+    public void delete(Name name) {
+
+        users.remove(name.getValue());
+        notifyToUsers();
     }
 
 }
