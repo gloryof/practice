@@ -1,8 +1,5 @@
 package jp.glory.reactor.chat.infra.notify;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import jp.glory.reactor.chat.domain.entity.Message;
@@ -17,9 +14,9 @@ import reactor.core.publisher.Flux;
 public class MessageNotify {
 
     /**
-     * リスナーリスト.
+     * イベントリスナー.
      */
-    private final List<NotifyEventListener<Message>> listeners = new ArrayList<>();
+    private MessageEventListener listener;
 
     /**
      * メッセージリストFluxオブジェクト.
@@ -30,15 +27,8 @@ public class MessageNotify {
 
         flux = Flux.<Message>create(sink -> {
 
-            listeners.add(new NotifyEventListener<Message>() {
-
-                @Override
-                public void addData(Message data) {
-
-                    sink.next(data);
-                }
-            });
-        });
+            listener = new MessageEventListener(sink);
+        }).share();
     }
 
 
@@ -48,7 +38,7 @@ public class MessageNotify {
      */
     public void publish(final Message message) {
 
-        listeners.stream().forEach(v -> v.addData(message));
+        listener.pushNewMessage(message);
     }
 
 
