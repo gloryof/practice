@@ -1,5 +1,9 @@
 package jp.glory.reactor.chat.usecase.message;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.springframework.stereotype.Component;
 
 import jp.glory.reactor.chat.domain.entity.Message;
@@ -34,5 +38,14 @@ public class AddMessage {
     public void add(final Message message) {
 
         messageRepository.notifyToUser(message);
+    }
+
+    public void addDelay(final Message message) {
+
+        List<Message> delayMessages = IntStream.rangeClosed(1, 5)
+                                        .mapToObj(message::appendPrefix)
+                                        .collect(Collectors.toList());
+
+        messageRepository.notifyDelayToUser(delayMessages);
     }
 }

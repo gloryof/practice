@@ -22,6 +22,18 @@ var message = new Vue({
 				.end((err, res) => {
 					this.message = "";
 				})
+		},
+		submitMessageDelay: function() {
+			var request = window.superagent;
+			request
+				.post("/messages/addDelay")
+				.send({
+					username: this.name,
+					message: this.message
+				})
+				.end((err, res) => {
+					this.message = "";
+				})
 		}
 	}
 });

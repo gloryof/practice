@@ -31,6 +31,16 @@ public class Message {
     }
 
     /**
+     * 末尾にプレフィックスを付与する.
+     * @param prefix プレフィックス
+     * @return 新しいメッセージ
+     */
+    public Message appendPrefix(final int prefix) {
+
+        return new Message(name, content + "-" + prefix);
+    }
+
+    /**
      * 名前を取得する.
      * @return 名前
      */

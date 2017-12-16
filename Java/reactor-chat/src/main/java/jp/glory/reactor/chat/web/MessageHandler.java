@@ -68,4 +68,18 @@ public class MessageHandler {
 
         return ServerResponse.ok().build();
     }
+
+    /**
+     * メッセージを遅延させて連続で追加する.
+     * @param request リクエスト
+     * @return レスポンス
+     */
+    public Mono<ServerResponse> addMessageDelay(final ServerRequest request) {
+
+        request.bodyToMono(MessageRequest.class)
+            .map(v -> new Message(new Name(v.getUsername()), v.getMessage()))
+            .subscribe(addMessage::addDelay);
+
+        return ServerResponse.ok().syncBody("OK");
+    }
 }

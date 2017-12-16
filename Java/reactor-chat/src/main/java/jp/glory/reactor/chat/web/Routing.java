@@ -41,7 +41,8 @@ public class Routing {
     private RouterFunction<ServerResponse> messageRoute(final MessageHandler handler) {
 
         return route(GET("/"), handler::getMessages)
-                .andRoute(POST("/add"), handler::addMessage);
+                .andRoute(POST("/add"), handler::addMessage)
+                .andRoute(POST("/addDelay"), handler::addMessageDelay);
     }
 
     /**
