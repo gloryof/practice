@@ -31,7 +31,8 @@ public class UserNotify {
         this.flux = Flux.<List<User>>create(sink -> {
 
             listener = new UserEventListener(sink);
-        }, OverflowStrategy.LATEST);
+        }, OverflowStrategy.LATEST)
+        .share();
     }
 
     /**
