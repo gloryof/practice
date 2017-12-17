@@ -72,7 +72,7 @@ public class UserHandler {
     public Mono<ServerResponse> addUser(final ServerRequest request) {
 
         request.bodyToMono(UserRequest.class)
-            .map(v -> new User(new Name(v.getName()), v.getType()))
+            .map(v -> new User(new Name(v.getName())))
             .subscribe(addUser::addUser);
 
         return ServerResponse.ok().build();
