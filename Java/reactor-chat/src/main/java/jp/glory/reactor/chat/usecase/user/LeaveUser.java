@@ -1,5 +1,7 @@
 package jp.glory.reactor.chat.usecase.user;
 
+import java.util.function.Consumer;
+
 import org.springframework.stereotype.Component;
 
 import jp.glory.reactor.chat.domain.repository.UserRepository;
@@ -11,7 +13,7 @@ import jp.glory.reactor.chat.domain.value.Name;
  *
  */
 @Component
-public class LeaveUser {
+public class LeaveUser implements Consumer<Name> {
 
     /**
      * ユーザリポジトリ.
@@ -28,10 +30,10 @@ public class LeaveUser {
     }
 
     /**
-     * 退室する.
-     * @param name 退室するユーザ名
+     * {@inheritDoc}
      */
-    public void leave(final Name name) {
+    @Override
+    public void accept(final Name name) {
 
         repository.delete(name);
     }

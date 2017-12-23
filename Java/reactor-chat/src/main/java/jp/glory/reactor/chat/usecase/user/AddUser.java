@@ -1,5 +1,7 @@
 package jp.glory.reactor.chat.usecase.user;
 
+import java.util.function.Consumer;
+
 import org.springframework.stereotype.Component;
 
 import jp.glory.reactor.chat.domain.entity.User;
@@ -11,7 +13,7 @@ import jp.glory.reactor.chat.domain.repository.UserRepository;
  *
  */
 @Component
-public class AddUser {
+public class AddUser implements Consumer<User> {
 
     /**
      * ユーザリポジトリ.
@@ -28,10 +30,10 @@ public class AddUser {
     }
 
     /**
-     * ユーザを追加する.
-     * @param user ユーザ
+     * {@inheritDoc}
      */
-    public void addUser(final User user) {
+    @Override 
+    public void accept(final User user) {
 
         repository.add(user);
         repository.notifyToUsers();

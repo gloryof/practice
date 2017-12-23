@@ -9,6 +9,7 @@ import jp.glory.reactor.chat.domain.entity.Message;
 import jp.glory.reactor.chat.domain.value.Name;
 import jp.glory.reactor.chat.infra.notify.MessageNotify;
 import jp.glory.reactor.chat.usecase.message.AddMessage;
+import jp.glory.reactor.chat.usecase.message.AddMessageDelay;
 import jp.glory.reactor.chat.web.request.MessageRequest;
 import jp.glory.reactor.chat.web.response.MessageResponse;
 import reactor.core.publisher.Flux;
@@ -28,18 +29,26 @@ public class MessageHandler {
     private final MessageNotify notify;
 
     /**
-     * メッセージ追加ユースケース.
+     * メッセージ追加.
      */
     private final AddMessage addMessage;
 
     /**
+     * メッセージ遅延追加.
+     */
+    private final AddMessageDelay addMessageDelay;
+
+    /**
      * コンストラクタ.
-     * @param addMessage メッセージ追加ユースケース.
+     * @param addMessage メッセージ追加
+     * @param addMessageDelay メッセージ遅延追加
      * @param notify メッセージ通知
      */
-    public MessageHandler(final AddMessage addMessage, final MessageNotify notify) {
+    public MessageHandler(final AddMessage addMessage, final AddMessageDelay addMessageDelay,
+            final MessageNotify notify) {
 
         this.addMessage = addMessage;
+        this.addMessageDelay = addMessageDelay;
         this.notify = notify;
     }
 
@@ -63,8 +72,8 @@ public class MessageHandler {
     public Mono<ServerResponse> addMessage(final ServerRequest request) {
 
         request.bodyToMono(MessageRequest.class)
-            .map(v -> new Message(new Name(v.getUsername()), v.getMessage()))
-            .subscribe(addMessage::add);
+            .map(this::covertMessage)
+            .subscribe(addMessage);
 
         return ServerResponse.ok().build();
     }
@@ -77,9 +86,19 @@ public class MessageHandler {
     public Mono<ServerResponse> addMessageDelay(final ServerRequest request) {
 
         request.bodyToMono(MessageRequest.class)
-            .map(v -> new Message(new Name(v.getUsername()), v.getMessage()))
-            .subscribe(addMessage::addDelay);
+            .map(this::covertMessage)
+            .subscribe(addMessageDelay);
 
         return ServerResponse.ok().syncBody("OK");
+    }
+
+    /**
+     * メッセージに変換する.
+     * @param request リクエスト
+     * @return メッセージ
+     */
+    private Message covertMessage(final MessageRequest request) {
+
+        return new Message(new Name(request.getUsername()), request.getMessage());
     }
 }

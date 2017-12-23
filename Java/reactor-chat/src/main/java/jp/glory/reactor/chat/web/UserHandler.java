@@ -73,7 +73,7 @@ public class UserHandler {
 
         request.bodyToMono(UserRequest.class)
             .map(v -> new User(new Name(v.getName())))
-            .subscribe(addUser::addUser);
+            .subscribe(addUser);
 
         return ServerResponse.ok().build();
     }
@@ -87,7 +87,7 @@ public class UserHandler {
 
         request.bodyToMono(LeaveRequest.class)
             .map(v -> new Name(v.getName()))
-            .subscribe(leaveUser::leave);
+            .subscribe(leaveUser);
 
         return ServerResponse.ok().build();
     }
