@@ -23,6 +23,9 @@ public class MessageNotify {
      */
     private final Flux<Message> flux;
 
+    /**
+     * コンストラクタ.
+     */
     public MessageNotify() {
 
         flux = Flux.<Message>create(sink -> {

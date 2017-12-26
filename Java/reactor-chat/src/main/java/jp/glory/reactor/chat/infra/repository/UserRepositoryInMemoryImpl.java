@@ -44,7 +44,7 @@ public class UserRepositoryInMemoryImpl implements UserRepository {
      * {@inheritDoc}
      */
     @Override
-    public void add(User user) {
+    public void add(final User user) {
 
         users.put(user.getName().getValue(), user);
     }
@@ -69,8 +69,11 @@ public class UserRepositoryInMemoryImpl implements UserRepository {
         notify.publish(findAll());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void delete(Name name) {
+    public void delete(final Name name) {
 
         users.remove(name.getValue());
         notifyToUsers();

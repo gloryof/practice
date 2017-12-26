@@ -45,7 +45,7 @@ public class MessageRepositoryInMemoryImpl implements MessageRepository {
      * {@inheritDoc}
      */
     @Override
-    public void notifyDelayToUser(List<Message> messages) {
+    public void notifyDelayToUser(final List<Message> messages) {
 
         Flux.fromIterable(messages)
             .delayElements(Duration.ofSeconds(2))
