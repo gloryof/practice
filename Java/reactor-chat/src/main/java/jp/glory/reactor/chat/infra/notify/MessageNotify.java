@@ -44,11 +44,18 @@ public class MessageNotify {
         listener.pushNewMessage(message);
     }
 
-
     /**
      * @return the flux
      */
     public Flux<Message> getFlux() {
         return flux;
+    }
+
+    /**
+     * 完了通知を行う.
+     */
+    void complete() {
+
+        listener.complete();
     }
 }

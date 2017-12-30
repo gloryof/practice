@@ -26,6 +26,9 @@ public class UserNotify {
      */
     private final Flux<List<User>> flux; 
 
+    /**
+     * コンストラクタ.
+     */
     public UserNotify() {
 
         this.flux = Flux.<List<User>>create(sink -> {
@@ -49,5 +52,13 @@ public class UserNotify {
      */
     public Flux<List<User>> getFlux() {
         return flux;
+    }
+
+    /**
+     * 完了通知を行う.
+     */
+    void complete() {
+
+        listener.complete();
     }
 }

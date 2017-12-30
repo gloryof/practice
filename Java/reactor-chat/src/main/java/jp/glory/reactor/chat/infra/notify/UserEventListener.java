@@ -34,4 +34,12 @@ class UserEventListener {
 
         sink.next(data);
     }
+
+    /**
+     * 完了通知を行う.
+     */
+    void complete() {
+
+        sink.complete();
+    }
 }

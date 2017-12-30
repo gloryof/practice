@@ -8,7 +8,7 @@ import reactor.core.publisher.FluxSink;
  * @author gloryof
  *
  */
-public class MessageEventListener {
+class MessageEventListener {
 
     /**
      * Flux Sink.
@@ -31,5 +31,13 @@ public class MessageEventListener {
     public void pushNewMessage(final Message message) {
 
         sink.next(message);
+    }
+
+    /**
+     * 完了通知を行う.
+     */
+    void complete() {
+
+        sink.complete();
     }
 }
