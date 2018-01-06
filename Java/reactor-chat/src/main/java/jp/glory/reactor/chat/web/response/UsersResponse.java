@@ -1,12 +1,9 @@
 package jp.glory.reactor.chat.web.response;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import jp.glory.reactor.chat.domain.entity.User;
 
 /**
- * コンストラクタ.
+ * ユーザレスポンス.
  * @author gloryof
  *
  */
@@ -15,24 +12,12 @@ public class UsersResponse {
     /**
      * ユーザリスト.
      */
-    private final List<UserDetailResponse> users;
+    private List<UserDetailResponse> users;
 
     /**
      * ユーザ件数.
      */
-    private final int count;
-
-    /**
-     * コンストラクタ.
-     * @param userList ユーザリスト
-     */
-    public UsersResponse(final List<User> userList) {
-
-        this. users = userList.stream()
-                .map(UserDetailResponse::new)
-                .collect(Collectors.toList());
-        this.count = users.size();
-    }
+    private int count;
 
     /**
      * @return the users
@@ -46,5 +31,19 @@ public class UsersResponse {
      */
     public int getCount() {
         return count;
+    }
+
+    /**
+     * @param users the users to set
+     */
+    public void setUsers(List<UserDetailResponse> users) {
+        this.users = users;
+    }
+
+    /**
+     * @param count the count to set
+     */
+    public void setCount(int count) {
+        this.count = count;
     }
 }

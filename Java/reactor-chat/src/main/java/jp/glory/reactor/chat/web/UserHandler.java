@@ -1,5 +1,8 @@
 package jp.glory.reactor.chat.web;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -12,6 +15,7 @@ import jp.glory.reactor.chat.usecase.user.AddUser;
 import jp.glory.reactor.chat.usecase.user.LeaveUser;
 import jp.glory.reactor.chat.web.request.LeaveRequest;
 import jp.glory.reactor.chat.web.request.UserRequest;
+import jp.glory.reactor.chat.web.response.UserDetailResponse;
 import jp.glory.reactor.chat.web.response.UsersResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -59,7 +63,7 @@ public class UserHandler {
      */
     public Mono<ServerResponse> getUsers(final ServerRequest request) {
 
-        Flux<UsersResponse> flux = notify.getFlux().map(UsersResponse::new);
+        final Flux<UsersResponse> flux = notify.getFlux().map(this::convert);
 
         return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM).body(flux, UsersResponse.class);
     }
@@ -90,5 +94,39 @@ public class UserHandler {
             .subscribe(leaveUser);
 
         return ServerResponse.ok().build();
+    }
+
+    /**
+     * ユーザレスポンスに変換する.
+     * @param userList ユーザリスト
+     * @return ユーザレスポンス
+     */
+    private UsersResponse convert(final List<User> userList) {
+
+        final UsersResponse response = new UsersResponse();
+
+        final List<UserDetailResponse> details =
+                userList.stream()
+                    .map(this::convertDetail)
+                    .collect(Collectors.toList());
+
+        response.setUsers(details);
+        response.setCount(details.size());
+
+        return response;
+    }
+
+    /**
+     * ユーザ詳細レスポンスに変換する.
+     * @param user ユーザ
+     * @return ユーザ詳細レスポンス
+     */
+    private UserDetailResponse convertDetail(final User user) {
+
+        final UserDetailResponse response = new UserDetailResponse();
+
+        response.setName(user.getName().getValue());
+
+        return response;
     }
 }

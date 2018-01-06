@@ -59,7 +59,7 @@ public class MessageHandler {
      */
     public Mono<ServerResponse> getMessages(final ServerRequest request) {
 
-        Flux<MessageResponse> flux = notify.getFlux().map(MessageResponse::new);
+        Flux<MessageResponse> flux = notify.getFlux().map(this::convertResponse);
         return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM).body(flux, MessageResponse.class);
     }
 
@@ -89,7 +89,7 @@ public class MessageHandler {
             .map(this::covertMessage)
             .subscribe(addMessageDelay);
 
-        return ServerResponse.ok().syncBody("OK");
+        return ServerResponse.ok().build();
     }
 
     /**
@@ -100,5 +100,20 @@ public class MessageHandler {
     private Message covertMessage(final MessageRequest request) {
 
         return new Message(new Name(request.getUsername()), request.getMessage());
+    }
+
+    /**
+     * メッセージレスポンスに変換する.
+     * @param message メッセージ
+     * @return レスポンス
+     */
+    private MessageResponse convertResponse(final Message message) {
+
+        final MessageResponse response = new MessageResponse();
+
+        response.setName(message.getName().getValue());
+        response.setContent(message.getContent());
+
+        return response;
     }
 }
