@@ -1,0 +1,9 @@
+get: 
+  tags:
+    - group1
+  summary: グループ1-サンプル01
+  consumes:
+    - application/x-www-form-urlencoded
+    - application/json
+  produces:
+    - application/json

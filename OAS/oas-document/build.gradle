@@ -2,11 +2,19 @@ buildscript {
 	ext {
 		springBootVersion = '2.0.0.RELEASE'
 	}
+
 	repositories {
 		mavenCentral()
+		jcenter()
 	}
+
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("io.github.swagger2markup:swagger2markup:1.3.1")
+        classpath("io.github.swagger2markup:swagger2markup-gradle-plugin:1.3.1")
+        classpath("io.github.swagger2markup:swagger2markup-import-files-ext:1.3.1")
+        classpath("io.github.swagger2markup:swagger2markup-gradle-plugin:1.3.1")
+    		classpath("org.asciidoctor:asciidoctor-gradle-plugin:1.5.7")
 	}
 }
 
@@ -14,17 +22,52 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'io.github.swagger2markup'
+apply plugin: 'org.asciidoctor.convert'
 
 group = 'jp.glory'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
+sourceCompatibility = 9
+
 
 repositories {
+	jcenter()
 	mavenCentral()
 }
-
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+ext {
+    asciiDocOutputDir = file("${buildDir}/asciidoc")
+}
+
+convertSwagger2markup {
+	swaggerInput file("docs/swagger/specifications/root.yml").getAbsolutePath()
+	outputDir asciiDocOutputDir
+    config = ['swagger2markup.markupLanguage' : 'ASCIIDOC',
+              'swagger2markup.pathsGroupedBy' : 'TAGS',
+              'swagger2markup.tagOrderBy' : 'AS_IS',
+              'swagger2markup.operationOrderBy': 'AS_IS']
+}
+
+asciidoctor {
+    dependsOn convertSwagger2markup
+    sourceDir "docs/swagger/template"
+    sources {
+        include "index.adoc"
+    }
+    backends = ['html5']
+    attributes = [
+            doctype: 'book',
+            toc: 'left',
+            toclevels: '3',
+            numbered: '',
+            sectlinks: '',
+            sectanchors: '',
+            hardbreaks: '',
+            generated: asciiDocOutputDir
+    ]
 }

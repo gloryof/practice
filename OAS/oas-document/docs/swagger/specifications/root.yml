@@ -1,0 +1,22 @@
+swagger: '2.0'
+info:
+  title: サンプル API  
+  description: >-
+    サンプルドキュメント
+  termsOfService: 'http://localhost/sample'
+  contact:
+    email: 'geek.junkey@gmail.com'
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  version: 1.0
+schemes:
+  - http
+  - ws
+tags:
+  - name: group1
+  - name: group2
+  - name: group3
+paths:
+  /group1/sample01:
+    $ref: './apis/group1/sample01.yml'
