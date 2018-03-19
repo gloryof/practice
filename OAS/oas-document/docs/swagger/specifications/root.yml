@@ -18,5 +18,5 @@ tags:
   - name: group2
   - name: group3
 paths:
-  /group1/sample01:
-    $ref: './apis/group1/sample01.yml'
+  '/group1/sample01':
+      $ref: './apis/group1/sample01.yml'

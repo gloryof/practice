@@ -1,0 +1,3 @@
+in: header
+name: commonHeader1
+type: string

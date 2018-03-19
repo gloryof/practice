@@ -1,9 +1,24 @@
-get: 
+get:
   tags:
     - group1
-  summary: グループ1-サンプル01
+  summary: グループ1-サンプル01 取得
   consumes:
     - application/x-www-form-urlencoded
     - application/json
   produces:
     - application/json
+  parameters:
+    - $ref: './common/params/headers/commonHeader1.yml'
+    - $ref: './common/params/headers/commonHeader2.yml'
+post:
+  tags:
+    - group1
+  summary: グループ1-サンプル01 更新
+  consumes:
+    - application/x-www-form-urlencoded
+    - application/json
+  produces:
+    - application/json
+  parameters:
+    - $ref: './common/params/headers/commonHeader1.yml'
+    - $ref: './common/params/headers/commonHeader2.yml'
