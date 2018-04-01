@@ -1,0 +1,149 @@
+version: '2'
+services:
+  db:
+    build: ./db
+    image: monitor-app:db
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./env/common.env
+    environment:
+      - POSTGRES_USER=postgres
+      - LC_ALL=C.UTF-8
+    networks:
+      monitor-net:
+        aliases:
+          - monitor-db
+        ipv4_address: 192.168.2.10
+  ap:
+    build:
+      context: ./ap
+      args:
+        appPort: 8080
+    depends_on:
+      - db
+    image: monitor-app:ap
+    env_file:
+      - ./env/common.env
+    environment:
+      - APP_PORT=8080
+    ports:
+      - "8080:8080"
+    networks:
+      monitor-net:
+        aliases:
+          - monitor-ap
+        ipv4_address: 192.168.2.20
+  web:
+    build: ./web
+    depends_on:
+      - ap
+    image: monitor-app:web
+    ports:
+      - "10080:80"
+    env_file:
+      - ./env/common.env
+    networks:
+      monitor-net:
+        aliases:
+          - monitor-web
+        ipv4_address: 192.168.2.30
+  monitoring:
+    build: ./monitoring
+    image: monitor-app:monitoring
+    links:
+      - monitoring-db
+      - monitoring-gateway
+    ports:
+      - "10051:10051"
+    env_file:
+      - ./env/common.env
+      - ./env/mysql.env
+    environment:
+      - ZBX_JAVAGATEWAY=monitoring-gateway
+    user: root
+    networks:
+      monitor-net:
+        aliases:
+          - monitor-monitoring
+        ipv4_address: 192.168.2.40
+  monitoring-db:
+    build: ./monitoring-db
+    image: monitor-app/monitoring-db
+    ports:
+      - "3306"
+    env_file:
+      - ./env/common.env
+    networks:
+      monitor-net:
+        aliases:
+          - monitor-monitoring-db
+        ipv4_address: 192.168.2.50
+  monitoring-gateway:
+    build: ./monitoring-gateway
+    image: monitor-app/monitoring-gateway
+    ports:
+      - "10052:10052"
+    env_file:
+      - ./env/common.env
+    networks:
+      monitor-net:
+        aliases:
+          - monitor-gateway
+        ipv4_address: 192.168.2.60
+  monitoring-web:
+    build: ./monitoring-web
+    image: monitor-app/monitoring-web
+    links:
+      - monitoring
+      - monitoring-gateway
+    ports:
+     - "20080:80"
+    env_file:
+      - ./env/common.env
+      - ./env/mysql.env
+      - ./env/zabbix.env
+    networks:
+      monitor-net:
+        aliases:
+          - monitor-monitoring-web
+        ipv4_address: 192.168.2.70
+  monitoring-proxy:
+    build: ./monitoring-proxy
+    image: monitor-app/monitoring-proxy
+    links:
+      - monitoring
+      - monitoring-gateway
+    user: root
+    ports:
+      - "10071:10051"
+    env_file:
+      - ./env/common.env
+      - ./env/mysql.env
+    networks:
+      monitor-net:
+        aliases:
+          - monitor-monitoring-proxy
+        ipv4_address: 192.168.2.80
+  monitoring-agent:
+    build: ./monitoring-agent
+    image: monitor-app/monitoring-agent
+    links:
+      - monitoring
+    user: root
+    ports:
+      - "10050:10050"
+    env_file:
+      - ./env/common.env
+    networks:
+      monitor-net:
+        aliases:
+          - monitor-monitoring-agent
+        ipv4_address: 192.168.2.90
+networks:
+  monitor-net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.2.0/24
+          ip_range: 192.168.2.0/24
