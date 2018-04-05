@@ -5,6 +5,7 @@ services:
     image: monitor-app:db
     ports:
       - "5432:5432"
+      - "10050"
     env_file:
       - ./env/common.env
     environment:
@@ -29,6 +30,7 @@ services:
       - APP_PORT=8080
     ports:
       - "8080:8080"
+      - "10050"
     networks:
       monitor-net:
         aliases:
@@ -41,6 +43,7 @@ services:
     image: monitor-app:web
     ports:
       - "10080:80"
+      - "10050"
     env_file:
       - ./env/common.env
     networks:
@@ -70,6 +73,7 @@ services:
   monitoring-db:
     build: ./monitoring-db
     image: monitor-app/monitoring-db
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     ports:
       - "3306"
     env_file:
@@ -125,21 +129,6 @@ services:
         aliases:
           - monitor-monitoring-proxy
         ipv4_address: 192.168.2.80
-  monitoring-agent:
-    build: ./monitoring-agent
-    image: monitor-app/monitoring-agent
-    links:
-      - monitoring
-    user: root
-    ports:
-      - "10050:10050"
-    env_file:
-      - ./env/common.env
-    networks:
-      monitor-net:
-        aliases:
-          - monitor-monitoring-agent
-        ipv4_address: 192.168.2.90
 networks:
   monitor-net:
     ipam:
