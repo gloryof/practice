@@ -58,5 +58,5 @@ postgres=# GRANT ALL PRIVILEGES ON DATABASE "monitor-db" TO "monitor-user";
 > host    all             all             192.168.1.110/32        md5
 ```
 ```
-# systemctl start postgresql-10
+# systemctl restart postgresql-10
 ```
