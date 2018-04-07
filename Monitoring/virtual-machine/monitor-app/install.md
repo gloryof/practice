@@ -18,4 +18,5 @@
 ```
 # systemctl daemon-reload
 # systemctl start monitoring-app.service
+# systemctl enable monitoring-app.service
 ```
