@@ -7,6 +7,20 @@
 # systemctl start postgresql-10
 ```
 
+
+## firewalldの設定
+```
+# firewall-cmd --permanent --new-service=postgres
+
+# firewall-cmd --permanent --service=postgres --set-short=postgres
+# firewall-cmd --permanent --service=postgres --set-description=postgres
+# firewall-cmd --permanent --service=postgres --add-port=5432/tcp
+
+# firewall-cmd --permanent --add-service=postgres --zone=public
+
+# firewall-cmd --reload
+```
+
 ## DBユーザの追加
 
 ```
@@ -17,9 +31,7 @@ postgres=# CREATE USER "monitor-user" WITH PASSWORD 'monitor-pass';
 postgres=# CREATE DATABASE "monitor-db" WITH OWNER = "monitor-user" ENCODING = "UTF-8";
 postgres=# GRANT ALL PRIVILEGES ON DATABASE "monitor-db" TO "monitor-user";
 ```
-
 ## PostgreSQLの設定変更
-
 ```
 # diff -u postgresql.conf{.orig,}
 --- postgresql.conf.orig	2018-04-07 10:37:17.540805243 +0900
