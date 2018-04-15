@@ -27,6 +27,8 @@
 $ psql
 
 postgres=# CREATE USER "zabbix-user" WITH PASSWORD 'zabbix-pass';
+postgres=# CREATE DATABASE "zabbix-db" WITH OWNER = "zabbix-user" ENCODING = "UTF-8";
+postgres=# GRANT ALL PRIVILEGES ON DATABASE "zabbix-db" TO "zabbix-user";
 ```
 ## PostgreSQLの設定変更
 ```
@@ -54,10 +56,38 @@ postgres=# CREATE USER "zabbix-user" WITH PASSWORD 'zabbix-pass';
 ```
 
 ```
-# diff /var/lib/pgsql/10/data/pg_hba.conf{.orig,}
-82a83
-> host    all             all             192.168.1.114/32        md5
+# diff -u /var/lib/pgsql/10/data/pg_hba.conf{.orig,}
+--- /var/lib/pgsql/10/data/pg_hba.conf.orig	2018-04-12 21:44:01.929016641 +0900
++++ /var/lib/pgsql/10/data/pg_hba.conf	2018-04-14 10:08:29.006832337 +0900
+@@ -77,9 +77,10 @@
+ # TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+ # "local" is for Unix domain socket connections only
+-local   all             all                                     peer
++local   all             all                                     md5
+ # IPv4 local connections:
+ host    all             all             127.0.0.1/32            ident
++host    all             all             192.168.1.114/32        md5
+ # IPv6 local connections:
+ host    all             all             ::1/128                 ident
+ # Allow replication connections from localhost, by a user with the
 ```
 ```
 # systemctl restart postgresql-10
+```
+
+## Zabbixのインストール後のSQL実行
+ZabbixのインストールでダウンロードしたSQLをアップロードする。
+```
+$ scp -P 22 ./create.sql.gz db@192.168.1.113:/tmp
+```
+
+SQLの実行
+```
+# chown postgres:postgres create.sql.gz
+# su - postgres
+
+$ cd /tmp
+$ zcat create.sql.gz  | psql -U zabbix-user -d zabbix-db
+
 ```
