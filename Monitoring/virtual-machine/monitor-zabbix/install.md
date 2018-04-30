@@ -23,6 +23,9 @@ $ scp -P 22 zabbix@192.168.1.114:/usr/share/doc/zabbix-server-pgsql-3.4.8/create
 # setsebool -P httpd_can_network_connect_db on
 # setsebool -P httpd_can_connect_zabbix on
 # setsebool -P postgresql_port_t on
+
+# /var/log/zabbix
+# cd semodule -i zabbix_server.pp
 ```
 
 ## rlimitの設定

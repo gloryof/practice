@@ -34,3 +34,51 @@
 # systemctl start httpd
 # systemctl enable httpd
 ```
+
+
+## Zabbix-Agentのインストール
+```
+# rpm -ivh http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-1.el7.centos.noarch.rpm
+# yum install zabbix-agent
+```
+
+```
+# diff -u /etc/zabbix/zabbix_agentd.conf{.orig,}
+--- /etc/zabbix/zabbix_agentd.conf.orig	2018-04-29 13:50:21.990525068 +0900
++++ /etc/zabbix/zabbix_agentd.conf	2018-04-29 13:51:57.634012705 +0900
+@@ -93,8 +93,7 @@
+ # Mandatory: no
+ # Default:
+ # Server=
+-
+-Server=127.0.0.1
++Server=192.168.1.114
+
+ ### Option: ListenPort
+ #	Agent will listen on this port for connections from the server.
+@@ -135,7 +134,7 @@
+ # Default:
+ # ServerActive=
+
+-ServerActive=127.0.0.1
++ServerActive=192.168.1.114
+
+ ### Option: Hostname
+ #	Unique, case sensitive hostname.
+@@ -146,7 +145,7 @@
+ # Default:
+ # Hostname=
+
+-Hostname=Zabbix server
++#Hostname=Zabbix server
+
+ ### Option: HostnameItem
+```
+```
+# firewall-cmd --add-port=10050/tcp --permanent
+# firewall-cmd --reload
+```
+```
+# systemctl start zabbix-agent
+# systemctl enable zabbix-agent
+```
