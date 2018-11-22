@@ -1,0 +1,11 @@
+[Unit]
+Description=Data Analyze Application
+After=network.target
+After=local-fs.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+ExecStart=/usr/lib/java/bin/java -jar /usr/lib/data-analyze/data-analyze.jar --logging.config=/usr/lib/data-analyze/conf/logger.xml
+User=app
