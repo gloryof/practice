@@ -1,0 +1,8 @@
+server: 
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: /var/log/data-analyze/access
+      prefix: access
+      file-date-format: -yyyy-MM-dd
+      suffix: .log
