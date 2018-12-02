@@ -33,3 +33,25 @@
 
 # firewall-cmd --reload
 ```
+
+## Filebeatのインストール
+参考：[公式のリポジトリインストール方法ページ](https://www.elastic.co/guide/en/beats/filebeat/current/setup-repositories.html)
+
+```
+# rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
+# vi /etc/yum.repos.d/elasticsearch.repo
+# yum install filebeat
+```
+
+[/etc/yum.repos.d/elasticsearch.repo]
+
+```
+[elasticsearch-6.x]
+name=Elasticsearch repository for 6.x packages
+baseurl=https://artifacts.elastic.co/packages/6.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+```

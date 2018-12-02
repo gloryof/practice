@@ -1,0 +1,46 @@
+filebeat:
+    inputs:
+      - type: log
+        enabled: true
+        paths:
+          - /var/log/data-analyze/info/*.log
+        fields:
+          logType: "info"
+      - type: log
+        enabled: true
+        paths:
+          - /var/log/data-analyze/error/*.log
+        fields:
+          logType: "error"
+      - type: log
+        enabled: true
+        paths:
+          - /var/log/data-analyze/conversion/*.log
+        fields:
+          logType: "conversion"
+      - type: log
+        enabled: true
+        paths:
+          - /var/log/data-analyze/access/*.log
+        fields:
+          logType: "access"
+    config:
+      modules:
+        path: ${path.config}/modules.d/*.yml
+      reload:
+        enabled: false
+setup:
+  template:
+    settings:
+      index:
+        number_of_shards: 1
+    name: "index-%{[beat.version]}"
+    pattern: "index-%{[beat.version]}-*"
+
+output:
+  elasticsearch:
+    hosts: ["192.168.1.118:9200"]
+    index: "index-%{[beat.version]}-%{[fields.logType]:other}-%{+yyyy.MM.dd}"
+processors:
+  - add_host_metadata: ~
+  - add_cloud_metadata: ~
