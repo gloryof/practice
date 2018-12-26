@@ -38,9 +38,8 @@ setup:
     pattern: "index-%{[beat.version]}-*"
 
 output:
-  elasticsearch:
-    hosts: ["192.168.1.118:9200"]
-    index: "index-%{[beat.version]}-%{[fields.logType]:other}-%{+yyyy.MM.dd}"
+  logstash:
+    hosts: ["192.168.1.120:5044"]
 processors:
   - add_host_metadata: ~
   - add_cloud_metadata: ~

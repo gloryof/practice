@@ -41,6 +41,7 @@
 # rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
 # vi /etc/yum.repos.d/elasticsearch.repo
 # yum install filebeat
+# systemctl enable filebeat.service
 ```
 
 [/etc/yum.repos.d/elasticsearch.repo]
