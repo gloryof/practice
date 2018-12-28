@@ -10,6 +10,10 @@ filebeat:
         enabled: true
         paths:
           - /var/log/data-analyze/error/*.log
+        multiline:
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          negate: true
+          match: after
         fields:
           logType: "error"
       - type: log
