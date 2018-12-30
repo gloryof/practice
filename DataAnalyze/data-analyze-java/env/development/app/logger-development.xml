@@ -38,8 +38,23 @@
 		</rollingPolicy>
 	</appender>
 
+
+	<appender name="searchAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>${FILE_LOG_PATTERN}</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_BASE_DIR}/search/search-%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+	</appender>
+
 	<logger name="conversionLog">
 		<appender-ref ref="conversionAppender" />
+	</logger>
+
+	<logger name="searchLog">
+		<appender-ref ref="searchAppender" />
 	</logger>
 
 	<root level="INFO">

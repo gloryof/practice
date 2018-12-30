@@ -28,6 +28,12 @@ filebeat:
           - /var/log/data-analyze/access/*.log
         fields:
           logType: "access"
+      - type: log
+        enabled: true
+        paths:
+          - /var/log/data-analyze/search/*.log
+        fields:
+          logType: "search"
     config:
       modules:
         path: ${path.config}/modules.d/*.yml
