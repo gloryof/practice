@@ -1,0 +1,9 @@
+{
+	"name": "name pattern1",
+	"age": 21,
+	"hobby": {
+		"name": "hobby pattern 1",
+		"ranking": 1,
+		"type": "Sports"
+	}
+}
