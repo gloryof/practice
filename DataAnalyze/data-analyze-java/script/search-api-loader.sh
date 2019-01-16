@@ -19,7 +19,7 @@ function callApi() {
   url="http://${apiHost}:${apiPort}/search"
   file="@./search/pattern$1.json"
 
-  curl  -H "Content-Type: application/json"  ${url} -v -d $file > /dev/null
+  curl  -H "Content-Type: application/json"  ${url} -d $file > /dev/null
 }
 
 while true
