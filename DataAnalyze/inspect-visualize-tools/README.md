@@ -14,3 +14,7 @@ curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/bank/account
 ## アクセス
 下記のURLにアクセス。  
 http://localhost:5601/app/kibana
+
+## 設定のインポート
+[Management] -> [Kibana] -> [Saved Objects]を表示。  
+[Import]を選択し、setting.jsonをインポートする。
