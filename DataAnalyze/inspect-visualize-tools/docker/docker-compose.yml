@@ -1,0 +1,37 @@
+version: "3"
+services:
+  elasticsearch:
+    build: ./elasticsearch
+    container_name: elasticsearch
+    env_file:
+      - ./common.env
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks: 
+      - insnet
+  kibana:
+    build: ./kibana
+    container_name: kibana
+    env_file:
+      - ./common.env
+    ports: 
+      - 5601:5601
+    networks: 
+      - insnet
+
+volumes:
+  esdata:
+    driver: local
+
+networks:
+  insnet:
