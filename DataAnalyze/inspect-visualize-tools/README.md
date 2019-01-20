@@ -4,7 +4,7 @@ cd docker
 docker-compose up -d
 ```
 ## データ投入
-### acountsデータ
+### acountsデータ  
 公式ドキュメントのサンプル（accounts.zip）を使う。  
 https://www.elastic.co/guide/en/kibana/current/tutorial-load-dataset.html   
 
