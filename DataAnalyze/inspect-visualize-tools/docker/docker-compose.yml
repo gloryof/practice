@@ -19,6 +19,20 @@ services:
       - 9200:9200
     networks: 
       - insnet
+  postgres:
+    build: ./postgres
+    container_name: postgres
+    env_file:
+      - ./common.env
+    environment:
+      - LC_ALL=C.UTF-8
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks: 
+      - insnet
+
   kibana:
     build: ./kibana
     container_name: kibana
@@ -39,9 +53,11 @@ services:
       - 3000:3000
     networks: 
       - insnet
-      
+
 volumes:
   esdata:
+    driver: local
+  pgdata:
     driver: local
 
 networks:
