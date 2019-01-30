@@ -20,7 +20,7 @@ SELECT
     (
         timestamp '2015-05-17 00:00:00' +
             (
-                random_value * 7200 * interval '1 minute'
+                random_for_time * 7200 * interval '1 minute'
             )
     ) AS access_at,
     CASE WHEN percent <= 25 THEN 'Chrome'
@@ -54,14 +54,16 @@ FROM
     (
         SELECT
             id,
+            random_for_time,
             random_value,
             (random_value * 100)::integer AS percent
         FROM
             (
                 SELECT
                     genereted AS id,
+                    random() AS random_for_time,
                     random() AS random_value
                 FROM
-                    generate_series(1, 1000) AS func(genereted)
+                    generate_series(1, 10000) AS func(genereted)
             ) AS seed
     ) AS base

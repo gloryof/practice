@@ -68,14 +68,30 @@ http://localhost:3000/login
 ### Data Sourceの設定
 Data Sourceには下記の設定を行う。  
 
+#### Elasticsearch
 |設定項目|値|
 |--|--|
 |URL|http://elasticsearch:9200|
 |Index name|apache-log|
 
-### ダッシュボードの取り込み
+#### PostgreSQL
+|設定項目|値|
+|--|--|
+|Host|postgres:5432|
+|Database|analyze-database|
+|User|analyze-user|
+|Password|analyze-password|
+|SSL Mode|disable|
+|Version|10|
 
+### ダッシュボードの取り込み
+下記の`対象データ`ごとにデータをインポートする。  
+インポートする方法は`手順`を参照。
+#### 対象データ
+- `/docker/grafana/log-analyze-setting.json`
+- `/docker/grafana/db-log-analyze-setting.json`
+#### 手順
 1. [Dashboards] -> [Manage]をクリック。
 1. [+Import]をクリックする。
-1. [Or paste JSON]に `/docker/grafana/setting.json`の中身をコピーする。
+1. [Or paste JSON]に対象のJSONの中身をコピーする。
 1. [Load]をクリックする。
