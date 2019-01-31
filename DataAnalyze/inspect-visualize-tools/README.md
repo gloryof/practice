@@ -95,3 +95,19 @@ Data Sourceには下記の設定を行う。
 1. [+Import]をクリックする。
 1. [Or paste JSON]に対象のJSONの中身をコピーする。
 1. [Load]をクリックする。
+
+## Metabase
+### アクセス
+下記のURLにアクセス。  
+http://localhost:3001
+
+### DB設定
+下記を設定する。  
+|設定項目|値|
+|--|--|
+|名前|DBLog|
+|ホスト|postgres|
+|ポート|5432|
+|データベース名|analyze-database|
+|データベースユーザ名|analyze-user|
+|データベースパスワード|analyze-password|

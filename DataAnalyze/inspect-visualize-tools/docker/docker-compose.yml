@@ -53,6 +53,15 @@ services:
       - 3000:3000
     networks: 
       - insnet
+  metabase:
+    build: ./metabase
+    container_name: metabase
+    env_file:
+      - ./common.env
+    ports: 
+      - 3001:3000
+    networks: 
+      - insnet
 
 volumes:
   esdata:
