@@ -1,8 +1,29 @@
 ## 実行方法
+コンテナの数が多いので全て一気に起動すると正常に動かない場合がある。  
+基本的にはスクリプト経由で実行すること。  
+
+### ビルド手順
+`docker` ディレクトリで下記のコマンドを実行する。
 ```
-cd docker
-docker-compose up -d
+./build.sh
 ```
+
+### スクリプト実行
+`${script} start`で起動し、`${script} stop`で停止する。  
+対応するscriptは下記。  
+
+|script名|概要|
+|-------|----|
+|data-container.sh|他のコンテナから参照するデータ群。ElasticsearchとPostgreSQLが含まれる。|
+|kibana-container.sh|Kibanaコンテナ。|
+|grafana-container.sh|Grafanaコンテナ。|
+|metabase-container.sh|Metabaseコンテナ。|
+|redash-container.sh|Redashの起動に必要なコンテナ群。|
+
+基本的には`data-container.sh`を実行し、  
+必要なデータ群が動作してから起動するのが望ましい。
+
+
 ## データ投入
 ### acountsデータ  
 公式ドキュメントのサンプル（accounts.zip）を使う。  
@@ -73,6 +94,7 @@ Data Sourceには下記の設定を行う。
 |--|--|
 |URL|http://elasticsearch:9200|
 |Index name|apache-log|
+|Version|6.0+|
 
 #### PostgreSQL
 |設定項目|値|
@@ -111,3 +133,20 @@ http://localhost:3001
 |データベース名|analyze-database|
 |データベースユーザ名|analyze-user|
 |データベースパスワード|analyze-password|
+
+## Redash
+### アクセス
+下記のURLにアクセス。  
+http://localhost:5000/  
+
+### DB設定
+下記を設定する。  
+|設定項目|値|
+|--|--|
+|Name|DBLog|
+|Host|postgres|
+|Port|5432|
+|User|analyze-user|
+|Password|analyze-password|
+|SSL Mode|prefer|
+|Database Name|analyze-database|

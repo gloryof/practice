@@ -1,0 +1,1 @@
+FROM redash/redash:6.0.0.b8537

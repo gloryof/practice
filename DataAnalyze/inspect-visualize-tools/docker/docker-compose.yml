@@ -32,10 +32,24 @@ services:
       - 5432:5432
     networks: 
       - insnet
+  redash-data:
+    build: ./redash/data
+    container_name: redash-data
+    env_file:
+      - ./common.env
+    environment:
+      - LC_ALL=C.UTF-8
+    volumes:
+      - rddata:/var/lib/postgresql/data
+    networks: 
+      - insnet
 
   kibana:
     build: ./kibana
     container_name: kibana
+    depends_on:
+      - elasticsearch
+      - postgres
     env_file:
       - ./common.env
     ports: 
@@ -45,6 +59,9 @@ services:
   grafana:
     build: ./grafana
     container_name: grafana
+    depends_on:
+      - elasticsearch
+      - postgres
     env_file:
       - ./common.env
     environment:
@@ -56,10 +73,77 @@ services:
   metabase:
     build: ./metabase
     container_name: metabase
+    depends_on:
+      - elasticsearch
+      - postgres
     env_file:
       - ./common.env
     ports: 
       - 3001:3000
+    networks: 
+      - insnet
+  redash-server:
+    build: ./redash/server
+    container_name: redash-server
+    command: server
+    depends_on:
+      - elasticsearch
+      - postgres
+      - redash-data
+      - redash-redis
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./common.env
+      - ./redash/redash-connection.env
+    environment:
+      PYTHONUNBUFFERED: 0
+      REDASH_LOG_LEVEL: "INFO"
+      REDASH_WEB_WORKERS: 4
+    networks: 
+      - insnet
+  redash-worker:
+    build: ./redash/worker
+    container_name: redash-worker
+    command: scheduler
+    depends_on:
+      - elasticsearch
+      - postgres
+      - redash-data
+      - redash-redis
+    env_file:
+      - ./common.env
+      - ./redash/redash-connection.env
+    environment:
+      PYTHONUNBUFFERED: 0
+      WORKERS_COUNT: 1
+      QUEUES: "queries,scheduled_queries,celery"
+    networks: 
+      - insnet
+  redash-front:
+    build: ./redash/front
+    container_name: redash-front
+    depends_on:
+      - elasticsearch
+      - postgres
+      - redash-server
+    ports:
+      - "8081:80"
+    env_file:
+      - ./common.env
+      - ./redash/redash-connection.env
+    links:
+      - redash-server:redash
+    networks: 
+      - insnet
+  redash-redis:
+    build: ./redash/redis
+    container_name: redash-redis
+    depends_on:
+      - elasticsearch
+      - postgres
+    env_file:
+      - ./common.env
     networks: 
       - insnet
 
@@ -67,6 +151,8 @@ volumes:
   esdata:
     driver: local
   pgdata:
+    driver: local
+  rddata:
     driver: local
 
 networks:
