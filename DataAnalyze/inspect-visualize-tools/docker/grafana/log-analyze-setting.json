@@ -15,9 +15,96 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 2,
+  "iteration": 1549856456568,
   "links": [],
   "panels": [
+    {
+      "columns": [
+        {
+          "text": "@timestamp",
+          "value": "@timestamp"
+        },
+        {
+          "text": "apache2.access.response_code",
+          "value": "apache2.access.response_code"
+        },
+        {
+          "text": "apache2.access.user_agent.name",
+          "value": "apache2.access.user_agent.name"
+        },
+        {
+          "text": "apache2.access.geoip.country_iso_code",
+          "value": "apache2.access.geoip.country_iso_code"
+        },
+        {
+          "text": "apache2.access.url",
+          "value": "apache2.access.url"
+        }
+      ],
+      "datasource": "Elasticsearch",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 10,
+      "links": [],
+      "pageSize": 200,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss.SSS",
+          "link": false,
+          "pattern": "@timestamp",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "bucketAggs": [],
+          "metrics": [
+            {
+              "field": "select field",
+              "id": "1",
+              "meta": {},
+              "settings": {
+                "size": 10000
+              },
+              "type": "raw_document"
+            }
+          ],
+          "query": "apache2.access.user_agent.name:${browser} AND apache2.access.url:*${accessPage}*",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "title": "一覧",
+      "transform": "json",
+      "type": "table"
+    },
     {
       "aliasColors": {},
       "bars": false,
@@ -28,7 +115,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 9
       },
       "id": 2,
       "legend": {
@@ -75,6 +162,7 @@
               "type": "count"
             }
           ],
+          "query": "apache2.access.user_agent.name:${browser} AND apache2.access.url:*${accessPage}*",
           "refId": "A",
           "timeField": "@timestamp"
         }
@@ -135,7 +223,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 9
+        "y": 18
       },
       "hideTimeOverride": false,
       "id": 4,
@@ -188,7 +276,7 @@
               "type": "count"
             }
           ],
-          "query": "",
+          "query": "apache2.access.user_agent.name:${browser} AND apache2.access.url:*${accessPage}*",
           "refId": "A",
           "timeField": "@timestamp"
         }
@@ -209,7 +297,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 19
+        "y": 28
       },
       "id": 6,
       "legend": {
@@ -223,6 +311,7 @@
       },
       "lines": true,
       "linewidth": 1,
+      "links": [],
       "nullPointMode": "null",
       "percentage": false,
       "pointradius": 5,
@@ -265,7 +354,7 @@
               "type": "count"
             }
           ],
-          "query": "",
+          "query": "apache2.access.user_agent.name:${browser} AND apache2.access.url:*${accessPage}*",
           "refId": "A",
           "timeField": "@timestamp"
         }
@@ -274,7 +363,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Panel Title",
+      "title": "ページごとのアクセス",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -325,7 +414,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 38
       },
       "hideEmpty": false,
       "hideZero": false,
@@ -380,6 +469,7 @@
               "type": "count"
             }
           ],
+          "query": "apache2.access.user_agent.name:${browser} AND apache2.access.url:*${accessPage}*",
           "refId": "A",
           "timeField": "@timestamp"
         }
@@ -398,7 +488,510 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "tags": [],
+          "text": "Chrome",
+          "value": [
+            "Chrome"
+          ]
+        },
+        "datasource": "Elasticsearch",
+        "definition": "{\"find\": \"terms\", \"field\": \"apache2.access.user_agent.name\"}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "ブラウザ",
+        "multi": true,
+        "name": "browser",
+        "options": [
+          {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "360Spider",
+            "value": "360Spider"
+          },
+          {
+            "selected": false,
+            "text": "AOL",
+            "value": "AOL"
+          },
+          {
+            "selected": false,
+            "text": "AhrefsBot",
+            "value": "AhrefsBot"
+          },
+          {
+            "selected": false,
+            "text": "Amazon Silk",
+            "value": "Amazon Silk"
+          },
+          {
+            "selected": false,
+            "text": "Android",
+            "value": "Android"
+          },
+          {
+            "selected": false,
+            "text": "AppEngine-Google",
+            "value": "AppEngine-Google"
+          },
+          {
+            "selected": false,
+            "text": "Apple Mail",
+            "value": "Apple Mail"
+          },
+          {
+            "selected": false,
+            "text": "Baidu Explorer",
+            "value": "Baidu Explorer"
+          },
+          {
+            "selected": false,
+            "text": "Baiduspider",
+            "value": "Baiduspider"
+          },
+          {
+            "selected": false,
+            "text": "Baiduspider-image",
+            "value": "Baiduspider-image"
+          },
+          {
+            "selected": false,
+            "text": "BeetleBot",
+            "value": "BeetleBot"
+          },
+          {
+            "selected": false,
+            "text": "BingPreview",
+            "value": "BingPreview"
+          },
+          {
+            "selected": false,
+            "text": "Bon Echo",
+            "value": "Bon Echo"
+          },
+          {
+            "selected": false,
+            "text": "CFNetwork",
+            "value": "CFNetwork"
+          },
+          {
+            "selected": true,
+            "text": "Chrome",
+            "value": "Chrome"
+          },
+          {
+            "selected": false,
+            "text": "Chrome Frame",
+            "value": "Chrome Frame"
+          },
+          {
+            "selected": false,
+            "text": "Chrome Mobile",
+            "value": "Chrome Mobile"
+          },
+          {
+            "selected": false,
+            "text": "Chrome Mobile iOS",
+            "value": "Chrome Mobile iOS"
+          },
+          {
+            "selected": false,
+            "text": "Chromium",
+            "value": "Chromium"
+          },
+          {
+            "selected": false,
+            "text": "Conkeror",
+            "value": "Conkeror"
+          },
+          {
+            "selected": false,
+            "text": "Daumoa",
+            "value": "Daumoa"
+          },
+          {
+            "selected": false,
+            "text": "ELinks",
+            "value": "ELinks"
+          },
+          {
+            "selected": false,
+            "text": "EasouSpider",
+            "value": "EasouSpider"
+          },
+          {
+            "selected": false,
+            "text": "Epiphany",
+            "value": "Epiphany"
+          },
+          {
+            "selected": false,
+            "text": "Exabot",
+            "value": "Exabot"
+          },
+          {
+            "selected": false,
+            "text": "FacebookBot",
+            "value": "FacebookBot"
+          },
+          {
+            "selected": false,
+            "text": "Feedbin",
+            "value": "Feedbin"
+          },
+          {
+            "selected": false,
+            "text": "Firefox",
+            "value": "Firefox"
+          },
+          {
+            "selected": false,
+            "text": "Firefox Mobile",
+            "value": "Firefox Mobile"
+          },
+          {
+            "selected": false,
+            "text": "Genieo",
+            "value": "Genieo"
+          },
+          {
+            "selected": false,
+            "text": "GmailImageProxy",
+            "value": "GmailImageProxy"
+          },
+          {
+            "selected": false,
+            "text": "Googlebot",
+            "value": "Googlebot"
+          },
+          {
+            "selected": false,
+            "text": "Googlebot-Image",
+            "value": "Googlebot-Image"
+          },
+          {
+            "selected": false,
+            "text": "Googlebot-Mobile",
+            "value": "Googlebot-Mobile"
+          },
+          {
+            "selected": false,
+            "text": "IE",
+            "value": "IE"
+          },
+          {
+            "selected": false,
+            "text": "IE Mobile",
+            "value": "IE Mobile"
+          },
+          {
+            "selected": false,
+            "text": "Iceweasel",
+            "value": "Iceweasel"
+          },
+          {
+            "selected": false,
+            "text": "Iron",
+            "value": "Iron"
+          },
+          {
+            "selected": false,
+            "text": "Konqueror",
+            "value": "Konqueror"
+          },
+          {
+            "selected": false,
+            "text": "Links",
+            "value": "Links"
+          },
+          {
+            "selected": false,
+            "text": "LumiBot",
+            "value": "LumiBot"
+          },
+          {
+            "selected": false,
+            "text": "Lynx",
+            "value": "Lynx"
+          },
+          {
+            "selected": false,
+            "text": "MJ12bot",
+            "value": "MJ12bot"
+          },
+          {
+            "selected": false,
+            "text": "Mail.RU_Bot",
+            "value": "Mail.RU_Bot"
+          },
+          {
+            "selected": false,
+            "text": "Maxthon",
+            "value": "Maxthon"
+          },
+          {
+            "selected": false,
+            "text": "Midori",
+            "value": "Midori"
+          },
+          {
+            "selected": false,
+            "text": "Mobile Safari",
+            "value": "Mobile Safari"
+          },
+          {
+            "selected": false,
+            "text": "Mobile Safari UI/WKWebView",
+            "value": "Mobile Safari UI/WKWebView"
+          },
+          {
+            "selected": false,
+            "text": "MojeekBot",
+            "value": "MojeekBot"
+          },
+          {
+            "selected": false,
+            "text": "Nutch",
+            "value": "Nutch"
+          },
+          {
+            "selected": false,
+            "text": "Openwave",
+            "value": "Openwave"
+          },
+          {
+            "selected": false,
+            "text": "Opera",
+            "value": "Opera"
+          },
+          {
+            "selected": false,
+            "text": "Opera Mini",
+            "value": "Opera Mini"
+          },
+          {
+            "selected": false,
+            "text": "Other",
+            "value": "Other"
+          },
+          {
+            "selected": false,
+            "text": "Pale Moon",
+            "value": "Pale Moon"
+          },
+          {
+            "selected": false,
+            "text": "PhantomJS",
+            "value": "PhantomJS"
+          },
+          {
+            "selected": false,
+            "text": "Python Requests",
+            "value": "Python Requests"
+          },
+          {
+            "selected": false,
+            "text": "Python-urllib",
+            "value": "Python-urllib"
+          },
+          {
+            "selected": false,
+            "text": "Rekonq",
+            "value": "Rekonq"
+          },
+          {
+            "selected": false,
+            "text": "SEMC-Browser",
+            "value": "SEMC-Browser"
+          },
+          {
+            "selected": false,
+            "text": "Safari",
+            "value": "Safari"
+          },
+          {
+            "selected": false,
+            "text": "SeaMonkey",
+            "value": "SeaMonkey"
+          },
+          {
+            "selected": false,
+            "text": "SimplePie",
+            "value": "SimplePie"
+          },
+          {
+            "selected": false,
+            "text": "Sogou Explorer",
+            "value": "Sogou Explorer"
+          },
+          {
+            "selected": false,
+            "text": "Sogou web spider",
+            "value": "Sogou web spider"
+          },
+          {
+            "selected": false,
+            "text": "Thunderbird",
+            "value": "Thunderbird"
+          },
+          {
+            "selected": false,
+            "text": "Tiny Tiny RSS",
+            "value": "Tiny Tiny RSS"
+          },
+          {
+            "selected": false,
+            "text": "TwitterBot",
+            "value": "TwitterBot"
+          },
+          {
+            "selected": false,
+            "text": "UC Browser",
+            "value": "UC Browser"
+          },
+          {
+            "selected": false,
+            "text": "VoilaBot",
+            "value": "VoilaBot"
+          },
+          {
+            "selected": false,
+            "text": "Wget",
+            "value": "Wget"
+          },
+          {
+            "selected": false,
+            "text": "Xenu Link Sleuth",
+            "value": "Xenu Link Sleuth"
+          },
+          {
+            "selected": false,
+            "text": "Yahoo! Slurp",
+            "value": "Yahoo! Slurp"
+          },
+          {
+            "selected": false,
+            "text": "YandexBot",
+            "value": "YandexBot"
+          },
+          {
+            "selected": false,
+            "text": "YandexDirect",
+            "value": "YandexDirect"
+          },
+          {
+            "selected": false,
+            "text": "YandexImages",
+            "value": "YandexImages"
+          },
+          {
+            "selected": false,
+            "text": "YisouSpider",
+            "value": "YisouSpider"
+          },
+          {
+            "selected": false,
+            "text": "archive.org_bot",
+            "value": "archive.org_bot"
+          },
+          {
+            "selected": false,
+            "text": "archiver/3.1.1 +http://www.archive.org/details/archive.org_bot",
+            "value": "archiver/3.1.1 +http://www.archive.org/details/archive.org_bot"
+          },
+          {
+            "selected": false,
+            "text": "bingbot",
+            "value": "bingbot"
+          },
+          {
+            "selected": false,
+            "text": "com/bot",
+            "value": "com/bot"
+          },
+          {
+            "selected": false,
+            "text": "curl",
+            "value": "curl"
+          },
+          {
+            "selected": false,
+            "text": "favicon",
+            "value": "favicon"
+          },
+          {
+            "selected": false,
+            "text": "ia_archiver",
+            "value": "ia_archiver"
+          },
+          {
+            "selected": false,
+            "text": "libwww-perl",
+            "value": "libwww-perl"
+          },
+          {
+            "selected": false,
+            "text": "magpie-crawler",
+            "value": "magpie-crawler"
+          },
+          {
+            "selected": false,
+            "text": "msnbot",
+            "value": "msnbot"
+          },
+          {
+            "selected": false,
+            "text": "msnbot-media",
+            "value": "msnbot-media"
+          },
+          {
+            "selected": false,
+            "text": "psbot",
+            "value": "psbot"
+          },
+          {
+            "selected": false,
+            "text": "robot",
+            "value": "robot"
+          }
+        ],
+        "query": "{\"find\": \"terms\", \"field\": \"apache2.access.user_agent.name\"}",
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "text": "blog",
+          "value": "blog"
+        },
+        "hide": 0,
+        "label": "アクセスページ",
+        "name": "accessPage",
+        "options": [
+          {
+            "text": "blog",
+            "value": "blog"
+          }
+        ],
+        "query": "blog",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
   },
   "time": {
     "from": "2015-05-16T15:00:00.000Z",
@@ -432,5 +1025,5 @@
   "timezone": "",
   "title": "[Log]ログダッシュボード",
   "uid": "PR_jfi_iz",
-  "version": 4
+  "version": 3
 }

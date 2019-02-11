@@ -1,562 +1,829 @@
 {
-    "annotations": {
-      "list": [
-        {
-          "builtIn": 1,
-          "datasource": "-- Grafana --",
-          "enable": true,
-          "hide": true,
-          "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "type": "dashboard"
-        }
-      ]
-    },
-    "editable": true,
-    "gnetId": null,
-    "graphTooltip": 0,
-    "id": 2,
-    "links": [],
-    "panels": [
+  "annotations": {
+    "list": [
       {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": "PostgreSQL",
-        "fill": 1,
-        "gridPos": {
-          "h": 10,
-          "w": 24,
-          "x": 0,
-          "y": 0
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 1,
+  "iteration": 1549856411836,
+  "links": [],
+  "panels": [
+    {
+      "columns": [],
+      "datasource": "PostgreSQL",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 10,
+      "links": [],
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 2,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "アクセス日時",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "access_at",
+          "type": "date"
         },
-        "id": 2,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
+        {
+          "alias": "ID",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "id",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
         },
-        "lines": true,
-        "linewidth": 1,
-        "links": [],
-        "nullPointMode": "null",
-        "percentage": false,
-        "pointradius": 5,
-        "points": false,
-        "renderer": "flot",
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": false,
-        "targets": [
-          {
-            "bucketAggs": [
-              {
-                "field": "@timestamp",
-                "id": "2",
-                "settings": {
-                  "interval": "auto",
-                  "min_doc_count": 0,
-                  "trimEdges": 0
-                },
-                "type": "date_histogram"
-              }
-            ],
-            "format": "time_series",
-            "group": [
+        {
+          "alias": "ブラウザ",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "browser",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "国コード",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "iso_country_code",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "アクセスページ",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "access_page",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "metrics": [
+            {
+              "field": "select field",
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "rawQuery": true,
+          "rawSql": "SELECT\n  *\nFROM\n  access_logs\nWHERE \n  $__timeFilter(access_at) AND\n  browser IN ($browser) AND\n  access_page LIKE '%$accessPage%'",
+          "refId": "A",
+          "select": [
+            [
               {
                 "params": [
-                  "1h",
-                  "0"
+                  "value"
                 ],
-                "type": "time"
-              }
-            ],
-            "metricColumn": "none",
-            "metrics": [
-              {
-                "field": "select field",
-                "id": "1",
-                "type": "count"
-              }
-            ],
-            "rawQuery": false,
-            "rawSql": "SELECT\n  $__timeGroupAlias(access_at,1h,0),\n  count(id) AS \"id\"\nFROM access_logs\nWHERE\n  $__timeFilter(access_at)\nGROUP BY 1\nORDER BY 1",
-            "refId": "A",
-            "select": [
-              [
-                {
-                  "params": [
-                    "id"
-                  ],
-                  "type": "column"
-                },
-                {
-                  "params": [
-                    "count"
-                  ],
-                  "type": "aggregate"
-                },
-                {
-                  "params": [
-                    "id"
-                  ],
-                  "type": "alias"
-                }
-              ]
-            ],
-            "table": "access_logs",
-            "timeColumn": "access_at",
-            "timeColumnType": "timestamp",
-            "timeField": "@timestamp",
-            "where": [
-              {
-                "name": "$__timeFilter",
-                "params": [],
-                "type": "macro"
+                "type": "column"
               }
             ]
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "[DBLog]一時間ごとのアクセス",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
+          ],
+          "timeColumn": "time",
+          "timeField": "@timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
+      ],
+      "title": "一覧",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "PostgreSQL",
+      "fill": 1,
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 9
       },
-      {
-        "aliasColors": {},
-        "breakPoint": "25%",
-        "cacheTimeout": null,
-        "combine": {
-          "label": "Others",
-          "threshold": 0
+      "id": 2,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "format": "time_series",
+          "group": [
+            {
+              "params": [
+                "1h",
+                "0"
+              ],
+              "type": "time"
+            }
+          ],
+          "hide": false,
+          "metricColumn": "none",
+          "metrics": [
+            {
+              "field": "select field",
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__timeGroupAlias(access_at,1h,0),\n  count(id) AS \"id\"\nFROM access_logs\nWHERE\n  $__timeFilter(access_at) AND\n  browser IN ($browser) AND\n  access_page LIKE '%$accessPage%'\nGROUP BY 1\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "aggregate"
+              },
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "access_logs",
+          "timeColumn": "access_at",
+          "timeColumnType": "timestamp",
+          "timeField": "@timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "varchar",
+              "name": "",
+              "params": [
+                "browser",
+                "IN",
+                "($browser)"
+              ],
+              "type": "expression"
+            },
+            {
+              "datatype": "varchar",
+              "name": "",
+              "params": [
+                "access_page",
+                "LIKE",
+                "'%$accessPage%'"
+              ],
+              "type": "expression"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "[DBLog]一時間ごとのアクセス",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         },
-        "datasource": "PostgreSQL",
-        "fontSize": "80%",
-        "format": "short",
-        "gridPos": {
-          "h": 9,
-          "w": 24,
-          "x": 0,
-          "y": 10
-        },
-        "id": 4,
-        "interval": null,
-        "legend": {
-          "show": true,
-          "values": true
-        },
-        "legendType": "Under graph",
-        "links": [],
-        "maxDataPoints": 3,
-        "nullPointMode": "connected",
-        "pieType": "pie",
-        "strokeWidth": 1,
-        "targets": [
-          {
-            "format": "time_series",
-            "group": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "breakPoint": "25%",
+      "cacheTimeout": null,
+      "combine": {
+        "label": "Others",
+        "threshold": 0
+      },
+      "datasource": "PostgreSQL",
+      "fontSize": "80%",
+      "format": "short",
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 19
+      },
+      "id": 4,
+      "interval": null,
+      "legend": {
+        "show": true,
+        "values": true
+      },
+      "legendType": "Under graph",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "pieType": "pie",
+      "strokeWidth": 1,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [
+            {
+              "params": [
+                "browser"
+              ],
+              "type": "column"
+            }
+          ],
+          "metricColumn": "browser",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  1 AS \"time\",\n  browser AS metric,\n  count(browser)\nFROM access_logs\nWHERE\n  $__timeFilter(access_at) AND\n  browser IN ($browser) AND\n  access_page LIKE '%$accessPage%'\nGROUP BY time, browser\nORDER BY 1,2",
+          "refId": "A",
+          "select": [
+            [
               {
                 "params": [
                   "browser"
                 ],
                 "type": "column"
               }
-            ],
-            "metricColumn": "browser",
-            "rawQuery": true,
-            "rawSql": "SELECT\n  1 AS \"time\",\n  browser AS metric,\n  count(browser)\nFROM access_logs\nWHERE\n  $__timeFilter(access_at)\nGROUP BY time, browser\nORDER BY 1,2",
-            "refId": "A",
-            "select": [
-              [
-                {
-                  "params": [
-                    "browser"
-                  ],
-                  "type": "column"
-                }
-              ]
-            ],
-            "table": "access_logs",
-            "timeColumn": "access_at",
-            "timeColumnType": "timestamp",
-            "where": [
-              {
-                "name": "$__timeFilter",
-                "params": [],
-                "type": "macro"
-              }
             ]
-          }
-        ],
-        "title": "[DBLog:ブラウザごとのアクセス",
-        "type": "grafana-piechart-panel",
-        "valueName": "current"
+          ],
+          "table": "access_logs",
+          "timeColumn": "access_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "[DBLog:ブラウザごとのアクセス",
+      "type": "grafana-piechart-panel",
+      "valueName": "current"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "PostgreSQL",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 28
       },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": "PostgreSQL",
-        "fill": 1,
-        "gridPos": {
-          "h": 9,
-          "w": 24,
-          "x": 0,
-          "y": 19
-        },
-        "id": 6,
-        "legend": {
-          "alignAsTable": false,
-          "avg": false,
-          "current": false,
-          "hideEmpty": false,
-          "hideZero": false,
-          "max": false,
-          "min": false,
-          "rightSide": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "links": [],
-        "nullPointMode": "null",
-        "percentage": false,
-        "pointradius": 5,
-        "points": false,
-        "renderer": "flot",
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": false,
-        "targets": [
-          {
-            "bucketAggs": [
-              {
-                "field": "@timestamp",
-                "id": "2",
-                "settings": {
-                  "interval": "auto",
-                  "min_doc_count": 0,
-                  "trimEdges": 0
-                },
-                "type": "date_histogram"
-              }
-            ],
-            "format": "time_series",
-            "group": [
-              {
-                "params": [
-                  "1h",
-                  "0"
-                ],
-                "type": "time"
+      "id": 6,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
               },
+              "type": "date_histogram"
+            }
+          ],
+          "format": "time_series",
+          "group": [
+            {
+              "params": [
+                "1h",
+                "0"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "access_page"
+              ],
+              "type": "column"
+            }
+          ],
+          "metricColumn": "none",
+          "metrics": [
+            {
+              "field": "select field",
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__timeGroupAlias(access_at,1h,0),\n  access_page AS \"access_page\",\n  count(access_page) AS \"access_page\"\nFROM access_logs\nWHERE\n  $__timeFilter(access_at) AND\n  browser IN ($browser) AND\n  access_page LIKE '%$accessPage%'\nGROUP BY 1, access_page\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
               {
                 "params": [
                   "access_page"
                 ],
                 "type": "column"
-              }
-            ],
-            "metricColumn": "none",
-            "metrics": [
-              {
-                "field": "select field",
-                "id": "1",
-                "type": "count"
-              }
-            ],
-            "rawQuery": false,
-            "rawSql": "SELECT\n  $__timeGroupAlias(access_at,1h,0),\n  access_page AS \"access_page\",\n  count(access_page) AS \"access_page\"\nFROM access_logs\nWHERE\n  $__timeFilter(access_at)\nGROUP BY 1, access_page\nORDER BY 1",
-            "refId": "A",
-            "select": [
-              [
-                {
-                  "params": [
-                    "access_page"
-                  ],
-                  "type": "column"
-                },
-                {
-                  "params": [
-                    "access_page"
-                  ],
-                  "type": "alias"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "access_page"
-                  ],
-                  "type": "column"
-                },
-                {
-                  "params": [
-                    "count"
-                  ],
-                  "type": "aggregate"
-                },
-                {
-                  "params": [
-                    "access_page"
-                  ],
-                  "type": "alias"
-                }
-              ]
-            ],
-            "table": "access_logs",
-            "timeColumn": "access_at",
-            "timeColumnType": "timestamp",
-            "timeField": "@timestamp",
-            "where": [
-              {
-                "name": "$__timeFilter",
-                "params": [],
-                "type": "macro"
-              }
-            ]
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "[DBLog]ページごとのアクセス",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "circleMaxSize": "10",
-        "circleMinSize": 2,
-        "colors": [
-          "rgba(245, 54, 54, 0.9)",
-          "rgba(237, 129, 40, 0.89)",
-          "rgba(50, 172, 45, 0.97)"
-        ],
-        "datasource": "PostgreSQL",
-        "decimals": 0,
-        "esMetric": "Count",
-        "gridPos": {
-          "h": 12,
-          "w": 24,
-          "x": 0,
-          "y": 28
-        },
-        "hideEmpty": false,
-        "hideZero": false,
-        "id": 8,
-        "initialZoom": 1,
-        "links": [],
-        "locationData": "countries",
-        "mapCenter": "(0°, 0°)",
-        "mapCenterLatitude": 0,
-        "mapCenterLongitude": 0,
-        "maxDataPoints": 1,
-        "mouseWheelZoom": false,
-        "showLegend": true,
-        "stickyLabels": false,
-        "tableQueryOptions": {
-          "geohashField": "geohash",
-          "latitudeField": "latitude",
-          "longitudeField": "longitude",
-          "metricField": "metric",
-          "queryType": "geohash"
-        },
-        "targets": [
-          {
-            "bucketAggs": [
-              {
-                "field": "@timestamp",
-                "id": "2",
-                "settings": {
-                  "interval": "auto",
-                  "min_doc_count": 0,
-                  "trimEdges": 0
-                },
-                "type": "date_histogram"
-              }
-            ],
-            "format": "time_series",
-            "group": [
+              },
               {
                 "params": [
-                  "1h",
-                  "0"
+                  "access_page"
                 ],
-                "type": "time"
+                "type": "alias"
               }
             ],
-            "metricColumn": "iso_country_code",
-            "metrics": [
+            [
               {
-                "field": "select field",
-                "id": "1",
-                "type": "count"
-              }
-            ],
-            "rawQuery": false,
-            "rawSql": "SELECT\n  $__timeGroupAlias(access_at,1h,0),\n  iso_country_code AS metric,\n  count(id) AS \"id\"\nFROM access_logs\nWHERE\n  $__timeFilter(access_at)\nGROUP BY 1,2\nORDER BY 1,2",
-            "refId": "A",
-            "select": [
-              [
-                {
-                  "params": [
-                    "id"
-                  ],
-                  "type": "column"
-                },
-                {
-                  "params": [
-                    "count"
-                  ],
-                  "type": "aggregate"
-                },
-                {
-                  "params": [
-                    "id"
-                  ],
-                  "type": "alias"
-                }
-              ]
-            ],
-            "table": "access_logs",
-            "timeColumn": "access_at",
-            "timeColumnType": "timestamp",
-            "timeField": "@timestamp",
-            "where": [
+                "params": [
+                  "access_page"
+                ],
+                "type": "column"
+              },
               {
-                "name": "$__timeFilter",
-                "params": [],
-                "type": "macro"
+                "params": [
+                  "count"
+                ],
+                "type": "aggregate"
+              },
+              {
+                "params": [
+                  "access_page"
+                ],
+                "type": "alias"
               }
             ]
+          ],
+          "table": "access_logs",
+          "timeColumn": "access_at",
+          "timeColumnType": "timestamp",
+          "timeField": "@timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "[DBLog]ページごとのアクセス",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "circleMaxSize": "10",
+      "circleMinSize": 2,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "datasource": "PostgreSQL",
+      "decimals": 0,
+      "esMetric": "Count",
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 37
+      },
+      "hideEmpty": false,
+      "hideZero": false,
+      "id": 8,
+      "initialZoom": 1,
+      "links": [],
+      "locationData": "countries",
+      "mapCenter": "(0°, 0°)",
+      "mapCenterLatitude": 0,
+      "mapCenterLongitude": 0,
+      "maxDataPoints": 1,
+      "mouseWheelZoom": false,
+      "showLegend": true,
+      "stickyLabels": false,
+      "tableQueryOptions": {
+        "geohashField": "geohash",
+        "latitudeField": "latitude",
+        "longitudeField": "longitude",
+        "metricField": "metric",
+        "queryType": "geohash"
+      },
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "format": "time_series",
+          "group": [
+            {
+              "params": [
+                "1h",
+                "0"
+              ],
+              "type": "time"
+            }
+          ],
+          "metricColumn": "iso_country_code",
+          "metrics": [
+            {
+              "field": "select field",
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__timeGroupAlias(access_at,1h,0),\n  iso_country_code AS metric,\n  count(id) AS \"id\"\nFROM access_logs\nWHERE\n  $__timeFilter(access_at) AND\n  browser IN ($browser) AND\n  access_page LIKE '%$accessPage%'\nGROUP BY 1,2\nORDER BY 1,2",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "aggregate"
+              },
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "access_logs",
+          "timeColumn": "access_at",
+          "timeColumnType": "timestamp",
+          "timeField": "@timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "0,10",
+      "title": "[DBLog]国ごとのアクセス",
+      "type": "grafana-worldmap-panel",
+      "unitPlural": "",
+      "unitSingle": "",
+      "valueName": "total"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 16,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "tags": [],
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": "PostgreSQL",
+        "definition": "SELECT DISTINCT browser FROM access_logs",
+        "hide": 0,
+        "includeAll": true,
+        "label": "ブラウザ",
+        "multi": true,
+        "name": "browser",
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "Chrome",
+            "value": "Chrome"
+          },
+          {
+            "selected": false,
+            "text": "IE",
+            "value": "IE"
+          },
+          {
+            "selected": false,
+            "text": "Other",
+            "value": "Other"
+          },
+          {
+            "selected": false,
+            "text": "Firefox",
+            "value": "Firefox"
+          },
+          {
+            "selected": false,
+            "text": "Safari",
+            "value": "Safari"
+          },
+          {
+            "selected": false,
+            "text": "Opera",
+            "value": "Opera"
+          },
+          {
+            "selected": false,
+            "text": "Edge",
+            "value": "Edge"
           }
         ],
-        "thresholds": "0,10",
-        "title": "[DBLog]国ごとのアクセス",
-        "type": "grafana-worldmap-panel",
-        "unitPlural": "",
-        "unitSingle": "",
-        "valueName": "total"
+        "query": "SELECT DISTINCT browser FROM access_logs",
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "hide": 0,
+        "label": "アクセスページ",
+        "name": "accessPage",
+        "options": [
+          {
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
       }
+    ]
+  },
+  "time": {
+    "from": "2015-05-16T15:00:00.000Z",
+    "to": "2015-05-21T03:00:00.000Z"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
     ],
-    "refresh": false,
-    "schemaVersion": 16,
-    "style": "dark",
-    "tags": [],
-    "templating": {
-      "list": []
-    },
-    "time": {
-      "from": "2015-05-16T15:00:00.000Z",
-      "to": "2015-05-21T03:00:00.000Z"
-    },
-    "timepicker": {
-      "refresh_intervals": [
-        "5s",
-        "10s",
-        "30s",
-        "1m",
-        "5m",
-        "15m",
-        "30m",
-        "1h",
-        "2h",
-        "1d"
-      ],
-      "time_options": [
-        "5m",
-        "15m",
-        "1h",
-        "6h",
-        "12h",
-        "24h",
-        "2d",
-        "7d",
-        "30d"
-      ]
-    },
-    "timezone": "",
-    "title": "[DBLog]DBログダッシュボード",
-    "uid": "yGl9Mx_ik",
-    "version": 2
-  }
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "[DBLog]DBログダッシュボード",
+  "uid": "yGl9Mx_ik",
+  "version": 3
+}
