@@ -38,7 +38,7 @@
 
 ## Zabbix-Agentのインストール
 ```
-# rpm -ivh http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-1.el7.centos.noarch.rpm
+# rpm -ivh https://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
 # yum install zabbix-agent
 ```
 
