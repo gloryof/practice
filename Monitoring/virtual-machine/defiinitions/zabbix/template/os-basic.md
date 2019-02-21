@@ -1,18 +1,15 @@
-# 共通設定
+# OSベーシック
 
-## Templates
-テンプレートの設定。
-
-### OSBasic
+## 概要
 OSの基本的な設定のテンプレート。
 
-#### Applications
+## Name
+OSBasic
+
+## Applications
 - CPU
 - IO
 - Memory
-
-## Applications
-アプリケーションの設定。
 
 ### CPU
 - LA-Avg-1
