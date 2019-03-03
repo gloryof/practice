@@ -4,8 +4,8 @@ After=syslog.target
 
 [Service]
 User=app
-Environment="DB_HOST=192.168.1.111"
-ExecStart=/opt/jdk-9.0/bin/java -jar /var/lib/monitoring-app/app.jar --spring.config.additional-location=/var/lib/monitoring-app/conf.yml
+EnvironmentFile=/var/lib/monitoring-app/app.env
+ExecStart=/opt/jdk-11.0/bin/java -jar /var/lib/monitoring-app/app.jar --spring.config.additional-location=/var/lib/monitoring-app/conf.yml
 SuccessExitStatus=143
 
 [Install]
