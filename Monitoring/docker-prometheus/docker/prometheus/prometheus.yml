@@ -1,0 +1,11 @@
+scrape_configs:
+  - job_name: api-server
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ['mon-pro-app:8080']
+  - job_name: db-server
+    static_configs:
+      - targets: ['mon-pro-db-exporter:9187']
+  - job_name: web-server
+    static_configs:
+      - targets: ['mon-pro-web-exporter:9117']

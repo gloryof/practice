@@ -1,0 +1,1 @@
+FROM wrouesnel/postgres_exporter:v0.4.7
