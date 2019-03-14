@@ -1,6 +1,0 @@
-このディレクトリにjarファイルを配置。
-
-Docker上で mvn clean spring-boot:runしてもいいし、
-Maven Repositoryを立ち上げていい。
-
-ただ、面倒なのでここにjarを配置。

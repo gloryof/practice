@@ -1,8 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://db:5432/monitor-db
-    username: monitor-user
-    password: monitor-pass
-    maximum-pool-size: 90
-    auto-commit: false
-    connection-timeout: 300000
