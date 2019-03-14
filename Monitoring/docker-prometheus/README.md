@@ -32,4 +32,16 @@ $ docker-compose up -d
 
 #### Prometheus
 下記のURLにアクセスする。  
-`http://localhost:9090/graph`
+http://localhost:9090/graph
+
+#### Grafana
+下記のURLにアクセスする。  
+http://localhost:3000/login  
+
+初期のログイン/パスワードは admin/admin
+
+##### データソースの設定
+
+|設定項目|値|
+|--|--|
+|URL|http://mon-prometheus:9090|

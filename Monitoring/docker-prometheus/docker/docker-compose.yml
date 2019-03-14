@@ -67,6 +67,20 @@ services:
       - 9090:9090
     networks: 
       - pro-net 
+  mon-grafana:
+    build: grafana
+    container_name: grafana
+    depends_on: 
+      - mon-pro-db
+    env_file:
+      - ./common.env
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-worldmap-panel
+    ports: 
+      - 3000:3000
+    networks: 
+      - pro-net
+
 
 volumes:
   mon-db-vol:
