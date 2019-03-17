@@ -9,6 +9,7 @@ services:
       - ./common.env
     ports:
       - 8080:8080
+      - 9117
     networks: 
       - pro-net
   mon-pro-db:

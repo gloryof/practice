@@ -45,3 +45,7 @@ http://localhost:3000/login
 |設定項目|値|
 |--|--|
 |URL|http://mon-prometheus:9090|
+
+##### ダッシュボードの設定
+下記のURLで`docker/grafana/setting`内にあるJSONをインポートする。
+http://localhost:3000/dashboard/import
