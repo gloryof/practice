@@ -9,7 +9,6 @@ services:
       - ./common.env
     ports:
       - 8080:8080
-      - 9117
     networks: 
       - pro-net
   mon-pro-db:
@@ -23,17 +22,6 @@ services:
       - mon-db-vol:/var/lib/postgresql/data
     ports:
       - 5432:5432
-    networks: 
-      - pro-net
-  mon-pro-db-exporter:
-    build: db-exporter
-    container_name: mon-pro-db-exporter
-    depends_on: 
-      - mon-pro-db
-    environment:
-      - DATA_SOURCE_NAME="postgresql://monitor-user:monitor-pass@mon-pro-db:5432/postgres?sslmode=disable"
-    env_file:
-      - ./common.env
     networks: 
       - pro-net
   mon-pro-web:
@@ -70,13 +58,15 @@ services:
       - pro-net 
   mon-grafana:
     build: grafana
-    container_name: grafana
+    container_name: mon-grafana
     depends_on: 
       - mon-pro-db
     env_file:
       - ./common.env
     environment:
       - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-worldmap-panel
+    volumes:
+      - mon-grafana-vol:/etc/grafana
     ports: 
       - 3000:3000
     networks: 
@@ -87,6 +77,8 @@ volumes:
   mon-db-vol:
     driver: local
   mon-pro-vol:
+    driver: local
+  mon-grafana-vol:
     driver: local
 
 networks:
