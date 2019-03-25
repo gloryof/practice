@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 2,
+  "id": 4,
   "links": [],
   "panels": [
     {
@@ -54,46 +54,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "pg_stat_activity_count{datname=\"monitor-db\",job=\"db-metrics\",state=\"active\"}",
+          "expr": "pg_stat_activity_count{datname=\"monitor-db\",job=\"db-server-metrics\"}",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "Active",
+          "legendFormat": "{{state}}",
           "refId": "A"
-        },
-        {
-          "expr": "pg_stat_activity_count{datname=\"monitor-db\",job=\"db-metrics\",state=\"idle\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Idle",
-          "refId": "B"
-        },
-        {
-          "expr": "pg_stat_activity_count{datname=\"monitor-db\",job=\"db-metrics\",state=\"disabled\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Disabled",
-          "refId": "C"
-        },
-        {
-          "expr": "pg_stat_activity_count{datname=\"monitor-db\",job=\"db-metrics\",state=\"idle in transaction\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Idle in transaction",
-          "refId": "D"
-        },
-        {
-          "expr": "pg_stat_activity_count{datname=\"monitor-db\",job=\"db-metrics\",state=\"idle in transaction (aborted)\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Idle in transaction(Aborted)",
-          "refId": "E"
-        },
-        {
-          "expr": "pg_stat_activity_count{datname=\"monitor-db\",job=\"db-metrics\",state=\"fastpath function call\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Fastpath function call",
-          "refId": "F"
         }
       ],
       "thresholds": [],
@@ -174,7 +139,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "pg_stat_database_deadlocks{datname=\"monitor-db\",job=\"db-metrics\"}",
+          "expr": "pg_stat_database_deadlocks{datname=\"monitor-db\",job=\"db-server-metrics\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Count",
@@ -259,10 +224,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "process_cpu_seconds_total{job=\"db-os-metrics\"}",
+          "expr": "(irate(node_cpu_seconds_total{job=\"db-os-metrics\"}[5m]))",
           "format": "time_series",
+          "instant": false,
           "intervalFactor": 1,
-          "legendFormat": "CPU Usage",
+          "legendFormat": "{{mode}}(CPU-{{cpu}})",
           "refId": "A"
         }
       ],
@@ -286,7 +252,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "percentunit",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -777,7 +743,7 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
@@ -808,5 +774,5 @@
   "timezone": "",
   "title": "DBサーバ",
   "uid": "1hy7lEqmk",
-  "version": 3
+  "version": 2
 }

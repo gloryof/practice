@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 3,
   "links": [],
   "panels": [
     {
@@ -54,25 +54,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "jvm_memory_used_bytes{area=\"heap\",id=\"G1 Eden Space\",job=\"api-web-metrics\"}",
+          "expr": "jvm_memory_used_bytes{area=\"heap\",job=\"api-server-metrics\"}",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "Eden Space",
+          "legendFormat": "{{id}}",
           "refId": "A"
-        },
-        {
-          "expr": "jvm_memory_used_bytes{area=\"heap\",id=\"G1 Old Gen\",job=\"api-web-metrics\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Old Gen",
-          "refId": "B"
-        },
-        {
-          "expr": "jvm_memory_used_bytes{area=\"heap\",id=\"G1 Survivor Space\",job=\"api-web-metrics\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Survivor Space",
-          "refId": "C"
         }
       ],
       "thresholds": [],
@@ -95,7 +81,7 @@
       },
       "yaxes": [
         {
-          "format": "decbytes",
+          "format": "bytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -152,39 +138,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "jvm_memory_used_bytes{area=\"nonheap\",id=\"Metaspace\",job=\"api-web-metrics\"}",
+          "expr": "jvm_memory_used_bytes{area=\"nonheap\",job=\"api-server-metrics\"}",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "Metaspace",
+          "legendFormat": "{{id}}",
           "refId": "A"
-        },
-        {
-          "expr": "jvm_memory_used_bytes{area=\"nonheap\",id=\"CodeHeap 'non-nmethods'\",job=\"api-web-metrics\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "CodeHeap(non-nmethods)",
-          "refId": "B"
-        },
-        {
-          "expr": "jvm_memory_used_bytes{area=\"nonheap\",id=\"CodeHeap 'non-profiled nmethods'\",job=\"api-web-metrics\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "CodeHeap(non-profiled nmethods)",
-          "refId": "C"
-        },
-        {
-          "expr": "jvm_memory_used_bytes{area=\"nonheap\",id=\"CodeHeap 'profiled nmethods'\",job=\"api-web-metrics\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "CodeHeap(profiled nmethods)",
-          "refId": "D"
-        },
-        {
-          "expr": "jvm_memory_used_bytes{area=\"nonheap\",id=\"Compressed Class Space\",job=\"api-web-metrics\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Compressed Class Space",
-          "refId": "E"
         }
       ],
       "thresholds": [],
@@ -207,7 +165,7 @@
       },
       "yaxes": [
         {
-          "format": "decbytes",
+          "format": "bytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -264,28 +222,28 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "jvm_threads_live_threads{job=\"api-web-metrics\"}",
+          "expr": "jvm_threads_live_threads{job=\"api-server-metrics\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Live Thread",
           "refId": "A"
         },
         {
-          "expr": "jvm_threads_daemon_threads{job=\"api-web-metrics\"}",
+          "expr": "jvm_threads_daemon_threads{job=\"api-server-metrics\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Deamon Threads",
           "refId": "B"
         },
         {
-          "expr": "tomcat_threads_current_threads{job=\"api-web-metrics\"}",
+          "expr": "tomcat_threads_current_threads{job=\"api-server-metrics\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Tomcat Current",
           "refId": "C"
         },
         {
-          "expr": "tomcat_threads_busy_threads{job=\"api-web-metrics\"}",
+          "expr": "tomcat_threads_busy_threads{job=\"api-server-metrics\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Tomcat Busy",
@@ -382,34 +340,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "jvm_gc_pause_seconds_count{cause=\"G1 Evacuation Pause\",job=\"api-web-metrics\"}",
+          "expr": "rate(jvm_gc_pause_seconds_count{job=\"api-server-metrics\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "G1GC Count",
+          "legendFormat": "{{cause}}",
           "refId": "A"
-        },
-        {
-          "expr": "jvm_gc_pause_seconds_count{cause=\"Metadata GC Threshold\",job=\"api-web-metrics\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Metadata GC Count",
-          "refId": "B"
-        },
-        {
-          "expr": "jvm_gc_pause_seconds_sum{cause=\"G1 Evacuation Pause\",job=\"api-web-metrics\"}",
-          "format": "time_series",
-          "hide": false,
-          "instant": false,
-          "intervalFactor": 1,
-          "legendFormat": "G1GC Time",
-          "refId": "C"
-        },
-        {
-          "expr": "jvm_gc_pause_seconds_sum{cause=\"Metadata GC Threshold\",job=\"api-web-metrics\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Meta GC Time",
-          "refId": "D"
         }
       ],
       "thresholds": [],
@@ -432,6 +367,7 @@
       },
       "yaxes": [
         {
+          "decimals": 0,
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -489,10 +425,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "process_cpu_seconds_total{job=\"api-os-metrics\"}",
+          "expr": "(irate(node_cpu_seconds_total{job=\"api-os-metrics\"}[5m]))",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "CPU Usage",
+          "legendFormat": "{{mode}}(CPU-{{cpu}})",
           "refId": "A"
         }
       ],
@@ -516,7 +452,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "percentunit",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -1009,7 +945,7 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
@@ -1040,5 +976,5 @@
   "timezone": "",
   "title": "APIサーバ",
   "uid": "1i8VqR3iz",
-  "version": 9
+  "version": 3
 }
