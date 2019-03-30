@@ -340,7 +340,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(jvm_gc_pause_seconds_count{job=\"api-server-metrics\"}[5m])",
+          "expr": "delta(jvm_gc_pause_seconds_count{job=\"api-server-metrics\"}[2m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{cause}}",
@@ -692,7 +692,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_disk_io_now{job=\"api-os-metrics\", device=\"sda\"}",
+          "expr": "irate(node_disk_read_bytes_total{job=\"api-os-metrics\", device=\"sda\"}[2m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "sda",
@@ -976,5 +976,5 @@
   "timezone": "",
   "title": "APIサーバ",
   "uid": "1i8VqR3iz",
-  "version": 3
+  "version": 5
 }
