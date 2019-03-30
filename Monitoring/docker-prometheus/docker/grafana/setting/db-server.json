@@ -714,7 +714,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "bytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -774,5 +774,5 @@
   "timezone": "",
   "title": "DBサーバ",
   "uid": "1hy7lEqmk",
-  "version": 2
+  "version": 3
 }

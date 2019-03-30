@@ -33,18 +33,6 @@ services:
       - 80:80
     networks: 
       - pro-net
-  mon-pro-web-exporter:
-    build: web-exporter
-    container_name: mon-pro-web-exporter
-    depends_on: 
-      - mon-pro-web
-    env_file:
-      - ./common.env
-    ports:
-      - 9117:9117
-    command: [ "apache_exporter", "--scrape_uri=http://mon-pro-web/server-status?auto"]
-    networks: 
-      - pro-net
   mon-prometheus:
     build: prometheus
     container_name: mon-prometheus

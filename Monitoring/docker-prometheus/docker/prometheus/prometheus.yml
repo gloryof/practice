@@ -1,17 +1,20 @@
 scrape_configs:
-  - job_name: api-web-metrics
+  - job_name: api-server-metrics
     metrics_path: /actuator/prometheus
     static_configs:
       - targets: ['mon-pro-app:8080']
   - job_name: api-os-metrics
     static_configs:
       - targets: ['mon-pro-app:9100']
-  - job_name: db-metrics
+  - job_name: db-server-metrics
     static_configs:
       - targets: ['mon-pro-db:9187']
   - job_name: db-os-metrics
     static_configs:
       - targets: ['mon-pro-db:9100']
-  - job_name: web-server
+  - job_name: web-server-metrics
     static_configs:
-      - targets: ['mon-pro-web-exporter:9117']
+      - targets: ['mon-pro-web:9117']
+  - job_name: web-os-metrics
+    static_configs:
+      - targets: ['mon-pro-web:9100']

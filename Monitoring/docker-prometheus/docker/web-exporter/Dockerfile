@@ -1,1 +1,0 @@
-FROM machinedata/apache_exporter:0.5.0
