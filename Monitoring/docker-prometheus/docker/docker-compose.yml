@@ -44,9 +44,9 @@ services:
       - 9090:9090
     networks: 
       - pro-net 
-  mon-grafana:
+  mon-pro-grafana:
     build: grafana
-    container_name: mon-grafana
+    container_name: mon-pro-grafana
     depends_on: 
       - mon-pro-db
     env_file:
@@ -59,7 +59,20 @@ services:
       - 3000:3000
     networks: 
       - pro-net
-
+  mon-pro-alert:
+    build: alert
+    container_name: mon-pro-alert
+    env_file:
+      - ./common.env
+    networks: 
+      - pro-net
+  mon-pro-service:
+    build: service
+    container_name: mon-pro-service
+    env_file:
+      - ./common.env
+    networks: 
+      - pro-net
 
 volumes:
   mon-db-vol:

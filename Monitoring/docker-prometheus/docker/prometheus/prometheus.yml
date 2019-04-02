@@ -1,3 +1,13 @@
+alerting:
+  alertmanagers:
+    - scheme: http
+      static_configs:
+      - targets:
+        - mon-pro-alert:9093
+
+rule_files:
+  - "/etc/prometheus/alert-rule.yml"
+
 scrape_configs:
   - job_name: api-server-metrics
     metrics_path: /actuator/prometheus
@@ -18,3 +28,16 @@ scrape_configs:
   - job_name: web-os-metrics
     static_configs:
       - targets: ['mon-pro-web:9100']
+  - job_name: service-metrics
+    metrics_path: /probe
+    params:
+      module: [service]
+    static_configs:
+      - targets: ['http://mon-pro-web/users/limit']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: mon-pro-service:9115

@@ -1,0 +1,17 @@
+groups:
+  - name: service
+    rules:
+      - alert: staus-ng
+        expr: probe_success{instance="http://mon-pro-web/users/limit",job="service-metrics"} == 0
+      - alert: response-over
+        expr: irate(http_request_duration_microseconds_sum{job="web-server-metrics"}[2m]) > 1000000
+        for: 5m
+  - name: storage
+    rules:
+      - alert: remaining
+        expr: node_filesystem_avail_bytes{mountpoint="/etc/hosts"} < 5000000000
+        for: 1m
+      - alert: increase
+        expr: idelta(node_filesystem_avail_bytes{mountpoint="/etc/hosts"}[2m]) > 2500000000
+        for: 1m
+
