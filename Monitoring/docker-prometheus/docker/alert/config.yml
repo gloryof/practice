@@ -1,0 +1,7 @@
+route:
+  receiver: alert-reciever
+
+receivers:
+  - name: alert-reciever
+    webhook_configs:
+      - url: http://mon-pro-reciever:8000/

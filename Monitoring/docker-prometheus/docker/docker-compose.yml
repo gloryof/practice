@@ -73,6 +73,15 @@ services:
       - ./common.env
     networks: 
       - pro-net
+  mon-pro-reciever:
+    build: reciever
+    container_name: mon-pro-reciever
+    env_file:
+      - ./common.env
+    ports: 
+      - 8000
+    networks: 
+      - pro-net
 
 volumes:
   mon-db-vol:
