@@ -1,0 +1,3 @@
+{
+    "ProxyPass": "http://mon-pro-app:8080/"
+}

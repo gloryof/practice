@@ -1,1 +1,4 @@
-**.jar
+docker/app/build/*
+docker/go-front/build/*
+!docker/app/build/.gitkeep
+!docker/go-front/build/.gitkeep

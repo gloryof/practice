@@ -33,6 +33,15 @@ services:
       - 80:80
     networks: 
       - pro-net
+  mon-pro-go-front:
+    build: go-front
+    container_name: mon-pro-go-front
+    env_file:
+      - ./common.env
+    ports:
+      - 8000:8000
+    networks: 
+      - pro-net
   mon-prometheus:
     build: prometheus
     container_name: mon-prometheus

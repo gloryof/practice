@@ -10,7 +10,18 @@ $ ./mvnw package
 $  cp target/monitoring-app-0.0.1-SNAPSHOT.jar ../docker-prometheus/docker/app/build/monitoring-app.jar
 ```
 
-`docker-prometheus/docker`ディレクトリに戻り下記のコマンドを実行する。
+### フロント（go-front）のビルド
+フロント（go-front）をビルドするためにはfront-apiのバイナリファイルが必要になる。  
+`go-front`ディレクトリ配下に移動し下記のコマンドを実行する。  
+
+```
+$ make
+$ cp bin/go-front ../docker-prometheus/docker/go-front/build/go-front
+```
+
+### Docker Composeのビルド
+
+`docker-prometheus/docker`ディレクトリで下記のコマンドを実行する。
 
 ```
 $ docker-compose build
