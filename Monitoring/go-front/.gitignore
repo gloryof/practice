@@ -62,3 +62,5 @@ Temporary Items
 # End of https://www.gitignore.io/api/go,macos,visualstudiocode
 
 debug
+bin/*
+!bin/.gitkeep
