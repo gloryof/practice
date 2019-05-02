@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 5,
+  "id": 3,
   "links": [],
   "panels": [
     {
@@ -63,14 +63,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "idelta(apache_accesses_total[2m])",
+          "expr": "delta(apache_accesses_total[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Count",
           "refId": "A"
         },
         {
-          "expr": "irate(http_request_duration_microseconds_sum{job=\"web-server-metrics\"}[2m])",
+          "expr": "irate(http_request_duration_microseconds_sum{job=\"web-server-metrics\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Response Time",
@@ -97,11 +97,12 @@
       },
       "yaxes": [
         {
+          "decimals": 0,
           "format": "short",
-          "label": null,
+          "label": "",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -505,7 +506,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_disk_read_bytes_total{job=\"web-os-metrics\", device=\"sda\"}[2m])",
+          "expr": "irate(node_disk_read_bytes_total{job=\"web-os-metrics\", device=\"sda\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "sda",
@@ -750,6 +751,7 @@
       }
     }
   ],
+  "refresh": "1m",
   "schemaVersion": 18,
   "style": "dark",
   "tags": [],
@@ -788,5 +790,5 @@
   "timezone": "",
   "title": "Webサーバ",
   "uid": "3UHbKi6mz",
-  "version": 6
+  "version": 3
 }

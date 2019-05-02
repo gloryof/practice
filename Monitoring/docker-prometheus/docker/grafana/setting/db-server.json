@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 2,
   "links": [],
   "panels": [
     {
@@ -491,7 +491,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_disk_read_bytes_total{job=\"db-os-metrics\", device=\"sda\"}[2m])",
+          "expr": "irate(node_disk_read_bytes_total{job=\"db-os-metrics\", device=\"sda\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "sda",
@@ -736,6 +736,7 @@
       }
     }
   ],
+  "refresh": "1m",
   "schemaVersion": 18,
   "style": "dark",
   "tags": [],
@@ -743,7 +744,7 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
@@ -774,5 +775,5 @@
   "timezone": "",
   "title": "DBサーバ",
   "uid": "1hy7lEqmk",
-  "version": 4
+  "version": 3
 }

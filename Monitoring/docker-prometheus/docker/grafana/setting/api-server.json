@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 1,
   "links": [],
   "panels": [
     {
@@ -340,10 +340,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "delta(jvm_gc_pause_seconds_count{job=\"api-server-metrics\"}[2m])",
+          "expr": "idelta(jvm_gc_pause_seconds_count{job=\"api-server-metrics\"}[30s])",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{cause}}",
+          "legendFormat": "{{cause}} Count",
           "refId": "A"
         }
       ],
@@ -692,7 +692,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_disk_read_bytes_total{job=\"api-os-metrics\", device=\"sda\"}[2m])",
+          "expr": "irate(node_disk_read_bytes_total{job=\"api-os-metrics\", device=\"sda\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "sda",
@@ -937,7 +937,7 @@
       }
     }
   ],
-  "refresh": false,
+  "refresh": "1m",
   "schemaVersion": 18,
   "style": "dark",
   "tags": [],
