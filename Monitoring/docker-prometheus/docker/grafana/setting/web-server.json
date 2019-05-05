@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 4,
   "links": [],
   "panels": [
     {
@@ -216,7 +216,7 @@
         "x": 0,
         "y": 8
       },
-      "id": 12,
+      "id": 10,
       "legend": {
         "avg": false,
         "current": false,
@@ -240,10 +240,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "(irate(node_cpu_seconds_total{job=\"api-os-metrics\"}[5m]))",
+          "expr": "container_cpu_load_average_10s{name=\"mon-pro-web\"}",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{mode}}(CPU-{{cpu}})",
+          "legendFormat": "Load Average 10s",
           "refId": "A"
         }
       ],
@@ -251,7 +251,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "CPU Usagae",
+      "title": "Load Average",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -267,7 +267,7 @@
       },
       "yaxes": [
         {
-          "format": "percentunit",
+          "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -300,7 +300,7 @@
         "x": 12,
         "y": 8
       },
-      "id": 10,
+      "id": 6,
       "legend": {
         "avg": false,
         "current": false,
@@ -324,32 +324,25 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_load1{job=\"web-os-metrics\"}",
+          "expr": "irate(container_fs_read_seconds_total{name=\"mon-pro-web\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "1minute",
+          "legendFormat": "Read",
           "refId": "A"
         },
         {
-          "expr": "node_load5{job=\"web-os-metrics\"}",
+          "expr": "irate(container_fs_write_seconds_total{name=\"mon-pro-web\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "5minute",
+          "legendFormat": "Write",
           "refId": "B"
-        },
-        {
-          "expr": "node_load15{job=\"api-os-metrics\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "15minute",
-          "refId": "C"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Load Average",
+      "title": "Disk IO",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -365,7 +358,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "bytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -422,7 +415,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_filesystem_avail_bytes{job=\"web-os-metrics\",mountpoint=\"/etc/hosts\"}",
+          "expr": "container_fs_limit_bytes{name=\"mon-pro-web\"} - container_fs_usage_bytes{name=\"mon-pro-web\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Disk Space",
@@ -482,7 +475,7 @@
         "x": 12,
         "y": 16
       },
-      "id": 6,
+      "id": 2,
       "legend": {
         "avg": false,
         "current": false,
@@ -506,10 +499,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_disk_read_bytes_total{job=\"web-os-metrics\", device=\"sda\"}[1m])",
+          "expr": "container_memory_swap{name=\"mon-pro-web\"}",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "sda",
+          "legendFormat": "Swap",
           "refId": "A"
         }
       ],
@@ -517,7 +510,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Disk IO",
+      "title": "Memory Swap",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -590,25 +583,32 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_memory_Buffers_bytes{job=\"web-os-metrics\"}",
+          "expr": "container_memory_usage_bytes{name=\"mon-pro-web\"}",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "Buffered",
+          "legendFormat": "Usage",
           "refId": "A"
         },
         {
-          "expr": "node_memory_MemAvailable_bytes{job=\"web-os-metrics\"}",
+          "expr": "container_memory_rss{name=\"mon-pro-web\"}",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "Available",
+          "legendFormat": "RSS",
           "refId": "B"
         },
         {
-          "expr": "node_memory_Cached_bytes{job=\"web-os-metrics\"}",
+          "expr": "container_memory_cache{name=\"mon-pro-web\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Cached",
           "refId": "C"
+        },
+        {
+          "expr": "container_memory_mapped_file{name=\"mon-pro-web\"}",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "Mapped File",
+          "refId": "D"
         }
       ],
       "thresholds": [],
@@ -616,104 +616,6 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Memory Usage",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "fill": 1,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 24
-      },
-      "id": 2,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "node_memory_SwapTotal_bytes{job=\"web-os-metrics\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Total",
-          "refId": "A"
-        },
-        {
-          "expr": "node_memory_SwapCached_bytes{job=\"web-os-metrics\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Cached",
-          "refId": "B"
-        },
-        {
-          "expr": "node_memory_SwapFree_bytes{job=\"api-os-metrics\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Free",
-          "refId": "C"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Memory Swap",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -790,5 +692,5 @@
   "timezone": "",
   "title": "Webサーバ",
   "uid": "3UHbKi6mz",
-  "version": 3
+  "version": 2
 }

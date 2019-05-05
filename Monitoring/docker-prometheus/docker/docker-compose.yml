@@ -53,6 +53,26 @@ services:
       - 9090:9090
     networks: 
       - pro-net 
+  mon-pro-cadvisor:
+    build: cadvisor
+    container_name: mon-pro-cadvisor
+    depends_on: 
+      - mon-pro-db
+      - mon-pro-app
+      - mon-pro-web
+      - mon-pro-go-front
+    env_file:
+      - ./common.env
+    ports:
+      - 8081:8080
+    networks: 
+      - pro-net
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+    command: "--enable_load_reader=true"
   mon-pro-grafana:
     build: grafana
     container_name: mon-pro-grafana
