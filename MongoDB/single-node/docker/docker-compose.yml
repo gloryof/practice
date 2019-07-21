@@ -1,0 +1,17 @@
+version: "3"
+services:
+  db-server:
+    build: ./mongodb
+    container_name: db-server
+    env_file:
+      - ./common.env
+    ports:
+      - 27017:27017
+    networks: 
+      - dbnet
+    command: mongod --config /etc/mongo/mongod.conf
+volumes:
+  dbdata:
+    driver: local
+networks:
+  dbnet:
