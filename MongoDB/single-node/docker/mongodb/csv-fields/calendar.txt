@@ -1,0 +1,7 @@
+listingId.int32()
+date.date(2006-01-02)
+available.string()
+price.string()
+adjustedPrice.string()
+minimumNights.int32()
+maximumNights.int32()
