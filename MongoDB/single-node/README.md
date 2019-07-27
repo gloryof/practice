@@ -23,8 +23,13 @@ mongoimport \
     --host 127.0.0.1:27017 \
     --collection calendar \
     --type csv \
-    --file /tmp/calendar.csv \
+    --file /tmp/mongo-data/calendar.csv \
     --columnsHaveTypes \
     --parseGrace skipRow \
     --fieldFile ./single-node/docker/mongodb/csv-fields/calendar.txt
+```
+
+### ログイン
+```
+$ mongo localhost/single-db -u test-user -p test-password
 ```
