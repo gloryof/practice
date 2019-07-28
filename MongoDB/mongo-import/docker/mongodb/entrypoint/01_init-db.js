@@ -7,6 +7,4 @@ db.createUser(
  )
 
 
- db.createCollection("listings")
  db.createCollection("calendar")
- db.createCollection("review")

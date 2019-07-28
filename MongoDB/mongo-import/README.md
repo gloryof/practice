@@ -8,11 +8,7 @@ http://insideairbnb.com/get-the-data.html
 CSVデータをダウンロードする。
 ```
 $ curl http://data.insideairbnb.com/japan/kant%C5%8D/tokyo/2019-06-27/data/calendar.csv.gz -O
-$ curl http://data.insideairbnb.com/japan/kant%C5%8D/tokyo/2019-06-27/data/listings.csv.gz -O
-$ curl http://data.insideairbnb.com/japan/kant%C5%8D/tokyo/2019-06-27/data/reviews.csv.gz -O
 $ gunzip calendar.csv.gz
-$ gunzip listings.csv.gz
-$ gunzip reviews.csv.gz
 ```
 calendarのインポート。
 ```
