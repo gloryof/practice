@@ -1,0 +1,21 @@
+version: "3"
+services:
+  db-server:
+    build: ./mongodb
+    container_name: db-server
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root-user
+      MONGO_INITDB_ROOT_PASSWORD: root-password
+      MONGO_INITDB_DATABASE: single-db
+    env_file:
+      - ./common.env
+    ports:
+      - 27017:27017
+    networks: 
+      - dbnet
+    command: mongod --config /etc/mongo/mongod.conf
+volumes:
+  dbdata:
+    driver: local
+networks:
+  dbnet:
