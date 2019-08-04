@@ -8,9 +8,12 @@ db.createUser(
 
 
 db.createCollection("profile")
+db.profile.createIndex({ userId: 1 }, { unique: true })
+db.profile.createIndex({ birthDay: 1 })
 db.profile.insertMany([
   {
     "name": "テスト001",
+    "userId": 1,
     "birthDay": new Date("1986-12-16"),
     "myself": "テスト1行目\\nテスト2行目\\nテスト3行目",
     "skill": {
@@ -53,49 +56,49 @@ db.profile.insertMany([
       ],
       "datastores": [
         {
-          "languageCode": 1,
+          "dataStoreCode": 1,
           "experience": {
             "year": 3,
             "month": 11
           }
         },
         {
-          "languageCode": 2,
+          "dataStoreCode": 2,
           "experience": {
             "year": 2,
             "month": 7
           }
         },
         {
-          "languageCode": 3,
+          "dataStoreCode": 3,
           "experience": {
             "year": 2,
             "month": 1
           }
         },
         {
-          "languageCode": 4,
+          "dataStoreCode": 4,
           "experience": {
             "year": 8,
             "month": 7
           }
         },
         {
-          "languageCode": 5,
+          "dataStoreCode": 5,
           "experience": {
             "year": 1,
             "month": 2
           }
         },
         {
-          "languageCode": 6,
+          "dataStoreCode": 6,
           "experience": {
             "year": 0,
             "month": 1
           }
         },
         {
-          "languageCode": 7,
+          "dataStoreCode": 7,
           "experience": {
             "year": 0,
             "month": 6
@@ -105,7 +108,8 @@ db.profile.insertMany([
     }
   },
   {
-    "name": "テスト001",
+    "name": "テスト002",
+    "userId": 2,
     "birthDay": new Date("1958-01-02"),
     "myself": "テスト1行目",
     "skill": {
@@ -134,28 +138,28 @@ db.profile.insertMany([
       ],
       "datastores": [
         {
-          "languageCode": 1,
+          "dataStoreCode": 1,
           "experience": {
             "year": 11,
             "month": 3
           }
         },
         {
-          "languageCode": 3,
+          "dataStoreCode": 3,
           "experience": {
             "year": 1,
             "month": 2
           }
         },
         {
-          "languageCode": 5,
+          "dataStoreCode": 5,
           "experience": {
             "year": 2,
             "month": 1
           }
         },
         {
-          "languageCode": 7,
+          "dataStoreCode": 7,
           "experience": {
             "year": 6,
             "month": 0
@@ -166,6 +170,7 @@ db.profile.insertMany([
   },
   {
     "name": "テスト003",
+    "userId": 3,
     "birthDay": new Date("1972-05-11"),
     "myself": "テスト1行目",
     "skill": {
@@ -187,21 +192,21 @@ db.profile.insertMany([
       ],
       "datastores": [
         {
-          "languageCode": 2,
+          "dataStoreCode": 2,
           "experience": {
             "year": 7,
             "month": 2
           }
         },
         {
-          "languageCode": 4,
+          "dataStoreCode": 4,
           "experience": {
             "year": 7,
             "month": 8
           }
         },
         {
-          "languageCode": 6,
+          "dataStoreCode": 6,
           "experience": {
             "year": 1,
             "month": 0
@@ -213,7 +218,7 @@ db.profile.insertMany([
 ])
 
 db.createCollection("language")
-db.language.createIndex({ languageCode: 1 })
+db.language.createIndex({ languageCode: 1 }, { unique: true })
 db.language.insertMany([
   {
     "languageCode": 1,
@@ -288,7 +293,7 @@ db.dataStore.insertMany([
 ])
 
 db.createCollection("dataStoreType")
-db.dataStoreType.createIndex({ dataStoreTypeCode: 1 })
+db.dataStoreType.createIndex({ dataStoreTypeCode: 1 }, { unique: true })
 db.dataStoreType.insertMany([
   {
     "dataStoreTypeCode": 1,

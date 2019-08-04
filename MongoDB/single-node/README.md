@@ -60,8 +60,8 @@ MongoDBの基本的な動作を覚えるためにMongoDBのサーバ自体はシ
 |3|グラフ|
 |4|キーバリューストア|
 
-
-### ログイン
+## 実行
+### IDをキーにデータを取得する
 ```
-$ mongo localhost/single-db -u test-user -p test-password
+$ mongo localhost/single-db -u test-user -p test-password < query/findByUserId.js
 ```
