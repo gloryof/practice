@@ -65,3 +65,8 @@ MongoDBの基本的な動作を覚えるためにMongoDBのサーバ自体はシ
 ```
 $ mongo localhost/single-db -u test-user -p test-password < query/findByUserId.js
 ```
+
+### 複数のIDをキーにデータを取得する
+```
+$ mongo localhost/single-db -u test-user -p test-password < query/findByUserIds.js
+```
