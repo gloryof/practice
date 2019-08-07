@@ -70,3 +70,13 @@ $ mongo localhost/single-db -u test-user -p test-password < query/findByUserId.j
 ```
 $ mongo localhost/single-db -u test-user -p test-password < query/findByUserIds.js
 ```
+
+### 複数項目のAND
+```
+$ mongo localhost/single-db -u test-user -p test-password < query/searchAndCondition.js
+```
+
+### 言語ごとの件数をカウントする
+```
+$ mongo localhost/single-db -u test-user -p test-password < query/countPerLanguage.js
+```
