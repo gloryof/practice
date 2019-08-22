@@ -14,8 +14,5 @@ services:
     networks: 
       - dbnet
     command: mongod --config /etc/mongo/mongod.conf
-volumes:
-  dbdata:
-    driver: local
 networks:
   dbnet:

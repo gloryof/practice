@@ -31,3 +31,6 @@ Temporary Items
 .apdisk
 
 # End of https://www.gitignore.io/api/macos
+
+replica-set/docker/db/keyfile/*
+!replica-set/docker/db/keyfile/.gitkeep
