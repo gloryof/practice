@@ -28,3 +28,12 @@ mongo ${primary}/replica-db < ./script/create-user.js
 ```
 mongo ${primary}/replica-db < ./script/register-data.js
 ```
+## ダンプ/リストア
+### ダンプ
+```
+mongodump --host localhost --port ${primaryPort} -u test-user -p test-password --db replica-db  -o "/tmp/replica-set-dump"
+```
+### リストア
+```
+mongorestore --host localhost --port ${primaryPort} -u test-user -p test-password /tmp/replica-set-dump/replica-db/language.bson
+```
