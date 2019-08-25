@@ -33,4 +33,5 @@ Temporary Items
 # End of https://www.gitignore.io/api/macos
 
 replica-set/docker/db/keyfile/*
+replica-set/docker/conf/mongod.conf
 !replica-set/docker/db/keyfile/.gitkeep
