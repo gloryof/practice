@@ -13,7 +13,7 @@ import jp.glory.neo4jstudy.domain.model.EmployeeId
 class SaveEmployeeEvent(
     val employeeId: EmployeeId? = null,
     val lastName: String,
-    val firstName: Stirng
+    val firstName: String,
     val age:Int
 ) {
 
