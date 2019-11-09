@@ -1,5 +1,6 @@
 package jp.glory.neo4jstudy.usecase
 
+import jp.glory.neo4jstudy.domain.event.AddChildPostEvent
 import jp.glory.neo4jstudy.domain.event.DeletePostEvent
 import jp.glory.neo4jstudy.domain.event.SavePostEvent
 import jp.glory.neo4jstudy.domain.model.PostId
@@ -59,6 +60,22 @@ class ModifyPost(private val repository: PostRepository) {
         )
 
         repository.delete(event)
+    }
+
+    /**
+     * 子部署を追加する.
+     *
+     * @param parentPostId 親部署ID
+     * @param childPostId 子部署ID
+     */
+    fun addChild(parentPostId: Long, childPostId: Long) {
+
+        val event = AddChildPostEvent(
+            parentPostId =  PostId(parentPostId),
+            childPostId = PostId(childPostId)
+        )
+
+        repository.saveAddingChild(event)
     }
 
     /**

@@ -1,0 +1,9 @@
+version: "3"
+services:
+  neo4j:
+    build: ./neo4j
+    env_file:
+      - common.env
+    ports:
+      - 7474:7474
+      - 7687:7687

@@ -4,8 +4,10 @@ import jp.glory.neo4jstudy.usecase.ModifyPost
 import jp.glory.neo4jstudy.web.request.PostModifyRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -24,7 +26,7 @@ class PostApi(private val modify: ModifyPost) {
      * @param request リクエスト
      */
     @PostMapping
-    fun register(request: PostModifyRequest): ResponseEntity<Long> {
+    fun register(@RequestBody request: PostModifyRequest): ResponseEntity<Long> {
 
         val result: Long = modify.register(
             ModifyPost.RegisterInfo(
@@ -43,8 +45,8 @@ class PostApi(private val modify: ModifyPost) {
      */
     @PutMapping("{postId}")
     fun update(
-        postId: Long,
-        request: PostModifyRequest): ResponseEntity<Long> {
+        @PathVariable postId: Long,
+        @RequestBody request: PostModifyRequest): ResponseEntity<Long> {
 
         val result: Long = modify.update(
             ModifyPost.UpdateInfo(
@@ -63,10 +65,30 @@ class PostApi(private val modify: ModifyPost) {
      * @param postId 部署ID
      */
     @DeleteMapping("{postId}")
-    fun delete(postId: Long): ResponseEntity<Unit> {
+    fun delete(@PathVariable postId: Long): ResponseEntity<Unit> {
 
         modify.delete(postId)
 
         return ResponseEntity.noContent().build()
     }
+
+    /**
+     * 子部署の登録を行う.
+     *
+     * @param postId 部署ID
+     * @param childPostId 子部署ID
+     */
+    @PostMapping("{postId}/{childPostId}")
+    fun addChild(
+        @PathVariable postId: Long,
+        @PathVariable childPostId: Long): ResponseEntity<Unit> {
+
+        modify.addChild(
+            parentPostId = postId,
+            childPostId = childPostId
+        )
+
+        return ResponseEntity.noContent().build()
+    }
+
 }

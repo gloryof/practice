@@ -1,5 +1,6 @@
 package jp.glory.neo4jstudy.domain.repository
 
+import jp.glory.neo4jstudy.domain.event.AddChildPostEvent
 import jp.glory.neo4jstudy.domain.event.JoinToPostEvent
 import jp.glory.neo4jstudy.domain.event.LeaveFromPostEvent
 import jp.glory.neo4jstudy.domain.model.Organization

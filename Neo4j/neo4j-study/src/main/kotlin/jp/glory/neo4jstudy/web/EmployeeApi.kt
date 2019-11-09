@@ -4,8 +4,10 @@ import jp.glory.neo4jstudy.usecase.ModifyEmployee
 import jp.glory.neo4jstudy.web.request.EmployeeModifyRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -24,7 +26,7 @@ class EmployeeApi(private val modify: ModifyEmployee) {
      * @param request リクエスト
      */
     @PostMapping
-    fun register(request: EmployeeModifyRequest): ResponseEntity<Long> {
+    fun register(@RequestBody request: EmployeeModifyRequest): ResponseEntity<Long> {
 
         val result: Long = modify.register(
             ModifyEmployee.RegisterInfo(
@@ -45,8 +47,8 @@ class EmployeeApi(private val modify: ModifyEmployee) {
      */
     @PutMapping("{employeeId}")
     fun update(
-        employeeId: Long,
-        request: EmployeeModifyRequest
+        @PathVariable employeeId: Long,
+        @RequestBody request: EmployeeModifyRequest
     ): ResponseEntity<Long> {
 
         val result: Long = modify.update(
@@ -68,7 +70,7 @@ class EmployeeApi(private val modify: ModifyEmployee) {
      * @param employeeId 従業員ID
      */
     @DeleteMapping("{employeeId}")
-    fun delete(employeeId: Long): ResponseEntity<Unit> {
+    fun delete(@PathVariable employeeId: Long): ResponseEntity<Unit> {
 
         modify.delete(employeeId)
 

@@ -6,4 +6,6 @@ package jp.glory.neo4jstudy.web.request
  * @param postId 部署ID
  * @param employeeId 従業員ID
  */
-data class LeaveRequest(val postId: Long, val employeeId: Long)
+data class LeaveRequest(
+    var postId: Long = 0,
+    var employeeId: Long = 0)

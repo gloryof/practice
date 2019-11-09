@@ -1,0 +1,5 @@
+spring:
+  data:
+    neo4j:
+      password: neo4j
+      username: neo4j

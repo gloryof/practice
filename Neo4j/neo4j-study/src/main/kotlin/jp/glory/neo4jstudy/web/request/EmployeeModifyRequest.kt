@@ -7,4 +7,7 @@ package jp.glory.neo4jstudy.web.request
  * @param firstName 名前
  * @param age 年齢
  */
-data class EmployeeModifyRequest(val lastName: String, val firstName: String, val age:Int)
+data class EmployeeModifyRequest(
+    var lastName: String = "",
+    var firstName: String = "",
+    var age:Int = 0 )

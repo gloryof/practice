@@ -3,10 +3,12 @@ package jp.glory.neo4jstudy.web
 import jp.glory.neo4jstudy.usecase.ModifyOrganization
 import jp.glory.neo4jstudy.usecase.SearchOrganization
 import jp.glory.neo4jstudy.web.request.JoinRequest
+import jp.glory.neo4jstudy.web.request.LeaveRequest
 import jp.glory.neo4jstudy.web.response.OrganizationsResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -40,7 +42,7 @@ class OrganizationApi(private val search: SearchOrganization, private val modify
      * @return レスポンス
      */
     @PostMapping("join")
-    fun join(request: JoinRequest): ResponseEntity<Unit> {
+    fun join(@RequestBody request: JoinRequest): ResponseEntity<Unit> {
 
         modify.joinEmployee(request.postId, request.employeeId)
 
@@ -54,9 +56,9 @@ class OrganizationApi(private val search: SearchOrganization, private val modify
      * @return レスポンス
      */
     @PostMapping("leave")
-    fun leave(request: JoinRequest): ResponseEntity<Unit> {
+    fun leave(@RequestBody request: LeaveRequest): ResponseEntity<Unit> {
 
-        modify.laeveEmployee(request.postId, request.employeeId)
+        modify.leaveEmployee(request.postId, request.employeeId)
 
         return ResponseEntity.noContent().build()
     }

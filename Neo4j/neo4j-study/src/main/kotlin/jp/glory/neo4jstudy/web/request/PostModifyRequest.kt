@@ -6,4 +6,4 @@ package jp.glory.neo4jstudy.web.request
  *
  * @param name 部署名
  */
-data class PostModifyRequest(val name: String)
+class PostModifyRequest(var name: String = "")
