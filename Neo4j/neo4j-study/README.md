@@ -29,6 +29,22 @@ Neo4jへのアクセスライブラリとしてはSpring Data Neo4j(SDN)を使�
 `@Query`アノテーションで全てハードコーディングする。      
 
 ## 起動方法
+### Dockerの準備
+dockerディレクトリに移動する。
+```
+cd ./env/docker
+```
+dockerを起動する。
+```
+docker-compose up
+```
+neo4jのGUIツールを開く。  
+http://localhost:7474/browser/  
+
+ログインユーザのパスワードを「password」に変更する。    
+docker環境で自動設定する方法が見つけられなかった、かつ、そこに時間をかけたくないので手動。  
+
+### Srping Bootの起動
 ```
 ./gradlew bootRun
 ```

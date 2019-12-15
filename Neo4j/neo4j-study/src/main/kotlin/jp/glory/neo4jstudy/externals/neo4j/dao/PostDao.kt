@@ -1,6 +1,7 @@
 package jp.glory.neo4jstudy.externals.neo4j.dao
 
 import jp.glory.neo4jstudy.externals.neo4j.node.PostNode
+import jp.glory.neo4jstudy.externals.neo4j.result.WithParentIdResult
 import org.springframework.data.neo4j.annotation.Query
 import org.springframework.data.neo4j.repository.Neo4jRepository
 
@@ -10,9 +11,57 @@ import org.springframework.data.neo4j.repository.Neo4jRepository
 interface PostDao: Neo4jRepository<PostNode, Long> {
 
     /**
+     * 部署のルートノードを取得する.
+     *
+     * @return ルートノードのリスト
+     */
+    @Query(
+        """
+            MATCH (p:Post)
+            WHERE NOT (p)-[:BELONG]->()
+            WITH p AS root
+            RETURN root AS post
+            ORDER BY root.postId
+        """
+    )
+    fun findRootNode(): List<PostNode>
+
+    /**
+     * 対象のルートノードのツリーを取得する.
+     *
+     * @param postId ルートノードID
+     * @return ツリー
+     */
+    @Query("""
+        MATCH (p:Post{postId: {postId}})
+        WITH p AS root
+        MATCH p=(root)<-[:BELONG*]-(child:Post)
+        WITH child.postId AS postId, SIZE(RELATIONSHIPS(p)) AS depth
+        ORDER BY depth, child.postId
+        RETURN postId
+    """)
+    fun findTreeIdByRootId(postId: Long): List<Long>
+
+    /**
+     * 対象部署と親部署IDを取得する.
+     *
+     * @param postId 対象部署ID
+     * @return 対象部署と親部署ID
+     */
+    @Query("""
+        MATCH (parent:Post)<-[:BELONG]-(child:Post{postId:{postId}})
+        RETURN
+            child.postId AS postId,
+            child.name AS name,
+            parent.postId AS parentPostId
+    """)
+    fun findNodeWithParentId(postId: Long): WithParentIdResult
+
+    /**
      * 部署ノードをマージする.
      *
-     * @param node 従業員ノード
+     * @param postId 部署ID
+     * @param name 部署名
      */
     @Query(
         """

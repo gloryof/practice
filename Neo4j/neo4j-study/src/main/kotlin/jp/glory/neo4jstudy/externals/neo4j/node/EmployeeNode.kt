@@ -10,4 +10,5 @@ import org.neo4j.ogm.annotation.NodeEntity
  * @param firstName 名
  * @param age 年齢
  */
+@NodeEntity(label = "Employee")
 data class EmployeeNode(val employeeId:Long, val lastName: String, val firstName: String, val age:Int)
