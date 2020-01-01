@@ -1,6 +1,6 @@
-package jp.glory.neo4jstudy.domain.event
+package jp.glory.neo4jstudy.domain.employee.event
 
-import jp.glory.neo4jstudy.domain.model.EmployeeId
+import jp.glory.neo4jstudy.domain.employee.model.EmployeeId
 
 /**
  * 従業員保存イベント.

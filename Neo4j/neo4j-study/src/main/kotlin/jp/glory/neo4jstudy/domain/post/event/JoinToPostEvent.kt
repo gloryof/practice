@@ -1,7 +1,7 @@
-package jp.glory.neo4jstudy.domain.event
+package jp.glory.neo4jstudy.domain.post.event
 
-import jp.glory.neo4jstudy.domain.model.EmployeeId
-import jp.glory.neo4jstudy.domain.model.PostId
+import jp.glory.neo4jstudy.domain.employee.model.EmployeeId
+import jp.glory.neo4jstudy.domain.post.model.PostId
 
 /**
  * 部署に所属するイベント.

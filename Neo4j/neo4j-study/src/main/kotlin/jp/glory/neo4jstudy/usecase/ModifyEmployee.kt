@@ -1,9 +1,9 @@
 package jp.glory.neo4jstudy.usecase
 
-import jp.glory.neo4jstudy.domain.event.DeleteEmployeeEvent
-import jp.glory.neo4jstudy.domain.event.SaveEmployeeEvent
-import jp.glory.neo4jstudy.domain.model.EmployeeId
-import jp.glory.neo4jstudy.domain.repository.EmployeeRepository
+import jp.glory.neo4jstudy.domain.employee.event.DeleteEmployeeEvent
+import jp.glory.neo4jstudy.domain.employee.event.SaveEmployeeEvent
+import jp.glory.neo4jstudy.domain.employee.model.EmployeeId
+import jp.glory.neo4jstudy.domain.employee.repository.EmployeeRepository
 import jp.glory.neo4jstudy.usecase.annotation.Usecase
 
 /***

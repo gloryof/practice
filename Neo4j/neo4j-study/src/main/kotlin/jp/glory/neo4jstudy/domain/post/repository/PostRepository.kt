@@ -1,9 +1,9 @@
-package jp.glory.neo4jstudy.domain.repository
+package jp.glory.neo4jstudy.domain.post.repository
 
-import jp.glory.neo4jstudy.domain.event.AddChildPostEvent
-import jp.glory.neo4jstudy.domain.event.DeletePostEvent
-import jp.glory.neo4jstudy.domain.event.SavePostEvent
-import jp.glory.neo4jstudy.domain.model.PostId
+import jp.glory.neo4jstudy.domain.post.event.AddChildPostEvent
+import jp.glory.neo4jstudy.domain.post.event.DeletePostEvent
+import jp.glory.neo4jstudy.domain.post.event.SavePostEvent
+import jp.glory.neo4jstudy.domain.post.model.PostId
 
 /**
  * 部署のリポジトリ.

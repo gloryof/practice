@@ -1,4 +1,6 @@
-package jp.glory.neo4jstudy.domain.model
+package jp.glory.neo4jstudy.domain.organization.model
+
+import jp.glory.neo4jstudy.domain.post.model.Post
 
 /**
  * 所属部署.

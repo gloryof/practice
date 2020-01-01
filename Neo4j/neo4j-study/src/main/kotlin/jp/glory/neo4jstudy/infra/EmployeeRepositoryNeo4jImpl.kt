@@ -1,12 +1,11 @@
 package jp.glory.neo4jstudy.infra
 
-import jp.glory.neo4jstudy.domain.event.DeleteEmployeeEvent
-import jp.glory.neo4jstudy.domain.event.SaveEmployeeEvent
-import jp.glory.neo4jstudy.domain.model.EmployeeId
-import jp.glory.neo4jstudy.domain.repository.EmployeeRepository
+import jp.glory.neo4jstudy.domain.employee.event.DeleteEmployeeEvent
+import jp.glory.neo4jstudy.domain.employee.event.SaveEmployeeEvent
+import jp.glory.neo4jstudy.domain.employee.model.EmployeeId
+import jp.glory.neo4jstudy.domain.employee.repository.EmployeeRepository
 import jp.glory.neo4jstudy.externals.neo4j.dao.EmployeeDao
 import jp.glory.neo4jstudy.externals.neo4j.dao.IdDao
-import jp.glory.neo4jstudy.externals.neo4j.node.EmployeeNode
 import org.springframework.stereotype.Repository
 
 /**

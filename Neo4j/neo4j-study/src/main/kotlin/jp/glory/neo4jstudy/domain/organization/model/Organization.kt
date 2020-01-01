@@ -1,4 +1,8 @@
-package jp.glory.neo4jstudy.domain.model
+package jp.glory.neo4jstudy.domain.organization.model
+
+import jp.glory.neo4jstudy.domain.employee.model.Employee
+import jp.glory.neo4jstudy.domain.post.model.Post
+import jp.glory.neo4jstudy.domain.post.model.PostId
 
 /**
  * 組織.
@@ -67,7 +71,8 @@ class Organization(
      */
     private fun checkMatchType(
         parentPostId: PostId,
-        targetPost: Post): ChildPostMatchType {
+        targetPost: Post
+    ): ChildPostMatchType {
 
         if (post.postId.value != parentPostId.value) {
 

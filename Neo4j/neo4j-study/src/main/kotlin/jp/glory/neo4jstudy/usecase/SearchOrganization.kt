@@ -1,10 +1,8 @@
 package jp.glory.neo4jstudy.usecase
 
-import jp.glory.neo4jstudy.domain.model.BelongedEmployees
-import jp.glory.neo4jstudy.domain.model.Employee
-import jp.glory.neo4jstudy.domain.model.EmployeeId
-import jp.glory.neo4jstudy.domain.model.Organization
-import jp.glory.neo4jstudy.domain.repository.OrganizationRepository
+import jp.glory.neo4jstudy.domain.employee.model.Employee
+import jp.glory.neo4jstudy.domain.organization.model.Organization
+import jp.glory.neo4jstudy.domain.organization.repository.OrganizationRepository
 import jp.glory.neo4jstudy.usecase.annotation.Usecase
 
 /**

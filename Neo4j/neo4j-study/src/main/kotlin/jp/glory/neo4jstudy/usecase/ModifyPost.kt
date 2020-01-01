@@ -1,10 +1,10 @@
 package jp.glory.neo4jstudy.usecase
 
-import jp.glory.neo4jstudy.domain.event.AddChildPostEvent
-import jp.glory.neo4jstudy.domain.event.DeletePostEvent
-import jp.glory.neo4jstudy.domain.event.SavePostEvent
-import jp.glory.neo4jstudy.domain.model.PostId
-import jp.glory.neo4jstudy.domain.repository.PostRepository
+import jp.glory.neo4jstudy.domain.post.event.AddChildPostEvent
+import jp.glory.neo4jstudy.domain.post.event.DeletePostEvent
+import jp.glory.neo4jstudy.domain.post.event.SavePostEvent
+import jp.glory.neo4jstudy.domain.post.model.PostId
+import jp.glory.neo4jstudy.domain.post.repository.PostRepository
 import jp.glory.neo4jstudy.usecase.annotation.Usecase
 
 /***
@@ -23,7 +23,7 @@ class ModifyPost(private val repository: PostRepository) {
     fun register(info: RegisterInfo): Long {
 
         val event = SavePostEvent(
-            name =  info.name
+            name = info.name
         )
 
         val id: PostId = repository.save(event)
@@ -71,7 +71,7 @@ class ModifyPost(private val repository: PostRepository) {
     fun addChild(parentPostId: Long, childPostId: Long) {
 
         val event = AddChildPostEvent(
-            parentPostId =  PostId(parentPostId),
+            parentPostId = PostId(parentPostId),
             childPostId = PostId(childPostId)
         )
 

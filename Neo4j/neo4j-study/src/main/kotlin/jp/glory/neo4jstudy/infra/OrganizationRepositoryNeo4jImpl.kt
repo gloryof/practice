@@ -1,18 +1,17 @@
 package jp.glory.neo4jstudy.infra
 
-import jp.glory.neo4jstudy.domain.event.JoinToPostEvent
-import jp.glory.neo4jstudy.domain.event.LeaveFromPostEvent
-import jp.glory.neo4jstudy.domain.model.Employee
-import jp.glory.neo4jstudy.domain.model.EmployeeId
-import jp.glory.neo4jstudy.domain.model.Organization
-import jp.glory.neo4jstudy.domain.model.Post
-import jp.glory.neo4jstudy.domain.model.PostId
-import jp.glory.neo4jstudy.domain.repository.OrganizationRepository
+import jp.glory.neo4jstudy.domain.post.event.JoinToPostEvent
+import jp.glory.neo4jstudy.domain.post.event.LeaveFromPostEvent
+import jp.glory.neo4jstudy.domain.employee.model.Employee
+import jp.glory.neo4jstudy.domain.employee.model.EmployeeId
+import jp.glory.neo4jstudy.domain.organization.model.Organization
+import jp.glory.neo4jstudy.domain.post.model.Post
+import jp.glory.neo4jstudy.domain.post.model.PostId
+import jp.glory.neo4jstudy.domain.organization.repository.OrganizationRepository
 import jp.glory.neo4jstudy.externals.neo4j.dao.EmployeeDao
 import jp.glory.neo4jstudy.externals.neo4j.dao.PostDao
 import jp.glory.neo4jstudy.externals.neo4j.node.EmployeeNode
 import jp.glory.neo4jstudy.externals.neo4j.node.PostNode
-import jp.glory.neo4jstudy.externals.neo4j.result.EmployeeResult
 import jp.glory.neo4jstudy.externals.neo4j.result.WithParentIdResult
 import org.springframework.stereotype.Repository
 
@@ -25,7 +24,8 @@ import org.springframework.stereotype.Repository
 @Repository
 class OrganizationRepositoryNeo4jImpl(
     private val postDao: PostDao,
-    private val employeeDao: EmployeeDao) : OrganizationRepository {
+    private val employeeDao: EmployeeDao) :
+    OrganizationRepository {
 
     override fun findAllOrganizations(): List<Organization> {
 
@@ -63,7 +63,7 @@ class OrganizationRepositoryNeo4jImpl(
         val rootNodes: List<PostNode> = postDao.findRootNode()
 
         val organizations:List<Organization> = rootNodes
-            .map { Post(PostId(it.postId),it.name) }
+            .map { Post(PostId(it.postId), it.name) }
             .map { Organization(it) }
             .toList()
 
@@ -97,7 +97,7 @@ class OrganizationRepositoryNeo4jImpl(
         val parentPostId = PostId(result.parentPostId)
 
         val postId = PostId(result.postId)
-        val post = Post(postId = postId, name = result.name )
+        val post = Post(postId = postId, name = result.name)
 
         organization.belongTo(parentPostId = parentPostId, post = post)
     }
@@ -121,10 +121,11 @@ class OrganizationRepositoryNeo4jImpl(
     private fun convertEmployee(node: EmployeeNode): Employee {
 
         return Employee(
-            employeeId =  EmployeeId(value = node.employeeId),
-            firstName =  node.firstName,
-            lastName =  node.lastName,
-            age =  node.age)
+            employeeId = EmployeeId(value = node.employeeId),
+            firstName = node.firstName,
+            lastName = node.lastName,
+            age = node.age
+        )
     }
 
 }

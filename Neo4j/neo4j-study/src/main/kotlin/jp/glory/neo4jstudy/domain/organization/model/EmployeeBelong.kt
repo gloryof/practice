@@ -1,4 +1,6 @@
-package jp.glory.neo4jstudy.domain.model
+package jp.glory.neo4jstudy.domain.organization.model
+
+import jp.glory.neo4jstudy.domain.employee.model.Employee
 
 /**
  * 従業員所属.

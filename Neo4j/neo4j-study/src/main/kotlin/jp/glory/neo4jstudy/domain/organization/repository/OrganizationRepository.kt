@@ -1,9 +1,8 @@
-package jp.glory.neo4jstudy.domain.repository
+package jp.glory.neo4jstudy.domain.organization.repository
 
-import jp.glory.neo4jstudy.domain.event.AddChildPostEvent
-import jp.glory.neo4jstudy.domain.event.JoinToPostEvent
-import jp.glory.neo4jstudy.domain.event.LeaveFromPostEvent
-import jp.glory.neo4jstudy.domain.model.Organization
+import jp.glory.neo4jstudy.domain.post.event.JoinToPostEvent
+import jp.glory.neo4jstudy.domain.post.event.LeaveFromPostEvent
+import jp.glory.neo4jstudy.domain.organization.model.Organization
 
 /**
  * [Organization]のリポジトリ.

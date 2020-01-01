@@ -1,4 +1,4 @@
-package jp.glory.neo4jstudy.domain.model
+package jp.glory.neo4jstudy.domain.employee.model
 
 /***
  * 従業員ID.

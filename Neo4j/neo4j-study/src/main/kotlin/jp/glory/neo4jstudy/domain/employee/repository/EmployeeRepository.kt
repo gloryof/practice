@@ -1,8 +1,8 @@
-package jp.glory.neo4jstudy.domain.repository
+package jp.glory.neo4jstudy.domain.employee.repository
 
-import jp.glory.neo4jstudy.domain.event.DeleteEmployeeEvent
-import jp.glory.neo4jstudy.domain.event.SaveEmployeeEvent
-import jp.glory.neo4jstudy.domain.model.EmployeeId
+import jp.glory.neo4jstudy.domain.employee.event.DeleteEmployeeEvent
+import jp.glory.neo4jstudy.domain.employee.event.SaveEmployeeEvent
+import jp.glory.neo4jstudy.domain.employee.model.EmployeeId
 
 /**
  * 従業員のリポジトリ.

@@ -1,11 +1,10 @@
 package jp.glory.neo4jstudy.usecase
 
-import jp.glory.neo4jstudy.domain.event.AddChildPostEvent
-import jp.glory.neo4jstudy.domain.event.JoinToPostEvent
-import jp.glory.neo4jstudy.domain.event.LeaveFromPostEvent
-import jp.glory.neo4jstudy.domain.model.EmployeeId
-import jp.glory.neo4jstudy.domain.model.PostId
-import jp.glory.neo4jstudy.domain.repository.OrganizationRepository
+import jp.glory.neo4jstudy.domain.post.event.JoinToPostEvent
+import jp.glory.neo4jstudy.domain.post.event.LeaveFromPostEvent
+import jp.glory.neo4jstudy.domain.employee.model.EmployeeId
+import jp.glory.neo4jstudy.domain.post.model.PostId
+import jp.glory.neo4jstudy.domain.organization.repository.OrganizationRepository
 import jp.glory.neo4jstudy.usecase.annotation.Usecase
 
 /**
