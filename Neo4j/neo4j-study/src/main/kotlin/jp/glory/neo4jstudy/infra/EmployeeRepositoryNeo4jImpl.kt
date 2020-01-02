@@ -1,6 +1,6 @@
 package jp.glory.neo4jstudy.infra
 
-import jp.glory.neo4jstudy.domain.employee.event.DeleteEmployeeEvent
+import jp.glory.neo4jstudy.domain.organization.event.DeleteEmployeeEvent
 import jp.glory.neo4jstudy.domain.employee.event.SaveEmployeeEvent
 import jp.glory.neo4jstudy.domain.employee.model.EmployeeId
 import jp.glory.neo4jstudy.domain.employee.repository.EmployeeRepository

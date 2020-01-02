@@ -2,6 +2,8 @@ package jp.glory.neo4jstudy.domain.post.repository
 
 import jp.glory.neo4jstudy.domain.post.event.AddChildPostEvent
 import jp.glory.neo4jstudy.domain.post.event.DeletePostEvent
+import jp.glory.neo4jstudy.domain.post.event.JoinToPostEvent
+import jp.glory.neo4jstudy.domain.post.event.LeaveFromPostEvent
 import jp.glory.neo4jstudy.domain.post.event.SavePostEvent
 import jp.glory.neo4jstudy.domain.post.model.PostId
 
@@ -31,4 +33,18 @@ interface PostRepository {
      * @param event イベント
      */
     fun saveAddingChild(event: AddChildPostEvent)
+
+    /**
+     * 部署への所属を保存する.
+     *
+     * @param event 保存イベント
+     */
+    fun saveJoining(event: JoinToPostEvent)
+
+    /**
+     * 部署から外れた内容を保存する.
+     *
+     * @param event イベント
+     */
+    fun saveLeaving(event: LeaveFromPostEvent)
 }

@@ -20,24 +20,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/employee")
 class EmployeeApi(private val modify: ModifyEmployee) {
 
-    /**
-     * 従業員の登録を行う.
-     *
-     * @param request リクエスト
-     */
-    @PostMapping
-    fun register(@RequestBody request: EmployeeModifyRequest): ResponseEntity<Long> {
-
-        val result: Long = modify.register(
-            ModifyEmployee.RegisterInfo(
-                lastName = request.lastName,
-                firstName = request.firstName,
-                age = request.age
-            )
-        )
-
-        return ResponseEntity.ok(result)
-    }
 
     /**
      * 従業員の更新を行う.
@@ -51,7 +33,7 @@ class EmployeeApi(private val modify: ModifyEmployee) {
         @RequestBody request: EmployeeModifyRequest
     ): ResponseEntity<Long> {
 
-        val result: Long = modify.update(
+        modify.update(
             ModifyEmployee.UpdateInfo(
                 employeeId =  employeeId,
                 lastName = request.lastName,
@@ -60,20 +42,6 @@ class EmployeeApi(private val modify: ModifyEmployee) {
             )
         )
 
-        return ResponseEntity.ok(result)
-    }
-
-
-    /**
-     * 従業員の削除を行う.
-     *
-     * @param employeeId 従業員ID
-     */
-    @DeleteMapping("{employeeId}")
-    fun delete(@PathVariable employeeId: Long): ResponseEntity<Unit> {
-
-        modify.delete(employeeId)
-
-        return ResponseEntity.noContent().build()
+        return ResponseEntity.ok(employeeId)
     }
 }

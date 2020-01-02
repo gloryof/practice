@@ -1,7 +1,6 @@
 package jp.glory.neo4jstudy.usecase
 
-import jp.glory.neo4jstudy.domain.employee.event.DeleteEmployeeEvent
-import jp.glory.neo4jstudy.domain.employee.event.SaveEmployeeEvent
+import jp.glory.neo4jstudy.domain.employee.event.UpdateEmployeeEvent
 import jp.glory.neo4jstudy.domain.employee.model.EmployeeId
 import jp.glory.neo4jstudy.domain.employee.repository.EmployeeRepository
 import jp.glory.neo4jstudy.usecase.annotation.Usecase
@@ -12,67 +11,25 @@ import jp.glory.neo4jstudy.usecase.annotation.Usecase
  * @param repository 従業員リポジトリ
  */
 @Usecase
-class ModifyEmployee(private val repository: EmployeeRepository) {
-
-    /**
-     * 従業員の登録を行う.
-     *
-     * @param info 登録情報
-     */
-    fun register(info: RegisterInfo): Long {
-
-        val event = SaveEmployeeEvent(
-            lastName = info.lastName,
-            firstName = info.firstName,
-            age = info.age
-        )
-
-        val id: EmployeeId = repository.save(event)
-
-        return id.value
-    }
+class ModifyEmployee(
+    private val repository: EmployeeRepository) {
 
     /**
      * 従業員の更新を行う.
      *
      * @param info 登録情報
      */
-    fun update(info: UpdateInfo): Long {
+    fun update(info: UpdateInfo) {
 
-        val event = SaveEmployeeEvent(
+        val event = UpdateEmployeeEvent(
             employeeId = EmployeeId(info.employeeId),
             lastName = info.lastName,
             firstName = info.firstName,
             age = info.age
         )
 
-        val id: EmployeeId = repository.save(event)
-
-        return id.value
+        repository.update(event)
     }
-
-    /**
-     * 従業員の削除を行う.
-     *
-     * @param employeeId 従業員ID
-     */
-    fun delete(employeeId: Long) {
-
-        val event = DeleteEmployeeEvent(
-            employeeId = EmployeeId(employeeId)
-        )
-
-        repository.delete(event)
-    }
-
-    /**
-     * 従業員の登録情報.
-     *
-     * @param lastName 姓
-     * @param firstName 名
-     * @param age 年齢
-     */
-    class RegisterInfo(val lastName: String, val firstName: String, val age:Int)
 
     /**
      * 従業員の更新情報.
@@ -82,5 +39,9 @@ class ModifyEmployee(private val repository: EmployeeRepository) {
      * @param firstName 名
      * @param age 年齢
      */
-    class UpdateInfo(val employeeId: Long, val lastName: String, val firstName: String, val age:Int)
+    data class UpdateInfo(
+        val employeeId: Long,
+        val lastName: String,
+        val firstName: String,
+        val age:Int)
 }
