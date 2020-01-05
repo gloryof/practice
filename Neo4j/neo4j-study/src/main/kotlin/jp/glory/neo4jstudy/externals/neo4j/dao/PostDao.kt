@@ -11,6 +11,18 @@ import org.springframework.data.neo4j.repository.Neo4jRepository
 interface PostDao: Neo4jRepository<PostNode, Long> {
 
     /**
+     * 部署IDをキーに部署ノードを取得する.
+     *
+     * @param postId 部署ID
+     * @return 部署ノード
+     */
+    @Query("""
+        MATCH (p:Post {postId: {postId}})
+        RETURN p
+    """)
+    fun findByPostId(postId: Long): PostNode
+
+    /**
      * 部署のルートノードを取得する.
      *
      * @return ルートノードのリスト

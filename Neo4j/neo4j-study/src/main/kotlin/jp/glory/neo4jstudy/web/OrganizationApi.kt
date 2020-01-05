@@ -1,7 +1,6 @@
 package jp.glory.neo4jstudy.web
 
 import jp.glory.neo4jstudy.usecase.ModifyOrganization
-import jp.glory.neo4jstudy.usecase.ModifyPost
 import jp.glory.neo4jstudy.usecase.SearchOrganization
 import jp.glory.neo4jstudy.web.request.EntryRequest
 import jp.glory.neo4jstudy.web.request.JoinRequest
@@ -45,9 +44,10 @@ class OrganizationApi(
      *
      * @param entryRequest リクエスト
      */
-    fun entry(@RequestBody entryRequest: EntryRequest): ResponseEntity<Unit> {
+    @PostMapping("entry")
+    fun entry(@RequestBody entryRequest: EntryRequest): ResponseEntity<Long> {
 
-        modify.entryEmployee(
+        val employeeId: Long = modify.entryEmployee(
             ModifyOrganization.EntryInfo(
                 entryAt = entryRequest.entryAt,
                 lastName = entryRequest.lastName,
@@ -57,7 +57,7 @@ class OrganizationApi(
             )
         )
 
-        return ResponseEntity.noContent().build()
+        return ResponseEntity.ok(employeeId)
     }
 
     /**
@@ -69,13 +69,16 @@ class OrganizationApi(
     @PostMapping("join")
     fun join(@RequestBody request: JoinRequest): ResponseEntity<Unit> {
 
-        modify.joinEmployee(request.postId, request.employeeId)
+        modify.joinEmployee(
+            joinAt = request.joinAt,
+            postId = request.postId,
+            employeeId = request.employeeId)
 
         return ResponseEntity.noContent().build()
     }
 
     /**
-     * 部署から従業員を外す.
+     * 部署から従業員を退任させる.
      *
      * @param request リクエスト
      * @return レスポンス
@@ -83,7 +86,10 @@ class OrganizationApi(
     @PostMapping("leave")
     fun leave(@RequestBody request: LeaveRequest): ResponseEntity<Unit> {
 
-        modify.leaveEmployee(request.postId, request.employeeId)
+        modify.leaveEmployee(
+            leaveAt = request.leaveAt,
+            postId = request.postId,
+            employeeId = request.employeeId)
 
         return ResponseEntity.noContent().build()
     }
@@ -93,6 +99,7 @@ class OrganizationApi(
      *
      * @param request
      */
+    @PostMapping("retire")
     fun retire(@RequestBody request: RetireRequest): ResponseEntity<Unit> {
 
         modify.retireEmployee(

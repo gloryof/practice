@@ -13,6 +13,14 @@ import org.springframework.stereotype.Repository
 interface EmployeeDao : Neo4jRepository<EmployeeNode, Long> {
 
     /**
+     * 従業員IDをキーに従業員ノードを検索する.
+     *
+     * @param employeeId 従業員ID
+     * @return 従業員ノード
+     */
+    fun findByEmployeeId(employeeId: Long): EmployeeNode
+
+    /**
      * 従業員ノードをマージする.
      *
      * @param employeeId 従業員ID
@@ -32,17 +40,32 @@ interface EmployeeDao : Neo4jRepository<EmployeeNode, Long> {
     )
     fun merge(employeeId:Long, lastName: String, firstName: String, age: Int)
 
-    /**
-     * 従業員IDをキーに削除する.
-     *
-     * @param employeeId 従業員ID
-     */
-    @Query("MATCH (e: Employee{employeeId: {employeeId}}) DELETE e")
-    fun deleteByEmployeeId(employeeId: Long)
 
     @Query("""
         MATCH (p:Post)<-[:JOIN]-(e:Employee)
         RETURN e AS employee, p.postId AS joinPostId
     """)
     fun findAllEmployeesWithPost(): List<EmployeeResult>
+
+    /**
+     * 退職済みとして更新する.
+     *
+     * @param employeeId 従業員ID
+     */
+    @Query("""
+        MATCH (e: Employee{employeeId: {employeeId}})
+        SET e.retired = true
+    """)
+    fun updateToRetire(employeeId:Long)
+
+    /**
+     * 従業員の全ての所属を削除する.
+     *
+     * @param employeeId 従業員ID
+     */
+    @Query("""
+        MATCH (e:Employee{employeeId: {employeeId}})-[r:JOIN]->(p: Post)
+        DELETE r
+    """)
+    fun deleteEmployeeJoining(employeeId:Long)
 }

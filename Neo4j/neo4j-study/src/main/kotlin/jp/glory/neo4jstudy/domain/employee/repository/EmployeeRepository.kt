@@ -31,7 +31,7 @@ interface EmployeeRepository {
      *
      * @param event 入社イベント
      */
-    fun saveEntry(event: EntryEmployeeEvent)
+    fun saveEntry(event: EntryEmployeeEvent): EmployeeId
 
     /**
      * 従業員の退職イベントを保存する.

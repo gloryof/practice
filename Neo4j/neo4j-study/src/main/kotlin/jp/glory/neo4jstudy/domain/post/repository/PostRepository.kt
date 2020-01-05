@@ -42,7 +42,7 @@ interface PostRepository {
     fun saveJoining(event: JoinToPostEvent)
 
     /**
-     * 部署から外れた内容を保存する.
+     * 部署から退任を保存する.
      *
      * @param event イベント
      */

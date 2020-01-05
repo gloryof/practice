@@ -2,6 +2,8 @@ package jp.glory.neo4jstudy.infra
 
 import jp.glory.neo4jstudy.domain.post.event.AddChildPostEvent
 import jp.glory.neo4jstudy.domain.post.event.DeletePostEvent
+import jp.glory.neo4jstudy.domain.post.event.JoinToPostEvent
+import jp.glory.neo4jstudy.domain.post.event.LeaveFromPostEvent
 import jp.glory.neo4jstudy.domain.post.event.SavePostEvent
 import jp.glory.neo4jstudy.domain.post.model.PostId
 import jp.glory.neo4jstudy.domain.post.repository.PostRepository
@@ -35,6 +37,22 @@ class PostRepositoryNeo4jImpl(private val postDao: PostDao, private val idDao: I
         postDao.addPostRelation(
             postId = event.parentPostId.value,
             childPostId = event.childPostId.value
+        )
+    }
+
+    override fun saveJoining(event: JoinToPostEvent) {
+
+        postDao.addEmployeeRelation(
+            postId = event.postId.value,
+            employeeId = event.employeeId.value
+        )
+    }
+
+    override fun saveLeaving(event: LeaveFromPostEvent) {
+
+        postDao.deleteEmployeeRelation(
+            postId = event.postId.value,
+            employeeId = event.employeeId.value
         )
     }
 

@@ -2,6 +2,7 @@ package jp.glory.neo4jstudy.domain.employee.repository
 
 import jp.glory.neo4jstudy.domain.employee.event.EntryEmployeeEvent
 import jp.glory.neo4jstudy.domain.employee.event.RetireEmployeeEvent
+import jp.glory.neo4jstudy.domain.employee.model.EmployeeId
 import jp.glory.neo4jstudy.domain.post.event.JoinToPostEvent
 import jp.glory.neo4jstudy.domain.post.event.LeaveFromPostEvent
 
@@ -13,9 +14,10 @@ interface EmployeeEventRepository {
     /**
      * 入社イベントを履歴として記録する.
      *
+     * @param employeeId 従業員ID
      * @param event 入社イベント
      */
-    fun saveEntry(event:EntryEmployeeEvent)
+    fun saveEntry(employeeId: EmployeeId, event:EntryEmployeeEvent)
 
     /**
      * 退職イベントを履歴として記録する.

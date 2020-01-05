@@ -55,13 +55,23 @@ docker環境で自動設定する方法が見つけられなかった、かつ�
 ```
 curl http://localhost:8080/api/organization
 ```
+#### 従業員を入社させる
+```
+curl -v -X POST -H 'Content-Type:application/json' -d @request/organization/entry.json http://localhost:8080/api/organization/entry
+```
+
 #### 従業員を部署に所属させる
 ```
-curl -v -X POST -H 'Content-Type:application/json' -d '{"postId": ${postId}, "employeeId": ${employeeId}}' http://localhost:8080/api/organization/join
+curl -v -X POST -H 'Content-Type:application/json' -d @request/organization/join.json http://localhost:8080/api/organization/join
 ```
-#### 従業員を部署から外す
+#### 従業員を部署から離任させる
 ```
-curl -v -X POST -H 'Content-Type:application/json' -d '{"postId": ${postId}, "employeeId": ${employeeId}}' http://localhost:8080/api/organization/leave
+curl -v -X POST -H 'Content-Type:application/json' -d @request/organization/leave.json http://localhost:8080/api/organization/leave
+```
+
+#### 従業員を退職させる
+```
+curl -v -X POST -H 'Content-Type:application/json' -d @request/organization/retire.json http://localhost:8080/api/organization/retire
 ```
 
 ### 部署
@@ -83,17 +93,9 @@ curl -v -X POST -H 'Content-Type:application/json' http://localhost:8080/api/pos
 ```
 
 ### 従業員
-#### 追加
-```
-curl -v -X POST -H 'Content-Type:application/json' -d '{"lastName": "テスト姓", "firstName": "テスト名", "age": 45}' http://localhost:8080/api/employee  
-```
-#### 変更
+#### 更新
 ```
 curl -v -X PUT -H 'Content-Type:application/json' -d '{"lastName": "テスト姓(変更後)", "firstName": "テスト名(変更後)", "age": 46}' http://localhost:8080/api/employee/{id}  
-```
-#### 削除
-```
-curl -v -X DELETE -H 'Content-Type:application/json' http://localhost:8080/api/employee/{id}  
 ```
 
 ## Next Step
@@ -101,7 +103,6 @@ curl -v -X DELETE -H 'Content-Type:application/json' http://localhost:8080/api/e
 
 - 親部署を削除したときの子部署の処理
 - 未所属従業員の表示処理
-- 入社、異動、退職などのイベントの対応
 - 部長、副部長などの役職の追加
 - 入力チェックの強化
 
@@ -116,11 +117,6 @@ curl -v -X DELETE -H 'Content-Type:application/json' http://localhost:8080/api/e
 
 仕様的なまとめをどうするかという話なので、Neo4jの使い方に関するところは少なさそう。  
 無視してよさそう。
-
-### 入社、異動、退職などのイベントの対応
-部署・従業員の管理として入社、異動、退職があるので対応する。  
-従業員に入社日・異動日・退職日を追加するのか、  
-従業員のイベント的なノードを用意して入社、退職、異動とするのかは考える必要がある。
 
 ### 部長、副部長などの役職の追加
 部署には役割・役職が設けられているので対応する必要がある。

@@ -1,13 +1,11 @@
 package jp.glory.neo4jstudy.infra
 
-import jp.glory.neo4jstudy.domain.post.event.JoinToPostEvent
-import jp.glory.neo4jstudy.domain.post.event.LeaveFromPostEvent
 import jp.glory.neo4jstudy.domain.employee.model.Employee
 import jp.glory.neo4jstudy.domain.employee.model.EmployeeId
 import jp.glory.neo4jstudy.domain.organization.model.Organization
+import jp.glory.neo4jstudy.domain.organization.repository.OrganizationRepository
 import jp.glory.neo4jstudy.domain.post.model.Post
 import jp.glory.neo4jstudy.domain.post.model.PostId
-import jp.glory.neo4jstudy.domain.organization.repository.OrganizationRepository
 import jp.glory.neo4jstudy.externals.neo4j.dao.EmployeeDao
 import jp.glory.neo4jstudy.externals.neo4j.dao.PostDao
 import jp.glory.neo4jstudy.externals.neo4j.node.EmployeeNode
@@ -37,21 +35,6 @@ class OrganizationRepositoryNeo4jImpl(
     }
 
 
-    override fun saveJoining(event: JoinToPostEvent) {
-
-        postDao.addEmployeeRelation(
-            postId = event.postId.value,
-            employeeId = event.employeeId.value
-        )
-    }
-
-    override fun saveLeaving(event: LeaveFromPostEvent) {
-
-        postDao.deleteEmployeeRelation(
-            postId = event.postId.value,
-            employeeId = event.employeeId.value
-        )
-    }
 
     /**
      * 従業員を保持しない組織リストを取得する.

@@ -2,13 +2,12 @@ package jp.glory.neo4jstudy.usecase
 
 import jp.glory.neo4jstudy.domain.employee.event.EntryEmployeeEvent
 import jp.glory.neo4jstudy.domain.employee.event.RetireEmployeeEvent
-import jp.glory.neo4jstudy.domain.post.event.JoinToPostEvent
-import jp.glory.neo4jstudy.domain.post.event.LeaveFromPostEvent
 import jp.glory.neo4jstudy.domain.employee.model.EmployeeId
 import jp.glory.neo4jstudy.domain.employee.repository.EmployeeEventRepository
 import jp.glory.neo4jstudy.domain.employee.repository.EmployeeRepository
+import jp.glory.neo4jstudy.domain.post.event.JoinToPostEvent
+import jp.glory.neo4jstudy.domain.post.event.LeaveFromPostEvent
 import jp.glory.neo4jstudy.domain.post.model.PostId
-import jp.glory.neo4jstudy.domain.post.event.AddChildPostEvent
 import jp.glory.neo4jstudy.domain.post.repository.PostRepository
 import jp.glory.neo4jstudy.usecase.annotation.Usecase
 import java.time.LocalDate
@@ -28,30 +27,36 @@ class ModifyOrganization(
 
     /**
      * 従業員を入社させる.
+     *
+     * @return 従業員ID
      */
-    fun entryEmployee(info: EntryInfo) {
+    fun entryEmployee(info: EntryInfo): Long {
 
         val event = EntryEmployeeEvent(
-            entryAt = info.entryAt,
             lastName = info.lastName,
             firstName = info.firstName,
             age = info.age,
+            entryAt = info.entryAt,
             postId = PostId(info.postId)
         )
 
-        employeeRepository.saveEntry(event)
-        eventRepository.saveEntry(event)
+        val employeeId: EmployeeId = employeeRepository.saveEntry(event)
+        eventRepository.saveEntry(employeeId, event)
+
+        return employeeId.value
     }
 
     /**
      * 従業員を部署に所属させる.
      *
+     * @param joinAt 所属日
      * @param postId 部署ID
      * @param employeeId 従業員ID
      */
-    fun joinEmployee(postId: Long, employeeId: Long) {
+    fun joinEmployee(joinAt: LocalDate, postId: Long, employeeId: Long) {
 
         val event = JoinToPostEvent(
+            joinAt = joinAt,
             postId = PostId(postId),
             employeeId = EmployeeId(employeeId)
         )
@@ -60,14 +65,16 @@ class ModifyOrganization(
         eventRepository.saveJoining(event)
     }
     /**
-     * 従業員を部署から外す
+     * 従業員を部署から退任させる.
      *
+     * @param leaveAt 退任日
      * @param postId 部署ID
      * @param employeeId 従業員ID
      */
-    fun leaveEmployee(postId: Long, employeeId: Long) {
+    fun leaveEmployee(leaveAt: LocalDate, postId: Long, employeeId: Long) {
 
         val event = LeaveFromPostEvent(
+            leaveAt = leaveAt,
             postId = PostId(postId),
             employeeId = EmployeeId(employeeId)
         )

@@ -36,4 +36,18 @@ interface IdDao: Neo4jRepository<IdNode, Long> {
         return i
     """)
     fun calculateNextPostId(): IdNode
+
+    /**
+     * 新しい履歴IDを計算する.
+     *
+     * @return IDノード
+     */
+    @Query("""
+        MERGE (i: Id{ name: "history" })
+        ON CREATE SET i.value = 1
+        ON MATCH SET i.value = i.value + 1
+        return i
+    """)
+    fun calculateNextHistoryId(): IdNode
+
 }
