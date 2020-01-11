@@ -1,7 +1,6 @@
 package jp.glory.neo4jstudy.domain.employee.model
 
 import jp.glory.neo4jstudy.domain.post.model.Post
-import jp.glory.neo4jstudy.domain.post.model.PostId
 import java.time.LocalDate
 
 /**
@@ -48,4 +47,4 @@ data class LeaveFromPostHistory(
  */
 data class RetireHistory(
     val retireAt: LocalDate
-)
+) : EmployeeHistory()

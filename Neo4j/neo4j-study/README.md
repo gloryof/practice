@@ -93,6 +93,10 @@ curl -v -X POST -H 'Content-Type:application/json' http://localhost:8080/api/pos
 ```
 
 ### 従業員
+#### 取得
+```
+curl -v -H 'Content-Type:application/json'  http://localhost:8080/api/employee/{id}/detail  
+```
 #### 更新
 ```
 curl -v -X PUT -H 'Content-Type:application/json' -d '{"lastName": "テスト姓(変更後)", "firstName": "テスト名(変更後)", "age": 46}' http://localhost:8080/api/employee/{id}  
