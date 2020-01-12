@@ -1,5 +1,6 @@
 package jp.glory.neo4jstudy.externals.neo4j.dao
 
+import jp.glory.neo4jstudy.externals.neo4j.node.EmployeeHistoryNode
 import org.springframework.data.neo4j.annotation.Query
 import org.springframework.data.neo4j.repository.Neo4jRepository
 import org.springframework.stereotype.Repository
@@ -9,6 +10,12 @@ import org.springframework.stereotype.Repository
  */
 @Repository
 interface EmployeeHistoryDao: Neo4jRepository<Unit, Long> {
+
+    @Query("""
+        MATCH (e:Employee {employeeId:{employeeId}})<-[r:RECORDED]-(h:EmployeeHistory)
+        RETURN h
+    """)
+    fun findByEmployeeId(employeeId: Long): List<EmployeeHistoryNode>
 
     /**
      * 入社履歴ノードを登録する.

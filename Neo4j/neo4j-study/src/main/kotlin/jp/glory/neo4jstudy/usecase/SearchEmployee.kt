@@ -55,21 +55,22 @@ class SearchEmployee(private val repository: EmployeeRepository) {
         return when(history) {
             is EntryHistory -> EmployeeHistoryResult(
                 type = EmployeeHistoryType.Entry,
-                happenedAt = history.entryAt
+                happenedAt = history.happenedAt,
+                postName = history.post.name
             )
             is JoinToPostHistory -> EmployeeHistoryResult(
                 type = EmployeeHistoryType.Join,
-                happenedAt = history.joinAt,
+                happenedAt = history.happenedAt,
                 postName = history.post.name
             )
             is LeaveFromPostHistory -> EmployeeHistoryResult(
                 type = EmployeeHistoryType.Leave,
-                happenedAt = history.leaveAt,
+                happenedAt = history.happenedAt,
                 postName = history.post.name
             )
             is RetireHistory -> EmployeeHistoryResult(
                 type = EmployeeHistoryType.Retire,
-                happenedAt = history.retireAt
+                happenedAt = history.happenedAt
             )
         }
 

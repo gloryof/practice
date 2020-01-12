@@ -5,8 +5,11 @@ import java.time.LocalDate
 
 /**
  * 従業員履歴.
+ *
+ * @param happenedAt 発生日
+ *
  */
-sealed class EmployeeHistory
+sealed class EmployeeHistory(val happenedAt: LocalDate)
 
 /**
  * 入社履歴.
@@ -16,7 +19,7 @@ sealed class EmployeeHistory
  */
 data class EntryHistory(
     val entryAt: LocalDate,
-    var post: Post) : EmployeeHistory()
+    var post: Post) : EmployeeHistory(entryAt)
 
 /**
  * 部署所属履歴.
@@ -27,7 +30,7 @@ data class EntryHistory(
 data class JoinToPostHistory(
     val joinAt: LocalDate,
     val post: Post
-) : EmployeeHistory()
+) : EmployeeHistory(joinAt)
 
 /**
  * 部署から離れた履歴.
@@ -38,7 +41,7 @@ data class JoinToPostHistory(
 data class LeaveFromPostHistory(
     val leaveAt: LocalDate,
     val post: Post
-) : EmployeeHistory()
+) : EmployeeHistory(leaveAt)
 
 /**
  * 退職履歴.
@@ -47,4 +50,4 @@ data class LeaveFromPostHistory(
  */
 data class RetireHistory(
     val retireAt: LocalDate
-) : EmployeeHistory()
+) : EmployeeHistory(retireAt)
