@@ -86,10 +86,14 @@ interface PostDao: Neo4jRepository<PostNode, Long> {
     /**
      * 部署IDをキーに削除する.
      *
-     * @param postId 部署ID
+     * @param postIds 部署IDリスト
      */
-    @Query("MATCH (p: Post{postId: {postId}}) DELETE p")
-    fun deleteByPostId(postId: Long)
+    @Query("""
+        MATCH (p: Post) 
+        WHERE p.postId IN {postIds}
+        DETACH DELETE p
+    """)
+    fun deleteByPostIds(postIds: List<Long>)
 
     /**
      * 部署のリレーションを登録する.
@@ -126,4 +130,18 @@ interface PostDao: Neo4jRepository<PostNode, Long> {
         DELETE r
     """)
     fun deleteEmployeeRelation(postId: Long, employeeId: Long)
+
+    /**
+     * 親部署IDに紐づく子部署IDのリストを取得する.
+     *
+     * @param parentId 親部署ID
+     * @return 子部署IDリスト
+     */
+    @Query("""
+        MATCH (p:Post {postId: {parentId}})<-[r:BELONG*]-(c:Post)
+        WITH p,c,SIZE(r) AS depth
+        RETURN c.postId AS postId
+        ORDER BY depth
+    """)
+    fun findChildrenPostId(parentId: Long): List<Long>
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository
  * [PostRepository]のNeo4j実装.
  *
  * @param postDao 部署DAO
+ * @param idDao IDDao
  */
 @Repository
 class PostRepositoryNeo4jImpl(private val postDao: PostDao, private val idDao: IdDao) :
@@ -30,7 +31,7 @@ class PostRepositoryNeo4jImpl(private val postDao: PostDao, private val idDao: I
     }
 
     override fun delete(event: DeletePostEvent) {
-        postDao.deleteByPostId(event.postId.value)
+        postDao.deleteByPostIds(event.postIds.map { it.value })
     }
 
     override fun saveAddingChild(event: AddChildPostEvent) {
@@ -54,6 +55,11 @@ class PostRepositoryNeo4jImpl(private val postDao: PostDao, private val idDao: I
             postId = event.postId.value,
             employeeId = event.employeeId.value
         )
+    }
+
+    override fun findPostIdsWithChildren(parentId: PostId): List<PostId> {
+
+        return postDao.findChildrenPostId(parentId = parentId.value).map { PostId(it) }
     }
 
     /**

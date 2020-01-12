@@ -5,6 +5,6 @@ import jp.glory.neo4jstudy.domain.post.model.PostId
 /**
  * 部署削除イベント.
  *
- * @param postId 部署ID
+ * @param postIds 部署IDリスト
  */
-class DeletePostEvent(val postId: PostId)
+class DeletePostEvent(val postIds: List<PostId>)

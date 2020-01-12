@@ -47,4 +47,12 @@ interface PostRepository {
      * @param event イベント
      */
     fun saveLeaving(event: LeaveFromPostEvent)
+
+    /**
+     * 指定した部署IDにぶら下がる部署のIDを取得する.
+     *
+     * @param parentId 親部署ID
+     * @return 部署IDリスト
+     */
+    fun findPostIdsWithChildren(parentId: PostId): List<PostId>
 }

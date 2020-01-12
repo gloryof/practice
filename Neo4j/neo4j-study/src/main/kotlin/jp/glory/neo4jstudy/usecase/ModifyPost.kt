@@ -1,10 +1,7 @@
 package jp.glory.neo4jstudy.usecase
 
-import jp.glory.neo4jstudy.domain.employee.model.EmployeeId
 import jp.glory.neo4jstudy.domain.post.event.AddChildPostEvent
 import jp.glory.neo4jstudy.domain.post.event.DeletePostEvent
-import jp.glory.neo4jstudy.domain.post.event.JoinToPostEvent
-import jp.glory.neo4jstudy.domain.post.event.LeaveFromPostEvent
 import jp.glory.neo4jstudy.domain.post.event.SavePostEvent
 import jp.glory.neo4jstudy.domain.post.model.PostId
 import jp.glory.neo4jstudy.domain.post.repository.PostRepository
@@ -58,8 +55,14 @@ class ModifyPost(private val repository: PostRepository) {
      */
     fun delete(postId: Long) {
 
+        val parentPostId = PostId(value = postId)
+        val children: List<PostId> = repository.findPostIdsWithChildren(parentPostId)
+
+        val targetIds: MutableList<PostId> = mutableListOf(parentPostId)
+        targetIds.addAll(children)
+
         val event = DeletePostEvent(
-            postId = PostId(postId)
+            postIds = targetIds
         )
 
         repository.delete(event)
