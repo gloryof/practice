@@ -1,4 +1,4 @@
-package jp.glory.docker.java.app;
+package jp.glory.java.app;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

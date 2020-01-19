@@ -1,4 +1,4 @@
-package jp.glory.docker.java.app;
+package jp.glory.java.app;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>jp.glory</groupId>
-	<artifactId>docker-java-app</artifactId>
+	<artifactId>java-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>docker-java-app</name>
+	<name>java-app</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
