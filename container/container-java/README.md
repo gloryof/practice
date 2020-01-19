@@ -23,4 +23,4 @@ docker build .
 docker run -p 8080:8080 ${イメージID}
 ```
 
-http://localhost:8080/api/homeにアクセスする。
+http://localhost:8080/api/home にアクセスする。
