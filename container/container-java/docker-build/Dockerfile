@@ -13,6 +13,6 @@ RUN mvn clean package -f practice/container/container-java/java-app/pom.xml
 FROM openjdk:11-jre-slim AS exec-stage
 COPY --from=build-stage \
     /app/practice/container/container-java/java-app/target/java-app-0.0.1-SNAPSHOT.jar \
-    /docker-java-app.jar
+    /java-app.jar
 EXPOSE 8080
-CMD ["java", "-jar", "docker-java-app.jar"]
+CMD ["java", "-jar", "java-app.jar"]
