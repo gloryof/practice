@@ -3,14 +3,17 @@
 コンテナを利用したビルド、アーティファクトの管理、実行まで学ぶこと。  
 
 ## 実行方法
-### Docker Registry
-docker-registryディレクトリに移動する。
+### デプロイ系のコンテナ
+#### 対象
+- Docker Registry
+#### 起動方法
+deployディレクトリに移動する。
 
 ```
-cd docker-registry
+cd deploy
 ```
 
-docker-registryを起動する。  
+docker-composeで起動する。  
 
 ```
 docker-compose up -d
