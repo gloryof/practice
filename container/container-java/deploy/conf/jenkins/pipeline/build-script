@@ -1,0 +1,41 @@
+pipeline {
+
+    agent any
+    tools {
+        maven 'maven3.6.3'
+    }
+
+
+    stages {
+        stage("checkout") {
+
+            steps {
+                checkout(
+                    [
+                        $class: 'GitSCM',
+                        branches: [[name: '*/master']],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [
+                            [
+                                $class: 'SparseCheckoutPaths',
+                                sparseCheckoutPaths: [
+                                    [path: 'container/container-java']
+                                ]
+                            ]
+                        ],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [
+                            [url: 'https://github.com/gloryof/practice']
+                        ]
+                    ]
+                )
+            }
+        }
+
+        stage("compile") {
+            steps {
+                sh 'mvn clean package -f container/container-java/java-app/pom.xml'
+            }
+        }
+    }
+}
