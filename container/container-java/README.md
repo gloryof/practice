@@ -29,16 +29,16 @@ docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 
 ### Docker
 #### ビルド
-docker-buildディレクトリに移動する。  
+docker-build/localディレクトリに移動する。  
 
 ```
-cd docker-build
+cd docker-build/local
 ```
 
 ビルドを実行する。
 
 ```
-docker build .
+docker build -f .
 ```
 
 ビルドされたイメージをタグ化.  
@@ -58,12 +58,6 @@ docker run -p 8080:8080 glory_of/java-app:1.0.0
 http://localhost:8080/api/home にアクセスする。
 
 #### registryへの配置 
-docker-buildディレクトリに移動する。  
-
-```
-cd docker-build
-```
-
 タグ付けしたイメージをプッシュする。
 
 ```

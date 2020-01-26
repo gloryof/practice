@@ -1,0 +1,2 @@
+/docker-build/build/artifact/*
+!/docker-build/build/artifact/.gitkeep
