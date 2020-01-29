@@ -6,7 +6,6 @@
 ### デプロイ系のコンテナ
 #### 対象
 - Docker Registry
-- Jenkins
 #### 起動方法
 deployディレクトリに移動する。
 
@@ -18,13 +17,6 @@ docker-composeで起動する。
 
 ```
 docker-compose up -d
-```
-#### Jenkins
-初期パスワードは起動時のログを参照。  
-もしくは下記のコマンドで取得する。
-
-```
-docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 
 ### Docker

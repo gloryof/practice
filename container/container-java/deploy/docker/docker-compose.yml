@@ -6,9 +6,3 @@ services:
       - common.env
     ports: 
       - 5000:5000
-  jenkins:
-    build: ./jenkins
-    env_file:
-      - common.env
-    ports:
-      - 8081:8080

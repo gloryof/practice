@@ -1,12 +1,18 @@
 pipeline {
 
     agent any
+    
     tools {
         maven 'maven3.6.3'
+        'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker-latest'
     }
 
+    environment {
+        WORK_DIR = "container/container-java"
+    }
 
     stages {
+
         stage("checkout") {
 
             steps {
@@ -34,7 +40,25 @@ pipeline {
 
         stage("compile") {
             steps {
-                sh 'mvn clean package -f container/container-java/java-app/pom.xml'
+                dir("${WORK_DIR}") {
+                    sh 'mvn clean package -f java-app/pom.xml'
+                }
+            }
+        }
+
+        stage("docker-build") {
+            steps {
+                dir("${WORK_DIR}") {
+                    sh "cp java-app/target/java-app-0.0.1-SNAPSHOT.jar docker-build/build/artifact/java-app.jar"
+
+                    dir("docker-build/build") {
+                        script {
+                            def image = docker.build("localhost:5000/glory_of/java-app:nightly")
+                            image.push()
+                        }
+                        
+                    }
+                }
             }
         }
     }
