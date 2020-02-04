@@ -1,0 +1,32 @@
+pipeline {
+
+    agent any
+
+    parameters {
+        string(name: 'HOST', defaultValue: '', description: '')
+    }
+
+    environment {
+        TARGET_IMAAGE = 'local.docker.registry:5000/glory_of/java-app:nightly'
+    }
+
+    stages {
+        stage("deploy") {
+            steps {
+                withCredentials(
+                    [
+                        sshUserPrivateKey(
+                            credentialsId: 'docker-java',
+                            keyFileVariable: 'KEY_FILE',
+                            passphraseVariable: '',
+                            usernameVariable: 'USER')]) {
+
+                    sh 'ssh -i ${KEY_FILE} ${USER}@${HOST} "sudo docker pull ${TARGET_IMAAGE}"'
+                    sh 'ssh -i ${KEY_FILE} ${USER}@${HOST} "sudo docker image prune -f"'
+                    sh 'ssh -i ${KEY_FILE} ${USER}@${HOST} "sudo docker ps -aq | xargs sudo docker stop | xargs sudo docker rm"'
+                    sh 'ssh -i ${KEY_FILE} ${USER}@${HOST} "sudo docker run -d -p 8080:8080 --name java-app ${TARGET_IMAAGE}"'
+                }
+            }
+        }
+    }
+}

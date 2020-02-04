@@ -18,3 +18,6 @@ java -jar jenkins.war --httpPort=8081
 ### Global Tool
 - Maven 3.6.3をインストール（名前：maven3.6.3）
 - Dockerのlatestをインストール（名前：docker-latest）
+
+### 認証情報
+- docker-java: デプロイ先ホストのdocker-javaの鍵認証情報
