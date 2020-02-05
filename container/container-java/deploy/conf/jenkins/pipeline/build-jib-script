@@ -1,0 +1,51 @@
+pipeline {
+
+    agent any
+    
+    tools {
+        maven 'maven3.6.3'
+        'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker-latest'
+    }
+
+    environment {
+        WORK_DIR = "container/container-java"
+        JIB_OPTIONS = "-Djib.to.image=localhost:5000/glory_of/java-app-jib -Djib.allowInsecureRegistries=true"
+    }
+
+    stages {
+
+        stage("checkout") {
+
+            steps {
+                checkout(
+                    [
+                        $class: 'GitSCM',
+                        branches: [[name: '*/master']],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [
+                            [
+                                $class: 'SparseCheckoutPaths',
+                                sparseCheckoutPaths: [
+                                    [path: 'container/container-java']
+                                ]
+                            ]
+                        ],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [
+                            [url: 'https://github.com/gloryof/practice']
+                        ]
+                    ]
+                )
+            }
+        }
+
+        stage("compile") {
+            steps {
+                dir("${WORK_DIR}") {
+
+                    sh 'mvn clean compile jib:build -f java-app/pom.xml'
+                }
+            }
+        }
+    }
+}
