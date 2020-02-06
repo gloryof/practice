@@ -43,7 +43,7 @@ pipeline {
             steps {
                 dir("${WORK_DIR}") {
 
-                    sh 'mvn clean compile jib:build -f java-app/pom.xml'
+                    sh 'mvn clean compile jib:build -f java-app/pom.xml ${JIB_OPTIONS}'
                 }
             }
         }

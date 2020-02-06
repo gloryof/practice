@@ -51,6 +51,11 @@
 					<from>
 						<image>openjdk:11-jre-slim</image>
 					</from>
+					<container>
+						<ports>
+							<port>8080</port>
+						</ports>
+					</container>
 				</configuration>
 			</plugin>
 		</plugins>
