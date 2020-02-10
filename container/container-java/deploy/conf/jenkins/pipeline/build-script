@@ -50,6 +50,8 @@ pipeline {
             steps {
                 dir("${WORK_DIR}") {
                     sh "cp java-app/target/java-app-0.0.1-SNAPSHOT.jar docker-build/build/artifact/java-app.jar"
+                    sh "cp deploy/conf/app/config.yml docker-build/build/artifact/config.yml" 
+                    sh "cp deploy/conf/app/secret.yml docker-build/build/artifact/secret.yml" 
 
                     dir("docker-build/build") {
                         script {
