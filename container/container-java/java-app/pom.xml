@@ -55,7 +55,18 @@
 						<ports>
 							<port>8080</port>
 						</ports>
+						<args>
+							<arg>--param.value='The param Value'</arg>
+							<arg>--spring.config.additional-location=file:/secret.yml,file:/config.yml</arg>
+						</args>
+						<creationTime>USE_CURRENT_TIMESTAMP</creationTime>
 					</container>
+					<extraDirectories>
+						<paths>
+							<!--suppress UnresolvedMavenProperty -->
+							<paht>${app.config.directory}</paht>
+						</paths>
+					</extraDirectories>
 				</configuration>
 			</plugin>
 		</plugins>
