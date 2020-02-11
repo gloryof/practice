@@ -9,7 +9,7 @@ pipeline {
 
     environment {
         WORK_DIR = "container/container-java"
-        JIB_OPTIONS = "-Djib.to.image=localhost:5000/glory_of/java-app-jib -Djib.allowInsecureRegistries=true"
+        JIB_OPTIONS = "-Djib.to.image=localhost:5000/glory_of/java-app-jib -Djib.allowInsecureRegistries=true -Dapp.config.directory=${pwd()}/${WORK_DIR}/deploy/conf/app"
     }
 
     stages {
