@@ -1,8 +1,8 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:54321/local-database
-    username: local-user
-    password: local-password
-    maximum-pool-size: 90
-    auto-commit: false
-    connection-timeout: 300000
+  cloud:
+    config:
+      uri:
+        http://localhost:8888
+  application:
+    name:
+      config_app
