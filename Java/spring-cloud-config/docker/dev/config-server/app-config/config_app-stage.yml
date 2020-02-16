@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://stage-db:5432/stage-database
+    username: stage-user
+    password: stage-password
+    maximum-pool-size: 90
+    auto-commit: false
+    connection-timeout: 300000
+config:
+  value:
+    stage environment!
