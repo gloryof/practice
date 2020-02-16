@@ -18,7 +18,7 @@ docker-compose up -d dev-app stage-app
 ```
 
 
-下記のURLにアクセスしてConfigサーバが起動していることを確認する。  
+下記のURLにアクセスしてAppサーバが起動していることを確認する。  
 （起動するまでに10秒〜20秒ほど待つ必要がある）  
 - http://localhost:8081/api/config
 - http://localhost:8081/api/db
