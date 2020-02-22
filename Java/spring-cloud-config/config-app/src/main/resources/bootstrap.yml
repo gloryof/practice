@@ -2,7 +2,9 @@ spring:
   cloud:
     config:
       uri:
-        http://localhost:8888
+        - http://localhost:8888
+      username: client
+      password: password
   application:
     name:
       config_app
