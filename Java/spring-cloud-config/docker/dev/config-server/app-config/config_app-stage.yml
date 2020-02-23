@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://stage-db:5432/stage-database
     username: stage-user
-    password: stage-password
+    password: '{cipher}077c5a37904619aa1d926c26e110e2c474bd7266b23e044bd5dd7a80d091d11e'
     maximum-pool-size: 90
     auto-commit: false
     connection-timeout: 300000

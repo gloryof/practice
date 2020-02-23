@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://dev-db:5432/dev-database
     username: dev-user
-    password: dev-password
+    password: '{cipher}f0d1e68cbb4f9361a63ebfa8746b8198723d2b251aaa380b5a236182d545c579'
     maximum-pool-size: 90
     auto-commit: false
     connection-timeout: 300000
