@@ -25,4 +25,5 @@ COPY ./server-config/* /server-config/
 EXPOSE 8080
 CMD ["java", \
      "-jar", "config-server.jar", \
-     "--spring.config.additional-location=file:/server-config/server-config.yml"]
+     "--spring.config.additional-location=file:/server-config/server-config.yml", \
+     "--user.client.password=$2a$10$GhVXUbrMRq0B7KxebOjpYecDHt4UOMXD4ZSP8FokMMeOh2tk8Ltjm"]

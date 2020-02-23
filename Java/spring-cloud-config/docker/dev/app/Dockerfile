@@ -19,10 +19,10 @@ COPY --from=build-stage \
     /app/practice/Java/spring-cloud-config/config-app/target/config-app-0.0.1-SNAPSHOT.jar \
     /config-app.jar
 
-COPY ./config/app-config.yml /app-config.yml
+COPY ./config/bootstrap.yml /bootstrap.yml
 
 EXPOSE 8080
 CMD ["java", \
      "-jar", "config-app.jar", \
      "--spring.profiles.active=${ACTIVE_PROFILE}", \
-     "--spring.config.additional-location=file:/app-config.yml"]
+     "--spring.config.additional-location=file:/bootstrap.yml"]
