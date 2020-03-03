@@ -1,0 +1,77 @@
+version: "3"
+services:
+  dev-db:
+    build: 
+      context: ./db
+      args:
+        - profile=dev
+    env_file:
+      - common.env
+      - common-db.env
+    ports:
+      - 54321:5432
+    networks:
+      - app-network
+  dev-app:
+    build:
+      context: ./app
+      args:
+        - profile=dev
+    depends_on:
+      - config-server
+      - dev-db
+    env_file:
+      - common.env
+    ports:
+      - 8081:8080
+    networks:
+      - app-network
+  stage-db:
+    build:
+      context: ./db
+      args:
+        - profile=stage
+    env_file:
+      - common.env
+      - common-db.env
+    ports:
+      - 54322:5432
+    networks:
+      - app-network
+  stage-app:
+    build:
+      context: ./app
+      args:
+        - profile=stage
+    depends_on:
+      - config-server
+      - stage-db
+    env_file:
+      - common.env
+    ports:
+      - 8082:8080
+    networks:
+      - app-network
+  config-server:
+    build:
+      context: ./config-server
+    depends_on:
+      - vault
+    env_file:
+      - common.env
+    ports:
+      - 8888:8888
+    networks:
+      - app-network
+  vault:
+    build:
+      context: ./vault
+    env_file:
+      - common.env
+    ports:
+      - 8200:8200
+    networks:
+      - app-network
+
+networks:
+  app-network:

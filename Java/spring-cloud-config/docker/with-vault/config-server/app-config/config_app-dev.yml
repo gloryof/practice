@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://dev-db:5432/dev-database
+    maximum-pool-size: 90
+    auto-commit: false
+    connection-timeout: 300000

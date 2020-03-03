@@ -1,0 +1,2 @@
+/docker/with-vault/script/vault/conf/*
+!/docker/with-vault/script/vault/conf/.gitkeep

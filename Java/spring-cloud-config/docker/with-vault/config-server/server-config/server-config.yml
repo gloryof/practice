@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: vault
+  cloud:
+    config:
+      server:
+        vault:
+          host: vault
+          port: 8200
+          scheme: http
