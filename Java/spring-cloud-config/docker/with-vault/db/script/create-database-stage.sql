@@ -1,3 +1,3 @@
-CREATE USER "stage-user" WITH PASSWORD 'stage-password';
-CREATE DATABASE "stage-database" WITH OWNER = "stage-user" ENCODING = "UTF-8";
-GRANT ALL PRIVILEGES ON DATABASE "stage-database" TO "stage-user";
+CREATE DATABASE "stage-database" ENCODING = "UTF-8";
+
+CREATE ROLE db_admin SUPERUSER LOGIN PASSWORD 'admin-password';

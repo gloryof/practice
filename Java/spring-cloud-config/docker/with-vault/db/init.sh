@@ -7,7 +7,7 @@ INIT_FLG_FILE=${PGDATA}/execute-init
 if [ ! -e ${INIT_FLG_FILE} ]; then
 
 echo "start create database"
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" -f /docker-entrypoint-initdb.d/script/create-database.sql
+psql -v ON_ERROR_STOP=1 --username "${POSTGRES_USER}" -f /docker-entrypoint-initdb.d/script/create-database.sql
 
 if [ $? != 0 ]; then
 echo "[FATAL] Creating database is failed"
@@ -17,7 +17,7 @@ echo "Creating database is success"
 
 echo "start insert data"
 
-PGPASSWORD=${DB_PASSWORD} psql -v ON_ERROR_STOP=1 --username "${DB_USER}" ${DB_NAME} -f /docker-entrypoint-initdb.d/script/data.sql
+psql -v ON_ERROR_STOP=1 --username "${POSTGRES_USER}" ${DB_NAME} -f /docker-entrypoint-initdb.d/script/data.sql
 
 if [ $? != 0 ]; then
 echo "[FATAL] Inserting data is failed"
