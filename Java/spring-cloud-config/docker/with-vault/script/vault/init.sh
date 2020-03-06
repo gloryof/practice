@@ -36,7 +36,7 @@ VAULT_TOKEN=${ROOT_TOKEN} vault write auth/userpass/users/manager password=manag
 
 # AppRoleの設定
 VAULT_TOKEN=${ROOT_TOKEN} vault auth enable approle
-VAULT_TOKEN=${ROOT_TOKEN} vault write -f auth/approle/role/java-app policies=java-approle
+VAULT_TOKEN=${ROOT_TOKEN} vault write -f auth/approle/role/java-app policies=java-app
 VAULT_TOKEN=${ROOT_TOKEN} vault read auth/approle/role/java-app/role-id > conf/role_id
 VAULT_TOKEN=${ROOT_TOKEN} vault write -f auth/approle/role/java-app/secret-id > conf/secret_id
 

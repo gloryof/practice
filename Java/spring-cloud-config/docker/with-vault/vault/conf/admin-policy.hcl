@@ -50,3 +50,19 @@ path "sys/capabilities-self"
 {
   capabilities = ["create", "update"]
 }
+
+# Edited below
+path "database/*"
+{
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+
+path "approle/*"
+{
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+
+path "userpass/*"
+{
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
