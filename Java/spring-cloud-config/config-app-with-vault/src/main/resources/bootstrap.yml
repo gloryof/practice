@@ -5,24 +5,6 @@ spring:
         - http://localhost:8888
       username: client
       password: password
-    vault:
-      host: localhost
-      port: 8200
-      scheme: http
-      connection-timeout: 10000
-      read-timeout: 10000
-      authentication: APPROLE
-      app-role:
-        role-id: test # ローカルの場合は固定のIDで設定した方がよさそう。
-        secret-id: test # ローカルの場合は固定のIDで設定した方がよさそう。
-        role: java-app
-        app-role-path: approle
-      database:
-        enabled: true
-        role: dev-db-user
-        backend: database
-        username-property: spring.datasource.username
-        password-property: spring.datasource.password
   application:
     name:
       config_app
