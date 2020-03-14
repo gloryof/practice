@@ -4,19 +4,19 @@ path "database/*"
   capabilities = ["read", "list"]
 }
 
-path "config/*"
+path "database/creds/dev-db-user"
 {
-  capabilities = ["read", "list"]
+  capabilities = ["create", "read", "update", "delete", "list"]
 }
 
-path "secret/config_app"
+path "database/creds/dev-db-user"
 {
-  capabilities = ["read", "list"]
+  capabilities = ["create", "read", "update", "delete", "list"]
 }
 
-path "secret/application"
+path "config/data/*"
 {
-  capabilities = ["read", "list"]
+  capabilities = ["create", "read", "update", "delete", "list"]
 }
 
 path "sys/revoke" 

@@ -3,6 +3,8 @@
 export VAULT_ADDR="http://127.0.0.1:8200"
 CONF_DIR=../../vault/conf
 ENV_FILE=conf/envfile
+SERVER_PARAM_FILE=../../config-server/param/envfile
+APP_PARAM_FILE=../../app-with-vault/param/envfile
 
 # vaultの初期化
 vault operator init | grep -e 'Unseal Key' -e 'Initial Root Token' > conf/init_temp
@@ -55,8 +57,11 @@ rm conf/app_tokens
 
 source ${ENV_FILE}
 
+# Key/ValueによるSecretの設定
+VAULT_TOKEN=${ROOT_TOKEN} vault secrets enable -path=config -version=2 kv
+
 # DatabaseによるDynamic Sercretの設定
-VAULT_TOKEN=${ROOT_TOKEN}  vault secrets enable -path=database database
+VAULT_TOKEN=${ROOT_TOKEN} vault secrets enable -path=database database
 
 # stage-databaseの設定
 VAULT_TOKEN=${ROOT_TOKEN} vault write database/config/stage-database \
@@ -91,3 +96,10 @@ VAULT_TOKEN=${ROOT_TOKEN} vault write database/roles/dev-db-user \
     default_ttl="1h" \
     max_ttl="24h"
 VAULT_TOKEN=${ROOT_TOKEN} vault write -force database/rotate-root/dev-database
+
+touch ${APP_PARAM_FILE}
+cat /dev/null > ${APP_PARAM_FILE}
+cat ${ENV_FILE} | grep ROLE_ID >> ${APP_PARAM_FILE}
+cat ${ENV_FILE} | grep SECRET_ID >> ${APP_PARAM_FILE}
+
+cp ${APP_PARAM_FILE} ${SERVER_PARAM_FILE}

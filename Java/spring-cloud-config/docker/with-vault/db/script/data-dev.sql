@@ -9,3 +9,5 @@ VALUES
     (1, 'dev-one'),
     (2, 'dev-two'),
     (3, 'dev-three');
+
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO "static-user";

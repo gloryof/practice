@@ -1,0 +1,31 @@
+spring:
+  cloud:
+    config:
+      uri: http://config-server:8888
+      password: docker-password
+    vault:
+      host: vault
+      port: 8200
+      scheme: http
+      connection-timeout: 10000
+      read-timeout: 10000
+      authentication: APPROLE
+      generic:
+        enabled: false
+      kv:
+        enabled: true
+        backend: config
+      app-role:
+        role-id: __role-id__
+        secret-id: __secret-id__
+        role: java-app
+        app-role-path: approle
+      database:
+        enabled: true
+        role: __role__
+        backend: database
+        username-property: spring.datasource.username
+        password-property: spring.datasource.password
+  application:
+    name:
+      config_app

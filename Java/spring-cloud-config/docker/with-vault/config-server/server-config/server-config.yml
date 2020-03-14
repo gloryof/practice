@@ -1,10 +1,25 @@
 spring:
   profiles:
-    active: vault
+    active: native, vault
   cloud:
     config:
       server:
+        native:
+          searchLocations:
+            - /app-config
         vault:
           host: vault
           port: 8200
           scheme: http
+          connection-timeout: 10000
+          read-timeout: 10000
+          authentication: APPROLE
+          backend: config
+          kvVersion: 2
+          app-role:
+            role-id: __role-id__
+            secret-id: __secret-id__
+            role: java-app
+            app-role-path: approle
+server:
+  port: 8888

@@ -1,2 +1,6 @@
 /docker/with-vault/script/vault/conf/*
 !/docker/with-vault/script/vault/conf/.gitkeep
+/docker/with-vault/app-with-vault/param/*
+!/docker/with-vault/app-with-vault/param/.gitkeep
+/docker/with-vault/config-server/param/*
+!/docker/with-vault/config-server/param/.gitkeep

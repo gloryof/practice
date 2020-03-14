@@ -15,8 +15,8 @@ spring:
           backend: config
           kvVersion: 2
           app-role:
-            role-id: 53f1cba7-b669-988b-a7e5-c21bb6eb0dab # ローカルの場合は固定のIDで設定した方がよさそう。
-            secret-id: 333ac1c0-f48a-b13b-ee29-3cbcdae14a4d # ローカルの場合は固定のIDで設定した方がよさそう。
+            role-id: test # ローカルの場合は固定のIDで設定した方がよさそう。
+            secret-id: test # ローカルの場合は固定のIDで設定した方がよさそう。
             role: java-app
             app-role-path: approle
 server:

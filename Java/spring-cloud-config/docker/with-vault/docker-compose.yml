@@ -14,7 +14,7 @@ services:
       - app-network
   dev-app:
     build:
-      context: ./app
+      context: ./app-with-vault
       args:
         - profile=dev
     depends_on:
@@ -24,6 +24,19 @@ services:
       - common.env
     ports:
       - 8081:8080
+    networks:
+      - app-network
+  static-app:
+    build:
+      context: ./app-static
+      args:
+        - profile=static
+    depends_on:
+      - config-server
+    env_file:
+      - common.env
+    ports:
+      - 8083:8080
     networks:
       - app-network
   stage-db:
@@ -40,7 +53,7 @@ services:
       - app-network
   stage-app:
     build:
-      context: ./app
+      context: ./app-with-vault
       args:
         - profile=stage
     depends_on:
