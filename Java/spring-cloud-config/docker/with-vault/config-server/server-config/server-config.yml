@@ -21,5 +21,10 @@ spring:
             secret-id: __secret-id__
             role: java-app
             app-role-path: approle
+  rabbitmq:
+    host: mq
+    port: 5672
+    username: __mq-user__
+    password: __mq-pass__
 server:
   port: 8888

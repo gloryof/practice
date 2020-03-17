@@ -10,7 +10,7 @@ HashiCorp Vaultを組み合わせたもの。
 アプリとConfigサーバを除いたコンテナをビルドする。  
 
 ```
-$ docker-compose build dev-db stage-db vault
+$ docker-compose build dev-db stage-db vault mq
 ```
 
 DBのコンテナを起動する。  
@@ -19,10 +19,10 @@ DBのコンテナを起動する。
 $ docker-compose up -d dev-db stage-db
 ```
 
-Vaultを起動する
+VaultとRabbitMQを起動する
 
 ```
-$ docker-compose up -d vault
+$ docker-compose up -d vault mq
 ```
 
 下記のコマンドを実行しVaultの初期化を行う。  
@@ -75,4 +75,29 @@ Vaultは再起動した際にsealed状態になる。
 $ pushd script/vault/
 $ ./re-unseal.sh 
 $ popd
+```
+### 設定値の動的変更
+Vaultの設定値を変える。  
+
+```
+$ pushd script/vault/
+$ ./change-key.sh 
+$ popd
+```
+
+下記のURLにアクセスし、`config.vault.value`の値が変わっていることを確認する。  
+(staticは動的変更には未対応)
+
+- http://localhost:8888/config_app/dev
+- http://localhost:8888/config_app/stage
+
+下記のURLにアクセスし、変更前のアプリ側の値を確認する。  
+
+- http://localhost:8081/api/config
+- http://localhost:8082/api/config
+
+設定値の値を反映する。
+
+```
+$ curl -X POST http://localhost:8081/actuator/bus-refresh
 ```

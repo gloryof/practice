@@ -17,9 +17,12 @@ services:
       context: ./app-with-vault
       args:
         - profile=dev
+        - mq_user=mq-user
+        - mq_pass=mq-password
     depends_on:
       - config-server
       - dev-db
+      - mq
     env_file:
       - common.env
     ports:
@@ -56,9 +59,12 @@ services:
       context: ./app-with-vault
       args:
         - profile=stage
+        - mq_user=mq-user
+        - mq_pass=mq-password
     depends_on:
       - config-server
       - stage-db
+      - mq
     env_file:
       - common.env
     ports:
@@ -68,8 +74,12 @@ services:
   config-server:
     build:
       context: ./config-server
+      args:
+        - mq_user=mq-user
+        - mq_pass=mq-password
     depends_on:
       - vault
+      - mq
     env_file:
       - common.env
     ports:
@@ -83,6 +93,18 @@ services:
       - common.env
     ports:
       - 8200:8200
+    networks:
+      - app-network
+  mq:
+    build:
+      context: ./mq
+    env_file:
+      - common.env
+    environment:
+      - RABBITMQ_DEFAULT_USER=mq-user
+      - RABBITMQ_DEFAULT_PASS=mq-password
+    ports:
+      - 5672:5672
     networks:
       - app-network
 

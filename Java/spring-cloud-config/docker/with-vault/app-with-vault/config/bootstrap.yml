@@ -26,6 +26,16 @@ spring:
         backend: database
         username-property: spring.datasource.username
         password-property: spring.datasource.password
+  rabbitmq:
+    host: mq
+    port: 5672
+    username: __mq-user__
+    password: __mq-pass__
   application:
     name:
       config_app
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
