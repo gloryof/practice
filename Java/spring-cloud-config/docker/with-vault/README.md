@@ -101,3 +101,10 @@ $ popd
 ```
 $ curl -X POST http://localhost:8081/actuator/bus-refresh
 ```
+
+### 備考
+Spring Cloud VaultではTTLを迎えたクレデンシャルを検知し、  
+新しいクレデンシャルを取得する操作はサポートしていない。  
+
+Dynamic Secret自体がおそらく一時的な利用を想定しているためではないかと思われる。  
+通常のアプリとして使う場合は静的な設定を使用する方が良さそう。
