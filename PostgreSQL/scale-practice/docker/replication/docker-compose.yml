@@ -1,0 +1,49 @@
+version: "3"
+services:
+  write-db:
+    build: ./db
+    environment:
+      - POSTGRES_PASSWORD=write-password
+    env_file:
+      - common.env
+      - common-db.env
+    ports:
+      - 54322:5432
+    networks:
+      - app-network
+  read-db:
+    build: ./db
+    environment:
+      - POSTGRES_PASSWORD=read-password
+    env_file:
+      - common.env
+      - common-db.env
+    ports:
+      - 54323:5432
+    networks:
+      - app-network
+  pg-pool:
+    build: ./pg-pool
+    env_file:
+      - common.env
+    ports:
+      - 9898:9898
+      - 54321:5432
+    depends_on:
+      - write-db
+      - read-db
+    networks:
+      - app-network
+  app:
+    build: ./app
+    env_file:
+      - common.env
+    ports:
+      - 8080:8080
+    depends_on:
+      - pg-pool
+    networks:
+      - app-network
+
+networks:
+  app-network:
