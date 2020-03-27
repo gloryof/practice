@@ -1,8 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://pg-pool:5432/dev-database
-    username: dev-user
-    password: dev-password
-    maximum-pool-size: 90
-    auto-commit: false
-    connection-timeout: 300000
