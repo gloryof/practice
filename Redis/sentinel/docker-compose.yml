@@ -1,0 +1,56 @@
+version: "3.7"
+services:
+
+  master:
+    build: ./redis
+    ports:
+      - 10001:6379
+    networks:
+      - redis-network
+  slave1:
+    build: ./redis
+    ports:
+      - 10002:6379
+    networks:
+      - redis-network
+    command: redis-server --replicaof master 6379
+  slave2:
+    build: ./redis
+    ports:
+      - 10003:6379
+    networks:
+      - redis-network
+    command: redis-server --replicaof master 6379
+  sentinel1:
+    build: ./sentinel
+    ports:
+      - 11001:6379
+    networks:
+      - redis-network
+    depends_on:
+      - master
+      - slave1
+      - slave2
+  sentinel2:
+    build: ./sentinel
+    ports:
+      - 11002:6379
+    networks:
+      - redis-network
+    depends_on:
+      - master
+      - slave1
+      - slave2
+  sentinel3:
+    build: ./sentinel
+    ports:
+      - 11003:6379
+    networks:
+      - redis-network
+    depends_on:
+      - master
+      - slave1
+      - slave2
+
+networks:
+  redis-network:
