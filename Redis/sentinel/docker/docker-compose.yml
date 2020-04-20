@@ -51,6 +51,18 @@ services:
       - master
       - slave1
       - slave2
+  sentinel-app:
+    build: ./sentinel-app
+    ports:
+      - 12001:8080
+    depends_on:
+      - master
+      - slave1
+      - slave2
+      - sentinel1
+      - sentinel2
+      - sentinel3
+
 
 networks:
   redis-network:
