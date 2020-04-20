@@ -55,6 +55,8 @@ services:
     build: ./sentinel-app
     ports:
       - 12001:8080
+    networks:
+      - redis-network
     depends_on:
       - master
       - slave1
