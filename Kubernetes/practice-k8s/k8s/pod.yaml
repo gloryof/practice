@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-pod
+  labels:
+    layer: web-node
+spec:
+  containers:
+    - name: web-container
+      image: nginx:1.17.10
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 80
