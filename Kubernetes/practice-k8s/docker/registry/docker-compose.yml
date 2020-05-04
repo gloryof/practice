@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  registry:
+    build: ./registry
+    env_file:
+      - common.env
+    ports:
+      - 5000:5000
