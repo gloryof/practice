@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  application.yaml: |-
+    spring:
+      redis:
+        host: db-service

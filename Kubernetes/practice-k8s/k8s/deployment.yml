@@ -20,3 +20,48 @@ spec:
           ports:
             - containerPort: 3000
 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  selector:
+    matchLabels:
+      layer: app-node
+  template:
+    metadata:
+      name: app-pod
+      labels:
+        layer: app-node
+    spec:
+      containers:
+        - name: app-container
+          image: localhost:5000/glory_of/k8s-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_CLOUD_KUBERNETES_CONFIG_NAME
+              value: "app-config"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+spec:
+  selector:
+    matchLabels:
+      layer: db-node
+  template:
+    metadata:
+      name: db-pod
+      labels:
+        layer: db-node
+    spec:
+      containers:
+        - name: db-container
+          image: redis:5.0.9
+          ports:
+            - containerPort: 6379
