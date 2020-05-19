@@ -1,29 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-deployment
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      layer: web-node
-  template:
-    metadata:
-      name: web-pod
-      labels:
-        layer: web-node
-    spec:
-      containers:
-        - name: web-container
-          image: localhost:5000/glory_of/k8s-web:latest
-          imagePullPolicy: Never
-          ports:
-            - containerPort: 3000
-
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
   name: app-deployment
 spec:
   selector:
