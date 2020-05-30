@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-master-deployment
+spec:
+  selector:
+    matchLabels:
+      layer: db-data-node
+      type: master
+  template:
+    metadata:
+      name: db-master-pod
+      labels:
+        layer: db-data-node
+        type: master
+    spec:
+      containers:
+        - name: db-master-container
+          image: redis:5.0.9
+          ports:
+            - containerPort: 6379
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-replica-deployment
+spec:
+  selector:
+    matchLabels:
+      layer: db-data-node
+      type: replica
+  template:
+    metadata:
+      name: db-master-pod
+      labels:
+        layer: db-node
+        type: replica
+    spec:
+      containers:
+        - name: db-master-container
+          image: redis:5.0.9
+          ports:
+            - containerPort: 6379
+          args: ["redis-server", "--replicaof", "db-master-pod", "6379"]

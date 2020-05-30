@@ -10,5 +10,10 @@ Kubernetesを使った構成を考える。
 ## 実行方法
 下記のコマンドを実行し、クラスタを起動する。
 ```
-$ kubectl apply -f k8s
+$ kubectl apply -f k8s -R
+```
+
+## 停止方法
+```
+$ kubectl delete -f k8s -R
 ```
