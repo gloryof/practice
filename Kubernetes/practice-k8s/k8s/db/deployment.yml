@@ -14,6 +14,8 @@ spec:
         layer: db-data-node
         type: master
     spec:
+      hostname: master
+      subdomain: redis-service
       containers:
         - name: db-master-container
           image: redis:5.0.9
@@ -27,15 +29,16 @@ kind: Deployment
 metadata:
   name: db-replica-deployment
 spec:
+  replicas: 2
   selector:
     matchLabels:
       layer: db-data-node
       type: replica
   template:
     metadata:
-      name: db-master-pod
+      name: db-replica-pod
       labels:
-        layer: db-node
+        layer: db-data-node
         type: replica
     spec:
       containers:
@@ -43,4 +46,41 @@ spec:
           image: redis:5.0.9
           ports:
             - containerPort: 6379
-          args: ["redis-server", "--replicaof", "db-master-pod", "6379"]
+          args: ["redis-server", "--replicaof", "master.redis-service.default.svc.cluster.local", "6379"]
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-sentinel-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      layer: db-data-node
+      type: sentinel
+  template:
+    metadata:
+      name: db-sentinel-pod
+      labels:
+        layer: db-data-node
+        type: sentinel
+    spec:
+      containers:
+        - name: db-sentinel-container
+          image: localhost:5000/glory_of/k8s-redis-sentinel:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 26379
+          args: [ "/start.sh", "-f", "/tmp/sentinel.conf", "-t", "/data/conf/sentinel.conf" ]
+          volumeMounts:
+            - name: db-config-volume
+              mountPath: /tmp
+      volumes:
+        - name: db-config-volume
+          configMap:
+            name: db-sentinel-config
+            items:
+              - key: sentinel.conf
+                path: sentinel.conf

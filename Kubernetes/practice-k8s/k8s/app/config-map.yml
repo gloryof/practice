@@ -6,4 +6,6 @@ data:
   application.yaml: |-
     spring:
       redis:
-        host: db-service
+        sentinel:
+          master: mymaster
+          nodes: redis-sentinel-service:6379
