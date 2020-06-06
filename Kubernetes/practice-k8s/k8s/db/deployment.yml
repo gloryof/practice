@@ -67,6 +67,19 @@ spec:
         layer: db-data-node
         type: sentinel
     spec:
+      initContainers:
+        - name: db-start-checker
+          image: localhost:5000/glory_of/k8s-redis-start-validator:latest
+          imagePullPolicy: Never
+          args: [ "/check.sh" ]
+          env:
+            - name: TARGET_PORT
+              value: "6379"
+            - name: TARGET_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: db-redis-config
+                  key: master-host
       containers:
         - name: db-sentinel-container
           image: localhost:5000/glory_of/k8s-redis-sentinel:latest

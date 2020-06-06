@@ -1,6 +1,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: db-redis-config
+data:
+  master-host: master.redis-service.default.svc.cluster.local
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
   name: db-sentinel-config
 data:
   sentinel.conf: |-
