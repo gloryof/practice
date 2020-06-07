@@ -8,4 +8,8 @@ data:
       redis:
         sentinel:
           master: mymaster
-          nodes: redis-sentinel-service:6379
+          nodes: redis-service:26379
+        lettuce:
+          cluster:
+            refresh:
+              adaptive: true
