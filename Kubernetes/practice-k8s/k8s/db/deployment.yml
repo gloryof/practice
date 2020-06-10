@@ -1,8 +1,10 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: db-master-deployment
+  name: db-stateful-set
 spec:
+  replicas: 3
+  serviceName: redis-service
   selector:
     matchLabels:
       layer: db-data-node
@@ -14,40 +16,18 @@ spec:
         layer: db-data-node
         type: master
     spec:
-      hostname: master
-      subdomain: redis-service
       containers:
-        - name: db-master-container
-          image: redis:5.0.9
+        - name: db-container
+          image: localhost:5000/glory_of/k8s-redis:latest
+          imagePullPolicy: Never
+          args: [ "/start.sh" ]
           ports:
             - containerPort: 6379
-
-
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: db-replica-deployment
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      layer: db-data-node
-      type: replica
-  template:
-    metadata:
-      name: db-replica-pod
-      labels:
-        layer: db-data-node
-        type: replica
-    spec:
-      containers:
-        - name: db-master-container
-          image: redis:5.0.9
-          ports:
-            - containerPort: 6379
-          args: ["redis-server", "--replicaof", "master.redis-service.default.svc.cluster.local", "6379"]
-
+          env:
+            - name: STATEFUL_SET_NAME
+              value: db-stateful-set
+            - name: SERVICE_NAME
+              value: redis-service
 
 ---
 apiVersion: apps/v1
@@ -76,10 +56,7 @@ spec:
             - name: TARGET_PORT
               value: "6379"
             - name: TARGET_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: db-redis-config
-                  key: master-host
+              value: db-stateful-set-0.redis-service.default.svc.cluster.local
       containers:
         - name: db-sentinel-container
           image: localhost:5000/glory_of/k8s-redis-sentinel:latest

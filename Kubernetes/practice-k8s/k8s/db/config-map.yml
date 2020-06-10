@@ -1,20 +1,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: db-redis-config
-data:
-  master-host: master.redis-service.default.svc.cluster.local
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
   name: db-sentinel-config
 data:
   sentinel.conf: |-
     port 26379
 
     daemonize no
-    sentinel monitor mymaster master.redis-service.default.svc.cluster.local 6379 2
+    sentinel monitor mymaster db-stateful-set-0.redis-service.default.svc.cluster.local 6379 2
     sentinel down-after-milliseconds mymaster 10000
     sentinel parallel-syncs mymaster 1
     sentinel failover-timeout mymaster 30000
