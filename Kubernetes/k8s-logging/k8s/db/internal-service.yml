@@ -3,7 +3,6 @@ kind: Service
 metadata:
   name: redis-service
 spec:
-  type: LoadBalancer
   selector:
     layer: db-node
   ports:

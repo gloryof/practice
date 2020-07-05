@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana-deployment
+spec:
+  selector:
+    matchLabels:
+      layer: kibana-node
+  template:
+    metadata:
+      name: kibana-pod
+      labels:
+        layer: kibana-node
+    spec:
+      containers:
+        - name: kibana-container
+          image: kibana:7.8.0
+          ports:
+            - containerPort: 5601

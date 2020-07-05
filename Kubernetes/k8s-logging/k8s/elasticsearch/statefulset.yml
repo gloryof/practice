@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: es-set
+spec:
+  serviceName: es-stateful-service
+  selector:
+    matchLabels:
+      layer: es-node
+  template:
+    metadata:
+      name: es-pod
+      labels:
+        layer: es-node
+    spec:
+      containers:
+        - name: es-container
+          image: elasticsearch:7.8.0
+          ports:
+            - containerPort: 9200
+            - containerPort: 9300
+          env:
+            - name: cluster.initial_master_nodes
+              value: "es-set-0"
