@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: logging-daemon
+spec:
+  selector:
+    matchLabels:
+      layer: logging-node
+  template:
+    metadata:
+      name: logging-pod
+      labels:
+        layer: logging-node
+    spec:
+      containers:
+        - name: logging-container
+          image: fluentd:v1.9.1-1.0
+          ports:
+            - containerPort: 24224
+          volumeMounts:
+            - name: config-volume
+              mountPath: /fluentd/etc
+            - name: log-volume
+              mountPath: /var/log
+            - name: persistent-volume
+              mountPath: /var/lib/docker/containers
+              readOnly: true
+      volumes:
+        - name: config-volume
+          configMap:
+            name: logging-config
+        - name: log-volume
+          hostPath:
+            path: /var/log
+        - name: persistent-volume
+          hostPath:
+            path: /var/lib/docker/containers
