@@ -37,13 +37,45 @@ data:
       tag web
       read_from_head true
       <parse>
-        @type apache2
+        @type json
       </parse>
     </source>
 
-    <match **>
+    <filter app>
+      @type parser
+      key_name log
+      reserve_data true
+      <parse>
+        @type json
+      </parse>
+    </filter>
+
+    <filter web>
+      @type parser
+      key_name log
+      reserve_data true
+      <parse>
+        @type apache2
+      </parse>
+    </filter>
+
+    <match app>
       @type elasticsearch
       host elasticsearch
       port 9200
-      logstash_format true
+      index_name 'app-log'
+    </match>
+
+    <match web>
+      @type elasticsearch
+      host elasticsearch
+      port 9200
+      index_name 'web-log'
+    </match>
+
+    <match db>
+      @type elasticsearch
+      host elasticsearch
+      port 9200
+      index_name 'db-log'
     </match>
