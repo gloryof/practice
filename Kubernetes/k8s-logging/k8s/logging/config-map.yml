@@ -11,6 +11,7 @@ data:
       pos_file /var/log/app.log.pos
       tag app
       read_from_head true
+      path_key fileName
       <parse>
         @type json
         time_format %Y-%m-%dT%H:%M:%S.%NZ
@@ -24,6 +25,7 @@ data:
       pos_file /var/log/db.log.pos
       tag db
       read_from_head true
+      path_key fileName
       <parse>
         @type json
       </parse>
@@ -36,12 +38,13 @@ data:
       pos_file /var/log/web.log.pos
       tag web
       read_from_head true
+      path_key fileName
       <parse>
         @type json
       </parse>
     </source>
 
-    <filter app>
+    <filter app.**>
       @type parser
       key_name log
       reserve_data true
@@ -50,7 +53,7 @@ data:
       </parse>
     </filter>
 
-    <filter web>
+    <filter web.**>
       @type parser
       key_name log
       reserve_data true
