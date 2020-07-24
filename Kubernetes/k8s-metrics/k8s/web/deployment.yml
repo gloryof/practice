@@ -18,3 +18,8 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 80
+        - name: exporter-container
+          image: bitnami/apache-exporter:0.8.0
+          # args: ["apache_exporter", "--scrape_uri='http://web-container/server-status/?auto'", "--insecure"]
+          ports:
+            - containerPort: 9117

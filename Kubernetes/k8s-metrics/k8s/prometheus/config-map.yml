@@ -10,3 +10,7 @@ data:
         metrics_path: /actuator/prometheus
         static_configs:
           - targets: ['app-service:8080']
+      - job_name: web-metrics
+        scrape_interval: 5s
+        static_configs:
+          - targets: ['web-metrics-service:9117']
