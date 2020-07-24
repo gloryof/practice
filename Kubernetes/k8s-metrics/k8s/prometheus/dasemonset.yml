@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: metrics-daemon
+spec:
+  selector:
+    matchLabels:
+      layer: metrics-node
+  template:
+    metadata:
+      name: metrics-pod
+      labels:
+        layer: metrics-node
+    spec:
+      containers:
+        - name: metrics-container
+          image: prom/prometheus:v2.20.0
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/prometheus
+      volumes:
+        - name: config-volume
+          configMap:
+            name: metrics-config
