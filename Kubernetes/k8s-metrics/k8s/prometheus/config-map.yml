@@ -13,4 +13,8 @@ data:
       - job_name: web-metrics
         scrape_interval: 5s
         static_configs:
-          - targets: ['web-metrics-service:9117']
+          - targets: ['web-service:9117']
+      - job_name: redis-metrics
+        scrape_interval: 5s
+        static_configs:
+          - targets: ['redis-service:9121']

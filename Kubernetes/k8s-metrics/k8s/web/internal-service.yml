@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web-metrics-service
+  name: web-service
 spec:
   selector:
     layer: web-node
