@@ -2,6 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: web-service
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: '9117'
+    prometheus.io/path: /metrics
 spec:
   selector:
     layer: web-node
