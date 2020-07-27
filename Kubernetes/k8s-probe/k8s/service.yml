@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: published-service
+spec:
+  type: LoadBalancer
+  selector:
+    layer: web-node
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: published-metrics-service
+spec:
+  type: LoadBalancer
+  selector:
+    layer: metrics-node
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
