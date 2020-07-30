@@ -18,3 +18,22 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 80
+          livenessProbe:
+            exec:
+              command:
+                - cat
+                - /usr/local/apache2/logs/httpd.pid
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 1
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 1
