@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+spec:
+  selector:
+    matchLabels:
+      layer: web-node
+  template:
+    metadata:
+      name: web-pod
+      labels:
+        layer: web-node
+    spec:
+      containers:
+        - name: web-container
+          image: localhost:5000/glory_of/k8s-tracing-web:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80

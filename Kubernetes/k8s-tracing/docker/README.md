@@ -5,5 +5,5 @@
 `targetContainer`は対象のコンテナ名を設定する。  
 
 ```
-$ DOCKER_BUILDKIT=1  docker build -t localhost:5000/glory_of/k8s-tacing-${targetContainer}:latest ${targetContainer}
+$ DOCKER_BUILDKIT=1  docker build -t localhost:5000/glory_of/k8s-tracing-${targetContainer}:latest ${targetContainer}
 ```
