@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracing-deployment
+spec:
+  selector:
+    matchLabels:
+      layer: tracing-node
+  template:
+    metadata:
+      name: tracing-pod
+      labels:
+        layer: tracing-node
+    spec:
+      containers:
+        - name: tracing-container
+          image: openzipkin/zipkin:2.21
+          ports:
+            - containerPort: 9411
