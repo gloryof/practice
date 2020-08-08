@@ -7,3 +7,5 @@ data:
     spring:
       redis:
         host: redis-service
+      zipkin:
+        baseUrl: http://published-tracing-service:9411/
