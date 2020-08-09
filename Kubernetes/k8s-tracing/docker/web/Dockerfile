@@ -1,3 +1,3 @@
-FROM httpd:2.4
+FROM opentracing/nginx-opentracing:0.9.0
 
-COPY httpd.conf /usr/local/apache2/conf/httpd.conf
+RUN mkdir /etc/nginx-zipkin

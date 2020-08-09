@@ -18,3 +18,22 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: nginx-core-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: nginx-zipkin-config
+              mountPath: /etc/nginx-zipkin
+      volumes:
+        - name: nginx-core-config
+          configMap:
+            name: nginx-config
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+        - name: nginx-zipkin-config
+          configMap:
+            name: nginx-config
+            items:
+              - key: nginx-zipkin.conf
+                path: nginx-zipkin.conf
