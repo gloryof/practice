@@ -1,15 +1,11 @@
-package jp.glory.k8s.tracing.app.person.sotre
+package jp.glory.k8s.tracing.app.person.store
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import jp.glory.k8s.tracing.app.person.domain.Person
 import jp.glory.k8s.tracing.app.person.domain.PersonId
 import jp.glory.k8s.tracing.app.person.domain.PersonRepository
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.data.redis.core.StringRedisTemplate
-import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
-import java.util.*
 
 @Repository
 class PersonRepositoryImpl(

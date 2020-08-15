@@ -1,12 +1,13 @@
 package jp.glory.k8s.tracing.app.person.api
 
 import jp.glory.k8s.tracing.app.base.api.InvalidRequestException
-import jp.glory.k8s.tracing.app.base.usecase.UseCaseErrors
-import jp.glory.k8s.tracing.app.person.sotre.PersonData
 import jp.glory.k8s.tracing.app.person.usecase.PersonResult
 import jp.glory.k8s.tracing.app.person.usecase.PersonSaveUseCase
 import jp.glory.k8s.tracing.app.person.usecase.PersonSearchUseCase
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -21,7 +22,6 @@ class PersonApi(
     private val searchUseCase: PersonSearchUseCase,
     private val saveUseCase: PersonSaveUseCase
 ) {
-
     @GetMapping("{id}")
     fun get(@PathVariable id: String): ResponseEntity<PersonResponse> =
         searchUseCase.findById(id)
@@ -47,6 +47,7 @@ class PersonApi(
 
     @PostMapping
     fun register(@RequestBody request: PersonRequest): ResponseEntity<String> {
+
         val id = saveUseCase.register(
                 name = request.name,
                 age = request.age

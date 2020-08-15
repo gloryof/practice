@@ -1,4 +1,4 @@
-package jp.glory.k8s.tracing.app.person.sotre
+package jp.glory.k8s.tracing.app.person.store
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import jp.glory.k8s.tracing.app.person.domain.PersonId
