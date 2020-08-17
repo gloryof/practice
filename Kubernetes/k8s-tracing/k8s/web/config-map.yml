@@ -27,7 +27,7 @@ data:
     }
   nginx-zipkin.conf: |-
     {
-      "service_name": "published-service",
+      "service_name": "front-web",
       "collector_host": "published-tracing-service",
       "collector_port": 9411
     }
