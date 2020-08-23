@@ -18,10 +18,29 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 80
+          env:
+            - name: CUSTOM_TRACE_NODENAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: CUSTOM_TRACE_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: CUSTOM_TRACE_PODNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: CUSTOM_TRACE_PODIP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
           volumeMounts:
             - name: nginx-core-config
               mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
+            - name: nginx-config-template
+              mountPath: /etc/nginx/templates
             - name: nginx-zipkin-config
               mountPath: /etc/nginx-zipkin
       volumes:
@@ -31,6 +50,12 @@ spec:
             items:
               - key: nginx.conf
                 path: nginx.conf
+        - name: nginx-config-template
+          configMap:
+            name: nginx-config
+            items:
+              - key: nginx-env.conf.template
+                path: nginx-env.conf.template
         - name: nginx-zipkin-config
           configMap:
             name: nginx-config

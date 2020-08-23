@@ -12,6 +12,7 @@ data:
       resolver kube-dns.kube-system.svc.cluster.local valid=10s;
 
       opentracing on;
+      include /etc/nginx/conf.d/nginx-env.conf;
 
       upstream backend {
         server app-service:8080;
@@ -20,11 +21,16 @@ data:
       server {
 
         location /api {
-          opentracing_propagate_context;
           proxy_pass http://backend/api;
+          opentracing_propagate_context;
         }
       }
     }
+  nginx-env.conf.template: |-
+    opentracing_tag custom_k8s_nodeName ${CUSTOM_TRACE_NODENAME};
+    opentracing_tag custom_k8s_nameSpace ${CUSTOM_TRACE_NAMESPACE};
+    opentracing_tag custom_k8s_podName ${CUSTOM_TRACE_PODNAME};
+    opentracing_tag custom_k8s_podIp ${CUSTOM_TRACE_PODIP};
   nginx-zipkin.conf: |-
     {
       "service_name": "front-web",
