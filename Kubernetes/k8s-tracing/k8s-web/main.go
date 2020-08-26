@@ -41,8 +41,8 @@ func createConfg() config {
 		tracing: tracingConfig{
 			enable:      getBoolEnv("TRACING_ENABLE", false),
 			serviceName: getStrEnv("TRACING_SERVIE_NAME", ""),
-			host:        getStrEnv("TRACING_HOSRT", "localhost"),
-			port:        getIntEnv("TRACING_HOSRT", 9411),
+			host:        getStrEnv("TRACING_HOST", "localhost"),
+			port:        getIntEnv("TRACING_PORT", 9411),
 		},
 		proxy: proxyConfig{
 			host: getStrEnv("PROXY_HOST", "http://localhost"),
