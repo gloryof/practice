@@ -1,7 +1,9 @@
 package main
 
 import (
+	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	zipkin "github.com/openzipkin/zipkin-go"
@@ -13,7 +15,10 @@ func createTracingMiddleware(conf config) (func(http.Handler) http.Handler, erro
 	bc := conf.boot
 	tc := conf.tracing
 
-	reporter := zipkinhttp.NewReporter(tc.createURL())
+	opt := []zipkinhttp.ReporterOption{
+		zipkinhttp.Logger(log.New(os.Stdout, "", log.LstdFlags)),
+	}
+	reporter := zipkinhttp.NewReporter(tc.createURL(), opt...)
 	noop := func(http.Handler) http.Handler { return nil }
 
 	endpoint, err := zipkin.NewEndpoint(tc.serviceName, "localhost:"+strconv.Itoa(bc.port))
