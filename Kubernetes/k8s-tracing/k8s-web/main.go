@@ -83,7 +83,7 @@ func (p proxyConfig) createProxyConfig() (middleware.ProxyConfig, error) {
 	})
 	return middleware.ProxyConfig{
 		Balancer: bal,
-		Rewrite:  map[string]string{"/api": "/api"},
+		Rewrite:  map[string]string{"/api/*": "/api/$1"},
 	}, nil
 }
 
