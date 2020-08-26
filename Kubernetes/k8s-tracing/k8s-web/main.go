@@ -16,7 +16,7 @@ func main() {
 
 	tc := conf.tracing
 	if tc.enable {
-		th, err := createTracingMiddleware(tc)
+		th, err := createTracingMiddleware(conf)
 		if err != nil {
 			log.Fatal(err)
 		}
