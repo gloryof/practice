@@ -35,30 +35,17 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
-          volumeMounts:
-            - name: nginx-core-config
-              mountPath: /etc/nginx/nginx.conf
-              subPath: nginx.conf
-            - name: nginx-config-template
-              mountPath: /etc/nginx/templates
-            - name: nginx-zipkin-config
-              mountPath: /etc/nginx-zipkin
-      volumes:
-        - name: nginx-core-config
-          configMap:
-            name: nginx-config
-            items:
-              - key: nginx.conf
-                path: nginx.conf
-        - name: nginx-config-template
-          configMap:
-            name: nginx-config
-            items:
-              - key: nginx-env.conf.template
-                path: nginx-env.conf.template
-        - name: nginx-zipkin-config
-          configMap:
-            name: nginx-config
-            items:
-              - key: nginx-zipkin.conf
-                path: nginx-zipkin.conf
+            - name: BOOT_PORT
+              value: "80"
+            - name: TRACING_ENABLE
+              value: "true"
+            - name: TRACING_SERVIE_NAME
+              value: "k8s-web"
+            - name: TRACING_HOST
+              value: "published-tracing-service"
+            - name: TRACING_PORT
+              value: "9411"
+            - name: PROXY_HOST
+              value: "http://app-service"
+            - name: PROXY_PORT
+              value: "8080"
