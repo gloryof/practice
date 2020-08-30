@@ -20,7 +20,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		e.Use(echo.WrapMiddleware(th))
+		e.Use(th)
 	}
 	e.Use(middleware.Logger())
 
@@ -41,7 +41,7 @@ func createConfg() config {
 		tracing: tracingConfig{
 			enable:      getBoolEnv("TRACING_ENABLE", false),
 			serviceName: getStrEnv("TRACING_SERVIE_NAME", ""),
-			host:        getStrEnv("TRACING_HOST", "localhost"),
+			host:        getStrEnv("TRACING_HOST", "http://localhost"),
 			port:        getIntEnv("TRACING_PORT", 9411),
 		},
 		proxy: proxyConfig{
@@ -95,7 +95,7 @@ type tracingConfig struct {
 }
 
 func (t tracingConfig) createURL() string {
-	return t.host + ":" + strconv.Itoa(t.port)
+	return t.host + ":" + strconv.Itoa(t.port) + "/api/v2/spans"
 }
 
 func getBoolEnv(key string, defaultValue bool) bool {

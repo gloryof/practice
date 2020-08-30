@@ -42,7 +42,7 @@ spec:
             - name: TRACING_SERVIE_NAME
               value: "k8s-web"
             - name: TRACING_HOST
-              value: "published-tracing-service"
+              value: "http://published-tracing-service"
             - name: TRACING_PORT
               value: "9411"
             - name: PROXY_HOST
