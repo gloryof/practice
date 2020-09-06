@@ -40,7 +40,7 @@ func createMiddleware(serviceName string, podConfig podConfig) echo.MiddlewareFu
 				serviceName,
 				opentracing.Tag{Key: "span.kind", Value: "SERVER"},
 				opentracing.Tag{Key: "custom.k8s.nameSpace", Value: podConfig.nameSpace},
-				opentracing.Tag{Key: "custom.k8s.nodeName", Value: podConfig.nameSpace},
+				opentracing.Tag{Key: "custom.k8s.nodeName", Value: podConfig.nodeName},
 				opentracing.Tag{Key: "custom.k8s.podIp", Value: podConfig.podIP},
 				opentracing.Tag{Key: "custom.k8s.podName", Value: podConfig.podName},
 			)

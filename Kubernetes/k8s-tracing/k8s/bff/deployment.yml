@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-deployment
+  name: bff-deployment
 spec:
   selector:
     matchLabels:
-      layer: web-node
+      layer: bff-node
   template:
     metadata:
-      name: web-pod
+      name: bff-pod
       labels:
-        layer: web-node
+        layer: bff-node
     spec:
       containers:
-        - name: web-container
-          image: localhost:5000/glory_of/k8s-tracing-web:latest
+        - name: bff-container
+          image: localhost:5000/glory_of/k8s-tracing-bff:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 80
@@ -40,7 +40,7 @@ spec:
             - name: TRACING_ENABLE
               value: "true"
             - name: TRACING_SERVIE_NAME
-              value: "k8s-web"
+              value: "k8s-bff"
             - name: TRACING_HOST
               value: "http://published-tracing-service"
             - name: TRACING_PORT

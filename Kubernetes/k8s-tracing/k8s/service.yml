@@ -6,7 +6,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    layer: web-node
+    layer: bff-node
   ports:
     - protocol: TCP
       port: 3000
