@@ -30,19 +30,27 @@ func createTracingMiddleware(conf config) (echo.MiddlewareFunc, error) {
 	tracer := zipkinot.Wrap(tr)
 	opentracing.SetGlobalTracer(tracer)
 
-	return createMiddleware(tc.serviceName), nil
+	return createMiddleware(tc.serviceName, conf.pod), nil
 }
 
-func createMiddleware(serviceName string) echo.MiddlewareFunc {
+func createMiddleware(serviceName string, podConfig podConfig) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			sp := opentracing.StartSpan(serviceName)
+			sp := opentracing.StartSpan(
+				serviceName,
+				opentracing.Tag{Key: "span.kind", Value: "SERVER"},
+				opentracing.Tag{Key: "custom.k8s.nameSpace", Value: podConfig.nameSpace},
+				opentracing.Tag{Key: "custom.k8s.nodeName", Value: podConfig.nameSpace},
+				opentracing.Tag{Key: "custom.k8s.podIp", Value: podConfig.podIP},
+				opentracing.Tag{Key: "custom.k8s.podName", Value: podConfig.podName},
+			)
 			opentracing.GlobalTracer().Inject(
 				sp.Context(),
 				opentracing.HTTPHeaders,
 				opentracing.HTTPHeadersCarrier(c.Request().Header))
 			defer sp.Finish()
-			return next(c)
+			result := next(c)
+			return result
 		}
 	}
 }
@@ -53,4 +61,9 @@ func noop() echo.MiddlewareFunc {
 			return next(c)
 		}
 	}
+}
+
+type remoteEndpoint struct {
+	ipv4 string
+	port int
 }

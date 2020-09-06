@@ -55,6 +55,7 @@ type config struct {
 	boot    bootConfig
 	tracing tracingConfig
 	proxy   proxyConfig
+	pod     podConfig
 }
 
 type bootConfig struct {
@@ -64,6 +65,13 @@ type bootConfig struct {
 type proxyConfig struct {
 	host string
 	port int
+}
+
+type podConfig struct {
+	nameSpace string
+	nodeName  string
+	podIP     string
+	podName   string
 }
 
 func (p proxyConfig) createURL() string {
