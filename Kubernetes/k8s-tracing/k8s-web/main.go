@@ -48,6 +48,12 @@ func createConfg() config {
 			host: getStrEnv("PROXY_HOST", "http://localhost"),
 			port: getIntEnv("PROXY_PORT", 8080),
 		},
+		pod: podConfig{
+			nameSpace: getStrEnv("CUSTOM_TRACE_NODENAME", ""),
+			nodeName:  getStrEnv("CUSTOM_TRACE_NAMESPACE", ""),
+			podIP:     getStrEnv("CUSTOM_TRACE_PODIP", ""),
+			podName:   getStrEnv("CUSTOM_TRACE_PODNAME", ""),
+		},
 	}
 }
 
