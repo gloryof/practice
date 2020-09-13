@@ -1,9 +1,6 @@
 package jp.glory.kofu.app.person.api
 
 import jp.glory.kofu.app.base.api.InvalidRequestException
-import jp.glory.kofu.app.client.ApiClient
-import jp.glory.kofu.app.client.ApiClientConfig
-import jp.glory.kofu.app.client.ExternalPersonRequest
 import jp.glory.kofu.app.person.usecase.PersonResult
 import jp.glory.kofu.app.person.usecase.PersonSaveUseCase
 import jp.glory.kofu.app.person.usecase.PersonSearchUseCase
@@ -21,8 +18,7 @@ import java.lang.IllegalArgumentException
 @RequestMapping("/api/person")
 class PersonApi(
     private val searchUseCase: PersonSearchUseCase,
-    private val saveUseCase: PersonSaveUseCase,
-    private val client: ApiClient
+    private val saveUseCase: PersonSaveUseCase
 ) {
     @GetMapping("{id}")
     fun get(@PathVariable id: String): ResponseEntity<PersonResponse> =
@@ -59,22 +55,6 @@ class PersonApi(
 
         return ResponseEntity.ok(id)
     }
-
-    private fun executeOnePerson(request: PersonRequest) =
-        client.registerPerson(
-            ExternalPersonRequest(
-                name = request.name,
-                age = request.age
-            )
-        )
-            .let { client.getPerson(it) }
-            .let {
-                PersonResponse(
-                    id = it.id,
-                    name = it.name,
-                    age = it.age
-                )
-            }
 }
 
 data class PersonRequest(
