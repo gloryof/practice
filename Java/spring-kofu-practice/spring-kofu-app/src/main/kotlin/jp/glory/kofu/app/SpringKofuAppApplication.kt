@@ -11,28 +11,28 @@ import org.springframework.fu.kofu.webflux.webFlux
 class SpringKofuAppApplication
 
 fun main(args: Array<String>) {
-	app().run()
+    app().run()
 }
 
 fun app() = reactiveWebApplication {
-	enable(PersonConfig.config())
-	enable(webConfig())
-	enable(infraConfig())
+    enable(PersonConfig.config())
+    enable(webConfig())
+    enable(infraConfig())
 }
 
 fun webConfig() = configuration {
-	webFlux {
-		port = 8080
-		codecs {
-			string()
-			jackson()
-		}
-	}
+    webFlux {
+        port = 8080
+        codecs {
+            string()
+            jackson()
+        }
+    }
 }
 
 fun infraConfig() = configuration {
-	redis {
-		host = "localhost"
-		port = 6379
-	}
+    redis {
+        host = "localhost"
+        port = 6379
+    }
 }
