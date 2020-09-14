@@ -22,7 +22,7 @@ fun app() = reactiveWebApplication {
 
 fun webConfig() = configuration {
     webFlux {
-        port = 8080
+        port = env.getProperty("APP_BOOT_PORT", Int::class.java, 8080)
         codecs {
             string()
             jackson()
@@ -32,7 +32,11 @@ fun webConfig() = configuration {
 
 fun infraConfig() = configuration {
     redis {
-        host = "localhost"
-        port = 6379
+        host = env.getProperty("APP_REDIS_HOST", "localhost")
+        port = env.getProperty("APP_REDIS_PORT", Int::class.java, 6379)
     }
 }
+
+data class BootConfig(
+    val port: String
+)
