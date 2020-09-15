@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: diff-app-deployment
+spec:
+  selector:
+    matchLabels:
+      app: diff-app
+  template:
+    metadata:
+      name: diff-app-pod
+      labels:
+        app: diff-app
+    spec:
+      containers:
+        - name: app-container
+          image: localhost:5000/glory_of/kofu-practice-diff-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_REDIS_HOST
+              value: "redis-service"

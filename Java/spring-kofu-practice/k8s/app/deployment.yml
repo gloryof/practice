@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      name: app-pod
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: app-container
+          image: localhost:5000/glory_of/kofu-practice-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_REDIS_HOST
+              value: "redis-service"
