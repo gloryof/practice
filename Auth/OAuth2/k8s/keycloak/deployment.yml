@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-deployment
+spec:
+  selector:
+    matchLabels:
+      app: keycloak-app
+  template:
+    metadata:
+      name: keycloak-pod
+      labels:
+        app: keycloak-app
+    spec:
+      containers:
+        - name: keycloak-container
+          image: quay.io/keycloak/keycloak:11.0.2
+          ports:
+            - name: keycloak-port
+              containerPort: 8080
+          env:
+            - name: KEYCLOAK_USER
+              value: "admin"
+            - name: KEYCLOAK_PASSWORD
+              value: "admin-password"
