@@ -11,3 +11,16 @@ spec:
     - protocol: TCP
       port: 3000
       targetPort: keycloak-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: goods-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: goods-app
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 8080
