@@ -1,0 +1,5 @@
+keycloak:
+  auth-server-url: "http://localhost:3000/auth"
+  realm: "goods-realm"
+  resource: "goods-app"
+

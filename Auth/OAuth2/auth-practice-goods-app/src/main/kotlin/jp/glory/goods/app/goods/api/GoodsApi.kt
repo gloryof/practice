@@ -1,13 +1,16 @@
 package jp.glory.goods.app.goods.api
 
 import jp.glory.goods.app.base.api.ErrorResponse
+import jp.glory.goods.app.base.api.GoodsScope
 import jp.glory.goods.app.base.usecase.UseCaseErrors
 import jp.glory.goods.app.goods.usecase.GoodsDetail
 import jp.glory.goods.app.goods.usecase.GoodsSaveUseCase
 import jp.glory.goods.app.goods.usecase.GoodsSearchResult
 import jp.glory.goods.app.goods.usecase.GoodsSearchUseCase
+import org.springframework.context.annotation.Role
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -26,11 +29,13 @@ class GoodsApi(
     private val save: GoodsSaveUseCase
 ) {
     @GetMapping
+    @PreAuthorize("hasAuthority('${GoodsScope.read}')")
     fun getAll(): ResponseEntity<GoodsSearchResponse> = ResponseEntity.ok(
         GoodsSearchResponse(search.findAll())
     )
 
     @PostMapping
+    @PreAuthorize("hasAuthority('${GoodsScope.register}')")
     fun register(
         @RequestBody request: GoodsSaveRequest
     ): ResponseEntity<out Any> =
@@ -43,6 +48,7 @@ class GoodsApi(
         )
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAuthority('${GoodsScope.read}')")
     fun getById(
         @PathVariable id: String
     ): ResponseEntity<GoodsDetailResponse> =
@@ -52,6 +58,7 @@ class GoodsApi(
             ?: ResponseEntity.notFound().build()
 
     @PutMapping("{id}")
+    @PreAuthorize("hasAuthority('${GoodsScope.update}')")
     fun update(
         @PathVariable id: String,
         @RequestBody request: GoodsSaveRequest
