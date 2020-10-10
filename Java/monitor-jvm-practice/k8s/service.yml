@@ -7,36 +7,39 @@ metadata:
     prometheus.io/port: '8080'
     prometheus.io/path: /actuator/prometheus
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     layer: app-pod
   ports:
     - protocol: TCP
       port: 8080
       targetPort: app-port
+      nodePort: 30080
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: metrics-service
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     layer: metrics-pod
   ports:
     - protocol: TCP
       port: 9090
       targetPort: prometheus-port
+      nodePort: 30090
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: grafana-service
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     layer: grafana-pod
   ports:
     - protocol: TCP
       port: 3000
       targetPort: grafana-port
+      nodePort: 30000
