@@ -19,3 +19,15 @@ spec:
           ports:
             - name: app-port
               containerPort: 8080
+          resources:
+            limits:
+              memory: "256Mi"
+          command:
+            - "java"
+            - "-Xmx80M"
+            - "-Xss512k"
+            - "-XX:MaxMetaspaceSize=60M"
+            - "-XX:ReservedCodeCacheSize=20M"
+            - "-XX:MaxDirectMemorySize=10M"
+            - "-jar"
+            - "/app.jar"
