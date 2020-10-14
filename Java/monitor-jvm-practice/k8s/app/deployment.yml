@@ -19,15 +19,19 @@ spec:
           ports:
             - name: app-port
               containerPort: 8080
+          env:
+            - name: "SERVER_TOMCAT_THREADS_MAX"
+              value: "50"
           resources:
             limits:
               memory: "256Mi"
           command:
             - "java"
-            - "-Xmx80M"
+            - "-Xmx50M"
             - "-Xss512k"
-            - "-XX:MaxMetaspaceSize=60M"
-            - "-XX:ReservedCodeCacheSize=20M"
-            - "-XX:MaxDirectMemorySize=10M"
+            - "-XX:MaxMetaspaceSize=55M"
+            - "-XX:ReservedCodeCacheSize=15M"
+            - "-XX:CompressedClassSpaceSize=7M"
+            - "-XX:MaxDirectMemorySize=2M"
             - "-jar"
             - "/app.jar"
