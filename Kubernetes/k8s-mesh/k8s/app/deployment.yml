@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  selector:
+    matchLabels:
+      layer: app-node
+  template:
+    metadata:
+      name: app-pod
+      labels:
+        layer: app-node
+    spec:
+      containers:
+        - name: app-container
+          image: localhost:5000/glory_of/k8s-mesh-app:latest
+          imagePullPolicy: Never
+          ports:
+            - name: app-port
+              containerPort: 8080
+          env:
+            - name: SPRING_REDIS_HOST
+              value: "redis-service"
