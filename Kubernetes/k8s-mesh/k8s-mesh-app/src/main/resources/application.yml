@@ -1,0 +1,9 @@
+server:
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: /dev
+      suffix: ""
+      prefix: stdout
+      file-date-format: ""
+      buffered: false
