@@ -13,12 +13,29 @@ spec:
         layer: app-node
     spec:
       containers:
+        - name: app-mesh
+          image: envoyproxy/envoy:v1.16.0
+          ports:
+           - name: app-port
+             containerPort: 8000
+          args:
+            - "--config-path /etc/envoy/envoy.yaml"
+          volumeMounts:
+            - name: envoy-config
+              mountPath: /etc/envoy/envoy.yaml
+              subPath: envoy.yaml
         - name: app-container
           image: localhost:5000/glory_of/k8s-mesh-app:latest
           imagePullPolicy: Never
           ports:
-            - name: app-port
-              containerPort: 8080
+            - containerPort: 8080
           env:
             - name: SPRING_REDIS_HOST
               value: "redis-service"
+      volumes:
+        - name: envoy-config
+          configMap:
+            name: envoy-config
+            items:
+              - key: envoy.yaml
+                path: envoy.yaml
