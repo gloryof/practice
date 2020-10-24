@@ -29,9 +29,6 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
-          env:
-            - name: SPRING_REDIS_HOST
-              value: "redis-service"
       volumes:
         - name: envoy-config
           configMap:
