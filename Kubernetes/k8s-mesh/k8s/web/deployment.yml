@@ -13,18 +13,21 @@ spec:
         layer: web-node
     spec:
       containers:
-        - name: web-container
-          image: nginx:1.18.0
+        - name: db-mesh
+          image: envoyproxy/envoy:v1.16.0
           ports:
-            - containerPort: 80
+            - name: web-port
+              containerPort: 8000
+          args:
+            - "--config-path /etc/envoy/envoy.yaml"
           volumeMounts:
-            - name: nginx-config
-              mountPath: /etc/nginx/nginx.conf
-              subPath: nginx.conf
+            - name: envoy-config
+              mountPath: /etc/envoy/envoy.yaml
+              subPath: envoy.yaml
       volumes:
-        - name: nginx-config
-          configMap:
-            name: nginx-config
-            items:
-              - key: nginx.conf
-                path: nginx.conf
+          - name: envoy-config
+            configMap:
+              name: web-envoy-config
+              items:
+                - key: envoy.yaml
+                  path: envoy.yaml

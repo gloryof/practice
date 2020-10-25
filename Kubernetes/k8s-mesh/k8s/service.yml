@@ -9,6 +9,6 @@ spec:
     layer: web-node
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 8000
+      targetPort: web-port
       nodePort: 30080
