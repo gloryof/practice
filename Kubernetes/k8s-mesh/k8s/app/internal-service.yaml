@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: app-service
 spec:
+  clusterIP: None
   selector:
     layer: app-node
   ports:
