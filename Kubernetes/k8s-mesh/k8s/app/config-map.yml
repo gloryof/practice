@@ -67,6 +67,13 @@ data:
             - socket_address:
                 address: 127.0.0.1
                 port_value: 8080
+          health_checks:
+            timeout: 1s
+            interval: 5s
+            unhealthy_threshold: 3
+            healthy_threshold: 3
+            http_health_check:
+              path: /actuator/health/liveness
         - name: redis.cluster
           connect_timeout: 0.25s
           type: strict_dns

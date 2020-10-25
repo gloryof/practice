@@ -1,11 +1,26 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-service
+  name: app1-service
 spec:
   clusterIP: None
   selector:
     layer: app-node
+    app-num: one
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: app-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app2-service
+spec:
+  clusterIP: None
+  selector:
+    layer: app-node
+    app-num: two
   ports:
     - protocol: TCP
       port: 8000

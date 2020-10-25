@@ -49,5 +49,8 @@ data:
           lb_policy: round_robin
           hosts:
             - socket_address:
-                address: app-service
+                address: app1-service
+                port_value: 8000
+            - socket_address:
+                address: app2-service
                 port_value: 8000

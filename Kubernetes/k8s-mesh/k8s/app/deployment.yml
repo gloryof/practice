@@ -12,6 +12,7 @@ spec:
       name: app-pod
       labels:
         layer: app-node
+        app-num: one
     spec:
       containers:
         - name: app-mesh
@@ -19,6 +20,47 @@ spec:
           ports:
            - name: app-port
              containerPort: 8000
+          args:
+            - "--config-path /etc/envoy/envoy.yaml"
+          volumeMounts:
+            - name: envoy-config
+              mountPath: /etc/envoy/envoy.yaml
+              subPath: envoy.yaml
+        - name: app-container
+          image: localhost:5000/glory_of/k8s-mesh-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+      volumes:
+        - name: envoy-config
+          configMap:
+            name: app-envoy-config
+            items:
+              - key: envoy.yaml
+                path: envoy.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app2-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      layer: app-node
+  template:
+    metadata:
+      name: app-pod
+      labels:
+        layer: app-node
+        app-num: two
+    spec:
+      containers:
+        - name: app-mesh
+          image: envoyproxy/envoy:v1.16.0
+          ports:
+            - name: app-port
+              containerPort: 8000
           args:
             - "--config-path /etc/envoy/envoy.yaml"
           volumeMounts:
