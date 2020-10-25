@@ -8,5 +8,5 @@ spec:
   ports:
     - name: redis
       protocol: TCP
-      port: 6379
+      port: 8000
       targetPort: db-port

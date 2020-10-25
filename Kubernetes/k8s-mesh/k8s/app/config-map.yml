@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: envoy-config
+  name: app-envoy-config
 data:
   envoy.yaml: |-
     admin:
@@ -74,4 +74,4 @@ data:
           hosts:
             - socket_address:
                 address: redis-service
-                port_value: 6379
+                port_value: 8000

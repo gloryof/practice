@@ -32,7 +32,7 @@ spec:
       volumes:
         - name: envoy-config
           configMap:
-            name: envoy-config
+            name: app-envoy-config
             items:
               - key: envoy.yaml
                 path: envoy.yaml

@@ -13,8 +13,25 @@ spec:
         layer: db-node
     spec:
       containers:
+        - name: db-mesh
+          image: envoyproxy/envoy:v1.16.0
+          ports:
+            - name: db-port
+              containerPort: 8000
+          args:
+            - "--config-path /etc/envoy/envoy.yaml"
+          volumeMounts:
+            - name: envoy-config
+              mountPath: /etc/envoy/envoy.yaml
+              subPath: envoy.yaml
         - name: db-container
           image: redis:5.0.9
           ports:
-            - name: db-port
-              containerPort: 6379
+            - containerPort: 6379
+      volumes:
+        - name: envoy-config
+          configMap:
+            name: db-envoy-config
+            items:
+              - key: envoy.yaml
+                path: envoy.yaml
