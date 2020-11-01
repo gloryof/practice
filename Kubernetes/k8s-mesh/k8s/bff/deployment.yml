@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bff-deployment
+spec:
+  selector:
+    matchLabels:
+      layer: bff-node
+  template:
+    metadata:
+      name: bff-pod
+      labels:
+        layer: bff-node
+    spec:
+      containers:
+        - name: bff-mesh
+          image: envoyproxy/envoy:v1.16.0
+          ports:
+            - name: bff-port
+              containerPort: 8000
+          args:
+            - "--config-path /etc/envoy/envoy.yaml"
+            - "--service-cluster bff-node"
+          env:
+            - name: CUSTOM_TRACE_PODNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          volumeMounts:
+            - name: envoy-config
+              mountPath: /etc/envoy/envoy.yaml
+              subPath: envoy.yaml
+        - name: bff-container
+          image: localhost:5000/glory_of/k8s-mesh-bff:latest
+          imagePullPolicy: Never
+          env:
+            - name: BOOT_PORT
+              value: "3000"
+            - name: TARGET_HOST
+              value: "localhost"
+            - name: TARGET_PORT
+              value: "8080"
+          ports:
+            - containerPort: 3000
+      volumes:
+          - name: envoy-config
+            configMap:
+              name: bff-envoy-config
+              items:
+                - key: envoy.yaml
+                  path: envoy.yaml

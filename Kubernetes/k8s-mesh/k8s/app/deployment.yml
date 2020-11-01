@@ -22,6 +22,12 @@ spec:
              containerPort: 8000
           args:
             - "--config-path /etc/envoy/envoy.yaml"
+            - "--service-cluster app-node1"
+          env:
+            - name: CUSTOM_TRACE_PODNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
           volumeMounts:
             - name: envoy-config
               mountPath: /etc/envoy/envoy.yaml
@@ -63,6 +69,12 @@ spec:
               containerPort: 8000
           args:
             - "--config-path /etc/envoy/envoy.yaml"
+            - "--service-cluster app-node2"
+          env:
+            - name: CUSTOM_TRACE_PODNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
           volumeMounts:
             - name: envoy-config
               mountPath: /etc/envoy/envoy.yaml

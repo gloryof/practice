@@ -2,13 +2,27 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: published-web-service
+  name: bff-service
 spec:
   type: NodePort
   selector:
-    layer: web-node
+    layer: bff-node
   ports:
     - protocol: TCP
       port: 8000
-      targetPort: web-port
+      targetPort: bff-port
       nodePort: 30080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracing-service
+spec:
+  type: NodePort
+  selector:
+    layer: tracing-node
+  ports:
+    - protocol: TCP
+      port: 9411
+      targetPort: tracing-port
+      nodePort: 30090
