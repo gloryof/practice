@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+spec:
+  selector:
+    matchLabels:
+      layer: db-node
+  template:
+    metadata:
+      name: db-pod
+      labels:
+        layer: db-node
+    spec:
+      containers:
+        - name: db-container
+          image: redis:5.0.9
+          ports:
+            - name: db-port
+              containerPort: 6379

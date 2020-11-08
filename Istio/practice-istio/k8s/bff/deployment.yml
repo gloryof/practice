@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bff-deployment
+spec:
+  selector:
+    matchLabels:
+      layer: bff-node
+  template:
+    metadata:
+      name: bff-pod
+      labels:
+        layer: bff-node
+    spec:
+      containers:
+        - name: bff-container
+          image: localhost:5000/glory_of/k8s-mesh-bff:latest
+          imagePullPolicy: Never
+          env:
+            - name: BOOT_PORT
+              value: "3000"
+            - name: TARGET_HOST
+              value: "app1-service"
+            - name: TARGET_PORT
+              value: "8080"
+          ports:
+            - name: bff-port
+              containerPort: 3000
