@@ -5,5 +5,5 @@
 
 インストールのコマンドは下記。
 ```
-$ istioctl install 
+$ istioctl install --set values.gateways.istio-ingressgateway.type=NodePort
 ```
