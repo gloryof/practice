@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: practice-istio
   name: app-deployment
 spec:
   replicas: 2
@@ -9,6 +10,7 @@ spec:
       layer: app-node
   template:
     metadata:
+      namespace: practice-istio
       name: app-pod
       labels:
         layer: app-node
@@ -28,6 +30,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: practice-istio
   name: app2-deployment
 spec:
   replicas: 2
@@ -36,6 +39,7 @@ spec:
       layer: app-node
   template:
     metadata:
+      namespace: practice-istio
       name: app-pod
       labels:
         layer: app-node

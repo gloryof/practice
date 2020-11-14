@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: practice-istio
   name: db-deployment
 spec:
   selector:
@@ -8,6 +9,7 @@ spec:
       layer: db-node
   template:
     metadata:
+      namespace: practice-istio
       name: db-pod
       labels:
         layer: db-node

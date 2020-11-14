@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: practice-istio
+  labels:
+    istio-injection: enabled

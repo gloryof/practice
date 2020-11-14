@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: practice-istio
   name: tracing-deployment
 spec:
   selector:
@@ -8,6 +9,7 @@ spec:
       layer: tracing-node
   template:
     metadata:
+      namespace: practice-istio
       name: tracing-pod
       labels:
         layer: tracing-node
