@@ -1,6 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-
 plugins {
 	id("org.springframework.boot") version "2.4.2"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
@@ -20,13 +19,17 @@ repositories {
 }
 
 dependencies {
-	annotationProcessor("org.openjdk.jmh:jmh-generator-annprocess:$jmhTargetVersion")
+	val jmhGenAnn = "org.openjdk.jmh:jmh-generator-annprocess:$jmhTargetVersion"
+	val jmhCore = "org.openjdk.jmh:jmh-core:$jmhTargetVersion"
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	jmh("org.openjdk.jmh:jmh-core:$jmhTargetVersion")
+	implementation(jmhCore)
+	jmh(jmhCore)
+	jmh(jmhGenAnn)
+	jmhAnnotationProcessor(jmhGenAnn)
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
@@ -46,7 +49,30 @@ jmh {
 }
 
 tasks {
+	val jmhTargetDir = sourceSets.getByName("jmh").output.classesDirs.filter {
+		it.path.contains("kotlin/jmh")
+	}
 	jmhJar {
 		exclude("META-INF/versions/9/module-info.class")
+	}
+	jmhRunBytecodeGenerator {
+		doLast {
+			copy {
+				from(generatedClassesDir)
+				into(jmhTargetDir.asPath)
+			}
+		}
+	}
+	jmhCompileGeneratedClasses {
+		doLast {
+			copy {
+				from(destinationDir)
+				into(jmhTargetDir.asPath)
+			}
+		}
+	}
+	register("prepareJmh") {
+		dependsOn("jmhRunBytecodeGenerator")
+		dependsOn("jmhCompileGeneratedClasses")
 	}
 }
