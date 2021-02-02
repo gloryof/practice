@@ -1,3 +1,4 @@
+import org.gradle.api.file.DuplicatesStrategy.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -46,6 +47,12 @@ tasks.withType<Test> {
 
 jmh {
 	jmhVersion = jmhTargetVersion
+	fork = 1
+	profilers = listOf(
+		"cl", "comp", "gc", "stack",
+		"hs_cl", "hs_comp", "hs_gc", "hs_rt", "hs_thr"
+	)
+	duplicateClassesStrategy = WARN
 }
 
 tasks {
