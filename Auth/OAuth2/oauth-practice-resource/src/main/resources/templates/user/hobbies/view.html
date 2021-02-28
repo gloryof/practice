@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Change hobbies</title>
+</head>
+<body>
+<form th:action="@{/view/user/hobby/change}" method="POST" >
+    <dl>
+        <dt>Name</dt>
+        <dd th:text="${info.name}">test</dd>
+        <dt>Hobbies</dt>
+        <dd>
+            <ol>
+                <li th:each="hobby : ${info.hobbies}">
+                    <input name="hobbies" type="text" th:value="${hobby}" />
+                </li>
+            </ol>
+        </dd>
+    </dl>
+    <button type="submit">Change</button>
+</form>
+<p>
+    <a th:href="@{/view/user/view}">back</a>
+</p>
+</body>
+</html>
