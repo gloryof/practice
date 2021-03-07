@@ -1,5 +1,6 @@
 package jp.glory.oauth.practice.authorization.api
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -11,25 +12,85 @@ class TokenApi {
     fun generateByCode(
         @RequestBody request: CodeRequest,
         @RequestHeader("Authorization") authorization: String
-    ): ResponseEntity<CodeResponse> =
-        CodeResponse(
+    ): ResponseEntity<TokenResponse> =
+        TokenResponse(
             accessToken = UUID.randomUUID().toString(),
             tokenType = "Bearer",
             expiresIn = 3600,
             refreshToken = UUID.randomUUID().toString(),
+            scope = listOf("read", "write")
+        )
+            .let { ResponseEntity.ok(it) }
+
+    @PostMapping("/owner")
+    fun generateByResourceOwnerCredential(
+        @RequestBody request: OwnerRequest,
+        @RequestHeader("Authorization") authorization: String
+    ): ResponseEntity<TokenResponse> =
+        TokenResponse(
+            accessToken = UUID.randomUUID().toString(),
+            tokenType = "Bearer",
+            expiresIn = 3600,
+            refreshToken = UUID.randomUUID().toString(),
+            scope = listOf("read", "write")
+        )
+            .let { ResponseEntity.ok(it) }
+
+    @PostMapping("/client")
+    fun generateByClientCredential(
+        @RequestBody request: ClientRequest
+    ): ResponseEntity<TokenResponse> =
+        TokenResponse(
+            accessToken = UUID.randomUUID().toString(),
+            tokenType = "Bearer",
+            expiresIn = 3600,
+            refreshToken = UUID.randomUUID().toString(),
+            scope = listOf("read", "write")
+        )
+            .let { ResponseEntity.ok(it) }
+
+    @PostMapping("/refresh")
+    fun refresh(
+        @RequestBody request: RefreshRequest,
+    ): ResponseEntity<RefreshedTokenResponse> =
+        RefreshedTokenResponse(
+            accessToken = UUID.randomUUID().toString(),
+            scope = listOf("read", "write")
         )
             .let { ResponseEntity.ok(it) }
 
     data class CodeRequest(
-        val grantType: String,
-        val redirectUrl: String,
-        val clientId: String
+        @JsonProperty("grant_type") val grantType: String,
+        @JsonProperty("redirect_uri") val redirectUri: String,
+        @JsonProperty("client_id") val clientId: String
     )
 
-    data class CodeResponse(
-        val accessToken: String,
-        val tokenType: String,
-        val expiresIn: Long,
-        val refreshToken: String,
+    data class OwnerRequest(
+        @JsonProperty("grant_type") val grantType: String,
+        @JsonProperty("scope") val scope: String,
+    )
+
+    data class ClientRequest(
+        @JsonProperty("grant_type") val grantType: String,
+        @JsonProperty("scope") val scope: String,
+    )
+
+    data class RefreshRequest(
+        @JsonProperty("grant_type") val grantType: String,
+        @JsonProperty("refresh_token") val refreshToken: String,
+        @JsonProperty("scope") val scope: String,
+    )
+
+    data class TokenResponse(
+        @JsonProperty("access_token") val accessToken: String,
+        @JsonProperty("token_type") val tokenType: String,
+        @JsonProperty("expires_in") val expiresIn: Long,
+        @JsonProperty("refresh_token") val refreshToken: String,
+        @JsonProperty("scope") val scope: List<String>,
+    )
+
+    data class RefreshedTokenResponse(
+        @JsonProperty("access_token") val accessToken: String,
+        @JsonProperty("scope") val scope: List<String>,
     )
 }
