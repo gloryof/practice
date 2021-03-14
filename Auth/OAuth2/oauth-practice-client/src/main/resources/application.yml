@@ -1,0 +1,12 @@
+server:
+    port: 8100
+
+api:
+    url: "http://localhost:8100/"
+
+client:
+    auth:
+        server:
+            url: "http://localhost:8090/"
+    resource:
+        url: "http://localhost:8080/"

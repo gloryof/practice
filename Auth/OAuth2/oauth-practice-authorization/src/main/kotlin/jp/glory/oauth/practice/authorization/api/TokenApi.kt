@@ -18,7 +18,8 @@ class TokenApi {
             tokenType = "Bearer",
             expiresIn = 3600,
             refreshToken = UUID.randomUUID().toString(),
-            scope = listOf("read", "write")
+            scope = listOf("read", "write"),
+            userId = "test-user-id"
         )
             .let { ResponseEntity.ok(it) }
 
@@ -32,7 +33,8 @@ class TokenApi {
             tokenType = "Bearer",
             expiresIn = 3600,
             refreshToken = UUID.randomUUID().toString(),
-            scope = listOf("read", "write")
+            scope = listOf("read", "write"),
+            userId = "test-user-id"
         )
             .let { ResponseEntity.ok(it) }
 
@@ -45,7 +47,8 @@ class TokenApi {
             tokenType = "Bearer",
             expiresIn = 3600,
             refreshToken = UUID.randomUUID().toString(),
-            scope = listOf("read", "write")
+            scope = listOf("read", "write"),
+            userId = "test-user-id"
         )
             .let { ResponseEntity.ok(it) }
 
@@ -87,6 +90,7 @@ class TokenApi {
         @JsonProperty("expires_in") val expiresIn: Long,
         @JsonProperty("refresh_token") val refreshToken: String,
         @JsonProperty("scope") val scope: List<String>,
+        @JsonProperty("user_id") val userId: String,
     )
 
     data class RefreshedTokenResponse(

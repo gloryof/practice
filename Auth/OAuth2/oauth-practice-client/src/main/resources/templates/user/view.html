@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View user</title>
+</head>
+<body>
+<dl>
+    <dt>Mode</dt>
+    <dd th:text="${info.mode}">mode</dd>
+    <dt>Name</dt>
+    <dd th:text="${info.user.name}">test</dd>
+    <dt>Hobbies</dt>
+    <dd>
+        <ol>
+            <li th:each="hobby : ${info.user.hobbies}" th:text="${hobby}">game</li>
+        </ol>
+    </dd>
+</dl>
+</body>
+</html>
