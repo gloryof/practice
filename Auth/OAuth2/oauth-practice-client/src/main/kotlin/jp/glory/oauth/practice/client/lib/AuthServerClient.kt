@@ -11,6 +11,14 @@ import java.util.*
 interface AuthServerClient {
 
     fun generateTokenByCode(authCode: String): Either<Unit, TokenResponse>
+    fun generateTokenByOwner(
+        userName: String,
+        password: String,
+        scope: List<String>
+    ): Either<Unit, TokenResponse>
+    fun generateTokenByClient(
+        scope: List<String>
+    ): Either<Unit, TokenResponse>
 
     data class TokenResponse(
         val accessToken: String,
@@ -25,6 +33,54 @@ interface AuthServerClient {
 @Component
 class AuthServerClientImpl : AuthServerClient {
     override fun generateTokenByCode(authCode: String): Either<Unit, AuthServerClient.TokenResponse> =
+        TokenJsonResponse(
+            accessToken = UUID.randomUUID().toString(),
+            tokenType = "Bearer",
+            expiresIn = 3600,
+            refreshToken = UUID.randomUUID().toString(),
+            scope = listOf("read", "write"),
+            userId = "test-user-id"
+        )
+            .let {
+                AuthServerClient.TokenResponse(
+                    accessToken = it.accessToken,
+                    tokenType = it.tokenType,
+                    expiresIn = it.expiresIn,
+                    refreshToken = it.refreshToken,
+                    scope = it.scope,
+                    userId = it.userId
+                )
+            }
+            .let { Right(it) }
+
+    override fun generateTokenByOwner(
+        userName: String,
+        password: String,
+        scope: List<String>
+    ): Either<Unit, AuthServerClient.TokenResponse> =
+        TokenJsonResponse(
+            accessToken = UUID.randomUUID().toString(),
+            tokenType = "Bearer",
+            expiresIn = 3600,
+            refreshToken = UUID.randomUUID().toString(),
+            scope = listOf("read", "write"),
+            userId = "test-user-id"
+        )
+            .let {
+                AuthServerClient.TokenResponse(
+                    accessToken = it.accessToken,
+                    tokenType = it.tokenType,
+                    expiresIn = it.expiresIn,
+                    refreshToken = it.refreshToken,
+                    scope = it.scope,
+                    userId = it.userId
+                )
+            }
+            .let { Right(it) }
+
+    override fun generateTokenByClient(
+        scope: List<String>
+    ): Either<Unit, AuthServerClient.TokenResponse> =
         TokenJsonResponse(
             accessToken = UUID.randomUUID().toString(),
             tokenType = "Bearer",

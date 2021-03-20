@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View user</title>
+</head>
+<body>
+<form th:action="@{/client/login}" method="POST" >
+    <dl>
+        <dt>UserId</dt>
+        <dd>
+            <input type="text" name="userId">
+        </dd>
+    </dl>
+    <button>Login</button>
+</form>
+</body>
+</html>

@@ -15,5 +15,5 @@ enum class Mode {
     CODE,
     IMPLICIT,
     OWNER,
-    CIENT
+    CLIENT
 }
