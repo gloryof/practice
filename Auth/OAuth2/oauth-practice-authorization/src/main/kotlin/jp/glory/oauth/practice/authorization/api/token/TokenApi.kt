@@ -10,6 +10,8 @@ import jp.glory.oauth.practice.authorization.api.token.response.TokenResponse
 import jp.glory.oauth.practice.authorization.base.*
 import jp.glory.oauth.practice.authorization.spec.Scope
 import jp.glory.oauth.practice.authorization.spec.access_token.AccessToken
+import jp.glory.oauth.practice.authorization.spec.client.ClientCredential
+import jp.glory.oauth.practice.authorization.spec.owner.OwnerCredential
 import jp.glory.oauth.practice.authorization.store.AccessTokenStore
 import jp.glory.oauth.practice.authorization.store.AuthCodeStore
 import org.springframework.http.HttpStatus
@@ -49,31 +51,45 @@ class TokenApi(
     fun generateByResourceOwnerCredential(
         @RequestBody request: OwnerRequest,
         @RequestHeader("Authorization") authorization: String
-    ): ResponseEntity<TokenResponse> =
-        TokenResponse(
-            accessToken = UUID.randomUUID().toString(),
-            tokenType = "Bearer",
-            expiresIn = 3600,
-            refreshToken = UUID.randomUUID().toString(),
-            scope = listOf("read", "write"),
-            userId = "test-user-id"
-        )
-            .let { ResponseEntity.ok(it) }
+    ): ResponseEntity<out Any> =
+        request
+            .validate()
+            .flatMap { validateOwnerCredential(authorization) }
+            .flatMap { credential ->
+                registerToken(request.toScope())
+                    .map { Pair(credential, it) }
+            }
+            .mapBoth(
+                right = { (credential, token) ->
+                    createSuccessResponse(
+                        token = token,
+                        userId = credential.id
+                    )
+                },
+                left = { createErrorResponse(it) }
+            )
 
     @PostMapping("/client")
     fun generateByClientCredential(
-        @RequestBody request: ClientRequest
-    ): ResponseEntity<TokenResponse> =
-        TokenResponse(
-            accessToken = UUID.randomUUID().toString(),
-            tokenType = "Bearer",
-            expiresIn = 3600,
-            refreshToken = UUID.randomUUID().toString(),
-            scope = listOf("read", "write"),
-            userId = "test-user-id"
-        )
-            .let { ResponseEntity.ok(it) }
-
+        @RequestBody request: ClientRequest,
+        @RequestHeader("Authorization") authorization: String
+    ): ResponseEntity<out Any> =
+        request
+            .validate()
+            .flatMap { validateClientCredential(authorization) }
+            .flatMap { credential ->
+                registerToken(request.toScope())
+                    .map { Pair(credential, it) }
+            }
+            .mapBoth(
+                right = { (credential, token) ->
+                    createSuccessResponse(
+                        token = token,
+                        userId = credential.id
+                    )
+                },
+                left = { createErrorResponse(it) }
+            )
     @PostMapping("/refresh")
     fun refresh(
         @RequestBody request: RefreshRequest,
@@ -181,10 +197,104 @@ class TokenApi(
 
     }
 
+    private fun validateOwnerCredential(
+        value: String
+    ): Either<Errors, EncodedOwnerPasswordCredential> {
+        val decodedValue = decodeOwnerCredential(value)
+        val isAuthorized =
+            OwnerCredential.isMatch(
+                ownerId = decodedValue.id,
+                password = decodedValue.password
+            )
+
+        if (!isAuthorized) {
+            return Left(
+                Errors(
+                    message = "Authorization is fail",
+                    type = ErrorType.InvalidRequest
+                )
+            )
+        }
+
+        return Right(decodedValue)
+    }
+
+
+    private fun validateClientCredential(
+        value: String
+    ): Either<Errors, EncodedClientCredential> {
+        val decodedValue = decodeClientCredential(value)
+        val isAuthorized =
+            ClientCredential.isMatch(
+                ownerId = decodedValue.id,
+                password = decodedValue.password
+            )
+
+        if (!isAuthorized) {
+            return Left(
+                Errors(
+                    message = "Authorization is fail",
+                    type = ErrorType.InvalidRequest
+                )
+            )
+        }
+
+        return Right(decodedValue)
+    }
+
+    private fun decodeOwnerCredential(value: String): EncodedOwnerPasswordCredential {
+        val splitValue = value.split("Basic ")
+        if (splitValue.size < 2) {
+            return EncodedOwnerPasswordCredential("", "")
+        }
+
+        val decodedValue = Base64.getDecoder().decode(splitValue[1])
+        val idPassword = String(decodedValue).split(":")
+
+        if (idPassword.size < 2) {
+            return EncodedOwnerPasswordCredential("", "")
+        }
+
+        return EncodedOwnerPasswordCredential(
+            id = idPassword[0],
+            password = idPassword[1],
+        )
+    }
+
+    private fun decodeClientCredential(value: String): EncodedClientCredential {
+        val splitValue = value.split("Basic ")
+        if (splitValue.size < 2) {
+            return EncodedClientCredential("", "")
+        }
+
+        val decodedValue = Base64.getDecoder().decode(splitValue[1])
+        val idPassword = String(decodedValue).split(":")
+
+        if (idPassword.size < 2) {
+            return EncodedClientCredential("", "")
+        }
+
+        return EncodedClientCredential(
+            id = idPassword[0],
+            password = idPassword[1],
+        )
+    }
+
     data class Errors(
         val type: ErrorType,
         val message: String
     )
+
+    data class EncodedOwnerPasswordCredential(
+        val id: String,
+        val password: String
+    )
+
+    data class EncodedClientCredential(
+        val id: String,
+        val password: String
+    )
+
 
     enum class ErrorType(val value: String) {
         InvalidRequest("invalid_request"),

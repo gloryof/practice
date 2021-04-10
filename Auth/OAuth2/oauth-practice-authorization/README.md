@@ -24,7 +24,7 @@ curl "http://localhost:8090/api/authorize/implicit?response_type=code&client_id=
 ```
 curl \
 -X POST -v \
--H "Authorization:Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW" \
+-H "Authorization:Basic dGVzdC1vd25lci1pZDp0ZXN0LXBhc3N3b3Jk" \
 -H "Content-Type: application/json" \
 -d '{"grant_type":"password", "scope": "read write","redirect_uri": "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb"}' \
 "http://localhost:8090/api/token/owner"
@@ -34,7 +34,7 @@ curl \
 ```
 curl \
 -X POST -v \
--H "Authorization:Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW" \
+-H "Authorization:Basic dGVzdC1jbGllbnQtaWQ6dGVzdC1wYXNzd29yZA==" \
 -H "Content-Type: application/json" \
 -d '{"grant_type":"client_credentials", "scope": "read write","redirect_uri": "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb"}' \
 "http://localhost:8090/api/token/client"
