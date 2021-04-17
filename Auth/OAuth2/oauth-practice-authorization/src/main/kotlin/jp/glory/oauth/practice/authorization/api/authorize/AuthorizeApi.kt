@@ -107,7 +107,7 @@ class AuthorizeApi(
     private fun registerAuthCode(
         code: AuthCode,
         state: String,
-    ): Either<FatalError, AuthCodeRegisterResult> =
+    ): Either<ServerError, AuthCodeRegisterResult> =
         codeStore.register(code, state)
             .map {
                 AuthCodeRegisterResult(
@@ -119,7 +119,7 @@ class AuthorizeApi(
     private fun registerAccessToken(
         token: AccessToken,
         state: String
-    ): Either<FatalError, AccessTokenRegisterResult> =
+    ): Either<ServerError, AccessTokenRegisterResult> =
         tokenStore.register(token, state)
             .map {
                 AccessTokenRegisterResult(
@@ -140,11 +140,7 @@ class AuthorizeApi(
         token: AccessToken,
         state: String
     ): URI {
-        val expiresIn = ChronoUnit.SECONDS.between(
-            LocalDateTime.now(),
-            token.expiresAt
-        )
-        return URI.create("$redirectUri?token=${token.value}&expires_in=$expiresIn&state=$state")
+        return URI.create("$redirectUri?token=${token.value}&expires_in=${token.expiresIn}&state=$state")
     }
 
     private fun createFailUrl(

@@ -1,29 +1,25 @@
 package jp.glory.oauth.practice.authorization.store
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import jp.glory.oauth.practice.authorization.base.Either
-import jp.glory.oauth.practice.authorization.base.Left
-import jp.glory.oauth.practice.authorization.base.Right
-import jp.glory.oauth.practice.authorization.base.FatalError
+import jp.glory.oauth.practice.authorization.base.*
 import jp.glory.oauth.practice.authorization.spec.Scope
 import jp.glory.oauth.practice.authorization.spec.auth_code.AuthCode
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
-import java.time.ZoneOffset
 
 interface AuthCodeStore {
     fun register(
         code: AuthCode,
         state: String,
-    ): Either<FatalError, Unit>
+    ): Either<ServerError, Unit>
     fun findAuthCode(
         tokenValue: String,
-    ): Either<FatalError, RegisteredAuthCode?>
+    ): Either<ServerError, RegisteredAuthCode?>
     fun deleteAuthCode(
         code: AuthCode
-    ): Either<FatalError, Unit>
+    ): Either<ServerError, Unit>
 
     data class RegisteredAuthCode(
         val code: AuthCode,
@@ -40,10 +36,10 @@ class AuthCodeStoreImpl(
     override fun register(
         code: AuthCode,
         state: String
-    ): Either<FatalError, Unit> =
+    ): Either<ServerError, Unit> =
         kotlin.runCatching {
             val key = createKey(code.value)
-            val expiresAt = LocalDateTime.now().plusMinutes(1)
+            val expiresAt = LocalDateTime.now().plusSeconds(AuthCode.authCodeExpireSecond)
             template.opsForValue().set(
                 key,
                 mapper.writeValueAsString(
@@ -58,18 +54,18 @@ class AuthCodeStoreImpl(
             template.expireAt(
                 key,
                 expiresAt.toInstant(
-                    OffsetDateTime.now().offset
+                    DateTime.getDefaultOffset()
                 )
             )
         }
             .fold(
                 onSuccess = { Right(Unit) },
-                onFailure = { Left(FatalError("Fail saving value", it)) }
+                onFailure = { Left(ServerError("Fail saving value", it)) }
             )
 
     override fun findAuthCode(
         codeValue: String
-    ): Either<FatalError, AuthCodeStore.RegisteredAuthCode?> =
+    ): Either<ServerError, AuthCodeStore.RegisteredAuthCode?> =
         kotlin.runCatching {
             template.opsForValue()
                 .get(createKey(codeValue))
@@ -87,16 +83,16 @@ class AuthCodeStoreImpl(
         }
             .fold(
                 onSuccess = { Right(it) },
-                onFailure = { Left(FatalError("Fail getting value", it)) }
+                onFailure = { Left(ServerError("Fail getting value", it)) }
             )
 
-    override fun deleteAuthCode(code: AuthCode): Either<FatalError, Unit> =
+    override fun deleteAuthCode(code: AuthCode): Either<ServerError, Unit> =
         kotlin.runCatching {
             template.delete(createKey(code.value))
         }
             .fold(
                 onSuccess = { Right(Unit) },
-                onFailure = { Left(FatalError("Fail delete value", it)) }
+                onFailure = { Left(ServerError("Fail delete value", it)) }
             )
 
     private fun createKey(

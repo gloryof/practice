@@ -1,7 +1,7 @@
 package jp.glory.oauth.practice.authorization.api.token.request
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jp.glory.oauth.practice.authorization.api.token.TokenApi
+import jp.glory.oauth.practice.authorization.api.token.RegisterTokenBase
 import jp.glory.oauth.practice.authorization.base.Either
 import jp.glory.oauth.practice.authorization.base.Left
 import jp.glory.oauth.practice.authorization.base.Right
@@ -11,11 +11,11 @@ data class ClientRequest(
     @JsonProperty("grant_type") val grantType: String,
     @JsonProperty("scope") val scope: String,
 ) {
-    fun validate(): Either<TokenApi.Errors, Unit> {
+    fun validate(): Either<RegisterTokenBase.Errors, Unit> {
         if (grantType != "client_credentials") {
             return Left(
-                TokenApi.Errors(
-                    type = TokenApi.ErrorType.InvalidRequest,
+                RegisterTokenBase.Errors(
+                    type = RegisterTokenBase.ErrorType.InvalidRequest,
                     message = "Grant type is invalid."
                 )
             )

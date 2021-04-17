@@ -1,14 +1,13 @@
 package jp.glory.oauth.practice.authorization.spec.access_token
 
 import jp.glory.oauth.practice.authorization.spec.Scope
-import java.time.LocalDateTime
 import java.util.*
 
 class AccessToken(
     val value: String,
     val type: String,
     val scopes: List<Scope>,
-    val expiresAt: LocalDateTime
+    val expiresIn: Long
 ) {
     companion object {
         fun generate(
@@ -18,7 +17,7 @@ class AccessToken(
                 value = UUID.randomUUID().toString(),
                 type = "Bearer",
                 scopes = scopes,
-                expiresAt = LocalDateTime.now().plusHours(24),
+                expiresIn = 3600
             )
     }
 }

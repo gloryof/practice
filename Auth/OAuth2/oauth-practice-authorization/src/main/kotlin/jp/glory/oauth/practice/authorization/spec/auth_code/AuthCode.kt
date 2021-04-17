@@ -10,6 +10,7 @@ data class AuthCode(
     val expiresAt: LocalDateTime
 ) {
     companion object {
+        const val authCodeExpireSecond: Long = 600
         fun generate(
             scopes: List<Scope>
         ): AuthCode =

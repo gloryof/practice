@@ -1,4 +1,8 @@
 # 認可サーバ
+OAuth2の練習として下記のRFCの仕様を満たすような最低限のものを実装する。
+- RFC6749 : The OAuth 2.0 Authorization Framework
+
+練習用のためセキュリティやパフォーマンスといった部分の品質の担保はしない。
 ## 認可コードフロー
 ### Authorization
 ```
@@ -45,7 +49,7 @@ curl \
 curl \
 -X POST -v \
 -H "Content-Type: application/json" \
--d '{"grant_type":"refresh", "refresh_token": "f9420d41-295a-496f-bbdc-a8e1e2b1a939", "scope": "read write"}' \
+-d '{"grant_type":"refresh_token", "refresh_token": リフレッシュトークン値, "scope": "read write"}' \
 "http://localhost:8090/api/token/refresh"
 ```
 ### Introspection

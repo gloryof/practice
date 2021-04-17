@@ -1,12 +1,12 @@
 package jp.glory.oauth.practice.authorization.base
 
-sealed class SystemError
+sealed class ApplicationError
 
-data class FatalError(
+data class ServerError(
     val message: String,
     val cause: Throwable
-) : SystemError()
+) : ApplicationError()
 
 data class AuthorizationError(
     val message: String,
-) : SystemError()
+) : ApplicationError()
