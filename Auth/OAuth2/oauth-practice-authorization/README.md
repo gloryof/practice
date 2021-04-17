@@ -58,6 +58,6 @@ curl \
 -X POST -v \
 -H "Authorization:Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW" \
 -H "Content-Type: application/json" \
--d '{"token": "f9420d41-295a-496f-bbdc-a8e1e2b1a939", "token_type_hint": "type-hint"}' \
+-d '{"token": トークン値, "token_type_hint": "type-hint"}' \
 "http://localhost:8090/api/introspect"
 ```
