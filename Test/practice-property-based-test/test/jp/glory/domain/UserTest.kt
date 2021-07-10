@@ -193,49 +193,70 @@ class UserTest : DescribeSpec({
     }
     describe("Property Based Test") {
         it("Under10") {
-            checkAll(UserGenerator.generateUnder10(baseDate)) { user ->
+            val arbUser = UserGenerator.generate(
+                birthDay = UserGenerator.generateUnder10BirthDay(baseDate)
+            )
+            checkAll(arbUser) { user ->
                 val age = user.calculateAge(baseDate)
                 age.value shouldBe ChronoUnit.YEARS.between(user.birthDay, baseDate).toInt()
                 age.group shouldBe Age.Group.Under10
             }
         }
         it("Age10s") {
-            checkAll(UserGenerator.generateAge10s(baseDate)) { user ->
+            val arbUser = UserGenerator.generate(
+                birthDay = UserGenerator.generateAge10sBirthDay(baseDate)
+            )
+            checkAll(arbUser) { user ->
                 val age = user.calculateAge(baseDate)
                 age.value shouldBe ChronoUnit.YEARS.between(user.birthDay, baseDate).toInt()
                 age.group shouldBe Age.Group.Age10s
             }
         }
         it("Age20s") {
-            checkAll(UserGenerator.generateAge20s(baseDate)) { user ->
+            val arbUser = UserGenerator.generate(
+                birthDay = UserGenerator.generateAge20sBirthDay(baseDate)
+            )
+            checkAll(arbUser) { user ->
                 val age = user.calculateAge(baseDate)
                 age.value shouldBe ChronoUnit.YEARS.between(user.birthDay, baseDate).toInt()
                 age.group shouldBe Age.Group.Age20s
             }
         }
         it("Age30s") {
-            checkAll(UserGenerator.generateAge30s(baseDate)) { user ->
+            val arbUser = UserGenerator.generate(
+                birthDay = UserGenerator.generateAge30sBirthDay(baseDate)
+            )
+            checkAll(arbUser) { user ->
                 val age = user.calculateAge(baseDate)
                 age.value shouldBe ChronoUnit.YEARS.between(user.birthDay, baseDate).toInt()
                 age.group shouldBe Age.Group.Age30s
             }
         }
         it("Age40s") {
-            checkAll(UserGenerator.generateAge40s(baseDate)) { user ->
+            val arbUser = UserGenerator.generate(
+                birthDay = UserGenerator.generateAge40sBirthDay(baseDate)
+            )
+            checkAll(arbUser) { user ->
                 val age = user.calculateAge(baseDate)
                 age.value shouldBe ChronoUnit.YEARS.between(user.birthDay, baseDate).toInt()
                 age.group shouldBe Age.Group.Age40s
             }
         }
         it("Age50s") {
-            checkAll(UserGenerator.generateAge50s(baseDate)) { user ->
+            val arbUser = UserGenerator.generate(
+                birthDay = UserGenerator.generateAge50sBirthDay(baseDate)
+            )
+            checkAll(arbUser) { user ->
                 val age = user.calculateAge(baseDate)
                 age.value shouldBe ChronoUnit.YEARS.between(user.birthDay, baseDate).toInt()
                 age.group shouldBe Age.Group.Age50s
             }
         }
         it("Over60s") {
-            checkAll(UserGenerator.generateOver60s(baseDate)) { user ->
+            val arbUser = UserGenerator.generate(
+                birthDay = UserGenerator.generateOver60sBirthDay(baseDate)
+            )
+            checkAll(arbUser) { user ->
                 val age = user.calculateAge(baseDate)
                 age.value shouldBe ChronoUnit.YEARS.between(user.birthDay, baseDate).toInt()
                 age.group shouldBe Age.Group.Over60
