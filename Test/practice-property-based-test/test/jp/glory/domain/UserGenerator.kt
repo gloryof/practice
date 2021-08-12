@@ -21,8 +21,8 @@ object UserGenerator {
     }
 
     private fun generateId(): Arb<UserId> = Arb.string().map { UserId(it) }
-    private fun generateArbBirthDay(
-        baseDate: LocalDate
+    fun generateArbBirthDay(
+        baseDate: LocalDate = LocalDate.now()
     ): Arb<LocalDate> =
         generateArbBirthDay(
             range = BirthDayRange(
