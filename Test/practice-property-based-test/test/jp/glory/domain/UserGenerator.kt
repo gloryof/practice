@@ -20,7 +20,7 @@ object UserGenerator {
         User(id, birthDay)
     }
 
-    private fun generateId(): Arb<UserId> = Arb.string().map { UserId(it) }
+    fun generateId(): Arb<UserId> = Arb.string().map { UserId(it) }
     fun generateArbBirthDay(
         baseDate: LocalDate = LocalDate.now()
     ): Arb<LocalDate> =

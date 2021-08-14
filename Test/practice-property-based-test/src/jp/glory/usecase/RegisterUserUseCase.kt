@@ -1,16 +1,62 @@
 package jp.glory.usecase
 
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.*
+import jp.glory.domain.DomainError
+import jp.glory.domain.User
+import jp.glory.domain.UserId
+import jp.glory.domain.UserRepository
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.ResolverStyle
 
-class RegisterUserUseCase {
+class RegisterUserUseCase(
+    private val repository: UserRepository
+) {
     data class Input(
         val birthDay: String
     )
+
+    @JvmInline
+    value class RegisteredId(val value: String)
+
+    fun register(input: Input): Result<RegisteredId, UseCaseError> =
+        RegisterUserValidator
+            .validate(input)
+            .flatMap { generateId() }
+            .map { id -> convertToUser(id, input) }
+            .flatMap { save(it) }
+            .mapBoth(
+                success = { Ok(RegisteredId(it.value)) },
+                failure = { Err(it) }
+            )
+
+    private fun generateId(): Result<UserId, UseCaseError> =
+        repository.generateId()
+            .mapBoth(
+                success = { Ok(it) },
+                failure = { Err(convertToUseCaseError(it)) }
+            )
+
+    private fun save(user: User): Result<UserId, UseCaseError> =
+        repository.save(user)
+            .mapBoth(
+                success = { Ok(user.id) },
+                failure = { Err(convertToUseCaseError(it)) }
+            )
+
+    private fun convertToUseCaseError(domainError: DomainError): UseCaseError =
+        when(domainError) {
+            DomainError.Unknown -> UnknownError("Unknown error is occurred")
+        }
+
+    private fun convertToUser(
+        id: UserId,
+        input: Input
+    ): User =
+        User(
+            id = id,
+            birthDay = LocalDate.parse(input.birthDay)
+        )
 }
 
 object RegisterUserValidator {
@@ -60,7 +106,6 @@ object RegisterUserValidator {
                 )
             )
         }
-
 
         return error
     }

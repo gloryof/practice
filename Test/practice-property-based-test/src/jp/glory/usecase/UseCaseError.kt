@@ -2,7 +2,7 @@ package jp.glory.usecase
 
 sealed class UseCaseError
 
-class ValidationErrors {
+class ValidationErrors : UseCaseError() {
     private val errors = mutableListOf<ValidationError>()
     fun getErrors(): List<ValidationError> = errors.toList()
     fun add(error: ValidationError) {
@@ -12,6 +12,9 @@ class ValidationErrors {
     }
     fun isError(): Boolean = errors.isNotEmpty()
 }
+
+
+class UnknownError(val message: String) : UseCaseError()
 
 class ValidationError(
     val field: String,
