@@ -10,18 +10,48 @@ import java.time.LocalDate
 object UserGenerator {
     fun generate(
         id: Gen<UserId> = generateId(),
-        birthDay: Gen<LocalDate> = generateArbBirthDay(LocalDate.now())
+        name: Gen<Name> = NameGenerator.generate(),
+        birthDay: Gen<LocalDate> = BirthDayGenerator.generate(LocalDate.now())
     ): Arb<User> = Arb.bind(
         id,
+        name,
         birthDay
     ) {
         id,
+        name,
         birthDay ->
-        User(id, birthDay)
+        User(
+            id = id,
+            name = name,
+            birthDay = birthDay
+        )
     }
 
     fun generateId(): Arb<UserId> = Arb.string().map { UserId(it) }
-    fun generateArbBirthDay(
+
+}
+
+object NameGenerator {
+    fun generate(): Arb<Name> =
+        Arb.bind(
+            Arb.string(
+                codepoints = Arb.alphanumeric()
+            ),
+            Arb.string(
+                codepoints = Arb.alphanumeric()
+            )
+        ) {
+            familyName,
+            givenName ->
+            Name(
+                familyName = familyName,
+                givenName = givenName
+            )
+        }
+}
+
+object BirthDayGenerator {
+    fun generate(
         baseDate: LocalDate = LocalDate.now()
     ): Arb<LocalDate> =
         generateArbBirthDay(

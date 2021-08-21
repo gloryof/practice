@@ -6,6 +6,7 @@ import java.time.temporal.ChronoUnit
 
 data class User(
     val id: UserId,
+    val name: Name,
     val birthDay: LocalDate
 ) {
     val zodiacSign: ZodiacSign = ZodiacSign.getZodiacSign(birthDay)
@@ -16,6 +17,14 @@ data class User(
 
 @JvmInline
 value class UserId(val value: String)
+
+data class Name(
+    val familyName: String,
+    val givenName: String
+) {
+    fun getJapanStyle(): String = "${familyName} ${givenName}"
+    fun getForeignStyle(): String = "${givenName} ${familyName}"
+}
 
 data class Age(
     val value: Int

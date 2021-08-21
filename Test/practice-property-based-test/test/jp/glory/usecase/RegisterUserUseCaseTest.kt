@@ -30,10 +30,16 @@ class RegisterUserUseCaseTest : DescribeSpec({
                 it("Input is valid") {
                     val id = UserId("test-id")
                     val input = RegisterUserUseCase.Input(
+                        familyName = "Yamada",
+                        givenName = "Taro",
                         birthDay = "1986-12-16"
                     )
                     val user = User(
                         id = id,
+                        name = Name(
+                            familyName = "Yamada",
+                            givenName = "Taro",
+                        ),
                         birthDay = LocalDate.of(1986, 12, 16)
                     )
                     val sut = createSut(
@@ -54,6 +60,8 @@ class RegisterUserUseCaseTest : DescribeSpec({
             describe("Fail") {
                 it("Invalid value") {
                     val input = RegisterUserUseCase.Input(
+                        familyName = "Yamada",
+                        givenName = "Taro",
                         birthDay = ""
                     )
                     val sut = createSut()
@@ -66,6 +74,8 @@ class RegisterUserUseCaseTest : DescribeSpec({
                 }
                 it("When generate is fail") {
                     val input = RegisterUserUseCase.Input(
+                        familyName = "Yamada",
+                        givenName = "Taro",
                         birthDay = "1986-12-16"
                     )
                     val sut = createSut(
@@ -83,10 +93,16 @@ class RegisterUserUseCaseTest : DescribeSpec({
                 it("When save is fail") {
                     val id = UserId("test-id")
                     val input = RegisterUserUseCase.Input(
+                        familyName = "Yamada",
+                        givenName = "Taro",
                         birthDay = "1986-12-16"
                     )
                     val user = User(
                         id = id,
+                        name = Name(
+                            familyName = "Yamada",
+                            givenName = "Taro"
+                        ),
                         birthDay = LocalDate.of(1986, 12, 16)
                     )
                     val sut = createSut(
@@ -111,23 +127,29 @@ class RegisterUserUseCaseTest : DescribeSpec({
 
             describe("Success") {
                 val arb = Arb.bind(
-                    UserGenerator.generateArbBirthDay(),
+                    BirthDayGenerator.generate(),
+                    NameGenerator.generate(),
                     UserGenerator.generateId()
                 ) {
                     birthDay,
+                    name,
                     id ->
                     RegisterData(
                         birthDay = birthDay,
+                        name = name,
                         id = id
                     )
                 }
 
                 checkAll(arb) { data ->
                     val input = RegisterUserUseCase.Input(
+                        familyName = data.name.familyName,
+                        givenName = data.name.givenName,
                         birthDay = data.birthDay.format(DateTimeFormatter.ISO_DATE)
                     )
                     val user = User(
                         id = data.id,
+                        name = data.name,
                         birthDay = data.birthDay
                     )
                     val sut = createSut(
@@ -148,19 +170,24 @@ class RegisterUserUseCaseTest : DescribeSpec({
             describe("Fail") {
                 it("Invalid value") {
                     val arb = Arb.bind(
-                        UserGenerator.generateArbBirthDay(),
+                        BirthDayGenerator.generate(),
+                        NameGenerator.generate(),
                         UserGenerator.generateId()
                     ) {
                         birthDay,
+                        name,
                         id ->
                         RegisterData(
                             birthDay = birthDay,
+                            name = name,
                             id = id
                         )
                     }
 
                     checkAll(arb) { data ->
                         val input = RegisterUserUseCase.Input(
+                            familyName = data.name.familyName,
+                            givenName = data.name.givenName,
                             birthDay = data.birthDay
                                 .format(DateTimeFormatter.ofPattern("MM-yyyy-dd"))
                         )
@@ -175,19 +202,24 @@ class RegisterUserUseCaseTest : DescribeSpec({
                 }
                 it("When generate is fail") {
                     val arb = Arb.bind(
-                        UserGenerator.generateArbBirthDay(),
+                        BirthDayGenerator.generate(),
+                        NameGenerator.generate(),
                         UserGenerator.generateId()
                     ) {
                             birthDay,
+                            name,
                             id ->
                         RegisterData(
                             birthDay = birthDay,
+                            name = name,
                             id = id
                         )
                     }
 
                     checkAll(arb) { data ->
                         val input = RegisterUserUseCase.Input(
+                            familyName = data.name.familyName,
+                            givenName = data.name.givenName,
                             birthDay = data.birthDay.format(DateTimeFormatter.ISO_DATE)
                         )
                         val sut = createSut(
@@ -205,23 +237,29 @@ class RegisterUserUseCaseTest : DescribeSpec({
                 }
                 it("When save is fail") {
                     val arb = Arb.bind(
-                        UserGenerator.generateArbBirthDay(),
+                        BirthDayGenerator.generate(),
+                        NameGenerator.generate(),
                         UserGenerator.generateId()
                     ) {
                             birthDay,
+                            name,
                             id ->
                         RegisterData(
                             birthDay = birthDay,
+                            name = name,
                             id = id
                         )
                     }
 
                     checkAll(arb) { data ->
                         val input = RegisterUserUseCase.Input(
+                            familyName = data.name.familyName,
+                            givenName = data.name.givenName,
                             birthDay = data.birthDay.format(DateTimeFormatter.ISO_DATE)
                         )
                         val user = User(
                             id = data.id,
+                            name = data.name,
                             birthDay = data.birthDay
                         )
                         val sut = createSut(
@@ -243,7 +281,8 @@ class RegisterUserUseCaseTest : DescribeSpec({
     }
 }) {
    class RegisterData(
-       val birthDay: LocalDate,
        val id: UserId,
+       val name: Name,
+       val birthDay: LocalDate,
    )
 }
