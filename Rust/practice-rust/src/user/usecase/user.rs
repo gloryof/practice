@@ -1,3 +1,5 @@
+use crate::user::domain::user::CreateUserEventRepository;
+use crate::user::domain::user::UserIdGenerator;
 use crate::base::usecase::UseCaseErrors;
 
 pub struct CreateUserInput {
@@ -22,6 +24,20 @@ pub struct UpdatedUserId {
     pub value: String,
 }
 
-pub fn create_user() -> Result<CreatedUserId, UseCaseErrors> {
-    todo!();
+struct CreateUserUseCase {
+    genertor: Box<dyn UserIdGenerator>,
+    repsitory: Box<dyn CreateUserEventRepository>
+}
+
+impl CreateUserUseCase {
+    pub fn create_user() -> Result<CreatedUserId, UseCaseErrors> {
+        todo!();
+    }
+}
+
+#[cfg(test)]
+mod test {
+    mod create_user_use_case {
+        
+    }
 }

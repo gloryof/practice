@@ -1,9 +1,13 @@
+use crate::base::domain::DomainFatalError;
 use crate::base::domain::SpecError;
 use crate::base::domain::SpecErrors;
 use chrono::Datelike;
 use chrono::NaiveDate;
 use unicode_segmentation::UnicodeSegmentation;
 
+pub trait UserIdGenerator {
+    fn generate(&self) -> UserId;
+}
 
 pub struct User {
     pub id: UserId,
@@ -20,7 +24,12 @@ pub struct UserId {
     pub value: String,
 }
 
+pub trait CreateUserEventRepository {
+    fn save(&self, event: CreateUserEvent) -> Result<(), DomainFatalError>;
+}
+
 pub struct CreateUserEvent {
+    pub user_id: UserId,
     pub birth_day: NaiveDate,
     pub given_name: String,
     pub family_name: String,
@@ -146,13 +155,15 @@ mod test {
     }
 
     mod validate_create_user {
-        use crate::base::domain::SpecErrorType;
+        use crate::user::domain::user::UserId;
+use crate::base::domain::SpecErrorType;
         use crate::user::domain::user::validate_create_user;
         use crate::user::domain::user::CreateUserEvent;
         use chrono::NaiveDate;
         #[test]
         fn success() {
             let event = CreateUserEvent {
+                user_id: UserId { value: String::from("test-user-id") },
                 birth_day: NaiveDate::from_ymd(1986, 12, 16),
                 given_name: String::from("test-given-name𠮷７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０"),
                 family_name: String::from("test-family-name𠮷８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０"),
@@ -164,6 +175,7 @@ mod test {
         #[test]
         fn return_error_when_given_name_is_empty() {
             let event = CreateUserEvent {
+                user_id: UserId { value: String::from("test-user-id") },
                 birth_day: NaiveDate::from_ymd(1986, 12, 16),
                 given_name: String::from(""),
                 family_name: String::from("test-family-name"),
@@ -184,6 +196,7 @@ mod test {
         #[test]
         fn return_error_when_given_name_is_over_50count() {
             let event = CreateUserEvent {
+                user_id: UserId { value: String::from("test-user-id") },
                 birth_day: NaiveDate::from_ymd(1986, 12, 16),
                 given_name: String::from("test-given-name𠮷７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０×"),
                 family_name: String::from("test-family-name"),
@@ -207,6 +220,7 @@ mod test {
         #[test]
         fn return_error_when_family_name_is_empty() {
             let event = CreateUserEvent {
+                user_id: UserId { value: String::from("test-user-id") },
                 birth_day: NaiveDate::from_ymd(1986, 12, 16),
                 given_name: String::from("test-given-name"),
                 family_name: String::from(""),
@@ -227,6 +241,7 @@ mod test {
         #[test]
         fn return_error_when_family_name_is_over_50count() {
             let event = CreateUserEvent {
+                user_id: UserId { value: String::from("test-user-id") },
                 birth_day: NaiveDate::from_ymd(1986, 12, 16),
                 given_name: String::from("test-given-name"),
                 family_name: String::from("test-family-name𠮷８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０×"),

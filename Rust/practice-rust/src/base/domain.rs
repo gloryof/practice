@@ -1,5 +1,9 @@
 use std::collections::HashMap;
 
+pub struct DomainFatalError {
+    
+}
+
 pub struct SpecErrors {
     pub errors: Vec<SpecError>,
 }
