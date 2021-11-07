@@ -1,4 +1,4 @@
-package jp.glory.practicegraphql.app.product.domain.usecase
+package jp.glory.practicegraphql.app.product.usecase
 
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
