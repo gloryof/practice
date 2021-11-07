@@ -4,8 +4,8 @@ data class Product(
     val id: ProductID,
     val code: ProductCode,
     val name: ProductName,
-    val members: List<MemberID>,
-    val services: List<Service>
+    val memberIDs: List<MemberID>,
+    val serviceIDs: List<ServiceID>
 )
 
 @JvmInline

@@ -7,4 +7,5 @@ import jp.glory.practicegraphql.app.product.domain.model.ServiceID
 
 interface ServiceRepository {
     fun findById(id: ServiceID): Result<Service?, DomainUnknownError>
+    fun findByIds(ids: List<ServiceID>): Result<List<Service>, DomainUnknownError>
 }
