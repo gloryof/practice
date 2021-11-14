@@ -1,7 +1,6 @@
 package jp.glory.practicegraphql.app.product.adaptor.web.controller
 
 import com.github.michaelbull.result.*
-import graphql.schema.DataFetchingEnvironment
 import jp.glory.practicegraphql.app.base.adaptor.web.error.NotFoundError
 import jp.glory.practicegraphql.app.base.adaptor.web.error.WebError
 import jp.glory.practicegraphql.app.base.adaptor.web.error.toWebError

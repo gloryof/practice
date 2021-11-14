@@ -9,7 +9,7 @@ data class Product(
     val memberIds: List<String>,
     val serviceIds: List<String>
 ) {
-    constructor(result: ProductSearchResult): this(
+    constructor(result: ProductSearchResult) : this(
         id = result.id,
         code = result.code,
         name = result.name,

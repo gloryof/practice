@@ -11,6 +11,7 @@ import java.time.LocalDate
 @Repository
 class MemberRepositoryImpl : MemberRepository {
     private val members: MutableMap<String, Member> = mutableMapOf()
+
     init {
         repeat(10) {
             val id = "member-id-$it"

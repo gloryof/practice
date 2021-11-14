@@ -8,7 +8,6 @@ import jp.glory.practicegraphql.app.base.usecase.UseCaseError
 import jp.glory.practicegraphql.app.base.usecase.toUseCaseError
 import jp.glory.practicegraphql.app.product.domain.model.Member
 import jp.glory.practicegraphql.app.product.domain.model.MemberID
-import jp.glory.practicegraphql.app.product.domain.model.ProductID
 import jp.glory.practicegraphql.app.product.domain.repository.MemberRepository
 import java.time.LocalDate
 
@@ -30,12 +29,13 @@ class FindMemberUseCase(
         SearchMemberResults(members.map { SearchMemberResult(it) })
 
     private fun toResult(member: Member?): SearchMemberResult? =
-        member?.let{ SearchMemberResult(it) }
+        member?.let { SearchMemberResult(it) }
 }
 
 data class SearchMemberResults(
     val results: List<SearchMemberResult>
 )
+
 data class SearchMemberResult(
     val id: String,
     val givenName: String,

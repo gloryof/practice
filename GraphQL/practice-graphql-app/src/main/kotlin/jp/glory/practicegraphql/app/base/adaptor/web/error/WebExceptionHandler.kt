@@ -22,7 +22,7 @@ class WebExceptionHandler : DataFetcherExceptionResolverAdapter() {
         ex: WebException,
         env: DataFetchingEnvironment
     ): List<GraphQLError> =
-        when(ex.error) {
+        when (ex.error) {
             is NotFoundError -> handleNotFoundError(ex.error, env)
             is WebUnknownError -> handleWebUnknownError(ex.error, env)
         }

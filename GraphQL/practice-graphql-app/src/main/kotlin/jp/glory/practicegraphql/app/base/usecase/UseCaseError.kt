@@ -9,13 +9,13 @@ data class UseCaseUnknownError(
     val message: String,
     val cause: Throwable
 ) : UseCaseError() {
-    constructor(error: DomainUnknownError): this(
+    constructor(error: DomainUnknownError) : this(
         message = error.message,
         cause = error.cause
     )
 }
 
 fun toUseCaseError(domainError: DomainError): UseCaseError =
-    when(domainError) {
+    when (domainError) {
         is DomainUnknownError -> UseCaseUnknownError(domainError)
     }

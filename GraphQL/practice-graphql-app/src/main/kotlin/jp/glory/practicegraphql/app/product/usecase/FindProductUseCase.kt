@@ -6,7 +6,8 @@ import com.github.michaelbull.result.mapError
 import jp.glory.practicegraphql.app.base.usecase.UseCase
 import jp.glory.practicegraphql.app.base.usecase.UseCaseError
 import jp.glory.practicegraphql.app.base.usecase.toUseCaseError
-import jp.glory.practicegraphql.app.product.domain.model.*
+import jp.glory.practicegraphql.app.product.domain.model.Product
+import jp.glory.practicegraphql.app.product.domain.model.ProductID
 import jp.glory.practicegraphql.app.product.domain.repository.ProductRepository
 
 @UseCase
@@ -19,7 +20,7 @@ class FindProductUseCase(
             .mapError { toUseCaseError(it) }
 
     private fun toResult(product: Product?): ProductSearchResult? =
-        product?.let{ ProductSearchResult(it) }
+        product?.let { ProductSearchResult(it) }
 }
 
 data class ProductSearchResult(

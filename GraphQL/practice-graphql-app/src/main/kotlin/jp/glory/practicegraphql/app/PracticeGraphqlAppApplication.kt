@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class PracticeGraphqlAppApplication
 
 fun main(args: Array<String>) {
-	runApplication<PracticeGraphqlAppApplication>(*args)
+    runApplication<PracticeGraphqlAppApplication>(*args)
 }

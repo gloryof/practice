@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class ProductRepositoryImpl : ProductRepository {
     private val products: MutableMap<String, Product> = mutableMapOf()
+
     init {
         repeat(10) { idVal ->
             val id = "product-id-$idVal"
@@ -23,6 +24,7 @@ class ProductRepositoryImpl : ProductRepository {
             products[id] = product
         }
     }
+
     override fun findById(
         id: ProductID
     ): Result<Product?, DomainUnknownError> = Ok(products[id.value])

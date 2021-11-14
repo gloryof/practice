@@ -7,9 +7,9 @@ import jp.glory.practicegraphql.app.base.usecase.UseCase
 import jp.glory.practicegraphql.app.base.usecase.UseCaseError
 import jp.glory.practicegraphql.app.base.usecase.toUseCaseError
 import jp.glory.practicegraphql.app.product.domain.model.Service
-import jp.glory.practicegraphql.app.product.domain.model.ServiceKind as DomainServiceKind
 import jp.glory.practicegraphql.app.product.domain.model.ServiceID
 import jp.glory.practicegraphql.app.product.domain.repository.ServiceRepository
+import jp.glory.practicegraphql.app.product.domain.model.ServiceKind as DomainServiceKind
 
 @UseCase
 class FindServiceUseCase(
@@ -29,12 +29,13 @@ class FindServiceUseCase(
         SearchServiceResults(Services.map { SearchServiceResult(it) })
 
     private fun toResult(Service: Service?): SearchServiceResult? =
-        Service?.let{ SearchServiceResult(it) }
+        Service?.let { SearchServiceResult(it) }
 }
 
 data class SearchServiceResults(
     val results: List<SearchServiceResult>
 )
+
 data class SearchServiceResult(
     val id: String,
     val name: String,
@@ -53,7 +54,7 @@ data class SearchServiceResult(
 
         companion object {
             fun toResult(kind: DomainServiceKind) =
-                when(kind) {
+                when (kind) {
                     DomainServiceKind.Finance -> Finance
                     DomainServiceKind.Entertainment -> Entertainment
                     DomainServiceKind.HealthCare -> HealthCare
