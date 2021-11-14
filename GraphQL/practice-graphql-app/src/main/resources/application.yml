@@ -1,0 +1,4 @@
+spring:
+  graphql:
+    schema:
+      file-extensions: .gql

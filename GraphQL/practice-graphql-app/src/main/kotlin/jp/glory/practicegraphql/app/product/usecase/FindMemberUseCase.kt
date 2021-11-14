@@ -3,6 +3,7 @@ package jp.glory.practicegraphql.app.product.usecase
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
 import com.github.michaelbull.result.mapError
+import jp.glory.practicegraphql.app.base.usecase.UseCase
 import jp.glory.practicegraphql.app.base.usecase.UseCaseError
 import jp.glory.practicegraphql.app.base.usecase.toUseCaseError
 import jp.glory.practicegraphql.app.product.domain.model.Member
@@ -11,6 +12,7 @@ import jp.glory.practicegraphql.app.product.domain.model.ProductID
 import jp.glory.practicegraphql.app.product.domain.repository.MemberRepository
 import java.time.LocalDate
 
+@UseCase
 class FindMemberUseCase(
     private val repository: MemberRepository
 ) {

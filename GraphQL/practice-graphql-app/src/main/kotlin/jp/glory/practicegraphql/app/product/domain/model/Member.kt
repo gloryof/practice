@@ -14,10 +14,24 @@ data class MemberName(
 )
 
 @JvmInline
-value class MemberID(val value: String)
+value class MemberID(val value: String) {
+    init {
+        require(value.isNotEmpty())
+    }
+}
 
 @JvmInline
-value class GivenName(val value: String)
+value class GivenName(val value: String) {
+    init {
+        require(value.isNotEmpty())
+        require(value.length <= 50)
+    }
+}
 
 @JvmInline
-value class FamilyName(val value: String)
+value class FamilyName(val value: String) {
+    init {
+        require(value.isNotEmpty())
+        require(value.length <= 50)
+    }
+}

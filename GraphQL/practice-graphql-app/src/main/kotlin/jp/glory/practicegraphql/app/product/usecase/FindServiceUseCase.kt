@@ -3,6 +3,7 @@ package jp.glory.practicegraphql.app.product.usecase
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
 import com.github.michaelbull.result.mapError
+import jp.glory.practicegraphql.app.base.usecase.UseCase
 import jp.glory.practicegraphql.app.base.usecase.UseCaseError
 import jp.glory.practicegraphql.app.base.usecase.toUseCaseError
 import jp.glory.practicegraphql.app.product.domain.model.Service
@@ -10,6 +11,7 @@ import jp.glory.practicegraphql.app.product.domain.model.ServiceKind as DomainSe
 import jp.glory.practicegraphql.app.product.domain.model.ServiceID
 import jp.glory.practicegraphql.app.product.domain.repository.ServiceRepository
 
+@UseCase
 class FindServiceUseCase(
     private val repository: ServiceRepository
 ) {

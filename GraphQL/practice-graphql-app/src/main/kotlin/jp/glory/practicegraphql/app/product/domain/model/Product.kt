@@ -9,10 +9,23 @@ data class Product(
 )
 
 @JvmInline
-value class ProductID(val value: String)
+value class ProductID(val value: String) {
+    init {
+        require(value.isNotEmpty())
+    }
+}
 
 @JvmInline
-value class ProductCode(val value: String)
+value class ProductCode(val value: String) {
+    init {
+        require(value.isNotEmpty())
+    }
+}
 
 @JvmInline
-value class ProductName(val value: String)
+value class ProductName(val value: String) {
+    init {
+        require(value.isNotEmpty())
+        require(value.length <= 50)
+    }
+}
