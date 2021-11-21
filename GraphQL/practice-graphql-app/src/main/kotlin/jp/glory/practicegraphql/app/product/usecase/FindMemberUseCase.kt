@@ -15,28 +15,28 @@ import java.time.LocalDate
 class FindMemberUseCase(
     private val repository: MemberRepository
 ) {
-    fun findById(id: String): Result<SearchMemberResult?, UseCaseError> =
+    fun findById(id: String): Result<MemberSearchResult?, UseCaseError> =
         repository.findById(MemberID(id))
             .map { toResult(it) }
             .mapError { toUseCaseError(it) }
 
-    fun findByIds(ids: List<String>): Result<SearchMemberResults, UseCaseError> =
+    fun findByIds(ids: List<String>): Result<MemberSearchResults, UseCaseError> =
         repository.findByIds(ids.map { MemberID(it) })
             .map { toResults(it) }
             .mapError { toUseCaseError(it) }
 
-    private fun toResults(members: List<Member>): SearchMemberResults =
-        SearchMemberResults(members.map { SearchMemberResult(it) })
+    private fun toResults(members: List<Member>): MemberSearchResults =
+        MemberSearchResults(members.map { MemberSearchResult(it) })
 
-    private fun toResult(member: Member?): SearchMemberResult? =
-        member?.let { SearchMemberResult(it) }
+    private fun toResult(member: Member?): MemberSearchResult? =
+        member?.let { MemberSearchResult(it) }
 }
 
-data class SearchMemberResults(
-    val results: List<SearchMemberResult>
+data class MemberSearchResults(
+    val results: List<MemberSearchResult>
 )
 
-data class SearchMemberResult(
+data class MemberSearchResult(
     val id: String,
     val givenName: String,
     val familyName: String,

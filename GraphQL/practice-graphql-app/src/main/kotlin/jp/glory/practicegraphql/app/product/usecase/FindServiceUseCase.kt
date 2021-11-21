@@ -15,28 +15,28 @@ import jp.glory.practicegraphql.app.product.domain.model.ServiceKind as DomainSe
 class FindServiceUseCase(
     private val repository: ServiceRepository
 ) {
-    fun findById(id: String): Result<SearchServiceResult?, UseCaseError> =
+    fun findById(id: String): Result<ServiceSearchResult?, UseCaseError> =
         repository.findById(ServiceID(id))
             .map { toResult(it) }
             .mapError { toUseCaseError(it) }
 
-    fun findByIds(ids: List<String>): Result<SearchServiceResults, UseCaseError> =
+    fun findByIds(ids: List<String>): Result<ServiceSearchResults, UseCaseError> =
         repository.findByIds(ids.map { ServiceID(it) })
             .map { toResults(it) }
             .mapError { toUseCaseError(it) }
 
-    private fun toResults(Services: List<Service>): SearchServiceResults =
-        SearchServiceResults(Services.map { SearchServiceResult(it) })
+    private fun toResults(Services: List<Service>): ServiceSearchResults =
+        ServiceSearchResults(Services.map { ServiceSearchResult(it) })
 
-    private fun toResult(Service: Service?): SearchServiceResult? =
-        Service?.let { SearchServiceResult(it) }
+    private fun toResult(Service: Service?): ServiceSearchResult? =
+        Service?.let { ServiceSearchResult(it) }
 }
 
-data class SearchServiceResults(
-    val results: List<SearchServiceResult>
+data class ServiceSearchResults(
+    val results: List<ServiceSearchResult>
 )
 
-data class SearchServiceResult(
+data class ServiceSearchResult(
     val id: String,
     val name: String,
     val kind: ServiceKind

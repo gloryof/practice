@@ -2,6 +2,25 @@ type Product {
     id: String!
     code: String!
     name: String!
-    memberIds: [String!]!,
-    serviceIds: [String!]!
+    members: [Member!]!,
+    services: [Service!]!
+}
+
+type Member {
+    id: String!
+    givenName: String!
+    familyName: String!
+    birthDay: Date!
+}
+
+type Service {
+    id: String!
+    name: String!
+    kind: ServiceKind!
+}
+
+enum ServiceKind {
+    Finance
+    Entertainment
+    HealthCare
 }

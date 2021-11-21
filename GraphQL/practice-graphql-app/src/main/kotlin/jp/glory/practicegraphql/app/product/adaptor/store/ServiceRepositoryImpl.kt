@@ -20,7 +20,11 @@ class ServiceRepositoryImpl : ServiceRepository {
             val service = Service(
                 id = ServiceID("service-id-$it"),
                 name = ServiceName("service-name-$it"),
-                kind = ServiceKind.Entertainment
+                kind = when (it % 3) {
+                    1 -> ServiceKind.Finance
+                    2 -> ServiceKind.Entertainment
+                    else -> ServiceKind.HealthCare
+                }
             )
             services[id] = service
         }
