@@ -10,15 +10,15 @@ import jp.glory.practicegraphql.app.product.adaptor.web.graphql.schema.Products
 import jp.glory.practicegraphql.app.product.adaptor.web.graphql.schema.Service
 import jp.glory.practicegraphql.app.product.usecase.*
 import org.springframework.graphql.data.method.annotation.Argument
+import org.springframework.graphql.data.method.annotation.BatchMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
-import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
 
 @Controller
 class ProductController(
     private val findProduct: FindProductUseCase,
     private val findMember: FindMemberUseCase,
-    private val findService: FindServiceUseCase,
+    private val findService: FindServiceUseCase
 ) {
 
     @QueryMapping
@@ -40,21 +40,27 @@ class ProductController(
                 failure = { throw it.createException() }
             )
 
-    @SchemaMapping
+    @BatchMapping
     fun members(
-        product: Product
-    ): List<Member> =
-        findMembers(product.memberIds)
+        products: List<Product>
+    ): Map<Product, List<Member>> =
+        products
+            .flatMap { it.memberIds }
+            .let { findMembers(it) }
+            .map { mapToMembers(products, it) }
             .mapBoth(
                 success = { it },
                 failure = { throw it.createException() }
             )
 
-    @SchemaMapping
+    @BatchMapping
     fun services(
-        product: Product
-    ): List<Service> =
-        findServices(product.serviceIds)
+        products: List<Product>
+    ): Map<Product, List<Service>> =
+        products
+            .flatMap { it.serviceIds }
+            .let { findServices(it) }
+            .map { mapToServices(products, it) }
             .mapBoth(
                 success = { it },
                 failure = { throw it.createException() }
@@ -84,4 +90,30 @@ class ProductController(
         findService.findByIds(ids)
             .map { it.results.map { result -> Service(result) } }
             .mapError { toWebError(it) }
+
+    private fun mapToMembers(
+        products: List<Product>,
+        members: List<Member>
+    ): Map<Product, List<Member>> {
+        val memberMap = members.associateBy { it.id }
+        return products
+            .associate { product ->
+                product.memberIds
+                    .mapNotNull { memberMap[it] }
+                    .let { Pair(product, it) }
+            }
+    }
+
+    private fun mapToServices(
+        products: List<Product>,
+        services: List<Service>
+    ): Map<Product, List<Service>> {
+        val serviceMap = services.associateBy { it.id }
+        return products
+            .associate { product ->
+                product.serviceIds
+                    .mapNotNull { serviceMap[it] }
+                    .let { Pair(product, it) }
+            }
+    }
 }

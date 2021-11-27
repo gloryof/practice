@@ -31,9 +31,11 @@ class MemberRepositoryImpl : MemberRepository {
         id: MemberID
     ): Result<Member?, DomainUnknownError> = Ok(members[id.value])
 
-    override fun findByIds(ids: List<MemberID>): Result<List<Member>, DomainUnknownError> =
-        members
+    override fun findByIds(ids: List<MemberID>): Result<List<Member>, DomainUnknownError> {
+        println("Find ids[$ids]")
+        return members
             .filter { (key, _) -> ids.contains(MemberID(key)) }
             .map { it.value }
             .let { Ok(it) }
+    }
 }

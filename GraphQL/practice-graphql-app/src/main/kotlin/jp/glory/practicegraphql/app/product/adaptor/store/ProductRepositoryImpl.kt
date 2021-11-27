@@ -12,14 +12,16 @@ class ProductRepositoryImpl : ProductRepository {
     private val products: MutableMap<String, Product> = mutableMapOf()
 
     init {
-        repeat(10) { idVal ->
+        repeat(3) { idVal ->
             val id = "product-id-$idVal"
+            val childIds = (1..10)
+                .filter { it % (idVal + 1) == 0 }
             val product = Product(
                 id = ProductID(id),
                 code = ProductCode("product-code-$idVal"),
                 name = ProductName("product-name-$idVal"),
-                memberIDs = List(10) { it -> MemberID("member-id-$it") },
-                serviceIDs = List(10) { it -> ServiceID("service-id-$it") }
+                memberIDs = childIds.map { MemberID("member-id-$it") },
+                serviceIDs = childIds.map { ServiceID("service-id-$it") }
             )
             products[id] = product
         }
