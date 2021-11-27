@@ -1,3 +1,4 @@
 type Query {
-    product(id: String!): Product!
+    findAllProducts: Products!
+    findProduct(id: String!): Product!
 }

@@ -1,3 +1,7 @@
+type Products {
+    products: [Product!]!
+}
+
 type Product {
     id: String!
     code: String!

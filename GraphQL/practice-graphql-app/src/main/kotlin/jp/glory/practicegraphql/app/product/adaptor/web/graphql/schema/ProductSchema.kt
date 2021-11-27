@@ -5,6 +5,10 @@ import jp.glory.practicegraphql.app.product.usecase.ProductSearchResult
 import jp.glory.practicegraphql.app.product.usecase.ServiceSearchResult
 import java.time.LocalDate
 
+data class Products(
+    val products: List<Product>
+)
+
 data class Product(
     val id: String,
     val code: String,

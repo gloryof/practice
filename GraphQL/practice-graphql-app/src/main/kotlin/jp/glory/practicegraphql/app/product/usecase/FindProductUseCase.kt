@@ -14,6 +14,12 @@ import jp.glory.practicegraphql.app.product.domain.repository.ProductRepository
 class FindProductUseCase(
     private val repository: ProductRepository
 ) {
+    fun findAll(): Result<ProductsSearchResult, UseCaseError> =
+        repository.findAll()
+            .map { it.map { result -> ProductSearchResult(result) } }
+            .map { ProductsSearchResult(it) }
+            .mapError { toUseCaseError(it) }
+
     fun findById(id: String): Result<ProductSearchResult?, UseCaseError> =
         repository.findById(ProductID(id))
             .map { toResult(it) }
@@ -22,6 +28,10 @@ class FindProductUseCase(
     private fun toResult(product: Product?): ProductSearchResult? =
         product?.let { ProductSearchResult(it) }
 }
+
+data class ProductsSearchResult(
+    val products: List<ProductSearchResult>
+)
 
 data class ProductSearchResult(
     val id: String,

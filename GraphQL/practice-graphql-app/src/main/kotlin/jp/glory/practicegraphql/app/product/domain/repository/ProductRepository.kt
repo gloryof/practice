@@ -6,5 +6,6 @@ import jp.glory.practicegraphql.app.product.domain.model.Product
 import jp.glory.practicegraphql.app.product.domain.model.ProductID
 
 interface ProductRepository {
+    fun findAll(): Result<List<Product>, DomainUnknownError>
     fun findById(id: ProductID): Result<Product?, DomainUnknownError>
 }

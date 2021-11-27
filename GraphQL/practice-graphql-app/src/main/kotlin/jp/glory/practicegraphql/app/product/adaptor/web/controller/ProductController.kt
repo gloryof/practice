@@ -6,11 +6,9 @@ import jp.glory.practicegraphql.app.base.adaptor.web.error.WebError
 import jp.glory.practicegraphql.app.base.adaptor.web.error.toWebError
 import jp.glory.practicegraphql.app.product.adaptor.web.graphql.schema.Member
 import jp.glory.practicegraphql.app.product.adaptor.web.graphql.schema.Product
+import jp.glory.practicegraphql.app.product.adaptor.web.graphql.schema.Products
 import jp.glory.practicegraphql.app.product.adaptor.web.graphql.schema.Service
-import jp.glory.practicegraphql.app.product.usecase.FindMemberUseCase
-import jp.glory.practicegraphql.app.product.usecase.FindProductUseCase
-import jp.glory.practicegraphql.app.product.usecase.FindServiceUseCase
-import jp.glory.practicegraphql.app.product.usecase.ProductSearchResult
+import jp.glory.practicegraphql.app.product.usecase.*
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
@@ -22,8 +20,18 @@ class ProductController(
     private val findMember: FindMemberUseCase,
     private val findService: FindServiceUseCase,
 ) {
+
     @QueryMapping
-    fun product(
+    fun findAllProducts(): Products =
+        findAll()
+            .map { it.products.map { prod -> Product(prod) } }
+            .mapBoth(
+                success = { Products(it) },
+                failure = { throw it.createException() }
+            )
+
+    @QueryMapping
+    fun findProduct(
         @Argument id: String,
     ): Product =
         findById(id)
@@ -42,7 +50,6 @@ class ProductController(
                 failure = { throw it.createException() }
             )
 
-
     @SchemaMapping
     fun services(
         product: Product
@@ -52,6 +59,10 @@ class ProductController(
                 success = { it },
                 failure = { throw it.createException() }
             )
+
+    private fun findAll(): Result<ProductsSearchResult, WebError> =
+        findProduct.findAll()
+            .mapError { toWebError(it) }
 
     private fun findById(id: String): Result<ProductSearchResult, WebError> =
         findProduct.findById(id)

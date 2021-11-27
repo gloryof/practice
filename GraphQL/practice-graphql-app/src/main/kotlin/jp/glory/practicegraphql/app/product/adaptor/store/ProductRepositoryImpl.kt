@@ -25,6 +25,9 @@ class ProductRepositoryImpl : ProductRepository {
         }
     }
 
+    override fun findAll(): Result<List<Product>, DomainUnknownError> =
+        Ok(products.values.toList())
+
     override fun findById(
         id: ProductID
     ): Result<Product?, DomainUnknownError> = Ok(products[id.value])
