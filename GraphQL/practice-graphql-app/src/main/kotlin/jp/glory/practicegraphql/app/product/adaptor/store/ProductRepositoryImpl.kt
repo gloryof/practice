@@ -20,8 +20,8 @@ class ProductRepositoryImpl : ProductRepository {
                 id = ProductID(id),
                 code = ProductCode("product-code-$idVal"),
                 name = ProductName("product-name-$idVal"),
-                memberIDs = childIds.map { MemberID("member-id-$it") },
-                serviceIDs = childIds.map { ServiceID("service-id-$it") }
+                memberIDs = MemberIds(childIds.map { MemberID("member-id-$it") }),
+                serviceIDs = ServiceIds(childIds.map { ServiceID("service-id-$it") })
             )
             products[id] = product
         }
@@ -33,4 +33,35 @@ class ProductRepositoryImpl : ProductRepository {
     override fun findById(
         id: ProductID
     ): Result<Product?, DomainUnknownError> = Ok(products[id.value])
+
+    override fun findByProductCode(code: ProductCode): Result<List<Product>, DomainUnknownError> =
+        products
+            .filterValues { it.code == code }
+            .values
+            .toList()
+            .let { Ok(it) }
+
+    override fun register(id: ProductID, event: RegisterProductEvent): Result<ProductID, DomainUnknownError> {
+        products[id.value] = Product(
+            id = id,
+            code = event.code,
+            name = event.name,
+            memberIDs = event.memberIDs,
+            serviceIDs = event.serviceIDs
+        )
+
+        return Ok(id)
+    }
+
+    override fun save(event: UpdateProductEvent): Result<ProductID, DomainUnknownError> {
+        products[event.id.value] = Product(
+            id = event.id,
+            code = event.code,
+            name = event.name,
+            memberIDs = event.memberIDs,
+            serviceIDs = event.serviceIDs
+        )
+
+        return Ok(event.id)
+    }
 }

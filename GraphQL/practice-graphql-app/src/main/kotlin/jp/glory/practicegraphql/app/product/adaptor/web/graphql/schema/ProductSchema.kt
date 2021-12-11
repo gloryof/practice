@@ -61,3 +61,26 @@ enum class ServiceKind {
     Entertainment,
     HealthCare
 }
+
+data class RegisterProductInput(
+    val code: String,
+    val name: String,
+    val memberIDs: List<String>,
+    val serviceIDs: List<String>
+)
+
+data class RegisterProductResult(
+    val id: String
+)
+
+data class UpdateProductInput(
+    val id: String,
+    val code: String,
+    val name: String,
+    val memberIDs: List<String>,
+    val serviceIDs: List<String>
+)
+
+data class UpdateProductResult(
+    val id: String
+)

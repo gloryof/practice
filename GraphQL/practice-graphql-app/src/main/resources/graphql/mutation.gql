@@ -1,0 +1,4 @@
+type Mutation {
+    registerProduct(input: RegisterProductInput!): RegisterProductResult!
+    updateProduct(input: UpdateProductInput!): UpdateProductResult!
+}

@@ -23,8 +23,9 @@ class WebExceptionHandler : DataFetcherExceptionResolverAdapter() {
         env: DataFetchingEnvironment
     ): List<GraphQLError> =
         when (ex.error) {
-            is NotFoundError -> handleNotFoundError(ex.error, env)
             is WebUnknownError -> handleWebUnknownError(ex.error, env)
+            is WebNotFoundError -> handleNotFoundError(ex.error, env)
+            is WebValidationError -> handleValidationError(ex.error, env)
         }
 
     private fun handleWebUnknownError(
@@ -37,14 +38,32 @@ class WebExceptionHandler : DataFetcherExceptionResolverAdapter() {
             .build()
             .let { listOf(it) }
 
-
     private fun handleNotFoundError(
-        error: NotFoundError,
+        error: WebNotFoundError,
         env: DataFetchingEnvironment
     ): List<GraphQLError> =
         GraphqlErrorBuilder.newError(env)
             .errorType(ErrorType.NOT_FOUND)
             .message(error.message)
+            .extensions(
+                mapOf(
+                    "id" to error.idValue,
+                    "resource" to error.resourceName
+                )
+            )
+            .build()
+            .let { listOf(it) }
+
+    private fun handleValidationError(
+        error: WebValidationError,
+        env: DataFetchingEnvironment
+    ): List<GraphQLError> =
+        GraphqlErrorBuilder.newError(env)
+            .errorType(ErrorType.BAD_REQUEST)
+            .message(error.message)
+            .extensions(
+                mapOf("details" to error.details)
+            )
             .build()
             .let { listOf(it) }
 }

@@ -1,10 +1,9 @@
 package jp.glory.practicegraphql.app.product.usecase
 
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.map
-import com.github.michaelbull.result.mapError
+import com.github.michaelbull.result.*
 import jp.glory.practicegraphql.app.base.usecase.UseCase
 import jp.glory.practicegraphql.app.base.usecase.UseCaseError
+import jp.glory.practicegraphql.app.base.usecase.UseCaseNotFoundError
 import jp.glory.practicegraphql.app.base.usecase.toUseCaseError
 import jp.glory.practicegraphql.app.product.domain.model.Product
 import jp.glory.practicegraphql.app.product.domain.model.ProductID
@@ -20,13 +19,28 @@ class FindProductUseCase(
             .map { ProductsSearchResult(it) }
             .mapError { toUseCaseError(it) }
 
-    fun findById(id: String): Result<ProductSearchResult?, UseCaseError> =
+    fun findById(id: String): Result<ProductSearchResult, UseCaseError> =
         repository.findById(ProductID(id))
-            .map { toResult(it) }
-            .mapError { toUseCaseError(it) }
+            .mapBoth(
+                success = {
+                    if (it == null) {
+                        createNotFound(id)
+                    } else {
+                        Ok(ProductSearchResult(it))
+                    }
+                },
+                failure = { Err(toUseCaseError(it)) }
+            )
 
-    private fun toResult(product: Product?): ProductSearchResult? =
-        product?.let { ProductSearchResult(it) }
+    private fun createNotFound(id: String): Err<UseCaseNotFoundError> =
+        Err(
+            UseCaseNotFoundError(
+                message = "Product is not found",
+                resourceName = UseCaseNotFoundError.ResourceName.Product,
+                idValue = id
+            )
+        )
+
 }
 
 data class ProductsSearchResult(
@@ -44,7 +58,7 @@ data class ProductSearchResult(
         id = product.id.value,
         code = product.code.value,
         name = product.name.value,
-        memberIDs = product.memberIDs.map { it.value },
-        serviceIDs = product.serviceIDs.map { it.value }
+        memberIDs = product.memberIDs.value.map { it.value },
+        serviceIDs = product.serviceIDs.value.map { it.value }
     )
 }

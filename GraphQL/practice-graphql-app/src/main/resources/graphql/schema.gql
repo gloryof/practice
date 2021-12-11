@@ -28,3 +28,28 @@ enum ServiceKind {
     Entertainment
     HealthCare
 }
+
+input RegisterProductInput {
+    code: String!,
+    name: String!,
+    memberIDs: [String!]!,
+    serviceIDs: [String!]!
+}
+
+type RegisterProductResult {
+    id: String!
+    product: Product!
+}
+
+input UpdateProductInput {
+    id: String!,
+    code: String!,
+    name: String!,
+    memberIDs: [String!]!,
+    serviceIDs: [String!]!
+}
+
+type UpdateProductResult {
+    id: String!
+    product: Product!
+}
