@@ -1,17 +1,13 @@
 package jp.glory.practicegraphql.app.base.usecase
 
-import jp.glory.practicegraphql.app.base.domain.DomainError
-import jp.glory.practicegraphql.app.base.domain.DomainUnknownError
-import jp.glory.practicegraphql.app.base.domain.SpecError
+import jp.glory.practicegraphql.app.base.domain.*
 
-sealed class UseCaseError(
-    open val message: String
-)
+sealed class UseCaseError
 
 class UseCaseUnknownError(
-    override val message: String,
+    val message: String,
     val cause: Throwable
-) : UseCaseError(message) {
+) : UseCaseError() {
     constructor(error: DomainUnknownError) : this(
         message = error.message,
         cause = error.cause
@@ -19,32 +15,51 @@ class UseCaseUnknownError(
 }
 
 class UseCaseValidationError(
-    override val message: String,
     val details: List<UseCaseValidationErrorDetail>
-) : UseCaseError(message) {
+) : UseCaseError() {
     constructor(error: SpecError) : this(
-        message = error.message,
-        details = error.details.map { UseCaseValidationErrorDetail(it.toAttributes()) }
+        details = error.details.map { toErrorDetail(it) }
     )
 }
 
 class UseCaseNotFoundError(
-    override val message: String,
     val resourceName: ResourceName,
     val idValue: String,
-) : UseCaseError(message) {
+) : UseCaseError() {
     enum class ResourceName {
         Product
     }
 }
 
+sealed class UseCaseValidationErrorDetail
 
-data class UseCaseValidationErrorDetail(
-    val attributes: Map<String, String>
-)
+class UseCaseDuplicateKeyErrorDetail(
+    val keyName: KeyName,
+    val inputValue: String,
+) : UseCaseValidationErrorDetail() {
+    constructor(error: DuplicateKeyErrorDetail) : this(
+        keyName = when (error.keyName) {
+            DuplicateKeyErrorDetail.KeyName.ProductCode -> KeyName.ProductCode
+        },
+        inputValue = error.inputValue
+    )
+
+    enum class KeyName {
+        ProductCode
+    }
+}
 
 fun toUseCaseError(domainError: DomainError): UseCaseError =
     when (domainError) {
         is DomainUnknownError -> UseCaseUnknownError(domainError)
         is SpecError -> UseCaseValidationError(domainError)
     }
+
+private fun toErrorDetail(
+    detail: SpecErrorDetail
+): UseCaseValidationErrorDetail =
+    when (detail) {
+        is DuplicateKeyErrorDetail -> UseCaseDuplicateKeyErrorDetail(detail)
+    }
+
+

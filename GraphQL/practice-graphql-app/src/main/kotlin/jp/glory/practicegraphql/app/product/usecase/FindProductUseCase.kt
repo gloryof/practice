@@ -35,7 +35,6 @@ class FindProductUseCase(
     private fun createNotFound(id: String): Err<UseCaseNotFoundError> =
         Err(
             UseCaseNotFoundError(
-                message = "Product is not found",
                 resourceName = UseCaseNotFoundError.ResourceName.Product,
                 idValue = id
             )

@@ -1,33 +1,22 @@
 package jp.glory.practicegraphql.app.base.domain
 
-sealed class DomainError(
-    open val message: String
-)
+sealed class DomainError
 
 class DomainUnknownError(
-    override val message: String,
+    val message: String,
     val cause: Throwable
-) : DomainError(message)
+) : DomainError()
 
 class SpecError(
-    override val message: String,
     val details: List<SpecErrorDetail>
-) : DomainError(message)
+) : DomainError()
 
-sealed class SpecErrorDetail {
-    abstract fun toAttributes(): Map<String, String>
-}
+sealed class SpecErrorDetail
 
 class DuplicateKeyErrorDetail(
-    private val keyName: KeyName,
-    private val inputValue: String,
+    val keyName: KeyName,
+    val inputValue: String,
 ) : SpecErrorDetail() {
-    override fun toAttributes(): Map<String, String> =
-        mapOf(
-            "keyName" to keyName.name,
-            "inputValue" to inputValue
-        )
-
     enum class KeyName {
         ProductCode
     }

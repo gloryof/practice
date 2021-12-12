@@ -11,8 +11,6 @@ import jp.glory.practicegraphql.app.product.domain.model.UpdateProductEvent
 import jp.glory.practicegraphql.app.product.domain.model.UpdateProductPreCheckResult
 
 object UpdateProductSpec {
-    private const val SUMMARY_MESSAGE_NOT_FOUND = "Product is not found."
-    private const val SUMMARY_MESSAGE_BY_SPEC_ERROR = "Update event is not satisfy spec."
     fun validate(
         event: UpdateProductEvent,
         preCheckResult: UpdateProductPreCheckResult
@@ -30,7 +28,6 @@ object UpdateProductSpec {
     ): Err<SpecError> =
         Err(
             SpecError(
-                message = SUMMARY_MESSAGE_BY_SPEC_ERROR,
                 details = details
             )
         )
@@ -39,7 +36,6 @@ object UpdateProductSpec {
         event: UpdateProductEvent,
     ): UseCaseNotFoundError =
         UseCaseNotFoundError(
-            message = SUMMARY_MESSAGE_NOT_FOUND,
             resourceName = UseCaseNotFoundError.ResourceName.Product,
             idValue = event.id.value
         )

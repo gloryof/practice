@@ -44,7 +44,6 @@ class UpdateProductUseCase(
                 if (it == null) {
                     return Err(
                         UseCaseNotFoundError(
-                            message = "Product is not found",
                             resourceName = UseCaseNotFoundError.ResourceName.Product,
                             idValue = id.value
                         )

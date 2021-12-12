@@ -10,7 +10,7 @@ import jp.glory.practicegraphql.app.product.domain.model.RegisterProductEvent
 import jp.glory.practicegraphql.app.product.domain.model.RegisterProductPreCheckResult
 
 object RegisterProductSpec {
-    private const val SUMMARY_MESSAGE = "Register event is not satisfy spec."
+    private const val SUMMARY_MESSAGE = "Register product is not satisfy spec."
     fun validate(
         event: RegisterProductEvent,
         preCheckResult: RegisterProductPreCheckResult
@@ -28,7 +28,6 @@ object RegisterProductSpec {
     ): Err<SpecError> =
         Err(
             SpecError(
-                message = SUMMARY_MESSAGE,
                 details = details
             )
         )

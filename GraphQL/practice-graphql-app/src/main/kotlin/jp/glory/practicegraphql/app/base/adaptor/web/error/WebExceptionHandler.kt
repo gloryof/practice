@@ -3,12 +3,15 @@ package jp.glory.practicegraphql.app.base.adaptor.web.error
 import graphql.GraphQLError
 import graphql.GraphqlErrorBuilder
 import graphql.schema.DataFetchingEnvironment
+import org.slf4j.LoggerFactory
 import org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter
 import org.springframework.graphql.execution.ErrorType
 import org.springframework.stereotype.Component
 
 @Component
 class WebExceptionHandler : DataFetcherExceptionResolverAdapter() {
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     override fun resolveToMultipleErrors(
         ex: Throwable,
         env: DataFetchingEnvironment
@@ -31,12 +34,15 @@ class WebExceptionHandler : DataFetcherExceptionResolverAdapter() {
     private fun handleWebUnknownError(
         error: WebUnknownError,
         env: DataFetchingEnvironment
-    ): List<GraphQLError> =
-        GraphqlErrorBuilder.newError(env)
+    ): List<GraphQLError> {
+        logger.error(error.message, error.cause)
+
+        return GraphqlErrorBuilder.newError(env)
             .errorType(ErrorType.INTERNAL_ERROR)
-            .message(error.message)
+            .message("Unknown error is occurred.")
             .build()
             .let { listOf(it) }
+    }
 
     private fun handleNotFoundError(
         error: WebNotFoundError,
@@ -44,7 +50,7 @@ class WebExceptionHandler : DataFetcherExceptionResolverAdapter() {
     ): List<GraphQLError> =
         GraphqlErrorBuilder.newError(env)
             .errorType(ErrorType.NOT_FOUND)
-            .message(error.message)
+            .message("${error.resourceName} is not found.")
             .extensions(
                 mapOf(
                     "id" to error.idValue,
@@ -58,12 +64,13 @@ class WebExceptionHandler : DataFetcherExceptionResolverAdapter() {
         error: WebValidationError,
         env: DataFetchingEnvironment
     ): List<GraphQLError> =
-        GraphqlErrorBuilder.newError(env)
-            .errorType(ErrorType.BAD_REQUEST)
-            .message(error.message)
-            .extensions(
-                mapOf("details" to error.details)
-            )
-            .build()
-            .let { listOf(it) }
+        error.details.map {
+            GraphqlErrorBuilder.newError(env)
+                .errorType(ErrorType.BAD_REQUEST)
+                .message(it.createMessage())
+                .extensions(
+                    it.toAttribute()
+                )
+                .build()
+        }
 }
