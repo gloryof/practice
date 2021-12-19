@@ -30,9 +30,9 @@ enum ServiceKind {
 }
 
 input RegisterProductInput {
-    code: String!,
-    name: String!,
-    memberIDs: [String!]!,
+    code: String! @NotEmpty
+    name: String! @NotEmpty
+    memberIDs: [String!]!
     serviceIDs: [String!]!
 }
 
@@ -42,10 +42,10 @@ type RegisterProductResult {
 }
 
 input UpdateProductInput {
-    id: String!,
-    code: String!,
-    name: String!,
-    memberIDs: [String!]!,
+    id: String! @NotEmpty
+    code: String! @NotEmpty
+    name: String! @NotEmpty
+    memberIDs: [String!]!
     serviceIDs: [String!]!
 }
 

@@ -25,6 +25,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.13")
     implementation("com.graphql-java:graphql-java-extended-scalars:17.0")
+    implementation("com.graphql-java:graphql-java-extended-validation:17.0-hibernate-validator-6.2.0.Final")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
