@@ -2,3 +2,7 @@ spring:
   graphql:
     schema:
       file-extensions: .gql
+
+graphql:
+  maxDepth: 5
+  maxComplex: 30
