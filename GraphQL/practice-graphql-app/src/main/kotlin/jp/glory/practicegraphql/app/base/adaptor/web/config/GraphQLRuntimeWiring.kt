@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.graphql.execution.RuntimeWiringConfigurer
 
 @Configuration
-class GraqphQLRuntimeWiring : RuntimeWiringConfigurer {
+class GraphQLRuntimeWiring : RuntimeWiringConfigurer {
     override fun configure(builder: RuntimeWiring.Builder) {
         ValidationRules.newValidationRules()
             .build()
