@@ -4,8 +4,8 @@
 
 ## 興味
 
-- metrics周り
 - ファイルアップロードあたり
+- Tracing
 - Subscription
 
 ## 品質的な話

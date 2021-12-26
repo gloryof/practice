@@ -18,16 +18,24 @@ repositories {
 }
 
 dependencies {
+    // Spring
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.experimental:graphql-spring-boot-starter:1.0.0-SNAPSHOT")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.13")
+
+    // GraphQL
     implementation("com.graphql-java:graphql-java-extended-scalars:17.0")
     implementation("com.graphql-java:graphql-java-extended-validation:17.0-hibernate-validator-6.2.0.Final")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    // Prometheus
+    implementation("io.micrometer:micrometer-registry-prometheus")
 }
 
 tasks.withType<KotlinCompile> {

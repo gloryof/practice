@@ -3,6 +3,20 @@ spring:
     schema:
       file-extensions: .gql
 
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: "health,metrics,prometheus"
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+    health:
+      enabled: true
+
 graphql:
   maxDepth: 5
   maxComplex: 30
