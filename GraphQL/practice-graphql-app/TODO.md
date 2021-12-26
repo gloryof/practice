@@ -4,7 +4,6 @@
 
 ## 興味
 
-- ファイルアップロードあたり
 - Tracing
 - Subscription
 
