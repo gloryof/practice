@@ -11,6 +11,7 @@ import jp.glory.practicegraphql.app.product.adaptor.web.graphql.schema.UpdatePro
 import jp.glory.practicegraphql.app.product.usecase.FindProductUseCase
 import jp.glory.practicegraphql.app.product.usecase.ProductSearchResult
 import jp.glory.practicegraphql.app.product.usecase.UpdateProductUseCase
+import org.springframework.cloud.sleuth.annotation.NewSpan
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
@@ -22,6 +23,7 @@ class UpdateProductController(
     private val findProduct: FindProductUseCase
 ) {
     @MutationMapping
+    @NewSpan
     fun updateProduct(
         @Argument input: UpdateProductInput
     ): UpdateProductResult =
@@ -40,6 +42,7 @@ class UpdateProductController(
             .mapError { toWebError(it) }
 
     @SchemaMapping
+    @NewSpan
     fun product(
         result: UpdateProductResult
     ): Product =

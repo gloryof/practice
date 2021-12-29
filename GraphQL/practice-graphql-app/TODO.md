@@ -4,7 +4,6 @@
 
 ## 興味
 
-- Tracing
 - Subscription
 
 ## 品質的な話

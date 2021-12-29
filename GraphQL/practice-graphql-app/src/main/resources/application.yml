@@ -2,6 +2,8 @@ spring:
   graphql:
     schema:
       file-extensions: .gql
+  zipkin:
+    base-url: "http://localhost:30080/"
 
 management:
   endpoints:

@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.5.6"
+    id("org.springframework.boot") version "2.6.2"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.6.0"
-    kotlin("plugin.spring") version "1.6.0"
+    kotlin("jvm") version "1.6.10"
+    kotlin("plugin.spring") version "1.6.10"
 }
 
 group = "jp.glory"
@@ -22,6 +22,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.experimental:graphql-spring-boot-starter:1.0.0-SNAPSHOT")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.cloud:spring-cloud-starter-sleuth:3.1.0")
+    implementation("org.springframework.cloud:spring-cloud-sleuth-zipkin:3.1.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     // Kotlin
@@ -41,7 +43,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "16"
+        jvmTarget = "17"
     }
 }
 

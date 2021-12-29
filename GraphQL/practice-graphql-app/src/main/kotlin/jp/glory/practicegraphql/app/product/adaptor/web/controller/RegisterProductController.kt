@@ -11,6 +11,7 @@ import jp.glory.practicegraphql.app.product.adaptor.web.graphql.schema.RegisterP
 import jp.glory.practicegraphql.app.product.usecase.FindProductUseCase
 import jp.glory.practicegraphql.app.product.usecase.ProductSearchResult
 import jp.glory.practicegraphql.app.product.usecase.RegisterProductUseCase
+import org.springframework.cloud.sleuth.annotation.NewSpan
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
@@ -22,6 +23,7 @@ class RegisterProductController(
     private val findProduct: FindProductUseCase,
 ) {
     @MutationMapping
+    @NewSpan
     fun registerProduct(
         @Argument input: RegisterProductInput
     ): RegisterProductResult =
@@ -32,6 +34,7 @@ class RegisterProductController(
             )
 
     @SchemaMapping
+    @NewSpan
     fun product(
         result: RegisterProductResult
     ): Product =

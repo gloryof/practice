@@ -11,6 +11,8 @@ import jp.glory.practicegraphql.app.product.adaptor.web.graphql.schema.Product
 import jp.glory.practicegraphql.app.product.adaptor.web.graphql.schema.Products
 import jp.glory.practicegraphql.app.product.adaptor.web.graphql.schema.Service
 import jp.glory.practicegraphql.app.product.usecase.*
+import org.springframework.cloud.sleuth.annotation.NewSpan
+import org.springframework.cloud.sleuth.annotation.SpanTag
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.BatchMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
@@ -24,6 +26,7 @@ class FindProductController(
 ) {
 
     @QueryMapping
+    @NewSpan
     fun findAllProducts(): Products =
         findAll()
             .map { it.products.map { prod -> Product(prod) } }
@@ -33,8 +36,9 @@ class FindProductController(
             )
 
     @QueryMapping
+    @NewSpan
     fun findProduct(
-        @Argument id: String,
+        @SpanTag("param.id") @Argument id: String,
     ): Product =
         findById(id)
             .mapBoth(
@@ -43,6 +47,7 @@ class FindProductController(
             )
 
     @BatchMapping
+    @NewSpan
     fun members(
         products: List<Product>
     ): Map<Product, List<Member>> =
@@ -56,6 +61,7 @@ class FindProductController(
             )
 
     @BatchMapping
+    @NewSpan
     fun services(
         products: List<Product>
     ): Map<Product, List<Service>> =
