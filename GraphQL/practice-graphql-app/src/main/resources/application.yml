@@ -2,8 +2,12 @@ spring:
   graphql:
     schema:
       file-extensions: .gql
+    websocket:
+      path: /graphql
   zipkin:
     base-url: "http://localhost:30080/"
+
+
 
 management:
   endpoints:
@@ -20,5 +24,5 @@ management:
       enabled: true
 
 graphql:
-  maxDepth: 5
-  maxComplex: 30
+  maxDepth: 15 # For IntrospectionQuery max depth value(Need 13)
+  maxComplex: 60 # For IntrospectionQuery max complex value(Need 58)

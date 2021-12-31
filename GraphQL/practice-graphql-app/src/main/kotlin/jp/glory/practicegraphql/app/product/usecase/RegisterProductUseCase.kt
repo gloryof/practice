@@ -1,10 +1,9 @@
 package jp.glory.practicegraphql.app.product.usecase
 
 import com.github.michaelbull.result.*
-import jp.glory.practicegraphql.app.base.domain.DomainUnknownError
-import jp.glory.practicegraphql.app.base.domain.SpecError
 import jp.glory.practicegraphql.app.base.usecase.UseCase
 import jp.glory.practicegraphql.app.base.usecase.UseCaseError
+import jp.glory.practicegraphql.app.base.usecase.UseCaseNotFoundError
 import jp.glory.practicegraphql.app.base.usecase.toUseCaseError
 import jp.glory.practicegraphql.app.product.domain.model.*
 import jp.glory.practicegraphql.app.product.domain.repository.ProductRepository
@@ -12,48 +11,75 @@ import jp.glory.practicegraphql.app.product.domain.spec.RegisterProductSpec
 
 @UseCase
 class RegisterProductUseCase(
-    private val repository: ProductRepository
+    private val repository: ProductRepository,
+    private val notifier: NewProductNotifier
 ) {
     fun register(input: Input): Result<String, UseCaseError> {
         val event = input.toEvent()
 
         return findPreCheckResult(event.code)
-            .flatMap {
-                validate(
-                    event = event,
-                    preCheckResult = it
-                )
-            }
-            .flatMap {
-                repository.register(
-                    id = ProductIdGenerator.generate(),
-                    event = it
-                )
-            }
+            .flatMap { validate(event, it) }
+            .flatMap { register(event) }
+            .flatMap { notify(it) }
             .mapBoth(
                 success = { Ok(it.value) },
-                failure = { Err(toUseCaseError(it)) }
+                failure = { Err(it) }
             )
     }
 
     private fun findPreCheckResult(
         productCode: ProductCode
-    ): Result<RegisterProductPreCheckResult, DomainUnknownError> =
+    ): Result<RegisterProductPreCheckResult, UseCaseError> =
         repository.findByProductCode(productCode)
             .map { RegisterProductPreCheckResult(it) }
+            .mapBoth(
+                success = { Ok(it) },
+                failure = { Err(toUseCaseError(it)) }
+            )
 
     private fun validate(
         event: RegisterProductEvent,
         preCheckResult: RegisterProductPreCheckResult
-    ): Result<RegisterProductEvent, SpecError> =
+    ): Result<RegisterProductEvent, UseCaseError> =
         RegisterProductSpec.validate(
             event = event,
             preCheckResult = preCheckResult
         )
             .mapBoth(
                 success = { Ok(event) },
-                failure = { Err(it) }
+                failure = { Err(toUseCaseError(it)) }
             )
+
+    private fun register(
+        event: RegisterProductEvent
+    ): Result<ProductID, UseCaseError> {
+        val id = ProductIdGenerator.generate()
+        return repository.register(
+            id = id,
+            event = event
+        )
+            .mapBoth(
+                success = { Ok(id) },
+                failure = { Err(toUseCaseError(it)) }
+            )
+    }
+
+    private fun notify(id: ProductID): Result<ProductID, UseCaseError> =
+        repository.findById(id)
+            .map { it ?: return createNotFound(id.value) }
+            .flatMap { notifier.register(it) }
+            .mapBoth(
+                success = { Ok(id) },
+                failure = { Err(toUseCaseError(it)) }
+            )
+
+    private fun createNotFound(id: String): Err<UseCaseNotFoundError> =
+        Err(
+            UseCaseNotFoundError(
+                resourceName = UseCaseNotFoundError.ResourceName.Product,
+                idValue = id
+            )
+        )
 
     class Input(
         private val code: String,

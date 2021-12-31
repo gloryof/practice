@@ -15,11 +15,13 @@ class WebExceptionHandler : DataFetcherExceptionResolverAdapter() {
     override fun resolveToMultipleErrors(
         ex: Throwable,
         env: DataFetchingEnvironment
-    ): List<GraphQLError> =
-        when (ex) {
+    ): List<GraphQLError> {
+        logger.error("Error", ex)
+        return when (ex) {
             is WebException -> handleWebException(ex, env)
             else -> super.resolveToMultipleErrors(ex, env)?.toList() ?: emptyList()
         }
+    }
 
     private fun handleWebException(
         ex: WebException,

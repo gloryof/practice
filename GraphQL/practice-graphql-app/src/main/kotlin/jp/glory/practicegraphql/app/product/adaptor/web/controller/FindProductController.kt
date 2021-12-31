@@ -16,7 +16,10 @@ import org.springframework.cloud.sleuth.annotation.SpanTag
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.BatchMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
+import org.springframework.graphql.data.method.annotation.SubscriptionMapping
 import org.springframework.stereotype.Controller
+import reactor.core.publisher.Flux
+
 
 @Controller
 class FindProductController(
@@ -45,6 +48,21 @@ class FindProductController(
                 success = { Product(it) },
                 failure = { throw it.createException() }
             )
+
+    @SubscriptionMapping
+    // This method is not work.
+    // Reference TODO.md for understanding detail.
+    fun newProduct(): Flux<Product> =
+        findProduct.subscribe().map { Product(it) }
+
+    private fun dummyProduct(name: String): Product =
+        Product(
+            id = name,
+            code = name,
+            name = name,
+            memberIds = emptyList(),
+            serviceIds = emptyList()
+        )
 
     @BatchMapping
     @NewSpan
