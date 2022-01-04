@@ -5,6 +5,11 @@
 CLIをインストールする。
 https://docs.drone.io/cli/install/
 
+### k8sの実行
+下記のコマンドでk8sにあるワークロードを起動する。
+```
+$ kubectl apply -f k8s --recursive
+```
 
 ## 動作方法
 アプリのディレクトリに移動する。
