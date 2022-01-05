@@ -10,4 +10,4 @@ steps:
 - name: build
   image: gradle:jdk17
   commands:
-  - ./gradlew clean build --info
+  - ./gradlew clean build jib --info

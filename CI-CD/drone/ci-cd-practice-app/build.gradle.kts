@@ -46,5 +46,8 @@ jib {
 	to {
 		image = "localhost:30500/ci-cd-practice-app"
 	}
+	container {
+		creationTime = "USE_CURRENT_TIMESTAMP"
+	}
 	setAllowInsecureRegistries(true)
 }
