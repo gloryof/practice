@@ -1,9 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val jibTargetHost: String by project
+
 plugins {
 	id("org.springframework.boot") version "2.6.2"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("com.google.cloud.tools.jib") version "3.1.4"
+	id("org.sonarqube") version "3.3"
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
 }
@@ -44,7 +47,7 @@ jib {
 		image = "openjdk:17.0.1-slim"
 	}
 	to {
-		image = "localhost:30500/ci-cd-practice-app"
+		image = "$jibTargetHost:30500/ci-cd-practice-app"
 	}
 	container {
 		creationTime = "USE_CURRENT_TIMESTAMP"
