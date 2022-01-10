@@ -9,9 +9,4 @@ steps:
   - name: build
     image: gradle:jdk17
     commands:
-    - ./gradlew clean build jib --info -PjibTargetHost=$JIB_TARGET_HOST
-
-  - name: code-check
-    image: gradle:jdk17
-    commands:
-    - ./gradlew sonarqube --info -Dsonar.projectKey=$SONARQUBE_KEY_NAME -Dsonar.host.url=$SONARQUBE_HOST_URL -Dsonar.login=$SONARQUBE_TOKEN
+      - ./gradlew clean build jib sonarqube --info -Dsonar.projectKey=$SONARQUBE_KEY_NAME -Dsonar.host.url=$SONARQUBE_HOST_URL -Dsonar.login=$SONARQUBE_TOKEN

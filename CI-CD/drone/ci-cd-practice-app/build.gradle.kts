@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val jibTargetHost: String by project
+val jibTargetHost: String =  System.getenv("JIB_TARGET_HOST") ?: ""
 
 plugins {
 	id("org.springframework.boot") version "2.6.2"
