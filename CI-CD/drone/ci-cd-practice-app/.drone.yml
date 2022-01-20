@@ -6,7 +6,36 @@ clone:
   disable: true
 
 steps:
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      restore: true
+      mount:
+        - .gradle
+        - .gradle/user/caches
+
   - name: build
-    image: gradle:jdk17
+    image: openjdk:17.0.1-jdk-slim
     commands:
       - ./gradlew clean build jib sonarqube --info -Dsonar.projectKey=$SONARQUBE_KEY_NAME -Dsonar.host.url=$SONARQUBE_HOST_URL -Dsonar.login=$SONARQUBE_TOKEN
+    environment:
+      GRADLE_USER_HOME: /drone/src/.gradle/user
+
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      rebuild: true
+      mount:
+        - .gradle
+        - .gradle/user/caches
+
+volumes:
+  - name: cache
+    host:
+      path: /tmp/cache
