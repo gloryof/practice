@@ -9,14 +9,14 @@ internal class GivenNameTest {
 
     @Nested
     inner class TestInitialize {
-        private val MAX_LENGHT = 50
+        private val maxLength = 50
 
         @Test
         fun validValue() {
             assertDoesNotThrow {
-                GivenName("a".repeat(MAX_LENGHT))
-                GivenName("あ".repeat(MAX_LENGHT))
-                GivenName("!".repeat(MAX_LENGHT))
+                GivenName("a".repeat(maxLength))
+                GivenName("あ".repeat(maxLength))
+                GivenName("!".repeat(maxLength))
             }
         }
 
@@ -30,7 +30,7 @@ internal class GivenNameTest {
         @Test
         fun overMaxLength() {
             assertThrows<IllegalArgumentException> {
-                GivenName("a".repeat(MAX_LENGHT + 1))
+                GivenName("a".repeat(maxLength + 1))
             }
         }
     }

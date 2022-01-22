@@ -9,14 +9,14 @@ internal class FamilyNameTest {
 
     @Nested
     inner class TestInitialize {
-        private val MAX_LENGHT = 50
+        private val maxLength = 50
 
         @Test
         fun validValue() {
             assertDoesNotThrow {
-                FamilyName("a".repeat(MAX_LENGHT))
-                FamilyName("あ".repeat(MAX_LENGHT))
-                FamilyName("!".repeat(MAX_LENGHT))
+                FamilyName("a".repeat(maxLength))
+                FamilyName("あ".repeat(maxLength))
+                FamilyName("!".repeat(maxLength))
             }
         }
 
@@ -30,7 +30,7 @@ internal class FamilyNameTest {
         @Test
         fun overMaxLength() {
             assertThrows<IllegalArgumentException> {
-                FamilyName("a".repeat(MAX_LENGHT + 1))
+                FamilyName("a".repeat(maxLength + 1))
             }
         }
     }
