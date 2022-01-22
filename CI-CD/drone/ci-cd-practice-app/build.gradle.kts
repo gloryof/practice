@@ -9,6 +9,7 @@ plugins {
 	id("org.sonarqube") version "3.3"
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
+	jacoco
 }
 
 group = "jp.glory"
@@ -36,12 +37,19 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	finalizedBy(tasks.jacocoTestReport)
+}
+tasks.withType<JacocoReport> {
+	dependsOn(tasks.test)
+	reports {
+		html.required.set(true)
+		xml.required.set(true)
+	}
 }
 
 tasks.withType<GradleBuild> {
 	dependsOn("jib")
 }
-
 jib {
 	from {
 		image = "openjdk:17.0.1-slim"
@@ -53,4 +61,11 @@ jib {
 		creationTime = "USE_CURRENT_TIMESTAMP"
 	}
 	setAllowInsecureRegistries(true)
+}
+
+
+sonarqube {
+	properties {
+		property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+	}
 }

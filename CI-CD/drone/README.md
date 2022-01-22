@@ -25,6 +25,7 @@ vi ./ci-cd-practice-app/local-file/local.env
 #### 環境変数
 必要な環境変数は下記。
 
+- GRADLE_UESR_DIR:".gradle/user"固定
 - SONARQUBE_KEY_NAME:"ci-cd-practice-app"固定
 - JIB_TARGET_HOST:JIBの対象ホスト（localhostだと接続できないため）
 - SONARQUBE_TOKEN:Sonarqubeの対象プロジェクトのトークン
