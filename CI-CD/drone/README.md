@@ -33,6 +33,7 @@ vi ./ci-cd-practice-app/local-file/local.env
 
 
 ## 動作方法
+### Build
 アプリのディレクトリに移動する。
 ```
 $ cd ./ci-cd-practice-app
@@ -41,4 +42,15 @@ $ cd ./ci-cd-practice-app
 下記のコマンドを実行する。
 ```
 $ ./drone-build.sh
+```
+
+### Integration test
+BuildしたイメージをPullする。
+```
+$ docker pull localhost:30500/ci-cd-practice-app
+```
+
+下記のコマンドを実行する。
+```
+$ ./drone-it.sh
 ```

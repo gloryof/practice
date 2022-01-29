@@ -43,3 +43,25 @@ volumes:
   - name: cache
     host:
       path: /tmp/cache
+
+---
+
+kind: pipeline
+type: docker
+name: integration-test
+
+clone:
+  disable: true
+
+steps:
+  - name: security-test
+    image: owasp/zap2docker-stable:2.11.1
+    commands:
+      - sleep 10
+      - zap-api-scan.py -t http://target:8080/practice -f openapi -I
+      - rm zap.out # Want to remove this line.
+
+
+services:
+  - name: target
+    image: localhost:30500/ci-cd-practice-app:latest
