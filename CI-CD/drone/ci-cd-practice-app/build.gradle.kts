@@ -25,6 +25,8 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("org.springdoc:springdoc-openapi-webmvc-core:1.6.5")
+	implementation("org.springdoc:springdoc-openapi-kotlin:1.6.5")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

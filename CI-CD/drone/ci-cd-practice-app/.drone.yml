@@ -58,9 +58,8 @@ steps:
     image: owasp/zap2docker-stable:2.11.1
     commands:
       - sleep 10
-      - zap-api-scan.py -t http://target:8080/practice -f openapi -I
+      - zap-api-scan.py -t http://target:8080/v3/api-docs -f openapi -I
       - rm zap.out # Want to remove this line.
-
 
 services:
   - name: target
