@@ -1,9 +1,17 @@
-package jp.glory.ci.cd.practice.app.user.domain
+package jp.glory.ci.cd.practice.app.user.domain.model
 
 data class User(
+    val userId: UserId,
     val givenName: GivenName,
     val familyName: FamilyName
 )
+
+@JvmInline
+value class UserId(val value: String) {
+    init {
+        require(value.isNotEmpty())
+    }
+}
 
 @JvmInline
 value class GivenName(val value: String) {

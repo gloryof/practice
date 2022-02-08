@@ -1,5 +1,6 @@
 package jp.glory.ci.cd.practice.app.user.domain
 
+import jp.glory.ci.cd.practice.app.user.domain.model.GivenName
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

@@ -22,11 +22,13 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springdoc:springdoc-openapi-webmvc-core:1.6.5")
 	implementation("org.springdoc:springdoc-openapi-kotlin:1.6.5")
+	implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.14")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
