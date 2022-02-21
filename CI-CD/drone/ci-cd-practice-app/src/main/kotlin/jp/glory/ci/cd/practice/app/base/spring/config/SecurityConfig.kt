@@ -42,7 +42,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         http
             .authorizeHttpRequests { authorize ->
                 authorize
-                    .mvcMatchers("/authenticate", "/csrf/token").permitAll()
+                    .mvcMatchers("/authenticate", "/csrf/token", "/v3/api-docs").permitAll()
                     .anyRequest().authenticated()
             }
             .addFilter(preAuthenticationFilter())
