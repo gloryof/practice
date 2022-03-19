@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<config>
+    <!--
+    <pscans>
+        <autoTagScanners>
+            <scanner>
+                <name>html_tag_form</name>
+                <type>TAG</type>
+                <config>Form</config>
+                <reqUrlRegex/>
+                <reqHeadRegex/>
+                <resHeadRegex/>
+                <resBodyRegex>&lt;form</resBodyRegex>
+                <enabled>true</enabled>
+            </scanner>
+            <scanner>
+                <name>html_tag_password</name>
+                <type>TAG</type>
+                <config>Password</config>
+                <reqUrlRegex/>
+                <reqHeadRegex/>
+                <resHeadRegex/>
+                <resBodyRegex>&lt;password\s</resBodyRegex>
+                <enabled>true</enabled>
+            </scanner>
+            <scanner>
+                <name>html_type_password</name>
+                <type>TAG</type>
+                <config>Password</config>
+                <reqUrlRegex/>
+                <reqHeadRegex/>
+                <resHeadRegex/>
+                <resBodyRegex>type\s*=\s*['"]?password['"]?</resBodyRegex>
+                <enabled>true</enabled>
+            </scanner>
+            <scanner>
+                <name>html_type_hidden</name>
+                <type>TAG</type>
+                <config>Hidden</config>
+                <reqUrlRegex/>
+                <reqHeadRegex/>
+                <resHeadRegex/>
+                <resBodyRegex>type\s*=\s*['"]?hidden['"]?</resBodyRegex>
+                <enabled>true</enabled>
+            </scanner>
+            <scanner>
+                <name>html_type_upload</name>
+                <type>TAG</type>
+                <config>Upload</config>
+                <reqUrlRegex/>
+                <reqHeadRegex/>
+                <resHeadRegex/>
+                <resBodyRegex>type\s*=\s*['"]?file['"]?</resBodyRegex>
+                <enabled>true</enabled>
+            </scanner>
+            <scanner>
+                <name>html_tag_object</name>
+                <type>TAG</type>
+                <config>Object</config>
+                <reqUrlRegex/>
+                <reqHeadRegex/>
+                <resHeadRegex/>
+                <resBodyRegex>&lt;object\s</resBodyRegex>
+                <enabled>true</enabled>
+            </scanner>
+            <scanner>
+                <name>html_tag_script</name>
+                <type>TAG</type>
+                <config>Script</config>
+                <reqUrlRegex/>
+                <reqHeadRegex/>
+                <resHeadRegex/>
+                <resBodyRegex>&lt;script</resBodyRegex>
+                <enabled>true</enabled>
+            </scanner>
+            <scanner>
+                <name>html_mailto</name>
+                <type>TAG</type>
+                <config>MailTo</config>
+                <reqUrlRegex/>
+                <reqHeadRegex/>
+                <resHeadRegex/>
+                <resBodyRegex>&lt;.*href\s*=\s*['"]?mailto:</resBodyRegex>
+                <enabled>true</enabled>
+            </scanner>
+            <scanner>
+                <name>html_setcookie</name>
+                <type>TAG</type>
+                <config>SetCookie</config>
+                <reqUrlRegex/>
+                <reqHeadRegex/>
+                <resHeadRegex>set-cookie</resHeadRegex>
+                <resBodyRegex/>
+                <enabled>true</enabled>
+            </scanner>
+            <scanner>
+                <name>html_comment1</name>
+                <type>TAG</type>
+                <config>Comment</config>
+                <reqUrlRegex/>
+                <reqHeadRegex/>
+                <resHeadRegex/>
+                <resBodyRegex>/\*</resBodyRegex>
+                <enabled>true</enabled>
+            </scanner>
+            <scanner>
+                <name>html_comment2</name>
+                <type>TAG</type>
+                <config>Comment</config>
+                <reqUrlRegex/>
+                <reqHeadRegex/>
+                <resHeadRegex/>
+                <resBodyRegex>&lt;!--</resBodyRegex>
+                <enabled>true</enabled>
+            </scanner>
+            <scanner>
+                <name>response_json</name>
+                <type>TAG</type>
+                <config>JSON</config>
+                <reqUrlRegex/>
+                <reqHeadRegex/>
+                <resHeadRegex>type\s*:\s*application\/json</resHeadRegex>
+                <resBodyRegex/>
+                <enabled>true</enabled>
+            </scanner>
+        </autoTagScanners>
+    </pscans>
+    <version>20011001</version>
+    <database>
+        <recoverylog>false</recoverylog>
+    </database>
+    <api>
+        <disablekey>true</disablekey>
+        <addrs>
+            <addr>
+                <name>.*</name>
+                <regex>true</regex>
+            </addr>
+        </addrs>
+    </api>
+    <connection>
+        <proxyChain>
+            <enabled>false</enabled>
+            <hostName/>
+            <port>8080</port>
+            <realm/>
+            <userName/>
+            <prompt>false</prompt>
+            <password/>
+        </proxyChain>
+        <securityProtocolsEnabled>
+            <protocol>SSLv3</protocol>
+            <protocol>TLSv1</protocol>
+            <protocol>TLSv1.1</protocol>
+            <protocol>TLSv1.2</protocol>
+            <protocol>TLSv1.3</protocol>
+        </securityProtocolsEnabled>
+    </connection>
+    <proxy>
+        <securityProtocolsEnabled>
+            <protocol>SSLv3</protocol>
+            <protocol>TLSv1</protocol>
+            <protocol>TLSv1.1</protocol>
+            <protocol>TLSv1.2</protocol>
+        </securityProtocolsEnabled>
+        <ip>0.0.0.0</ip>
+        <port>35839</port>
+    </proxy>
+    <certificate>
+        <use>false</use>
+        <pkcs12>
+            <path/>
+            <password/>
+            <index>0</index>
+        </pkcs12>
+    </certificate>
+    <reveal version="1">
+        <enabled>false</enabled>
+    </reveal>
+    <anticsrf>
+        <tokens>
+            <token>
+                <name>anticsrf</name>
+                <enabled>true</enabled>
+            </token>
+            <token>
+                <name>CSRFToken</name>
+                <enabled>true</enabled>
+            </token>
+            <token>
+                <name>__RequestVerificationToken</name>
+                <enabled>true</enabled>
+            </token>
+            <token>
+                <name>csrfmiddlewaretoken</name>
+                <enabled>true</enabled>
+            </token>
+            <token>
+                <name>authenticity_token</name>
+                <enabled>true</enabled>
+            </token>
+            <token>
+                <name>OWASP_CSRFTOKEN</name>
+                <enabled>true</enabled>
+            </token>
+            <token>
+                <name>anoncsrf</name>
+                <enabled>true</enabled>
+            </token>
+            <token>
+                <name>csrf_token</name>
+                <enabled>true</enabled>
+            </token>
+            <token>
+                <name>_csrf</name>
+                <enabled>true</enabled>
+            </token>
+            <token>
+                <name>_csrfSecret</name>
+                <enabled>true</enabled>
+            </token>
+            <token>
+                <name>__csrf_magic</name>
+                <enabled>true</enabled>
+            </token>
+            <token>
+                <name>CSRF</name>
+                <enabled>true</enabled>
+            </token>
+            <token>
+                <name>_token</name>
+                <enabled>true</enabled>
+            </token>
+            <token>
+                <name>_csrf_token</name>
+                <enabled>true</enabled>
+            </token>
+        </tokens>
+    </anticsrf>
+    <ajaxSpider version="4"/>
+    <selenium version="2">
+        <chromeDriver>/home/zap/.ZAP/webdriver/linux/64/chromedriver</chromeDriver>
+        <firefoxDriver>/home/zap/.ZAP/webdriver/linux/64/geckodriver</firefoxDriver>
+    </selenium>
+    <rules>
+        <common>
+            <sleep>15</sleep>
+        </common>
+        <csrf>
+            <ignorelist/>
+            <ignore>
+                <attname/>
+                <attvalue/>
+            </ignore>
+        </csrf>
+        <cookie>
+            <ignorelist/>
+        </cookie>
+        <domains>
+            <trusted/>
+        </domains>
+        <domxss>
+            <browserid/>
+        </domxss>
+    </rules>
+    <globalalertfilter version="1"/>
+    <fuzz version="1">
+        <defaultThreadsPerFuzzer>5</defaultThreadsPerFuzzer>
+        <defaultCategoryName/>
+        <defaultFuzzDelayInMs>0</defaultFuzzDelayInMs>
+        <customFuzzerLastSelectedDirectory/>
+    </fuzz>
+    <graphql version="2"/>
+    <callhome version="1">
+        <tel>
+            <uuid>07909da0-1ae9-4186-b224-468717fbe6db</uuid>
+        </tel>
+    </callhome>
+    <hud version="4">
+        <newChangelog>true</newChangelog>
+        <tutorialUpdates>History</tutorialUpdates>
+        <tutorialUpdates>Comments</tutorialUpdates>
+        <tutorialUpdates>ToggleScript</tutorialUpdates>
+    </hud>
+    <oast version="1">
+        <boast version="1">
+            <pollingFrequency>60</pollingFrequency>
+        </boast>
+        <callback version="1"/>
+        <interactsh version="1">
+            <pollingFrequency>60</pollingFrequency>
+        </interactsh>
+    </oast>
+    <script>
+        <scripts>
+            <name>Email Disclosure</name>
+            <description/>
+            <engine>Oracle Nashorn</engine>
+            <type>websocketpassive</type>
+            <enabled>true</enabled>
+            <file>/home/zap/.ZAP/scripts/scripts/websocketpassive/Email Disclosure.js</file>
+        </scripts>
+        <scripts>
+            <name>Username Idor Scanner</name>
+            <description/>
+            <engine>Oracle Nashorn</engine>
+            <type>websocketpassive</type>
+            <enabled>true</enabled>
+            <file>/home/zap/.ZAP/scripts/scripts/websocketpassive/Username Idor Scanner.js</file>
+        </scripts>
+        <scripts>
+            <name>XML Comments Disclosure</name>
+            <description/>
+            <engine>Oracle Nashorn</engine>
+            <type>websocketpassive</type>
+            <enabled>true</enabled>
+            <file>/home/zap/.ZAP/scripts/scripts/websocketpassive/XML Comments Disclosure.js</file>
+        </scripts>
+        <scripts>
+            <name>Application Error Scanner</name>
+            <description/>
+            <engine>Oracle Nashorn</engine>
+            <type>websocketpassive</type>
+            <enabled>true</enabled>
+            <file>/home/zap/.ZAP/scripts/scripts/websocketpassive/Application Error Scanner.js</file>
+        </scripts>
+        <scripts>
+            <name>Base64 Disclosure</name>
+            <description/>
+            <engine>Oracle Nashorn</engine>
+            <type>websocketpassive</type>
+            <enabled>true</enabled>
+            <file>/home/zap/.ZAP/scripts/scripts/websocketpassive/Base64 Disclosure.js</file>
+        </scripts>
+        <scripts>
+            <name>PII Disclosure</name>
+            <description/>
+            <engine>Oracle Nashorn</engine>
+            <type>websocketpassive</type>
+            <enabled>true</enabled>
+            <file>/home/zap/.ZAP/scripts/scripts/websocketpassive/PII Disclosure.js</file>
+        </scripts>
+        <scripts>
+            <name>Debug Error Disclosure</name>
+            <description/>
+            <engine>Oracle Nashorn</engine>
+            <type>websocketpassive</type>
+            <enabled>true</enabled>
+            <file>/home/zap/.ZAP/scripts/scripts/websocketpassive/Debug Error Disclosure.js</file>
+        </scripts>
+        <scripts>
+            <name>Private IP Disclosure</name>
+            <description/>
+            <engine>Oracle Nashorn</engine>
+            <type>websocketpassive</type>
+            <enabled>true</enabled>
+            <file>/home/zap/.ZAP/scripts/scripts/websocketpassive/Private IP Disclosure.js</file>
+        </scripts>
+        <scripts>
+            <name>Copy as curl command menu.js</name>
+            <description/>
+            <engine>Oracle Nashorn</engine>
+            <type>extender</type>
+            <enabled>true</enabled>
+            <file>/home/zap/.ZAP/scripts/templates/extender/Copy as curl command menu.js</file>
+        </scripts>
+        <scripts>
+            <name>GraphQL Support.js</name>
+            <description>Input Vectors Script for injecting inline arguments in GraphQL queries proxied through ZAP.</description>
+            <engine>Oracle Nashorn</engine>
+            <type>variant</type>
+            <enabled>true</enabled>
+            <file>/home/zap/.ZAP/scripts/scripts/variant/GraphQL Support.js</file>
+        </scripts>
+        <scripts>
+            <name>SOAP Support.js</name>
+            <description>Script for representing each SOAP operation uniquely in the Sites Tree.</description>
+            <engine>Oracle Nashorn</engine>
+            <type>variant</type>
+            <enabled>true</enabled>
+            <file>/home/zap/.ZAP/scripts/scripts/variant/SOAP Support.js</file>
+        </scripts>
+        <scripts>
+            <name>Auth</name>
+            <description></description>
+            <engine>Graal.js</engine>
+            <type>Authentication</type>
+            <enabled>true</enabled>
+            <file>/zap/wrk/Auth.js</file>
+        </scripts>
+        <scripts>
+            <name>TokenSession</name>
+            <description></description>
+            <engine>Graal.js</engine>
+            <type>Session Management</type>
+            <enabled>true</enabled>
+            <file>/zap/wrk/TokenSession.js</file>
+        </scripts>
+    </script>
+    -->
+</config>
