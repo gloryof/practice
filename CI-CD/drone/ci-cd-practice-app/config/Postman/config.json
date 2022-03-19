@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "306bd2b2-5dee-4259-a57b-a26f1d60acfb",
+		"name": "CI/CD Application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Vulnerability",
+			"item": [
+				{
+					"name": "random-seed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/vulnerability/random-seed",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"vulnerability",
+								"random-seed"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{authToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var baseUrl = pm.environment.get(\"baseUrl\");",
+					"var csrfUrlRequest = {",
+					"    url: baseUrl + \"/csrf/token\",",
+					"    method: 'POST'",
+					"};",
+					"",
+					"pm.sendRequest(csrfUrlRequest, function (err, response) {",
+					"    var csrfResult = response.text();",
+					"    pm.collectionVariables.set(\"csrfToken\", csrfResult);",
+					"",
+					"    var authRequest = {",
+					"        \"userId\" : pm.variables.get(\"user-id\"),",
+					"        \"password\": pm.variables.get(\"password\")",
+					"    }",
+					"    var authenticateUrlRequest = {",
+					"        url: baseUrl + \"/authenticate\",",
+					"        method: 'POST',",
+					"        body: {",
+					"            mode: \"raw\",",
+					"            raw: JSON.stringify(authRequest),",
+					"        },",
+					"        header: {",
+					"            \"X-CSRF-TOKEN\": csrfResult,",
+					"            \"Content-Type\": \"application/json\"",
+					"        }",
+					"    };",
+					"",
+					"    pm.sendRequest(authenticateUrlRequest, function (err, response) {",
+					"        var tokenResult = response.json();",
+					"        pm.collectionVariables.set(\"authToken\", tokenResult.tokenValue);",
+					"    });",
+					"});",
+					"",
+					"",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "csrfToken",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

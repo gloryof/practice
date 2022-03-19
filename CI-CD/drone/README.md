@@ -5,6 +5,9 @@
 CLIをインストールする。
 https://docs.drone.io/cli/install/
 
+### Postman
+Postmanをインストールする。
+
 ### k8sの実行
 下記のコマンドでk8sにあるワークロードを起動する。
 ```
@@ -54,3 +57,29 @@ $ docker pull localhost:30500/ci-cd-practice-app
 ```
 $ ./drone-it.sh
 ```
+
+### Postman
+#### 環境変数
+|変数名|設定値|
+|-----|-----|
+|user-id|ユーザID|
+|password|パスワード|
+|baseUrl|ベースとなるURL（http://localhost:8080）|
+
+## うまくいかなかったこと
+### OWASP ZAP Docker
+Contextファイルを読み込んで認証を通せない。  
+問題点としては2つ。  
+
+- Contextファイルの読み込み
+- スクリプトのロード
+
+#### Contextファイルの読み込み
+Contextファイルのロードに失敗する。  
+OWASP ZAP Dockerからではなく、OWASP ZAPからインポートしてもエラーとなる。  
+
+#### スクリプトのロード
+認証を行うためにスクリプトファイルをロードする必要がある。  
+だが、起動時のパラメータとして渡してもロードされない。  
+
+パラメータの渡し方が間違っているのかそのほかの理由かは不明。
