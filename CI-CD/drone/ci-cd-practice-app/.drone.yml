@@ -21,7 +21,6 @@ steps:
     image: openjdk:17.0.1-jdk-slim
     commands:
       - ./gradlew clean build jib -g $GRADLE_UESR_DIR --info
-    environment:
 
   - name: code-check
     image: openjdk:17.0.1-jdk-slim
@@ -54,21 +53,34 @@ clone:
   disable: true
 
 steps:
-  - name: security-test
-    image: owasp/zap2docker-stable:2.11.1
+  - name: test-by-postman
+    image: postman/newman:5.3.1-alpine
     volumes:
-      - name: zap-config
-        path: /zap/wrk
+      - name: postman-volume
+        path: /etc/newman
+    environment:
     commands:
       - sleep 10
-      - /zap/wrk/scan.sh
-      - rm zap.out # Want to remove this line.
+      - newman run "/etc/newman/config.json" --environment="/etc/newman/env.json"
+
+#  - name: security-test
+#    image: owasp/zap2docker-stable:2.11.1
+#    volumes:
+#      - name: zap-volume
+#        path: /zap/wrk
+#    commands:
+#      - sleep 10
+#      - /zap/wrk/scan.sh
+#     - rm zap.out # Want to remove this line.
 
 services:
   - name: target
     image: localhost:30500/ci-cd-practice-app:latest
 
 volumes:
-  - name: zap-config
+  - name: postman-volume
     host:
-      path: /tmp/zap
+      path: /tmp/postman
+#  - name: zap-volume
+#    host:
+#      path: /tmp/zap
