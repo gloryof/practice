@@ -6,6 +6,10 @@ data class User(
     val familyName: FamilyName
 )
 
+interface UserIdGenerator {
+    fun generate(): UserId
+}
+
 @JvmInline
 value class UserId(val value: String) {
     init {
@@ -26,5 +30,12 @@ value class FamilyName(val value: String) {
     init {
         require(value.isNotEmpty())
         require(value.length <= 50)
+    }
+}
+
+class Password(val value: String) {
+    init {
+        require(value.isNotEmpty())
+        require(value.length >= 20)
     }
 }

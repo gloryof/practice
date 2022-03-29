@@ -1,8 +1,5 @@
 package jp.glory.ci.cd.practice.app.auth.domain.model
 
-import jp.glory.ci.cd.practice.app.user.domain.model.FamilyName
-import jp.glory.ci.cd.practice.app.user.domain.model.GivenName
-
 data class RegisteredCredential(
     val credentialUserId: CredentialUserId,
     val givenName: CredentialGivenName,
@@ -20,6 +17,7 @@ data class RegisteredCredential(
 class Password(private val value: String) {
     init {
         require(value.isNotEmpty())
+        require(value.length >= 20)
     }
 
     fun match(other: Password): Boolean =

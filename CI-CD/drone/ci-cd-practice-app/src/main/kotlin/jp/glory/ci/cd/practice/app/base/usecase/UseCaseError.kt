@@ -12,14 +12,18 @@ fun toUseCaseError(domainError: DomainError): UseCaseError =
 sealed class UseCaseError
 
 class UseCaseUnknownError(
-    val message: String,
+    val errorMessage: String,
     val cause: Throwable
 ) : UseCaseError() {
     constructor(error: DomainUnknownError) : this(
-        message = error.message,
+        errorMessage = error.message,
         cause = error.cause
     )
 }
+
+class UseCaseNotFoundError(
+    val resourceName: String,
+) : UseCaseError()
 
 class AuthenticationError(
     val type: Type

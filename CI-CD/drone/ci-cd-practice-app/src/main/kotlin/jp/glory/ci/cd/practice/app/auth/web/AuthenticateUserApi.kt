@@ -2,7 +2,7 @@ package jp.glory.ci.cd.practice.app.auth.web
 
 import com.github.michaelbull.result.mapBoth
 import jp.glory.ci.cd.practice.app.auth.usecase.AuthenticateUser
-import jp.glory.ci.cd.practice.app.base.web.AuthenticationException
+import jp.glory.ci.cd.practice.app.base.web.WebExceptionHelper
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -32,7 +32,7 @@ class AuthenticateUserApi(
         )
             .mapBoth(
                 success = { createSuccessResponse(it) },
-                failure = { throw AuthenticationException()}
+                failure = { throw WebExceptionHelper.create(it) }
             )
 
     private fun createSuccessResponse(
