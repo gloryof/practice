@@ -18,10 +18,22 @@ class UserRepositoryImpl(
     private val systemUser = User(
         userId = UserId("test-system-user-id"),
         givenName = GivenName("system-given-name"),
-        familyName = FamilyName("system-family-name1"),
+        familyName = FamilyName("system-family-name"),
+    )
+    private val referenceOnlyUser = User(
+        userId = UserId("test-reference-only-user-id"),
+        givenName = GivenName("reference-only-given-name"),
+        familyName = FamilyName("reference-only-family-name"),
+    )
+    private val forUpdateUser = User(
+        userId = UserId("test-for-update-user-id"),
+        givenName = GivenName("for-update-given-name"),
+        familyName = FamilyName("for-update-family-name"),
     )
     private val users = mutableMapOf(
-        systemUser.userId.value to systemUser
+        systemUser.userId.value to systemUser,
+        referenceOnlyUser.userId.value to referenceOnlyUser,
+        forUpdateUser.userId.value to forUpdateUser,
     )
     init {
         registerCredentialDao.save(

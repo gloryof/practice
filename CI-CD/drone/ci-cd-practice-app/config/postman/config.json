@@ -57,6 +57,26 @@
 			"item": [
 				{
 					"name": "Get by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Test response properties\", function () {",
+									"  var result = pm.response.json();",
+									"  pm.expect(result.userId).to.equal(\"test-reference-only-user-id\")",
+									"  pm.expect(result.givenName).to.equal(\"reference-only-given-name\")",
+									"  pm.expect(result.familyName).to.equal(\"reference-only-family-name\")",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -78,7 +98,7 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": "test-system-user-id"
+									"value": ""
 								}
 							]
 						}
@@ -87,6 +107,43 @@
 				},
 				{
 					"name": "Register user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"  pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"User is registered\", function () {",
+									"  var requestBody = JSON.parse(pm.request.body.raw);",
+									"  var requestHeader = pm.request.getHeaders();",
+									"  var userId = pm.response.json().userId;",
+									"  ",
+									"  var checkUrlRequest = {",
+									"    url: pm.request.url.toString() + \"/\" + userId,",
+									"    method: 'GET',",
+									"    header: {",
+									"        \"Authorization\": requestHeader[\"Authorization\"],",
+									"        \"X-CSRF-TOKEN\": requestHeader[\"X-CSRF-TOKEN\"],",
+									"        \"Content-Type\": \"application/json\"",
+									"    }",
+									"  };",
+									"",
+									"  pm.sendRequest(checkUrlRequest, function (err, response) {",
+									"    var result = response.json();",
+									"    pm.expect(result.givenName).to.equal(requestBody.givenName)",
+									"    pm.expect(result.familyName).to.equal(requestBody.familyName)",
+									"  });",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -119,6 +176,42 @@
 				},
 				{
 					"name": "Update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"User is updated\", function () {",
+									"  var requestBody = JSON.parse(pm.request.body.raw);",
+									"  var requestHeader = pm.request.getHeaders();",
+									"",
+									"  var checkUrlRequest = {",
+									"    url: pm.request.url.toString(),",
+									"    method: 'GET',",
+									"    header: {",
+									"        \"Authorization\": requestHeader[\"Authorization\"],",
+									"        \"X-CSRF-TOKEN\": requestHeader[\"X-CSRF-TOKEN\"],",
+									"        \"Content-Type\": \"application/json\"",
+									"    }",
+									"  };",
+									"",
+									"  pm.sendRequest(checkUrlRequest, function (err, response) {",
+									"    var result = response.json();",
+									"    pm.expect(result.givenName).to.equal(requestBody.givenName)",
+									"    pm.expect(result.familyName).to.equal(requestBody.familyName)",
+									"  });",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -130,7 +223,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"givenName\": \"test-given-name2\",\n    \"familyName\": \"test-family-name2\"\n}",
+							"raw": "{\n    \"givenName\": \"test-given-name1\",\n    \"familyName\": \"test-family-name1\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -149,7 +242,7 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": "test-system-user-id"
+									"value": ""
 								}
 							]
 						}
@@ -158,6 +251,39 @@
 				},
 				{
 					"name": "Delete user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"  pm.response.to.have.status(204);",
+									"});",
+									"",
+									"pm.test(\"User is deleted\", function () {",
+									"  var requestHeader = pm.request.getHeaders();",
+									"",
+									"  var checkUrlRequest = {",
+									"    url: pm.request.url.toString(),",
+									"    method: 'GET',",
+									"    header: {",
+									"        \"Authorization\": requestHeader[\"Authorization\"],",
+									"        \"X-CSRF-TOKEN\": requestHeader[\"X-CSRF-TOKEN\"],",
+									"        \"Content-Type\": \"application/json\"",
+									"    }",
+									"  };",
+									"",
+									"  pm.sendRequest(checkUrlRequest, function (err, response) {",
+									"    pm.expect(response.code).to.equal(404)",
+									"  });",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -179,7 +305,7 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": "test-system-user-id"
+									"value": ""
 								}
 							]
 						}
