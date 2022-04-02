@@ -23,7 +23,7 @@ internal class RegisteredCredentialTest {
         @DisplayName("When ID and password are matched, then return true")
         fun successPattern() {
             val idValue = "test-id"
-            val passwordValue = "test-password"
+            val passwordValue = "test-password-123456"
             val sut = createSut(
                 credentialUserId = CredentialUserId(idValue),
                 password = Password(passwordValue)
@@ -39,7 +39,7 @@ internal class RegisteredCredentialTest {
         @DisplayName("When ID is not matched, then return false")
         fun idIsNotMatch() {
             val idValue = "test-id"
-            val passwordValue = "test-password"
+            val passwordValue = "test-password-123456"
             val sut = createSut(
                 credentialUserId = CredentialUserId(idValue),
                 password = Password(passwordValue)
@@ -55,7 +55,7 @@ internal class RegisteredCredentialTest {
         @DisplayName("When password is not matched, then return false")
         fun passwordIsNotMatch() {
             val idValue = "test-id"
-            val passwordValue = "test-password"
+            val passwordValue = "test-password-123456"
             val sut = createSut(
                 credentialUserId = CredentialUserId(idValue),
                 password = Password(passwordValue)
@@ -71,7 +71,7 @@ internal class RegisteredCredentialTest {
         @DisplayName("When ID and password are not matched, then return false")
         fun bothAreNotMatch() {
             val idValue = "test-id"
-            val passwordValue = "test-password"
+            val passwordValue = "test-password-123456"
             val sut = createSut(
                 credentialUserId = CredentialUserId(idValue),
                 password = Password(passwordValue)

@@ -12,7 +12,7 @@ internal class PasswordTest {
         @Test
         fun success() {
             assertDoesNotThrow {
-                Password("test1234")
+                Password("12345678901234567890")
             }
         }
 
@@ -24,6 +24,12 @@ internal class PasswordTest {
                     Password("")
                 }
             }
+            @Test
+            fun notSatisfyLength() {
+                assertThrows<IllegalArgumentException> {
+                    Password("1234567890123456789")
+                }
+            }
         }
     }
 
@@ -31,14 +37,14 @@ internal class PasswordTest {
     inner class Match {
         @Test
         fun matchPattern() {
-            val sut = Password("test")
-            assertTrue(sut.match(Password("test")))
+            val sut = Password("test-123456789abcdef-0001")
+            assertTrue(sut.match(Password("test-123456789abcdef-0001")))
         }
         @Test
         fun notMatchPattern() {
-            val sut = Password("test")
-            assertFalse(sut.match(Password("test2")))
-            assertFalse(sut.match(Password("test3")))
+            val sut = Password("test-123456789abcdef-0001")
+            assertFalse(sut.match(Password("test-123456789abcdef-0003")))
+            assertFalse(sut.match(Password("test-123456789abcdef-0002")))
         }
     }
 }
