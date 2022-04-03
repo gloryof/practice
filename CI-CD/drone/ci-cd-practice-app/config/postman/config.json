@@ -98,7 +98,7 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": ""
+									"value": "{{getUserId}}"
 								}
 							]
 						}
@@ -155,7 +155,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"givenName\": \"test-given-name1\",\n    \"familyName\": \"test-family-name1\",\n    \"password\": \"12345678901234567890\"\n}",
+							"raw": "{\n    \"givenName\": \"{{registerUserId}}\",\n    \"familyName\": \"test-family-name1\",\n    \"password\": \"12345678901234567890\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -242,7 +242,7 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": ""
+									"value": "{{updateUserId}}"
 								}
 							]
 						}
@@ -305,7 +305,7 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": ""
+									"value": "{{deleteUserId}}"
 								}
 							]
 						}
