@@ -20,7 +20,7 @@ steps:
   - name: build
     image: openjdk:17.0.1-jdk-slim
     commands:
-      - ./gradlew clean build jib -g $GRADLE_UESR_DIR --info
+      - ./gradlew clean build jib -g $GRADLE_UESR_DIR --info --tests jp.glory.ci.cd.practice.app.suite.UtTestSuite
 
   - name: code-check
     image: openjdk:17.0.1-jdk-slim

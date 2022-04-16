@@ -7,6 +7,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("com.google.cloud.tools.jib") version "3.1.4"
 	id("org.sonarqube") version "3.3"
+	id("java")
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
 	jacoco
@@ -29,7 +30,15 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-webmvc-core:1.6.5")
 	implementation("org.springdoc:springdoc-openapi-kotlin:1.6.5")
 	implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.14")
+	testImplementation("io.rest-assured:rest-assured:5.0.1")
+	testImplementation("io.rest-assured:kotlin-extensions:5.0.1")
+	testImplementation("io.rest-assured:spring-mock-mvc:5.0.1")
+	testImplementation("io.rest-assured:json-path:5.0.1")
+	testImplementation("io.rest-assured:xml-path:5.0.1")
+	testImplementation("org.junit.platform:junit-platform-suite-api")
+	testImplementation("org.junit.platform:junit-platform-suite-engine")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
 }
 
 tasks.withType<KotlinCompile> {
@@ -40,7 +49,9 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<Test> {
-	useJUnitPlatform()
+	useJUnitPlatform {
+		excludeTags("it")
+	}
 	finalizedBy(tasks.jacocoTestReport)
 }
 tasks.withType<JacocoReport> {
