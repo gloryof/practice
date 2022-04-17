@@ -1,4 +1,4 @@
-package jp.glory.ci.cd.practice.app.it.assured
+package jp.glory.ci.cd.practice.app.it.rest_assured
 
 import jp.glory.ci.cd.practice.app.TestTingTags
 import org.junit.jupiter.api.Tag

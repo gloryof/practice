@@ -49,9 +49,7 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<Test> {
-	useJUnitPlatform {
-		excludeTags("it")
-	}
+	useJUnitPlatform()
 	finalizedBy(tasks.jacocoTestReport)
 }
 tasks.withType<JacocoReport> {
