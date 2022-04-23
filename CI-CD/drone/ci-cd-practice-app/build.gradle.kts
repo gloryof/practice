@@ -9,6 +9,7 @@ plugins {
 	id("org.sonarqube") version "3.3"
 	id("java")
 	kotlin("jvm") version "1.6.10"
+	kotlin("plugin.serialization") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
 	jacoco
 }
@@ -38,6 +39,10 @@ dependencies {
 	testImplementation("org.junit.platform:junit-platform-suite-api")
 	testImplementation("org.junit.platform:junit-platform-suite-engine")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+	testImplementation("com.fasterxml.jackson.core:jackson-databind")
+	testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
 
 }
 

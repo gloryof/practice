@@ -13,6 +13,11 @@ object EnvironmentExtractor {
         password = getEnv("PASSWORD", "test-system-password"),
     )
 
+    fun getTestUserId(): String = getEnv("USER_ID", "test-system-user-id")
+
+    fun getTestFileLocation(): String =
+        getEnv("TEST_FILE_LOCATION",  "/tmp/test-files")
+
     private fun getEnv(
         key: String,
         default: String
