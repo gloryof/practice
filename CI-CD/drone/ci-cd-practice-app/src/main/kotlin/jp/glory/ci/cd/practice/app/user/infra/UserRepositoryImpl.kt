@@ -33,7 +33,7 @@ class UserRepositoryImpl(
     private val users = mutableMapOf(
         systemUser.userId.value to systemUser,
         referenceOnlyUser.userId.value to referenceOnlyUser,
-        forUpdateUser.userId.value to forUpdateUser,
+        forUpdateUser.userId.value to forUpdateUser
     )
     init {
         registerCredentialDao.save(

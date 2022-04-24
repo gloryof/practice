@@ -34,4 +34,17 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
                     message = ex.message
                 )
             )
+
+    // 本当はちゃんとValidationの処理をすべきなんだけど、
+    // 今回の勉強用コードでValidationに時間をかけたくなかったのでIllegalArgumentExceptionで対応。
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handleIllegalArgumentException(
+        ex: IllegalArgumentException
+    ): ResponseEntity<ErrorResponse> =
+        ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(
+                ErrorResponse(
+                    message = "Input value is invalid."
+                )
+            )
 }

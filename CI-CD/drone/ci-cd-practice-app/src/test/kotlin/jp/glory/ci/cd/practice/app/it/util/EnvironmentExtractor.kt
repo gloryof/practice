@@ -15,6 +15,8 @@ object EnvironmentExtractor {
 
     fun getTestUserId(): String = getEnv("USER_ID", "test-system-user-id")
 
+    fun getUpdateUserId(): String = getEnv("UPDATE_USER_ID", "test-for-update-user-id")
+
     fun getTestFileLocation(): String =
         getEnv("TEST_FILE_LOCATION",  "/tmp/test-files")
 
