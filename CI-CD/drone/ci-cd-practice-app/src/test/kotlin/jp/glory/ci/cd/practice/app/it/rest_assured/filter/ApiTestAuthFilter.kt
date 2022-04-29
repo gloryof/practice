@@ -12,7 +12,7 @@ import io.restassured.http.Headers
 import jp.glory.ci.cd.practice.app.auth.web.AuthenticateUserApi
 import jp.glory.ci.cd.practice.app.it.util.EnvironmentExtractor
 
-class ApiTestAuthFilter() : AuthFilter {
+class ApiTestAuthFilter : AuthFilter {
     override fun filter(
         requestSpec: FilterableRequestSpecification?,
         responseSpec: FilterableResponseSpecification?,
@@ -21,13 +21,22 @@ class ApiTestAuthFilter() : AuthFilter {
         if (requestSpec == null || ctx == null) {
             throw IllegalStateException("Required parameter is null")
         }
-
-        val csrfTokenHeader = getCsrfTokenHeader(requestSpec)
-
-        requestSpec.header(csrfTokenHeader)
-        requestSpec.header(getAuthorizationToken(requestSpec, csrfTokenHeader))
+        if (!RestAssuredFilterContext.isSatisfied()) {
+            setHeaderToContext(requestSpec)
+        }
+        RestAssuredFilterContext.registerToRequestSpecification(requestSpec)
 
         return ctx.next(requestSpec, responseSpec)
+    }
+
+    private fun setHeaderToContext(
+        requestSpec: FilterableRequestSpecification
+    ) {
+        val csrfTokenHeader = getCsrfTokenHeader(requestSpec)
+        val authTokenHeader = getAuthorizationToken(requestSpec, csrfTokenHeader)
+
+        RestAssuredFilterContext.setCsrfTokenHeader(csrfTokenHeader)
+        RestAssuredFilterContext.setAuthTokenHeader(authTokenHeader)
     }
 
     private fun getCsrfTokenHeader(
