@@ -20,12 +20,22 @@ steps:
   - name: build
     image: openjdk:17.0.1-jdk-slim
     commands:
-      - ./gradlew clean build jib -g $GRADLE_UESR_DIR --info --tests jp.glory.ci.cd.practice.app.suite.UtTestSuite
+      - ./gradlew clean build -g $GRADLE_UESR_DIR --info -x test
+
+  - name: test
+    image: openjdk:17.0.1-jdk-slim
+    commands:
+      - ./gradlew test -g $GRADLE_UESR_DIR --info --tests jp.glory.ci.cd.practice.app.suite.UtTestSuite
+
+  - name: jib-build
+    image: openjdk:17.0.1-jdk-slim
+    commands:
+      - ./gradlew jib -g $GRADLE_UESR_DIR --info -x test
 
   - name: code-check
     image: openjdk:17.0.1-jdk-slim
     commands:
-      - ./gradlew sonarqube -g $GRADLE_UESR_DIR --info -Dsonar.projectKey=$SONARQUBE_KEY_NAME -Dsonar.host.url=$SONARQUBE_HOST_URL -Dsonar.login=$SONARQUBE_TOKEN
+      - ./gradlew sonarqube -g $GRADLE_UESR_DIR --info -x test -Dsonar.projectKey=$SONARQUBE_KEY_NAME -Dsonar.host.url=$SONARQUBE_HOST_URL -Dsonar.login=$SONARQUBE_TOKEN
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
