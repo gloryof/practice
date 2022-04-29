@@ -22,28 +22,25 @@ class ApiTestAuthFilter : AuthFilter {
             throw IllegalStateException("Required parameter is null")
         }
         if (!RestAssuredFilterContext.isSatisfied()) {
-            setHeaderToContext(requestSpec)
+            setHeaderToContext()
         }
         RestAssuredFilterContext.registerToRequestSpecification(requestSpec)
 
         return ctx.next(requestSpec, responseSpec)
     }
 
-    private fun setHeaderToContext(
-        requestSpec: FilterableRequestSpecification
-    ) {
-        val csrfTokenHeader = getCsrfTokenHeader(requestSpec)
-        val authTokenHeader = getAuthorizationToken(requestSpec, csrfTokenHeader)
+    private fun setHeaderToContext() {
+        val csrfTokenHeader = getCsrfTokenHeader()
+        val authTokenHeader = getAuthorizationToken(csrfTokenHeader)
 
         RestAssuredFilterContext.setCsrfTokenHeader(csrfTokenHeader)
         RestAssuredFilterContext.setAuthTokenHeader(authTokenHeader)
     }
 
-    private fun getCsrfTokenHeader(
-        requestSpec: FilterableRequestSpecification
-    ): Header {
-        val baseUrl = requestSpec.baseUri ?: throw IllegalStateException("Base url is null")
-        return post("$baseUrl/csrf/token")
+    private fun getCsrfTokenHeader(): Header {
+        val baseUrl = EnvironmentExtractor.getTargetUrl()
+        val targetPort = EnvironmentExtractor.getTargetPort()
+        return post("$baseUrl:$targetPort/csrf/token")
             ?.body
             ?.asString()
             ?.let { Header("X-CSRF-TOKEN", it) }
@@ -51,11 +48,11 @@ class ApiTestAuthFilter : AuthFilter {
     }
 
     private fun getAuthorizationToken(
-        requestSpec: FilterableRequestSpecification,
         csrfTokenHeader: Header
     ): Header {
         val idPassword = EnvironmentExtractor.getIdPassword()
-        val baseUrl = requestSpec.baseUri ?: throw IllegalStateException("Base url is null")
+        val baseUrl = EnvironmentExtractor.getTargetUrl()
+        val targetPort = EnvironmentExtractor.getTargetPort()
         return given()
             .headers(
                 Headers(
@@ -69,7 +66,7 @@ class ApiTestAuthFilter : AuthFilter {
                     password = idPassword.password
                 )
             )
-            .post("$baseUrl/authenticate")
+            .post("$baseUrl:$targetPort/authenticate")
             ?.body
             ?.`as`(AuthenticateUserApi.Response::class.java)
             ?.let { Header("Authorization", "Bearer ${it.tokenValue}") }

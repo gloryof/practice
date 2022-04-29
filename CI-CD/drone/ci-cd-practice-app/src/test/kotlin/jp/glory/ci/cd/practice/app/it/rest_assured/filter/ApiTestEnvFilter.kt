@@ -16,12 +16,16 @@ class ApiTestEnvFilter : Filter, OrderedFilter {
         responseSpec: FilterableResponseSpecification?,
         ctx: FilterContext?
     ): Response {
-        if (ctx == null) {
+        if (requestSpec == null || ctx == null) {
             throw IllegalStateException("Required parameter is null")
         }
 
+        requestSpec.baseUri(EnvironmentExtractor.getTargetUrl())
         RestAssured.baseURI = EnvironmentExtractor.getTargetUrl()
+
         RestAssured.port = EnvironmentExtractor.getTargetPort()
+        requestSpec.port(EnvironmentExtractor.getTargetPort())
+
         RestAssured.defaultParser = Parser.JSON
 
         return ctx.next(requestSpec, responseSpec)
