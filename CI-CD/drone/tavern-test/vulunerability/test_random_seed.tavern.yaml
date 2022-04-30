@@ -1,0 +1,38 @@
+---
+test_name: Get random seed
+
+stages:
+  - name: Create CSRF token
+    request:
+      url: http://localhost:8080/csrf/token
+      method: POST
+    response:
+      status_code: 200
+      save:
+        $ext:
+          function: test_utils:convert_csrf_token_to_json
+
+  - name: Create auth token
+    request:
+      url: http://localhost:8080/authenticate
+      method: POST
+      json:
+        userId: "test-system-user-id"
+        password: "test-system-password"
+      headers:
+        X-CSRF-TOKEN: "{csrf_token}"
+    response:
+      status_code: 200
+      save:
+        json:
+          auth_token: "tokenValue"
+
+  - name: Response is number
+    request:
+      url: http://localhost:8080/vulnerability/random-seed
+      method: GET
+      headers:
+        X-CSRF-TOKEN: "{csrf_token}"
+        Authorization: "Bearer {auth_token}"
+    response:
+      status_code: 200
