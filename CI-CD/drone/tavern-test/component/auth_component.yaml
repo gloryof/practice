@@ -1,0 +1,32 @@
+---
+name: Authentication components
+description:
+  For authentication components.
+
+stages:
+  - id: create_csrf_token
+    name: Create CSRF token
+    request:
+      url: http://localhost:8080/csrf/token
+      method: POST
+    response:
+      status_code: 200
+      save:
+        $ext:
+          function: test_utils:convert_csrf_token_to_json
+
+  - id: create_auth_token
+    name: Create auth token
+    request:
+      url: http://localhost:8080/authenticate
+      method: POST
+      json:
+        userId: "test-system-user-id"
+        password: "test-system-password"
+      headers:
+        X-CSRF-TOKEN: "{csrf_token}"
+    response:
+      status_code: 200
+      save:
+        json:
+          auth_token: "tokenValue"
