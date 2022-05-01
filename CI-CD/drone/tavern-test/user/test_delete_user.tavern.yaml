@@ -1,0 +1,40 @@
+---
+test_name: Success delete user
+
+includes:
+  - !include ../component/auth_component.yaml
+  - !include register_user_variables.yaml
+
+stages:
+  - type: ref
+    id: create_csrf_token
+
+  - type: ref
+    id: create_auth_token
+
+  - name: Register user
+    request:
+      url: "{target_url}/user"
+      method: POST
+      headers:
+        X-CSRF-TOKEN: "{csrf_token}"
+        Authorization: "Bearer {auth_token}"
+      json:
+        givenName: "{given_name}"
+        familyName: "{family_name}"
+        password: "{password}"
+    response:
+      status_code: 201
+      save:
+        json:
+          created_user_id: "userId"
+
+  - name: Delete user
+    request:
+      url: "{target_url}/user/{created_user_id}"
+      method: DELETE
+      headers:
+        X-CSRF-TOKEN: "{csrf_token}"
+        Authorization: "Bearer {auth_token}"
+    response:
+      status_code: 204

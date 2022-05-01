@@ -1,0 +1,7 @@
+---
+name: Register user variables
+description: Register user variables
+
+variables:
+  given_name: updated-given-name
+  family_name: updated-family-name

@@ -6,3 +6,5 @@ variables:
   target_url: "http://localhost:8080"
   login_user_id: "test-system-user-id"
   login_password: "test-system-password"
+  get_target_user_id: "test-system-user-id"
+  update_target_user_id: "test-for-update-user-id"

@@ -1,0 +1,46 @@
+---
+test_name: Success get user
+
+includes:
+  - !include ../component/auth_component.yaml
+
+stages:
+  - type: ref
+    id: create_csrf_token
+
+  - type: ref
+    id: create_auth_token
+
+  - name: Get user
+    request:
+      url: "{target_url}/user/{get_target_user_id}"
+      method: GET
+      headers:
+        X-CSRF-TOKEN: "{csrf_token}"
+        Authorization: "Bearer {auth_token}"
+    response:
+      status_code: 200
+      json: !include ../test-data/system-user.json
+
+---
+test_name: Not found
+
+includes:
+  - !include ../component/auth_component.yaml
+
+stages:
+  - type: ref
+    id: create_csrf_token
+
+  - type: ref
+    id: create_auth_token
+
+  - name: Get user
+    request:
+      url: "{target_url}/user/not_found_user"
+      method: GET
+      headers:
+        X-CSRF-TOKEN: "{csrf_token}"
+        Authorization: "Bearer {auth_token}"
+    response:
+      status_code: 404
