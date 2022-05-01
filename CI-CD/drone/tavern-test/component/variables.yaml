@@ -1,0 +1,8 @@
+---
+name: test variables
+description: test variables
+
+variables:
+  target_url: "{tavern.env_vars.TARGET_URL}"
+  login_user_id: "{tavern.env_vars.LOGIN_USER_ID}"
+  login_password: "{tavern.env_vars.LOGIN_PASSWORD}"

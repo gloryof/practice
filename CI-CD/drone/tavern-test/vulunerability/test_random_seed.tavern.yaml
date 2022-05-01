@@ -2,6 +2,7 @@
 test_name: Get random seed
 
 includes:
+  - !include ../component/variables.yaml
   - !include ../component/auth_component.yaml
 
 stages:
@@ -13,7 +14,7 @@ stages:
 
   - name: Response is number
     request:
-      url: http://localhost:8080/vulnerability/random-seed
+      url: "{target_url}/vulnerability/random-seed"
       method: GET
       headers:
         X-CSRF-TOKEN: "{csrf_token}"
