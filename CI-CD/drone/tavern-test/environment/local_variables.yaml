@@ -1,0 +1,8 @@
+---
+name: test variables
+description: test variables
+
+variables:
+  target_url: "http://localhost:8080"
+  login_user_id: "test-system-user-id"
+  login_password: "test-system-password"

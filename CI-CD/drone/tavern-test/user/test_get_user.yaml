@@ -1,5 +1,5 @@
 ---
-test_name: Get random seed
+test_name: Get user
 
 includes:
   - !include ../component/auth_component.yaml
