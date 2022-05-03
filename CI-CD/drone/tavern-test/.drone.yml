@@ -1,0 +1,17 @@
+kind: pipeline
+type: docker
+name: default
+
+clone:
+  disable: true
+
+steps:
+  - name: test-by-tavern
+    image: python:3.10.4-slim
+    commands:
+      - pip install -r requirements.txt
+      - ./ci_test.sh
+
+services:
+  - name: target
+    image: localhost:30500/ci-cd-practice-app:latest
