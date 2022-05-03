@@ -1,5 +1,4 @@
-package jp.glory.ci.cd.practice.app.it.rest_assured
-
+package jp.glory.ci.cd.practice.app.rest_assured
 import io.restassured.http.Header
 import io.restassured.http.Headers
 

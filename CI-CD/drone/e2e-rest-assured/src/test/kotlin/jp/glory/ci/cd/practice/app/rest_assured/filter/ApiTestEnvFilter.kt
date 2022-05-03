@@ -1,4 +1,4 @@
-package jp.glory.ci.cd.practice.app.it.rest_assured.filter
+package jp.glory.ci.cd.practice.app.rest_assured.filter
 
 import io.restassured.RestAssured
 import io.restassured.filter.Filter
@@ -8,7 +8,7 @@ import io.restassured.parsing.Parser
 import io.restassured.response.Response
 import io.restassured.specification.FilterableRequestSpecification
 import io.restassured.specification.FilterableResponseSpecification
-import jp.glory.ci.cd.practice.app.it.util.EnvironmentExtractor
+import jp.glory.ci.cd.practice.app.rest_assured.util.EnvironmentExtractor
 
 class ApiTestEnvFilter : Filter, OrderedFilter {
     override fun filter(

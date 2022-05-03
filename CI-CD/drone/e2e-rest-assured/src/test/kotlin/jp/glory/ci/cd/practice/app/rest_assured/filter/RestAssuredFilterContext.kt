@@ -1,4 +1,4 @@
-package jp.glory.ci.cd.practice.app.it.rest_assured.filter
+package jp.glory.ci.cd.practice.app.rest_assured.filter
 
 import io.restassured.http.Header
 import io.restassured.specification.FilterableRequestSpecification

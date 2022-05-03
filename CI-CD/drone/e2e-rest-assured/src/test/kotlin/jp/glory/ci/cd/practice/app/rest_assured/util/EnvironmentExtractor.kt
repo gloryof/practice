@@ -1,4 +1,4 @@
-package jp.glory.ci.cd.practice.app.it.util
+package jp.glory.ci.cd.practice.app.rest_assured.util
 
 object EnvironmentExtractor {
     fun getTargetUrl(): String =

@@ -1,26 +1,20 @@
-package jp.glory.ci.cd.practice.app.it.rest_assured.user
+package jp.glory.ci.cd.practice.app.rest_assured.test.user
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.restassured.module.kotlin.extensions.Extract
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
-import jp.glory.ci.cd.practice.app.it.rest_assured.RestAssuredHelper
-import jp.glory.ci.cd.practice.app.it.rest_assured.RestAssuredTest
-import jp.glory.ci.cd.practice.app.it.rest_assured.filter.ApiTestFilters
-import jp.glory.ci.cd.practice.app.it.util.EnvironmentExtractor
-import jp.glory.ci.cd.practice.app.it.util.OuterFileExtractor
-import jp.glory.ci.cd.practice.app.user.web.request.RegisterUserRequest
-import jp.glory.ci.cd.practice.app.user.web.request.UpdateUserRequest
-import jp.glory.ci.cd.practice.app.user.web.response.RegisterUserResponse
-import jp.glory.ci.cd.practice.app.user.web.response.UpdateUserResponse
-import jp.glory.ci.cd.practice.app.user.web.response.UserResponse
+import jp.glory.ci.cd.practice.app.rest_assured.RestAssuredHelper
+import jp.glory.ci.cd.practice.app.rest_assured.filter.ApiTestFilters
+import jp.glory.ci.cd.practice.app.rest_assured.util.EnvironmentExtractor
+import jp.glory.ci.cd.practice.app.rest_assured.util.OuterFileExtractor
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+
 import java.util.UUID
 
-@RestAssuredTest
 internal class UserApiTest {
     private val basePath = "/user"
 
@@ -201,4 +195,26 @@ internal class UserApiTest {
             familyName = "family-name-$suffix"
         )
     }
+
+    data class UpdateUserRequest(
+        val givenName: String,
+        val familyName: String,
+    )
+    data class RegisterUserRequest(
+        val givenName: String,
+        val familyName: String,
+        val password: String
+    )
+
+    data class UserResponse(
+        val userId: String,
+        val givenName: String,
+        val familyName: String
+    )
+    data class RegisterUserResponse(
+        val userId: String,
+    )
+    data class UpdateUserResponse(
+        val userId: String,
+    )
 }

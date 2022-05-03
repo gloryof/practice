@@ -1,4 +1,4 @@
-package jp.glory.ci.cd.practice.app.it.rest_assured.filter
+package jp.glory.ci.cd.practice.app.rest_assured.filter
 
 import io.restassured.filter.FilterContext
 import io.restassured.response.Response
@@ -9,8 +9,7 @@ import io.restassured.RestAssured.*
 import io.restassured.http.ContentType
 import io.restassured.http.Header
 import io.restassured.http.Headers
-import jp.glory.ci.cd.practice.app.auth.web.AuthenticateUserApi
-import jp.glory.ci.cd.practice.app.it.util.EnvironmentExtractor
+import jp.glory.ci.cd.practice.app.rest_assured.util.EnvironmentExtractor
 
 class ApiTestAuthFilter : AuthFilter {
     override fun filter(
@@ -61,15 +60,23 @@ class ApiTestAuthFilter : AuthFilter {
                 )
             )
             .body(
-                AuthenticateUserApi.Request(
+                AuthenticateUserApiRequest(
                     userId = idPassword.userId,
                     password = idPassword.password
                 )
             )
             .post("$baseUrl:$targetPort/authenticate")
             ?.body
-            ?.`as`(AuthenticateUserApi.Response::class.java)
+            ?.`as`(AuthenticateUserApiResponse::class.java)
             ?.let { Header("Authorization", "Bearer ${it.tokenValue}") }
             ?: throw IllegalStateException("Authentication token is null")
     }
+    data class AuthenticateUserApiRequest(
+        val userId: String,
+        val password: String
+    )
+
+    data class AuthenticateUserApiResponse(
+        val tokenValue: String
+    )
 }
