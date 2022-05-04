@@ -1,7 +1,11 @@
 # !/bin/sh
 source ./local-file/local.env
 
-cp -a ./config/rest-assured /tmp
-# cp -a ./config/zap /tmp
+target_dir=/tmp/rest-assured
+
+if [ ! -d $target_dir ]; then
+  mkdir $target_dir
+fi
+cp -a ./config/* $target_dir
 
 drone exec --env-file ./local-file/local.env --trusted
