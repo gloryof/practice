@@ -1,0 +1,27 @@
+kind: pipeline
+type: docker
+name: default
+
+clone:
+  disable: true
+
+steps:
+
+  - name: security-test
+    image: owasp/zap2docker-stable:2.11.1
+    volumes:
+      - name: zap-volume
+        path: /zap/wrk
+    commands:
+      - sleep 10
+      - /zap/wrk/scan.sh
+      - rm zap.out # Want to remove this line.
+
+services:
+  - name: target
+    image: localhost:30500/ci-cd-practice-app:latest
+
+volumes:
+  - name: zap-volume
+    host:
+      path: /tmp/zap

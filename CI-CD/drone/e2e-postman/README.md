@@ -15,5 +15,5 @@ Postmanをインストールする。
 ### Build
 下記のコマンドを実行する。
 ```
-$ drone exec
+$ ./drone-it.sh
 ```
