@@ -1,4 +1,4 @@
-# REST AssuredによるE2Eテスト
+# TavernによるE2Eテスト
 
 ## 動作方法
 ### Build
