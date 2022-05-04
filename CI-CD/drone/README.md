@@ -5,22 +5,11 @@
 CLIをインストールする。
 https://docs.drone.io/cli/install/
 
-### Postman
-Postmanをインストールする。
-
 ### k8sの実行
 下記のコマンドでk8sにあるワークロードを起動する。
 ```
 $ kubectl apply -f k8s --recursive
 ```
-
-### Postman
-#### 環境変数
-|変数名|設定値|
-|-----|-----|
-|user-id|ユーザID|
-|password|パスワード|
-|baseUrl|ベースとなるURL（http://localhost:8080）|
 
 ## うまくいかなかったこと
 ### OWASP ZAP Docker

@@ -1,0 +1,25 @@
+kind: pipeline
+type: docker
+name: default
+
+clone:
+  disable: true
+
+steps:
+  - name: test-by-postman
+    image: postman/newman:5.3.1-alpine
+    volumes:
+      - name: postman-volume
+        path: /etc/newman
+    commands:
+      - sleep 10
+      - newman run "/etc/newman/config.json" --environment="/etc/newman/env.json"
+
+services:
+  - name: target
+    image: localhost:30500/ci-cd-practice-app:latest
+
+volumes:
+  - name: postman-volume
+    host:
+      path: /tmp/postman
