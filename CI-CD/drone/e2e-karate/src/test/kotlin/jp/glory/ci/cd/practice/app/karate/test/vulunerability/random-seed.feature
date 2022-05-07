@@ -1,9 +1,7 @@
 Feature: Random seed
 
   Background:
-    * def authFeaturePath = 'classpath:jp/glory/ci/cd/practice/app/karate/test/auth/auth.feature'
-    * def authFeatureParam = { userId: 'test-system-user-id', password: 'test-system-password' }
-    * def auth = call read(authFeaturePath) authFeatureParam
+    * def auth = call read(authFeaturePath)
 
   Scenario: Success return number
     Given url targetHost + "/vulnerability/random-seed"

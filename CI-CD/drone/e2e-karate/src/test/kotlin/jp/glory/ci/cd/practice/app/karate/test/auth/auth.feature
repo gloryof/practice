@@ -15,7 +15,7 @@ Feature: Call authentication API
 
     Given url targetHost + "/authenticate"
     And header X-CSRF-TOKEN = csrfToken
-    And request { userId: "#(userId)", password: "#(password)" }
+    And request { userId: "#(loginUserId)", password: "#(loginPassword)" }
     When method post
     Then status 200
     And def authToken = "Bearer " + response.tokenValue
