@@ -15,7 +15,8 @@ function fn() {
     loginPassword: getEnv("PASSWORD", "test-system-password"),
     testUserId: getEnv("USER_ID", "test-system-user-id"),
     updateUserId: getEnv("UPDATE_USER_ID", "test-for-update-user-id"),
-    authFeaturePath: "classpath:jp/glory/ci/cd/practice/app/karate/test/auth/auth.feature"
+    authFeaturePath: "classpath:jp/glory/ci/cd/practice/app/karate/test/auth/auth.feature",
+    testFileLocation: getEnv("TEST_FILE_LOCATION", "classpath:/test-data")
   };
 
   return config;
