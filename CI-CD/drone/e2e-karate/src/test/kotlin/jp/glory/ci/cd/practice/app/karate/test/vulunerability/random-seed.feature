@@ -6,7 +6,7 @@ Feature: Random seed
     * def auth = call read(authFeaturePath) authFeatureParam
 
   Scenario: Success return number
-    Given url "http://localhost:8080/vulnerability/random-seed"
+    Given url targetHost + "/vulnerability/random-seed"
     And header X-CSRF-TOKEN = auth.csrfToken
     And header Authorization = auth.authToken
     When method GET
