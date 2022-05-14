@@ -34,6 +34,7 @@ dependencies {
     testImplementation("org.junit.platform:junit-platform-suite-api")
     testImplementation("org.junit.platform:junit-platform-suite-engine")
     testImplementation("com.intuit.karate:karate-junit5:1.1.0")
+    testImplementation("net.masterthought:cucumber-reporting:5.7.0")
 }
 
 tasks.withType<KotlinCompile> {

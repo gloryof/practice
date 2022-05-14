@@ -5,6 +5,7 @@
 # Output
 #   csrfToken: CSRF token
 #   authToken: Authentication token as Bearer format.
+@ignore
 Feature: Call authentication API
 
   Scenario: Success return number
