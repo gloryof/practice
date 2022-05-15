@@ -1,0 +1,53 @@
+kind: pipeline
+type: docker
+name: default
+
+clone:
+  disable: true
+
+steps:
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      restore: true
+      mount:
+        - .gradle
+        - .gradle/user/caches
+
+  - name: test-by-karate-gradle
+    image: openjdk:17.0.1-jdk-slim
+    volumes:
+      - name: karate-gradle-volume
+        path: /karate-gradle
+    environment:
+      TARGET_URL: http://target
+      TARGET_PORT: 8080
+      TEST_FILE_LOCATION: file:/karate-gradle/test-data
+    commands:
+      - ./gradlew clean test -g $GRADLE_UESR_DIR --info --tests jp.glory.ci.cd.practice.app.karate.test.ParallelTest
+
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      rebuild: true
+      mount:
+        - .gradle
+        - .gradle/user/caches
+
+services:
+  - name: target
+    image: localhost:30500/ci-cd-practice-app:latest
+
+volumes:
+  - name: karate-gradle-volume
+    host:
+      path: /tmp/e2e-karate-gradle
+  - name: cache
+    host:
+      path: /tmp/cache
