@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_package = "jp.glory.grpc.practice.app.product";
+package product;
+
+service ProductService {
+  rpc GetProducts(GetProductsRequest) returns (ProductsResponse) {}
+}
+
+message GetProductsRequest {
+}
+
+message ProductsResponse {
+  repeated ProductResponse products = 1;
+}
+
+message ProductResponse {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  repeated string memberIds = 4;
+  repeated string serviceIds = 5;
+}

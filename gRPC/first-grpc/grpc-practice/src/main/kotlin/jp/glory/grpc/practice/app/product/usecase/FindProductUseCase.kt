@@ -8,12 +8,10 @@ import jp.glory.grpc.practice.base.usecase.toUseCaseError
 import jp.glory.grpc.practice.app.product.domain.model.Product
 import jp.glory.grpc.practice.app.product.domain.model.ProductID
 import jp.glory.grpc.practice.app.product.domain.repository.ProductRepository
-import reactor.core.publisher.Flux
 
 @UseCase
 class FindProductUseCase(
-    private val repository: ProductRepository,
-    private val notifier: NewProductNotifier
+    private val repository: ProductRepository
 ) {
     fun findAll(): Result<ProductsSearchResult, UseCaseError> =
         repository.findAll()
@@ -33,8 +31,6 @@ class FindProductUseCase(
                 },
                 failure = { Err(toUseCaseError(it)) }
             )
-
-    fun subscribe(): Flux<ProductSearchResult> = notifier.subscribe()
 
     private fun createNotFound(id: String): Err<UseCaseNotFoundError> =
         Err(

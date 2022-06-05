@@ -11,8 +11,7 @@ import jp.glory.grpc.practice.app.product.domain.spec.RegisterProductSpec
 
 @UseCase
 class RegisterProductUseCase(
-    private val repository: ProductRepository,
-    private val notifier: NewProductNotifier
+    private val repository: ProductRepository
 ) {
     fun register(input: Input): Result<String, UseCaseError> {
         val event = input.toEvent()
@@ -67,7 +66,6 @@ class RegisterProductUseCase(
     private fun notify(id: ProductID): Result<ProductID, UseCaseError> =
         repository.findById(id)
             .map { it ?: return createNotFound(id.value) }
-            .flatMap { notifier.register(it) }
             .mapBoth(
                 success = { Ok(id) },
                 failure = { Err(toUseCaseError(it)) }
