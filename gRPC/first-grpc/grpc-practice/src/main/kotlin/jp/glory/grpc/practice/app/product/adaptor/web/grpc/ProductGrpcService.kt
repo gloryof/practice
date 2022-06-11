@@ -1,37 +1,60 @@
 package jp.glory.grpc.practice.app.product.adaptor.web.grpc
 
+import com.github.michaelbull.result.*
 import io.grpc.stub.StreamObserver
 import jp.glory.grpc.practice.app.product.ProductServiceGrpc
 import jp.glory.grpc.practice.app.product.ProductServiceOuterClass.GetProductsRequest
 import jp.glory.grpc.practice.app.product.ProductServiceOuterClass.ProductResponse
 import jp.glory.grpc.practice.app.product.ProductServiceOuterClass.ProductsResponse
+import jp.glory.grpc.practice.app.product.usecase.FindProductUseCase
+import jp.glory.grpc.practice.app.product.usecase.ProductSearchResult
+import jp.glory.grpc.practice.base.adaptor.web.WebError
+import jp.glory.grpc.practice.base.adaptor.web.toWebError
 import org.lognet.springboot.grpc.GRpcService
 
 @GRpcService
-class ProductGrpcService : ProductServiceGrpc.ProductServiceImplBase() {
+class ProductGrpcService(
+    private val findProduct: FindProductUseCase
+) : ProductServiceGrpc.ProductServiceImplBase() {
     override fun getProducts(
         request: GetProductsRequest,
         responseObserver: StreamObserver<ProductsResponse>) {
 
-        responseObserver.onNext(createProductsResponse())
+        createProductsResponse()
+            .mapBoth(
+                success = { responseObserver.onNext(it) },
+                failure = { responseObserver.onError(it.createException()) }
+            )
         responseObserver.onCompleted()
     }
 
-    private fun createProductsResponse(): ProductsResponse {
-        val product = ProductResponse.newBuilder()
-            .apply {
-                id = "test-id"
-                code = "test-code"
-                name = "test-name"
-                addMemberIds("test-member-id")
-                addServiceIds("service-id")
-            }
-            .build()
+    private fun createProductsResponse(): Result<ProductsResponse, WebError> =
+        findProduct.findAll()
+            .map { it.products.map { product -> toProductResponse(product) } }
+            .map { toProductsResponse(it) }
+            .mapBoth(
+                success = { Ok(it) },
+                failure = { Err(toWebError(it)) }
+            )
 
-        return ProductsResponse.newBuilder()
-            .apply {
-                addProducts(product)
-            }
-            .build()
-    }
+    private fun toProductsResponse(
+        products: List<ProductResponse>
+    ): ProductsResponse = ProductsResponse.newBuilder()
+        .apply {
+            addAllProducts(products)
+        }
+        .build()
+
+    private fun toProductResponse(
+        result: ProductSearchResult
+    ): ProductResponse = ProductResponse.newBuilder()
+        .apply {
+            id = result.id
+            code = result.code
+            name = result.name
+            addAllMemberIds(result.memberIDs)
+            addAllServiceIds(result.serviceIDs)
+        }
+        .build()
+
 }
