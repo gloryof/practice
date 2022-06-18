@@ -5,9 +5,14 @@ package product;
 
 service ProductService {
   rpc GetProducts(GetProductsRequest) returns (ProductsResponse) {}
+  rpc GetProduct(GetProductRequest) returns (ProductResponse) {}
 }
 
 message GetProductsRequest {
+}
+
+message GetProductRequest {
+  string id = 1;
 }
 
 message ProductsResponse {

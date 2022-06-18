@@ -1,9 +1,28 @@
 package jp.glory.grpc.practice.base.adaptor.web
 
+import com.google.rpc.Code
+import com.google.rpc.ErrorInfo
+import com.google.rpc.Status
 import jp.glory.grpc.practice.base.usecase.*
 
+
 sealed class WebError {
-    fun createException(): WebException = WebException(this)
+    fun getStatus(): Status = Status.newBuilder()
+        .setCode(getCode().number)
+        .setMessage(getDescription())
+        .addDetails(com.google.protobuf.Any.pack(getErrorInfo()))
+        .build()
+
+    open fun getCode(): Code = Code.UNKNOWN
+    open fun getDescription(): String = "Unknown error is occurred."
+    private fun getErrorInfo(): ErrorInfo =
+        ErrorInfo.newBuilder()
+            .apply {
+                reason = getDescription()
+                putAllMetadata(getErrorAttributes())
+            }
+            .build()
+    protected open fun getErrorAttributes(): Map<String, String> = emptyMap()
 }
 
 data class WebUnknownError(
@@ -25,13 +44,22 @@ class WebValidationError(
 }
 
 class WebNotFoundError(
-    val resourceName: String,
-    val idValue: String,
+    private val resourceName: String,
+    private val idValue: String,
 ) : WebError() {
     constructor(error: UseCaseNotFoundError) : this(
         resourceName = error.resourceName.name,
         idValue = error.idValue
     )
+
+    override fun getCode(): Code = Code.NOT_FOUND
+    override fun getDescription(): String = "Resource is not found."
+    override fun getErrorAttributes(): Map<String, String> =
+        mapOf(
+            "resourceName" to resourceName,
+            "idValue" to idValue,
+            "test" to "ほげ"
+        )
 }
 
 interface WebValidationErrorDetail {
