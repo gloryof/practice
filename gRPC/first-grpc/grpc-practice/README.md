@@ -35,3 +35,8 @@ $ grpcurl -plaintext -d @ localhost:6565 product.ProductService/GetProduct
   "id": "hoge"
 }
 ```
+
+## TODO
+- エラーの型を定義する
+  - google.rpc.ErrorInfoがうまくインポートできない
+    - インポート方法を調査するか独自の型で対応する
