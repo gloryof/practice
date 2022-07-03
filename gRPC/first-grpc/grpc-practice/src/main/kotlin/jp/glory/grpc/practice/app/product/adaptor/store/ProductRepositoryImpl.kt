@@ -5,9 +5,7 @@ import com.github.michaelbull.result.Result
 import jp.glory.grpc.practice.app.product.domain.model.*
 import jp.glory.grpc.practice.base.domain.DomainUnknownError
 import jp.glory.grpc.practice.app.product.domain.repository.ProductRepository
-import org.springframework.stereotype.Repository
 
-@Repository
 class ProductRepositoryImpl : ProductRepository {
     private val products: MutableMap<String, Product> = mutableMapOf()
 

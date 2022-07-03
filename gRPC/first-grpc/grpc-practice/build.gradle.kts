@@ -1,10 +1,9 @@
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.id
-import com.google.protobuf.gradle.plugins
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
+import com.google.protobuf.gradle.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val grpcVersion = "1.47.0"
+val protobufVersion = "3.21.1"
+val grpcKotlinVersion = "1.3.0"
 buildscript {
 	repositories {
 		mavenCentral()
@@ -16,11 +15,9 @@ buildscript {
 
 plugins {
 	id("idea")
-	id("org.springframework.boot") version "2.7.0"
-	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-	id("com.google.protobuf") version "0.8.8"
+	id("java-library")
+	id("com.google.protobuf") version "0.8.18"
 	kotlin("jvm") version "1.6.21"
-	kotlin("plugin.spring") version "1.6.21"
 }
 
 group = "jp.glory"
@@ -32,18 +29,28 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	// gRRC
+	api("io.grpc:grpc-stub:$grpcVersion")
+	api("io.grpc:grpc-protobuf:$grpcVersion")
+	api("io.grpc:grpc-services:$grpcVersion")
+	api("com.google.protobuf:protobuf-java-util:$protobufVersion")
+	api("com.google.protobuf:protobuf-kotlin:$protobufVersion")
+	api("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
+	runtimeOnly("io.grpc:grpc-netty:$grpcVersion")
+	compileOnly("org.apache.tomcat:annotations-api:6.0.53")
+
+	implementation("io.insert-koin:koin-core:3.2.0")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.16")
-	implementation("io.github.lognet:grpc-spring-boot-starter:4.7.0")
-	implementation("io.grpc:grpc-kotlin-stub:1.3.0")
-	implementation("io.grpc:grpc-protobuf:1.47.0")
-	implementation("com.google.protobuf:protobuf-kotlin:3.20.1")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.springframework:spring-webflux")
-	testImplementation("org.springframework.graphql:spring-graphql-test")
+}
+
+sourceSets {
+	val main by getting { }
+	main.java.srcDirs("build/generated/source/proto/main/java")
+	main.java.srcDirs("build/generated/source/proto/main/grpc")
+	main.java.srcDirs("build/generated/source/proto/main/kotlin")
+	main.java.srcDirs("build/generated/source/proto/main/grpckt")
 }
 
 tasks.withType<KotlinCompile> {
@@ -57,6 +64,18 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
+java {
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+	sourceSets.getByName("main").resources.srcDir("src/main/proto")
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+	kotlinOptions {
+		freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
+	}
+}
+
 protobuf {
 	protoc {
 		artifact = "com.google.protobuf:protoc:3.7.0"
@@ -64,7 +83,7 @@ protobuf {
 
 	plugins {
 		id("grpc") {
-			artifact = "io.grpc:protoc-gen-grpc-java:1.47.0"
+			artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
 		}
 		id("grpckt") {
 			artifact = "io.grpc:protoc-gen-grpc-kotlin:1.3.0:jdk8@jar"
@@ -76,6 +95,9 @@ protobuf {
 			it.plugins {
 				id("grpc")
 				id("grpckt")
+			}
+			it.builtins {
+				id("kotlin")
 			}
 		}
 	}

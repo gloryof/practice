@@ -2,14 +2,12 @@ package jp.glory.grpc.practice.app.product.usecase
 
 import com.github.michaelbull.result.*
 import jp.glory.grpc.practice.app.product.domain.model.*
-import jp.glory.grpc.practice.base.usecase.UseCase
 import jp.glory.grpc.practice.base.usecase.UseCaseError
 import jp.glory.grpc.practice.base.usecase.UseCaseNotFoundError
 import jp.glory.grpc.practice.base.usecase.toUseCaseError
 import jp.glory.grpc.practice.app.product.domain.repository.ProductRepository
 import jp.glory.grpc.practice.app.product.domain.spec.UpdateProductSpec
 
-@UseCase
 class UpdateProductUseCase(
     private val repository: ProductRepository
 ) {

@@ -37,6 +37,13 @@ $ grpcurl -plaintext -d @ localhost:6565 product.ProductService/GetProduct
 ```
 
 ## TODO
-- エラーの型を定義する
-  - google.rpc.ErrorInfoがうまくインポートできない
-    - インポート方法を調査するか独自の型で対応する
+### gRPC Spring Boot StarterからgRPC純正に移行しようとしたけどうまくいかない。
+下記のエラーが出力されサーバが起動しない。
+```
+Execution failed for task ':generateProto'.
+> protoc: stdout: . stderr: protoc-gen-kotlin: program not found or is not executable
+  --kotlin_out: protoc-gen-kotlin: Plugin failed with status code 1.
+```
+### エラーの型を定義する
+- google.rpc.ErrorInfoがうまくインポートできない
+  - インポート方法を調査するか独自の型で対応する

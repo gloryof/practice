@@ -5,10 +5,8 @@ import com.github.michaelbull.result.Result
 import jp.glory.grpc.practice.app.product.domain.model.*
 import jp.glory.grpc.practice.base.domain.DomainUnknownError
 import jp.glory.grpc.practice.app.product.domain.repository.MemberRepository
-import org.springframework.stereotype.Repository
 import java.time.LocalDate
 
-@Repository
 class MemberRepositoryImpl : MemberRepository {
     private val members: MutableMap<String, Member> = mutableMapOf()
 

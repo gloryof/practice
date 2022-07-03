@@ -3,7 +3,6 @@ package jp.glory.grpc.practice.app.product.usecase
 import com.github.michaelbull.result.map
 import com.github.michaelbull.result.mapError
 import com.github.michaelbull.result.Result
-import jp.glory.grpc.practice.base.usecase.UseCase
 import jp.glory.grpc.practice.base.usecase.UseCaseError
 import jp.glory.grpc.practice.base.usecase.toUseCaseError
 import jp.glory.grpc.practice.app.product.domain.model.Member
@@ -11,7 +10,6 @@ import jp.glory.grpc.practice.app.product.domain.model.MemberID
 import jp.glory.grpc.practice.app.product.domain.repository.MemberRepository
 import java.time.LocalDate
 
-@UseCase
 class FindMemberUseCase(
     private val repository: MemberRepository
 ) {

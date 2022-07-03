@@ -8,9 +8,7 @@ import jp.glory.grpc.practice.app.product.domain.model.ServiceID
 import jp.glory.grpc.practice.app.product.domain.model.ServiceKind
 import jp.glory.grpc.practice.app.product.domain.model.ServiceName
 import jp.glory.grpc.practice.app.product.domain.repository.ServiceRepository
-import org.springframework.stereotype.Repository
 
-@Repository
 class ServiceRepositoryImpl : ServiceRepository {
     private val services: MutableMap<String, Service> = mutableMapOf()
 

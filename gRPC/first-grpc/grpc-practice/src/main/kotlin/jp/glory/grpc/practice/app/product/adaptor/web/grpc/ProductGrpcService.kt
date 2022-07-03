@@ -12,9 +12,7 @@ import jp.glory.grpc.practice.app.product.usecase.ProductSearchResult
 import jp.glory.grpc.practice.base.adaptor.web.WebError
 import jp.glory.grpc.practice.base.adaptor.web.WebResponseUtil
 import jp.glory.grpc.practice.base.adaptor.web.toWebError
-import org.lognet.springboot.grpc.GRpcService
 
-@GRpcService
 class ProductGrpcService(
     private val findProduct: FindProductUseCase
 ) : ProductServiceGrpc.ProductServiceImplBase() {

@@ -1,7 +1,6 @@
 package jp.glory.grpc.practice.app.product.usecase
 
 import com.github.michaelbull.result.*
-import jp.glory.grpc.practice.base.usecase.UseCase
 import jp.glory.grpc.practice.base.usecase.UseCaseError
 import jp.glory.grpc.practice.base.usecase.UseCaseNotFoundError
 import jp.glory.grpc.practice.base.usecase.toUseCaseError
@@ -9,7 +8,6 @@ import jp.glory.grpc.practice.app.product.domain.model.Product
 import jp.glory.grpc.practice.app.product.domain.model.ProductID
 import jp.glory.grpc.practice.app.product.domain.repository.ProductRepository
 
-@UseCase
 class FindProductUseCase(
     private val repository: ProductRepository
 ) {
