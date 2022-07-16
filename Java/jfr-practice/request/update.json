@@ -1,0 +1,14 @@
+{
+  "code": "product-code-2000",
+  "name": "product-name-2000",
+  "memberIDs": [
+    "member-id-1",
+    "member-id-2",
+    "member-id-3"
+  ],
+  "serviceIDs": [
+    "service-id-1",
+    "service-id-2",
+    "service-id-3"
+  ]
+}
