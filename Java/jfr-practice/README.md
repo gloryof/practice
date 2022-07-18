@@ -1,5 +1,17 @@
 # JFRの練習場
 
+## 準備
+下記のコマンドでダンプ用ディレクトリを作成する
+```
+mkdir /tmp/dump
+```
+
+## 起動方法
+起動Optionに下記のコマンドをつける。
+```
+-XX:StartFlightRecording=dumponexit=true,filename=/tmp/dump/app.jfr,settings=profile.jfc
+```
+
 ## APIの実行
 ### Product API
 #### 全件取得
