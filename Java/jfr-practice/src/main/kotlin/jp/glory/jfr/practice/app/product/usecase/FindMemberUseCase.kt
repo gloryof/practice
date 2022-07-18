@@ -1,10 +1,9 @@
 package jp.glory.jfr.practice.app.product.usecase
 
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.map
-import com.github.michaelbull.result.mapError
+import com.github.michaelbull.result.*
 import jp.glory.jfr.practice.app.base.usecase.UseCase
 import jp.glory.jfr.practice.app.base.usecase.UseCaseError
+import jp.glory.jfr.practice.app.base.usecase.UseCaseNotFoundError
 import jp.glory.jfr.practice.app.base.usecase.toUseCaseError
 import jp.glory.jfr.practice.app.product.domain.model.Member
 import jp.glory.jfr.practice.app.product.domain.model.MemberID
@@ -15,21 +14,37 @@ import java.time.LocalDate
 class FindMemberUseCase(
     private val repository: MemberRepository
 ) {
-    fun findById(id: String): Result<MemberSearchResult?, UseCaseError> =
+    fun findById(id: String): Result<MemberSearchResult, UseCaseError> =
         repository.findById(MemberID(id))
-            .map { toResult(it) }
-            .mapError { toUseCaseError(it) }
+            .mapBoth (
+                success = {
+                    if (it == null) {
+                        createNotFound(id)
+                    } else {
+                        Ok(toResult(it))
+                    }
+                },
+                failure = { Err(toUseCaseError(it)) }
+            )
 
-    fun findByIds(ids: List<String>): Result<MemberSearchResults, UseCaseError> =
-        repository.findByIds(ids.map { MemberID(it) })
+    fun findAll(): Result<MemberSearchResults, UseCaseError> =
+        repository.findAll()
             .map { toResults(it) }
             .mapError { toUseCaseError(it) }
 
     private fun toResults(members: List<Member>): MemberSearchResults =
         MemberSearchResults(members.map { MemberSearchResult(it) })
 
-    private fun toResult(member: Member?): MemberSearchResult? =
-        member?.let { MemberSearchResult(it) }
+    private fun toResult(member: Member): MemberSearchResult =
+        MemberSearchResult(member)
+
+    private fun createNotFound(id: String): Err<UseCaseNotFoundError> =
+        Err(
+            UseCaseNotFoundError(
+                resourceName = UseCaseNotFoundError.ResourceName.Product,
+                idValue = id
+            )
+        )
 }
 
 data class MemberSearchResults(

@@ -29,7 +29,7 @@ class ProductApi(
         findProductUseCase.findAll()
             .map {
                 ProductsResponse(
-                    products = it.products.map { result -> toProductResponse(result) }
+                    products = it.results.map { result -> toProductResponse(result) }
                 )
             }
             .mapBoth(

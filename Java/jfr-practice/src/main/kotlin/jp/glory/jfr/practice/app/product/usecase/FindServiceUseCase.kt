@@ -1,10 +1,9 @@
 package jp.glory.jfr.practice.app.product.usecase
 
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.map
-import com.github.michaelbull.result.mapError
+import com.github.michaelbull.result.*
 import jp.glory.jfr.practice.app.base.usecase.UseCase
 import jp.glory.jfr.practice.app.base.usecase.UseCaseError
+import jp.glory.jfr.practice.app.base.usecase.UseCaseNotFoundError
 import jp.glory.jfr.practice.app.base.usecase.toUseCaseError
 import jp.glory.jfr.practice.app.product.domain.model.Service
 import jp.glory.jfr.practice.app.product.domain.model.ServiceID
@@ -15,21 +14,37 @@ import jp.glory.jfr.practice.app.product.domain.model.ServiceKind as DomainServi
 class FindServiceUseCase(
     private val repository: ServiceRepository
 ) {
-    fun findById(id: String): Result<ServiceSearchResult?, UseCaseError> =
+    fun findById(id: String): Result<ServiceSearchResult, UseCaseError> =
         repository.findById(ServiceID(id))
-            .map { toResult(it) }
-            .mapError { toUseCaseError(it) }
+            .mapBoth (
+                success = {
+                    if (it == null) {
+                        createNotFound(id)
+                    } else {
+                        Ok(toResult(it))
+                    }
+                },
+                failure = { Err(toUseCaseError(it)) }
+            )
 
-    fun findByIds(ids: List<String>): Result<ServiceSearchResults, UseCaseError> =
-        repository.findByIds(ids.map { ServiceID(it) })
+    fun findAll(): Result<ServiceSearchResults, UseCaseError> =
+        repository.findAll()
             .map { toResults(it) }
             .mapError { toUseCaseError(it) }
 
-    private fun toResults(Services: List<Service>): ServiceSearchResults =
-        ServiceSearchResults(Services.map { ServiceSearchResult(it) })
+    private fun toResults(services: List<Service>): ServiceSearchResults =
+        ServiceSearchResults(services.map { ServiceSearchResult(it) })
 
-    private fun toResult(Service: Service?): ServiceSearchResult? =
-        Service?.let { ServiceSearchResult(it) }
+    private fun toResult(service: Service): ServiceSearchResult =
+        ServiceSearchResult(service)
+
+    private fun createNotFound(id: String): Err<UseCaseNotFoundError> =
+        Err(
+            UseCaseNotFoundError(
+                resourceName = UseCaseNotFoundError.ResourceName.Product,
+                idValue = id
+            )
+        )
 }
 
 data class ServiceSearchResults(
@@ -53,7 +68,7 @@ data class ServiceSearchResult(
         HealthCare;
 
         companion object {
-            fun toResult(kind: DomainServiceKind) =
+            fun toResult(kind: DomainServiceKind): ServiceKind =
                 when (kind) {
                     DomainServiceKind.Finance -> Finance
                     DomainServiceKind.Entertainment -> Entertainment

@@ -34,9 +34,8 @@ class ServiceRepositoryImpl : ServiceRepository {
         id: ServiceID
     ): Result<Service?, DomainUnknownError> = Ok(services[id.value])
 
-    override fun findByIds(ids: List<ServiceID>): Result<List<Service>, DomainUnknownError> {
+    override fun findAll(): Result<List<Service>, DomainUnknownError> {
         return services
-            .filter { (key, _) -> ids.contains(ServiceID(key)) }
             .map { it.value }
             .let { Ok(it) }
     }

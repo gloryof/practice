@@ -7,5 +7,5 @@ import jp.glory.jfr.practice.app.product.domain.model.MemberID
 
 interface MemberRepository {
     fun findById(id: MemberID): Result<Member?, DomainUnknownError>
-    fun findByIds(ids: List<MemberID>): Result<List<Member>, DomainUnknownError>
+    fun findAll(): Result<List<Member>, DomainUnknownError>
 }

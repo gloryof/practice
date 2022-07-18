@@ -43,7 +43,7 @@ class FindProductUseCase(
 }
 
 data class ProductsSearchResult(
-    val products: List<ProductSearchResult>
+    val results: List<ProductSearchResult>
 )
 
 data class ProductSearchResult(

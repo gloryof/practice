@@ -1,4 +1,4 @@
-package jp.glory.jfr.practice
+    package jp.glory.jfr.practice
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
