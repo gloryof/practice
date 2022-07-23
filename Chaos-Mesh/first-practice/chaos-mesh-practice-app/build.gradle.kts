@@ -5,6 +5,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.12.RELEASE"
 	kotlin("jvm") version "1.6.21"
 	kotlin("plugin.spring") version "1.6.21"
+	id("com.google.cloud.tools.jib") version "3.2.1"
 }
 
 group = "jp.glory"
@@ -43,3 +44,13 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+jib {
+	from {
+		image = "openjdk:17.0.1-slim"
+	}
+	container {
+		creationTime = "USE_CURRENT_TIMESTAMP"
+	}
+}
+

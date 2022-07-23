@@ -1,5 +1,11 @@
 # Chaos Meshの練習用アプリケーション
 
+## Build
+### JibからDocker Desktop
+```
+$ ./gradlew jibDockerBuild
+```
+
 ## APIの実行
 ### Product API
 #### 全件取得
