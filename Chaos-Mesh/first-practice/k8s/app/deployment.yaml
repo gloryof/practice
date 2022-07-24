@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: practice-app-deployment
+  labels:
+    app: practice-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: practice-app
+  template:
+    metadata:
+      labels:
+        app: practice-app
+    spec:
+      containers:
+        - name: practice-app
+          image: chaos-mesh-practice-app:0.0.1-SNAPSHOT
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+              name: app-port

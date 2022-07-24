@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: practice-web-config
+data:
+  nginx.conf: |-
+    events {}
+    http {
+      upstream app {
+        server practice-app-service:8080;
+      }
+      server {
+        location / {
+            proxy_pass http://app/ ;
+        }
+      }
+    }

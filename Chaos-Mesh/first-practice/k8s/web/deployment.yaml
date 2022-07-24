@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: practice-web-deployment
+  labels:
+    app: practice-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: practice-web
+  template:
+    metadata:
+      labels:
+        app: practice-web
+    spec:
+      containers:
+        - name: practice-web
+          image: nginx:1.23.1
+          ports:
+            - containerPort: 80
+              name: web-port
+          volumeMounts:
+            - mountPath: /etc/nginx
+              readOnly: true
+              name: nginx-conf
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: practice-web-config
+            items:
+              - key: nginx.conf
+                path: nginx.conf
