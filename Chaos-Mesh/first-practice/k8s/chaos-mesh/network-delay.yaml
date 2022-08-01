@@ -1,0 +1,15 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: network-delay
+  namespace: chaos-manager
+spec:
+  action: delay
+  mode: one
+  selector:
+    namespaces:
+      - chaos-app
+  delay:
+    latency: '2s'
+    correlation: '100'
+    jitter: '0ms'

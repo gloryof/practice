@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: practice-app-deployment
+  namespace: chaos-app
   labels:
     app: practice-app
 spec:

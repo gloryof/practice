@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: practice-app-service
+  namespace: chaos-app
 spec:
   selector:
     app: practice-app

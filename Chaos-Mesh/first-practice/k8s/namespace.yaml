@@ -1,0 +1,12 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: chaos-app
+  annotations:
+    chaos-mesh.org/inject: "enabled"
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: chaos-manager
+---
