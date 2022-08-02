@@ -16,6 +16,18 @@
 ./strop.sh
 ```
 
+### Chaos ExperimentのON/OFF
+#### ON
+```
+kubectl annotate --overwrite networkchaos ${name} -n chaos-manager experiment.chaos-mesh.org/pause=false
+```
+
+#### OFF
+```
+kubectl annotate --overwrite networkchaos ${name} -n chaos-manager experiment.chaos-mesh.org/pause=true
+```
+
+
 ## 実行方法
 ### API
 ```
@@ -23,4 +35,5 @@ curl http://localhost:30080/products
 ```
 
 ### ダッシュボード
-http://localhost:30494/dashboard
+毎回、install/uninstallしているためポートは毎回書き変わる。  
+`get svc`を使って毎回調べること。
