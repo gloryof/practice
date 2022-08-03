@@ -5,14 +5,25 @@ metadata:
   namespace: chaos-app
 data:
   nginx.conf: |-
+    load_module modules/ngx_http_opentracing_module.so;
     events {}
     http {
+      opentracing_load_tracer /usr/local/lib/libzipkin_opentracing_plugin.so /etc/nginx/nginx-zipkin.conf;
+      resolver kube-dns.kube-system.svc.cluster.local valid=10s;
+      opentracing on;
       upstream app {
         server practice-app-service:8080;
       }
       server {
         location / {
+            opentracing_propagate_context;
             proxy_pass http://app/ ;
         }
       }
+    }
+  nginx-zipkin.conf: |-
+    {
+      "service_name": "practice-web",
+      "collector_host": "practice-zipkin-service.chaos-tracing",
+      "collector_port": 9411
     }

@@ -17,14 +17,19 @@ spec:
     spec:
       containers:
         - name: practice-web
-          image: nginx:1.23.1
+          image: opentracing/nginx-opentracing:nginx-1.23.1
           ports:
             - containerPort: 80
               name: web-port
           volumeMounts:
-            - mountPath: /etc/nginx
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
               readOnly: true
-              name: nginx-conf
+              subPath: nginx.conf
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx-zipkin.conf
+              readOnly: true
+              subPath: nginx-zipkin.conf
       volumes:
         - name: nginx-conf
           configMap:
@@ -32,3 +37,5 @@ spec:
             items:
               - key: nginx.conf
                 path: nginx.conf
+              - key: nginx-zipkin.conf
+                path: nginx-zipkin.conf

@@ -22,3 +22,8 @@ spec:
           ports:
             - containerPort: 8080
               name: app-port
+          env:
+            - name: SPRING_ZIPKIN_BASEURL
+              value: "http://practice-zipkin-service.chaos-tracing:9411/"
+            - name: SPRING_ZIPKIN_SERVICE_NAME
+              value: "practice-app"

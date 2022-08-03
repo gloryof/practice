@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: practice-zipkin-deployment
+  namespace: chaos-tracing
+  labels:
+    app: practice-zipkin
+spec:
+  selector:
+    matchLabels:
+      app: practice-zipkin
+  template:
+    metadata:
+      name: practice-zipkin
+      labels:
+        app: practice-zipkin
+    spec:
+      containers:
+        - name: tracing-container
+          image: openzipkin/zipkin:2.23
+          ports:
+            - containerPort: 9411
+              name: zipkin-port

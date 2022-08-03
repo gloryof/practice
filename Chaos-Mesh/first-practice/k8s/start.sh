@@ -3,3 +3,4 @@ kubectl apply -f namespace.yaml
 kubectl apply --recursive -f web
 kubectl apply --recursive -f app
 kubectl apply --recursive -f chaos-mesh
+kubectl apply --recursive -f zipkin
