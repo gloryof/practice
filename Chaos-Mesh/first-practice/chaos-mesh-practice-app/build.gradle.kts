@@ -24,6 +24,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
+	implementation("org.springframework.cloud:spring-cloud-sleuth-zipkin")
 	implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.16")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
