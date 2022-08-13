@@ -1,0 +1,16 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: JVMChaos
+metadata:
+  name: jvm-exception
+  namespace: chaos-manager
+  annotations:
+    experiment.chaos-mesh.org/pause: "true"
+spec:
+  action: exception
+  mode: all
+  selector:
+    namespaces:
+      - chaos-app
+  class: jp.glory.chaos.mesh.practice.app.product.adaptor.web.ProductApi
+  method: findAll
+  exception: java.io.IOException("Test IOException")'
