@@ -64,6 +64,6 @@ internal class RedisCacheClientTest {
 
     private fun createSut(): RedisCacheClient = RedisCacheClient(
         host = redis.host,
-        port = redis.firstMappedPort
+        port = redis.getMappedPort(targetPort)
     )
 }
