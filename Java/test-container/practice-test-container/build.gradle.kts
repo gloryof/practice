@@ -18,6 +18,10 @@ repositories {
 
 dependencies {
     implementation("io.lettuce:lettuce-core:6.2.0.RELEASE")
+    implementation("org.jetbrains.exposed", "exposed-core", "0.39.1")
+    implementation("org.jetbrains.exposed", "exposed-dao", "0.39.1")
+    implementation("org.jetbrains.exposed", "exposed-jdbc", "0.39.1")
+    implementation("mysql:mysql-connector-java:8.0.30")
 
     implementation("org.slf4j:slf4j-api:1.7.36")
     implementation("ch.qos.logback:logback-core:1.2.11")
@@ -28,6 +32,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.testcontainers:testcontainers:1.17.3")
     testImplementation("org.testcontainers:junit-jupiter:1.17.3")
+    testImplementation("org.testcontainers:mysql:1.17.3")
+
 }
 tasks.test {
     useJUnitPlatform()
