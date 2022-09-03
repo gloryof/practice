@@ -1,0 +1,1 @@
+rootProject.name = "jp.glory.practice-open-telemetry"
