@@ -1,10 +1,10 @@
 package jp.glory.app.open_telemetry.practice
 
-import io.ktor.server.application.hooks.ResponseSent.install
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import jp.glory.app.open_telemetry.practice.base.ktor.configureRouting
 import jp.glory.app.open_telemetry.practice.base.ktor.configureSerialization
+import jp.glory.app.open_telemetry.practice.base.ktor.configureTracing
 import jp.glory.app.open_telemetry.practice.product.ProductModule
 import jp.glory.app.open_telemetry.practice.product.adaptor.web.MemberApi
 import jp.glory.app.open_telemetry.practice.product.adaptor.web.ProductApi
@@ -22,6 +22,7 @@ class PracticeApplication : KoinComponent {
         val memberApi: MemberApi by inject()
         val serviceApi: ServiceApi by inject()
         embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
+            configureTracing()
             configureSerialization()
             configureRouting(
                 productApi = productApi,

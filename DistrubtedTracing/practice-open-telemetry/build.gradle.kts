@@ -28,6 +28,13 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
     implementation("io.ktor:ktor-serialization-jackson-jvm:$ktorVersion")
 
+    // Open Telemetry
+    implementation(platform("io.opentelemetry:opentelemetry-bom:1.17.0"))
+    implementation("io.opentelemetry:opentelemetry-api")
+    implementation("io.opentelemetry:opentelemetry-context")
+    implementation("io.opentelemetry:opentelemetry-exporter-logging")
+    implementation("io.opentelemetry.instrumentation:opentelemetry-ktor-2.0:1.17.0-alpha")
+
     // Jackson
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3")
 
