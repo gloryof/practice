@@ -1,4 +1,8 @@
 ## 実行方法
+### Jaegerの起動
+```
+kubectl apply -f k8s --recursive
+```
 ### Product API
 #### 全件取得
 ```
