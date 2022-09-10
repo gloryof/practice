@@ -33,6 +33,7 @@ dependencies {
     implementation("io.opentelemetry:opentelemetry-api")
     implementation("io.opentelemetry:opentelemetry-context")
     implementation("io.opentelemetry:opentelemetry-exporter-logging")
+    implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
     implementation("io.opentelemetry.instrumentation:opentelemetry-ktor-2.0:1.17.0-alpha")
 
     // Jackson

@@ -6,6 +6,7 @@ import io.opentelemetry.api.baggage.propagation.W3CBaggagePropagator
 import io.opentelemetry.api.common.Attributes
 import io.opentelemetry.context.propagation.ContextPropagators
 import io.opentelemetry.exporter.logging.LoggingSpanExporter
+import io.opentelemetry.exporter.zipkin.ZipkinSpanExporter
 import io.opentelemetry.instrumentation.ktor.v2_0.KtorServerTracing
 import io.opentelemetry.sdk.OpenTelemetrySdk
 import io.opentelemetry.sdk.resources.Resource
@@ -44,11 +45,20 @@ private fun createTracerProvider(
     resource: Resource
 ): SdkTracerProvider =
     SdkTracerProvider.builder()
-        .addSpanProcessor(createSpanProcessor())
+        .addSpanProcessor(createLogSpanProcessor())
+        .addSpanProcessor(createZipkinSpanProcessor())
         .setResource(resource)
         .build()
 
-private fun createSpanProcessor(): SpanProcessor =
+private fun createLogSpanProcessor(): SpanProcessor =
     BatchSpanProcessor
         .builder(LoggingSpanExporter.create())
+        .build()
+private fun createZipkinSpanProcessor(): SpanProcessor =
+    BatchSpanProcessor
+        .builder(
+            ZipkinSpanExporter.builder()
+                .setEndpoint("http://localhost:30411/api/v2/spans")
+                .build()
+        )
         .build()
