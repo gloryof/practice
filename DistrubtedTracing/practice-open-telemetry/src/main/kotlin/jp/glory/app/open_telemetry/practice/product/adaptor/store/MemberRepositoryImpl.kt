@@ -5,33 +5,33 @@ import com.github.michaelbull.result.Result
 import jp.glory.app.open_telemetry.practice.base.domain.DomainUnknownError
 import jp.glory.app.open_telemetry.practice.product.domain.model.*
 import jp.glory.app.open_telemetry.practice.product.domain.repository.MemberRepository
-import java.time.LocalDate
+import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 
 class MemberRepositoryImpl : MemberRepository {
-    private val members: MutableMap<String, Member> = mutableMapOf()
-
-    init {
-        repeat(10) {
-            val id = "member-id-$it"
-            val member = Member(
-                id = MemberID("member-id-$it"),
-                name = MemberName(
-                    givenName = GivenName("member-given-name-$it"),
-                    familyName = FamilyName("member-family-name-$it"),
-                ),
-                birthDay = LocalDate.now()
-            )
-            members[id] = member
-        }
-    }
-
     override fun findById(
         id: MemberID
-    ): Result<Member?, DomainUnknownError> = Ok(members[id.value])
-
-    override fun findAll(): Result<List<Member>, DomainUnknownError> {
-        return members
-            .map { it.value }
+    ): Result<Member?, DomainUnknownError> =
+        MemberTable
+            .select { MemberTable.id eq id.value }
+            .firstOrNull()
+            ?.let { toDomainModel(it) }
             .let { Ok(it) }
-    }
+
+    override fun findAll(): Result<List<Member>, DomainUnknownError> =
+        MemberTable.selectAll()
+            .map { toDomainModel(it) }
+            .let { Ok(it) }
+
+    private fun toDomainModel(row: ResultRow): Member =
+        Member(
+            id = MemberID(row[MemberTable.id]),
+            name = MemberName(
+                givenName = GivenName(row[MemberTable.givenName]),
+                familyName = FamilyName(row[MemberTable.familyName]),
+            ),
+            birthDay = row[MemberTable.birthDay]
+        )
+
 }

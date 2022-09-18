@@ -11,6 +11,7 @@ import jp.glory.app.open_telemetry.practice.product.usecase.FindProductUseCase
 import jp.glory.app.open_telemetry.practice.product.usecase.ProductSearchResult
 import jp.glory.app.open_telemetry.practice.product.usecase.RegisterProductUseCase
 import jp.glory.app.open_telemetry.practice.product.usecase.UpdateProductUseCase
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class ProductApi(
     private val findProductUseCase: FindProductUseCase,
@@ -18,49 +19,57 @@ class ProductApi(
     private val updateProductUseCase: UpdateProductUseCase
 ) {
     fun findAll(): Result<ProductsResponse, WebError> =
-        findProductUseCase.findAll()
-            .map {
-                ProductsResponse(
-                    products = it.results.map { result -> toProductResponse(result) }
+        transaction {
+            findProductUseCase.findAll()
+                .map {
+                    ProductsResponse(
+                        products = it.results.map { result -> toProductResponse(result) }
+                    )
+                }
+                .mapBoth(
+                    success = { Ok(it) },
+                    failure = { Err(WebErrorHelper.create(it)) }
                 )
-            }
-            .mapBoth(
-                success = { Ok(it) },
-                failure = { Err(WebErrorHelper.create(it)) }
-            )
+        }
 
     fun findById(
        id: String
     ): Result<ProductResponse, WebError> =
-        findProductUseCase.findById(id)
-            .map { toProductResponse(it) }
-            .mapBoth(
-                success = { Ok(it) },
-                failure = { Err(WebErrorHelper.create(it)) }
-            )
+        transaction {
+            findProductUseCase.findById(id)
+                .map { toProductResponse(it) }
+                .mapBoth(
+                    success = { Ok(it) },
+                    failure = { Err(WebErrorHelper.create(it)) }
+                )
+        }
 
     fun register(
         request: RegisterProductRequest
     ): Result<RegisterProductResponse, WebError> =
-        toRegisterInput(request)
-            .let { registerProductUseCase.register(it) }
-            .map { RegisterProductResponse(it) }
-            .mapBoth(
-                success = { Ok(it) },
-                failure = { Err(WebErrorHelper.create(it)) }
-            )
+        transaction {
+            toRegisterInput(request)
+                .let { registerProductUseCase.register(it) }
+                .map { RegisterProductResponse(it) }
+                .mapBoth(
+                    success = { Ok(it) },
+                    failure = { Err(WebErrorHelper.create(it)) }
+                )
+        }
 
     fun update(
         id: String,
         request: UpdateProductRequest
     ): Result<UpdateProductResponse, WebError> =
-        toUpdateInput(id, request)
-            .let { updateProductUseCase.update(it) }
-            .map { UpdateProductResponse(it) }
-            .mapBoth(
-                success = { Ok(it) },
-                failure = { Err(WebErrorHelper.create(it)) }
-            )
+        transaction {
+            toUpdateInput(id, request)
+                .let { updateProductUseCase.update(it) }
+                .map { UpdateProductResponse(it) }
+                .mapBoth(
+                    success = { Ok(it) },
+                    failure = { Err(WebErrorHelper.create(it)) }
+                )
+        }
 
     private fun toProductResponse(
         result: ProductSearchResult

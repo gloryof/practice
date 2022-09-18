@@ -1,6 +1,7 @@
 val ktorVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
+val exposedVersion: String by project
 
 plugins {
     application
@@ -28,6 +29,15 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
     implementation("io.ktor:ktor-serialization-jackson-jvm:$ktorVersion")
 
+    // DB
+    implementation("com.zaxxer:HikariCP:5.0.1")
+    implementation("org.jetbrains.exposed", "exposed-core", exposedVersion)
+    implementation("org.jetbrains.exposed", "exposed-dao", exposedVersion)
+    implementation("org.jetbrains.exposed", "exposed-jdbc", exposedVersion)
+    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
+    implementation("mysql:mysql-connector-java:8.0.30")
+
+
     // Open Telemetry
     implementation(platform("io.opentelemetry:opentelemetry-bom:1.17.0"))
     implementation("io.opentelemetry:opentelemetry-api")
@@ -35,6 +45,7 @@ dependencies {
     implementation("io.opentelemetry:opentelemetry-exporter-logging")
     implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
     implementation("io.opentelemetry.instrumentation:opentelemetry-ktor-2.0:1.17.0-alpha")
+    implementation("io.opentelemetry.instrumentation:opentelemetry-hikaricp-3.0:1.17.0-alpha")
 
     // Jackson
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3")

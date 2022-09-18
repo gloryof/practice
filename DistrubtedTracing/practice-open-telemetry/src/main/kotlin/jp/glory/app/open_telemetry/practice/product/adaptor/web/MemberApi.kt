@@ -5,32 +5,37 @@ import jp.glory.app.open_telemetry.practice.base.adaptor.web.error.WebError
 import jp.glory.app.open_telemetry.practice.base.adaptor.web.error.WebErrorHelper
 import jp.glory.app.open_telemetry.practice.product.usecase.FindMemberUseCase
 import jp.glory.app.open_telemetry.practice.product.usecase.MemberSearchResult
+import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDate
 
 class MemberApi(
     private val findMemberUseCase: FindMemberUseCase,
 ) {
     fun findAll(): Result<MembersResponse, WebError> =
-        findMemberUseCase.findAll()
-            .map {
-                MembersResponse(
-                    members = it.results.map { result -> toMemberResponse(result) }
+        transaction {
+            findMemberUseCase.findAll()
+                .map {
+                    MembersResponse(
+                        members = it.results.map { result -> toMemberResponse(result) }
+                    )
+                }
+                .mapBoth(
+                    success = { Ok(it) },
+                    failure = { Err(WebErrorHelper.create(it)) }
                 )
-            }
-            .mapBoth(
-                success = { Ok(it) },
-                failure = { Err(WebErrorHelper.create(it)) }
-            )
+        }
 
     fun findById(
         id: String
     ): Result<MemberResponse, WebError> =
-        findMemberUseCase.findById(id)
-            .map { toMemberResponse(it) }
-            .mapBoth(
-                success = { Ok(it) },
-                failure = { Err(WebErrorHelper.create(it)) }
-            )
+        transaction {
+            findMemberUseCase.findById(id)
+                .map { toMemberResponse(it) }
+                .mapBoth(
+                    success = { Ok(it) },
+                    failure = { Err(WebErrorHelper.create(it)) }
+                )
+        }
 
     private fun toMemberResponse(
         result: MemberSearchResult

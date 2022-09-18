@@ -3,38 +3,39 @@ package jp.glory.app.open_telemetry.practice.product.adaptor.store
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import jp.glory.app.open_telemetry.practice.base.domain.DomainUnknownError
-import jp.glory.app.open_telemetry.practice.product.domain.model.Service
-import jp.glory.app.open_telemetry.practice.product.domain.model.ServiceID
-import jp.glory.app.open_telemetry.practice.product.domain.model.ServiceKind
-import jp.glory.app.open_telemetry.practice.product.domain.model.ServiceName
+import jp.glory.app.open_telemetry.practice.product.domain.model.*
 import jp.glory.app.open_telemetry.practice.product.domain.repository.ServiceRepository
+import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 
 class ServiceRepositoryImpl : ServiceRepository {
-    private val services: MutableMap<String, Service> = mutableMapOf()
-
-    init {
-        repeat(10) {
-            val id = "service-id-$it"
-            val service = Service(
-                id = ServiceID("service-id-$it"),
-                name = ServiceName("service-name-$it"),
-                kind = when (it % 3) {
-                    1 -> ServiceKind.Finance
-                    2 -> ServiceKind.Entertainment
-                    else -> ServiceKind.HealthCare
-                }
-            )
-            services[id] = service
-        }
-    }
 
     override fun findById(
         id: ServiceID
-    ): Result<Service?, DomainUnknownError> = Ok(services[id.value])
-
-    override fun findAll(): Result<List<Service>, DomainUnknownError> {
-        return services
-            .map { it.value }
+    ): Result<Service?, DomainUnknownError> =
+        ServiceTable
+            .select { ServiceTable.id eq id.value }
+            .firstOrNull()
+            ?.let { toDomainModel(it) }
             .let { Ok(it) }
-    }
+
+    override fun findAll(): Result<List<Service>, DomainUnknownError> =
+        ServiceTable.selectAll()
+            .map { toDomainModel(it) }
+            .let { Ok(it) }
+
+    private fun toDomainModel(row: ResultRow): Service =
+        Service(
+            id = ServiceID(row[ServiceTable.id]),
+            name = ServiceName(row[ServiceTable.name]),
+            kind = toServiceKind(row[ServiceTable.kind])
+        )
+
+    private fun toServiceKind(value: Int): ServiceKind =
+        when (value % 3) {
+            1 -> ServiceKind.Finance
+            2 -> ServiceKind.Entertainment
+            else -> ServiceKind.HealthCare
+        }
 }
