@@ -45,7 +45,7 @@ dependencies {
     implementation("io.opentelemetry:opentelemetry-exporter-logging")
     implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
     implementation("io.opentelemetry.instrumentation:opentelemetry-ktor-2.0:1.17.0-alpha")
-    implementation("io.opentelemetry.instrumentation:opentelemetry-hikaricp-3.0:1.17.0-alpha")
+    implementation("io.opentelemetry.instrumentation:opentelemetry-jdbc:1.17.0-alpha")
 
     // Jackson
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3")
