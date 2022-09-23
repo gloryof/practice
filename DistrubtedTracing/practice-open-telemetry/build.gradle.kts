@@ -2,6 +2,7 @@ val ktorVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val exposedVersion: String by project
+val openTelmetryVersion: String by project
 
 plugins {
     application
@@ -37,15 +38,14 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
     implementation("mysql:mysql-connector-java:8.0.30")
 
-
     // Open Telemetry
-    implementation(platform("io.opentelemetry:opentelemetry-bom:1.17.0"))
+    implementation(platform("io.opentelemetry:opentelemetry-bom:$openTelmetryVersion"))
     implementation("io.opentelemetry:opentelemetry-api")
     implementation("io.opentelemetry:opentelemetry-context")
     implementation("io.opentelemetry:opentelemetry-exporter-logging")
     implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
-    implementation("io.opentelemetry.instrumentation:opentelemetry-ktor-2.0:1.17.0-alpha")
-    implementation("io.opentelemetry.instrumentation:opentelemetry-jdbc:1.17.0-alpha")
+    implementation("io.opentelemetry.instrumentation:opentelemetry-ktor-2.0:$openTelmetryVersion-alpha")
+    implementation("io.opentelemetry.instrumentation:opentelemetry-jdbc:$openTelmetryVersion-alpha")
 
     // Jackson
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3")

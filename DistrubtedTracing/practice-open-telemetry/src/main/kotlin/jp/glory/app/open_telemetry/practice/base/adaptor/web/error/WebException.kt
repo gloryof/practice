@@ -5,10 +5,10 @@ import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseNotFoundError
 import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseUnknownError
 import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseValidationError
 
-open class WebError(
-    override val message: String,
-    override val cause: Throwable? = null
-) : RuntimeException(message, cause) {
+sealed class WebError(
+    val message: String,
+    val cause: Throwable? = null
+) {
     open fun toErrorResponse(): ErrorResponse =
         ErrorResponse(
             message = message,

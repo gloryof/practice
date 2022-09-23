@@ -5,6 +5,7 @@ import io.ktor.server.routing.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
+import jp.glory.app.open_telemetry.practice.base.adaptor.web.error.handleError
 import jp.glory.app.open_telemetry.practice.product.adaptor.web.*
 
 fun Application.configureRouting(
@@ -27,7 +28,7 @@ private fun Routing.productRoute(
             productApi.findAll()
                 .mapBoth(
                     success = { call.respond(it) },
-                    failure = { call.respond(it.toErrorResponse()) }
+                    failure = { call.handleError(it) }
                 )
         }
         post {
@@ -35,7 +36,7 @@ private fun Routing.productRoute(
             productApi.register(request)
                 .mapBoth(
                     success = { call.respond(it) },
-                    failure = { call.respond(it.toErrorResponse()) }
+                    failure = { call.handleError(it) }
                 )
 
         }
@@ -44,7 +45,7 @@ private fun Routing.productRoute(
             productApi.findById(id)
                 .mapBoth(
                     success = { call.respond(it) },
-                    failure = { call.respond(it.toErrorResponse()) }
+                    failure = { call.handleError(it) }
                 )
         }
         put("/{id}") {
@@ -56,7 +57,7 @@ private fun Routing.productRoute(
             )
                 .mapBoth(
                     success = { call.respond(it) },
-                    failure = { call.respond(it.toErrorResponse()) }
+                    failure = { call.handleError(it) }
                 )
         }
     }
@@ -70,7 +71,7 @@ private fun Routing.memberRoute(
             memberApi.findAll()
                 .mapBoth(
                     success = { call.respond(it) },
-                    failure = { call.respond(it.toErrorResponse()) }
+                    failure = { call.handleError(it) }
                 )
         }
         get("/{id}") {
@@ -78,7 +79,7 @@ private fun Routing.memberRoute(
             memberApi.findById(id)
                 .mapBoth(
                     success = { call.respond(it) },
-                    failure = { call.respond(it.toErrorResponse()) }
+                    failure = { call.handleError(it) }
                 )
         }
     }
@@ -93,7 +94,7 @@ private fun Routing.serviceRoute(
             serviceApi.findAll()
                 .mapBoth(
                     success = { call.respond(it) },
-                    failure = { call.respond(it.toErrorResponse()) }
+                    failure = { call.handleError(it) }
                 )
         }
         get("/{id}") {
@@ -101,7 +102,7 @@ private fun Routing.serviceRoute(
             serviceApi.findById(id)
                 .mapBoth(
                     success = { call.respond(it) },
-                    failure = { call.respond(it.toErrorResponse()) }
+                    failure = { call.handleError(it) }
                 )
         }
     }
