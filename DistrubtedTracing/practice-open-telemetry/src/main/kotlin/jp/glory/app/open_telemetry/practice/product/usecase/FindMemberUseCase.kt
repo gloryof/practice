@@ -3,6 +3,7 @@ package jp.glory.app.open_telemetry.practice.product.usecase
 import com.github.michaelbull.result.*
 import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseError
 import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseNotFoundError
+import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseTelemetry
 import jp.glory.app.open_telemetry.practice.base.usecase.toUseCaseError
 import jp.glory.app.open_telemetry.practice.product.domain.model.Member
 import jp.glory.app.open_telemetry.practice.product.domain.model.MemberID
@@ -10,11 +11,13 @@ import jp.glory.app.open_telemetry.practice.product.domain.repository.MemberRepo
 import java.time.LocalDate
 
 class FindMemberUseCase(
-    private val repository: MemberRepository
+    private val repository: MemberRepository,
+    private val useCaseTelemetry: UseCaseTelemetry
 ) {
-    fun findById(id: String): Result<MemberSearchResult, UseCaseError> =
-        repository.findById(MemberID(id))
-            .mapBoth (
+    fun findById(id: String): Result<MemberSearchResult, UseCaseError> {
+        registerTelemetry("findById")
+        return repository.findById(MemberID(id))
+            .mapBoth(
                 success = {
                     if (it == null) {
                         createNotFound(id)
@@ -24,11 +27,21 @@ class FindMemberUseCase(
                 },
                 failure = { Err(toUseCaseError(it)) }
             )
+    }
 
-    fun findAll(): Result<MemberSearchResults, UseCaseError> =
-        repository.findAll()
+    fun findAll(): Result<MemberSearchResults, UseCaseError> {
+        registerTelemetry("findAll")
+        return repository.findAll()
             .map { toResults(it) }
             .mapError { toUseCaseError(it) }
+    }
+
+    private fun registerTelemetry(methodName: String) {
+        useCaseTelemetry.registerUseCaseAttribute(
+            useCaseName = "findMember",
+            methodName = methodName
+        )
+    }
 
     private fun toResults(members: List<Member>): MemberSearchResults =
         MemberSearchResults(members.map { MemberSearchResult(it) })

@@ -3,22 +3,27 @@ package jp.glory.app.open_telemetry.practice.product.usecase
 import com.github.michaelbull.result.*
 import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseError
 import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseNotFoundError
+import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseTelemetry
 import jp.glory.app.open_telemetry.practice.base.usecase.toUseCaseError
 import jp.glory.app.open_telemetry.practice.product.domain.model.Product
 import jp.glory.app.open_telemetry.practice.product.domain.model.ProductID
 import jp.glory.app.open_telemetry.practice.product.domain.repository.ProductRepository
 
 class FindProductUseCase(
-    private val repository: ProductRepository
+    private val repository: ProductRepository,
+    private val useCaseTelemetry: UseCaseTelemetry
 ) {
-    fun findAll(): Result<ProductsSearchResult, UseCaseError> =
-        repository.findAll()
+    fun findAll(): Result<ProductsSearchResult, UseCaseError> {
+        registerTelemetry("findAll")
+        return repository.findAll()
             .map { it.map { result -> ProductSearchResult(result) } }
             .map { ProductsSearchResult(it) }
             .mapError { toUseCaseError(it) }
+    }
 
-    fun findById(id: String): Result<ProductSearchResult, UseCaseError> =
-        repository.findById(ProductID(id))
+    fun findById(id: String): Result<ProductSearchResult, UseCaseError> {
+        registerTelemetry("findById")
+        return repository.findById(ProductID(id))
             .mapBoth(
                 success = {
                     if (it == null) {
@@ -29,6 +34,15 @@ class FindProductUseCase(
                 },
                 failure = { Err(toUseCaseError(it)) }
             )
+    }
+
+    private fun registerTelemetry(methodName: String) {
+        useCaseTelemetry.registerUseCaseAttribute(
+            useCaseName = "findProduct",
+            methodName = methodName
+        )
+    }
+
 
     private fun createNotFound(id: String): Err<UseCaseNotFoundError> =
         Err(

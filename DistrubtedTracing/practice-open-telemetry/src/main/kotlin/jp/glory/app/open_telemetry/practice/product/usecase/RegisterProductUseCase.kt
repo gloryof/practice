@@ -2,15 +2,21 @@ package jp.glory.app.open_telemetry.practice.product.usecase
 
 import com.github.michaelbull.result.*
 import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseError
+import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseTelemetry
 import jp.glory.app.open_telemetry.practice.base.usecase.toUseCaseError
 import jp.glory.app.open_telemetry.practice.product.domain.model.*
 import jp.glory.app.open_telemetry.practice.product.domain.repository.ProductRepository
 import jp.glory.app.open_telemetry.practice.product.domain.spec.RegisterProductSpec
 
 class RegisterProductUseCase(
-    private val repository: ProductRepository
+    private val repository: ProductRepository,
+    private val useCaseTelemetry: UseCaseTelemetry
 ) {
     fun register(input: Input): Result<String, UseCaseError> {
+        useCaseTelemetry.registerUseCaseAttribute(
+            useCaseName = "registerProduct",
+            methodName = "register"
+        )
         val event = input.toEvent()
 
         return findPreCheckResult(event.code)

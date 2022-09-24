@@ -3,15 +3,21 @@ package jp.glory.app.open_telemetry.practice.product.usecase
 import com.github.michaelbull.result.*
 import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseError
 import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseNotFoundError
+import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseTelemetry
 import jp.glory.app.open_telemetry.practice.base.usecase.toUseCaseError
 import jp.glory.app.open_telemetry.practice.product.domain.model.*
 import jp.glory.app.open_telemetry.practice.product.domain.repository.ProductRepository
 import jp.glory.app.open_telemetry.practice.product.domain.spec.UpdateProductSpec
 
 class UpdateProductUseCase(
-    private val repository: ProductRepository
+    private val repository: ProductRepository,
+    private val useCaseTelemetry: UseCaseTelemetry
 ) {
     fun update(input: Input): Result<String, UseCaseError> {
+        useCaseTelemetry.registerUseCaseAttribute(
+            useCaseName = "updateProduct",
+            methodName = "update"
+        )
         val event = input.toEvent()
 
         return findCurrentProduct(event.id)

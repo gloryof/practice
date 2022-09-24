@@ -19,11 +19,11 @@ object ProductModule {
         single<ProductRepository> { ProductRepositoryImpl() }
         single<ServiceRepository> { ServiceRepositoryImpl() }
 
-        single { FindMemberUseCase(get()) }
-        single { FindProductUseCase(get()) }
-        single { FindServiceUseCase(get()) }
-        single { RegisterProductUseCase(get()) }
-        single { UpdateProductUseCase(get()) }
+        single { FindMemberUseCase(get(), get()) }
+        single { FindProductUseCase(get(), get()) }
+        single { FindServiceUseCase(get(), get()) }
+        single { RegisterProductUseCase(get(), get()) }
+        single { UpdateProductUseCase(get(), get()) }
 
         single { MemberApi(get()) }
         single { ProductApi(get(), get(), get()) }

@@ -3,6 +3,7 @@ package jp.glory.app.open_telemetry.practice.product.usecase
 import com.github.michaelbull.result.*
 import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseError
 import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseNotFoundError
+import jp.glory.app.open_telemetry.practice.base.usecase.UseCaseTelemetry
 import jp.glory.app.open_telemetry.practice.base.usecase.toUseCaseError
 import jp.glory.app.open_telemetry.practice.product.domain.model.Service
 import jp.glory.app.open_telemetry.practice.product.domain.model.ServiceID
@@ -10,11 +11,13 @@ import jp.glory.app.open_telemetry.practice.product.domain.repository.ServiceRep
 import jp.glory.app.open_telemetry.practice.product.domain.model.ServiceKind as DomainServiceKind
 
 class FindServiceUseCase(
-    private val repository: ServiceRepository
+    private val repository: ServiceRepository,
+    private val useCaseTelemetry: UseCaseTelemetry
 ) {
-    fun findById(id: String): Result<ServiceSearchResult, UseCaseError> =
-        repository.findById(ServiceID(id))
-            .mapBoth (
+    fun findById(id: String): Result<ServiceSearchResult, UseCaseError> {
+        registerTelemetry("findById")
+        return repository.findById(ServiceID(id))
+            .mapBoth(
                 success = {
                     if (it == null) {
                         createNotFound(id)
@@ -24,11 +27,21 @@ class FindServiceUseCase(
                 },
                 failure = { Err(toUseCaseError(it)) }
             )
+    }
 
-    fun findAll(): Result<ServiceSearchResults, UseCaseError> =
-        repository.findAll()
+    fun findAll(): Result<ServiceSearchResults, UseCaseError> {
+        registerTelemetry("findAll")
+        return repository.findAll()
             .map { toResults(it) }
             .mapError { toUseCaseError(it) }
+    }
+
+    private fun registerTelemetry(methodName: String) {
+        useCaseTelemetry.registerUseCaseAttribute(
+            useCaseName = "findService",
+            methodName = methodName
+        )
+    }
 
     private fun toResults(services: List<Service>): ServiceSearchResults =
         ServiceSearchResults(services.map { ServiceSearchResult(it) })

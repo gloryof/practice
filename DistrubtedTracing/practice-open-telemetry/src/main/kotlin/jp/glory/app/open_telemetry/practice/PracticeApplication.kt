@@ -3,6 +3,7 @@ package jp.glory.app.open_telemetry.practice
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.opentelemetry.api.OpenTelemetry
+import jp.glory.app.open_telemetry.practice.base.BaseModule
 import jp.glory.app.open_telemetry.practice.base.adaptor.store.configDb
 import jp.glory.app.open_telemetry.practice.base.ktor.configureRouting
 import jp.glory.app.open_telemetry.practice.base.ktor.configureSerialization
@@ -19,7 +20,10 @@ import org.koin.core.context.GlobalContext.startKoin
 class PracticeApplication : KoinComponent {
     fun runServer() {
         startKoin {
-            modules(ProductModule.productModule())
+            modules(
+                BaseModule.baseModule(),
+                ProductModule.productModule()
+            )
         }
         val productApi: ProductApi by inject()
         val memberApi: MemberApi by inject()
