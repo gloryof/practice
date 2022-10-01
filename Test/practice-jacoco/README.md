@@ -1,7 +1,7 @@
 ## 実行方法
-### Jaegerの起動
+### Jacocoによるチェックの実行
 ```
-kubectl apply -f k8s --recursive
+gradlew test jacocoTestCoverageVerification
 ```
 ### Product API
 #### 全件取得

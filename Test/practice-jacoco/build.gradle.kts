@@ -2,11 +2,13 @@ val ktorVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val exposedVersion: String by project
+val jUnitVersion: String by project
 
 plugins {
     application
     kotlin("jvm") version "1.7.10"
     id("io.ktor.plugin") version "2.1.0"
+    id("jacoco")
 }
 
 group = "jp.glory"
@@ -50,6 +52,39 @@ dependencies {
     implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.16")
 
     // Test
+    testImplementation(platform("org.junit:junit-bom:$jUnitVersion"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.withType<JacocoReport> {
+    dependsOn(tasks.test)
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+    }
+}
+
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.5".toBigDecimal()
+            }
+        }
+
+        rule {
+            element = "PACKAGE"
+            includes = listOf("*.domain.*")
+            limit {
+                minimum = "1".toBigDecimal()
+            }
+        }
+    }
 }
