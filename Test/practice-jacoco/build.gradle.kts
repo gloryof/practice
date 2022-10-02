@@ -74,8 +74,43 @@ tasks.withType<JacocoReport> {
 tasks.jacocoTestCoverageVerification {
     violationRules {
         rule {
+            element = "BUNDLE" // Default
             limit {
                 minimum = "0.5".toBigDecimal()
+            }
+        }
+
+        // これの範囲がわからない
+        rule {
+            element = "SOURCEFILE"
+            includes = listOf("*.domain.*")
+            limit {
+                minimum = "0.6".toBigDecimal()
+            }
+        }
+
+        // これの範囲がわからない
+        rule {
+            element = "GROUP"
+            includes = listOf("*.domain.*")
+            limit {
+                minimum = "0.7".toBigDecimal()
+            }
+        }
+
+        rule {
+            element = "METHOD"
+            includes = listOf("*.domain.*")
+            limit {
+                minimum = "0.8".toBigDecimal()
+            }
+        }
+
+        rule {
+            element = "CLASS"
+            includes = listOf("*.domain.*")
+            limit {
+                minimum = "0.9".toBigDecimal()
             }
         }
 
