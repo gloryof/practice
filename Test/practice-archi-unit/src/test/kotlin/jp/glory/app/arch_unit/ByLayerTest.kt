@@ -9,6 +9,9 @@ class ByLayerTest {
     companion object {
         const val basePackageName = "jp.glory.app.arch_unit"
 
+        const val ktorLibrary = "Ktor Library"
+        const val exposedLibrary = "Exposed Library"
+
         const val applicationBaseName = "Application Base"
         const val domainBaseLayerName = "Domain base"
         const val useCaseBaseLayerName = "UseCase base"
@@ -32,6 +35,9 @@ class ByLayerTest {
             .apply {
                 defineLayers(this)
 
+                defineKtorLibrary(this)
+                defineExposedLibrary(this)
+
                 defineBaseDomainLayerRule(this)
                 defineBaseUseCaseLayerRule(this)
                 defineBaseWebLayerRule(this)
@@ -43,7 +49,12 @@ class ByLayerTest {
     }
 
     private fun defineLayers(architecture: LayeredArchitecture) {
-        architecture.optionalLayer(applicationBaseName)
+        architecture.optionalLayer(ktorLibrary)
+            .definedBy("io.ktor..")
+        architecture.optionalLayer(exposedLibrary)
+            .definedBy("org.jetbrains.exposed..")
+
+        architecture.layer(applicationBaseName)
             .definedBy(basePackageName)
         architecture.layer(domainBaseLayerName)
             .definedBy("$basePackageName.base.domain..")
@@ -52,7 +63,7 @@ class ByLayerTest {
         architecture.layer(webBaseLayerName)
             .definedBy("$basePackageName.base.adaptor.web..")
 
-        architecture.optionalLayer(moduleLayerName)
+        architecture.layer(moduleLayerName)
             .definedBy(*createPackageIdentifiers("module"))
         architecture.layer(domainLayerName)
             .definedBy(*createPackageIdentifiers("domain"))
@@ -70,6 +81,23 @@ class ByLayerTest {
         moduleNames
             .map { "$basePackageName.$it.$layerName.." }
             .toTypedArray()
+
+    private fun defineKtorLibrary(architecture: LayeredArchitecture) {
+        architecture
+            .whereLayer(ktorLibrary)
+            .mayOnlyBeAccessedByLayers(
+                webBaseLayerName
+            )
+    }
+
+    private fun defineExposedLibrary(architecture: LayeredArchitecture) {
+        architecture
+            .whereLayer(exposedLibrary)
+            .mayOnlyBeAccessedByLayers(
+                webLayerName,
+                storeLayerName
+            )
+    }
 
     private fun defineBaseDomainLayerRule(architecture: LayeredArchitecture) {
         architecture
