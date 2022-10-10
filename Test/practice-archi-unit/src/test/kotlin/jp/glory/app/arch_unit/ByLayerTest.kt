@@ -47,7 +47,7 @@ class ByLayerTest {
             .definedBy(
                 "java..",
                 "kotlin..",
-                "org.jetbrains..",
+                "org.jetbrains.annotations..",
                 "com.github.michaelbull..",
             )
 
