@@ -1,4 +1,4 @@
-package jp.glory.app.arch_unit.base.ktor
+package jp.glory.app.arch_unit.base.adaptor.web.ktor
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer

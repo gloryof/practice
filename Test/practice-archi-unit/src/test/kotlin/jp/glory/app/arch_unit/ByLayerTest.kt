@@ -9,7 +9,7 @@ class ByLayerTest {
     companion object {
         const val basePackageName = "jp.glory.app.arch_unit"
 
-        const val publicApiLayerName = "Public API"
+        const val applicationBaseName = "Application Base"
         const val domainBaseLayerName = "Domain base"
         const val useCaseBaseLayerName = "UseCase base"
         const val webBaseLayerName = "Web base"
@@ -34,6 +34,7 @@ class ByLayerTest {
 
                 defineBaseDomainLayerRule(this)
                 defineBaseUseCaseLayerRule(this)
+                defineBaseWebLayerRule(this)
 
                 defineDomainLayerRule(this)
                 defineUseCaseLayerRule(this)
@@ -42,15 +43,8 @@ class ByLayerTest {
     }
 
     private fun defineLayers(architecture: LayeredArchitecture) {
-
-        architecture.optionalLayer(publicApiLayerName)
-            .definedBy(
-                "java..",
-                "kotlin..",
-                "org.jetbrains.annotations..",
-                "com.github.michaelbull..",
-            )
-
+        architecture.optionalLayer(applicationBaseName)
+            .definedBy(basePackageName)
         architecture.layer(domainBaseLayerName)
             .definedBy("$basePackageName.base.domain..")
         architecture.layer(useCaseBaseLayerName)
@@ -96,13 +90,17 @@ class ByLayerTest {
             )
     }
 
+    private fun defineBaseWebLayerRule(architecture: LayeredArchitecture) {
+        architecture
+            .whereLayer(webBaseLayerName)
+            .mayOnlyBeAccessedByLayers(
+                applicationBaseName,
+                webLayerName
+            )
+    }
+
     private fun defineDomainLayerRule(architecture: LayeredArchitecture) {
         architecture
-            .whereLayer(domainLayerName)
-            .mayOnlyAccessLayers(
-                publicApiLayerName,
-                domainBaseLayerName,
-            )
             .whereLayer(domainLayerName)
             .mayOnlyBeAccessedByLayers(
                 storeLayerName,
@@ -114,14 +112,8 @@ class ByLayerTest {
     private fun defineUseCaseLayerRule(architecture: LayeredArchitecture) {
         architecture
             .whereLayer(useCaseLayerName)
-            .mayOnlyAccessLayers(
-                publicApiLayerName,
-                useCaseBaseLayerName,
-                domainLayerName,
-                storeLayerName
-            )
-            .whereLayer(useCaseLayerName)
             .mayOnlyBeAccessedByLayers(
+                applicationBaseName,
                 moduleLayerName,
                 webLayerName
             )

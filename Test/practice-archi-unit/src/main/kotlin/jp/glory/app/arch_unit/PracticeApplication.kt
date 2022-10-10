@@ -3,8 +3,8 @@ package jp.glory.app.arch_unit
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import jp.glory.app.arch_unit.base.adaptor.store.configDb
-import jp.glory.app.arch_unit.base.ktor.configureRouting
-import jp.glory.app.arch_unit.base.ktor.configureSerialization
+import jp.glory.app.arch_unit.base.adaptor.web.ktor.configureRouting
+import jp.glory.app.arch_unit.base.adaptor.web.ktor.configureSerialization
 import jp.glory.app.arch_unit.product.module.ProductModule
 import jp.glory.app.arch_unit.product.adaptor.web.MemberApi
 import jp.glory.app.arch_unit.product.adaptor.web.ProductApi

@@ -1,4 +1,4 @@
-package jp.glory.app.arch_unit.base.ktor
+package jp.glory.app.arch_unit.base.adaptor.web.ktor
 
 import com.github.michaelbull.result.mapBoth
 import io.ktor.server.routing.*
