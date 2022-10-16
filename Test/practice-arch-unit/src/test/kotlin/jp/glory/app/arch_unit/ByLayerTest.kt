@@ -3,7 +3,10 @@ package jp.glory.app.arch_unit
 import com.tngtech.archunit.core.importer.ClassFileImporter
 import com.tngtech.archunit.library.Architectures
 import com.tngtech.archunit.library.Architectures.LayeredArchitecture
+import com.tngtech.archunit.library.metrics.ArchitectureMetrics
+import com.tngtech.archunit.library.metrics.MetricsComponents
 import org.junit.jupiter.api.Test
+
 
 class ByLayerTest {
     companion object {
@@ -27,7 +30,7 @@ class ByLayerTest {
     }
 
     @Test
-    fun test() {
+    fun checkLayerDependency() {
         val basePackage = ClassFileImporter().importPackages(basePackageName)
 
         Architectures.layeredArchitecture()
@@ -46,6 +49,60 @@ class ByLayerTest {
                 defineUseCaseLayerRule(this)
             }
             .check(basePackage)
+    }
+    @Test
+    fun calculateLakosMetrics() {
+        val targetPackage = ClassFileImporter().importPackages(basePackageName)
+            .getPackage(basePackageName)
+            .subpackagesInTree
+        val components = MetricsComponents.fromPackages(targetPackage)
+
+        val metrics = ArchitectureMetrics.lakosMetrics(components)
+
+        println("CCD: " + metrics.getCumulativeComponentDependency())
+        println("ACD: " + metrics.getAverageComponentDependency())
+        println("RACD: " + metrics.getRelativeAverageComponentDependency())
+        println("NCCD: " + metrics.getNormalizedCumulativeComponentDependency())
+
+    }
+
+    @Test
+    fun calculateComponentDependencyMetricsMetrics() {
+        val targetPackage = ClassFileImporter().importPackages(basePackageName)
+            .getPackage(basePackageName)
+            .subpackagesInTree
+        val components = MetricsComponents.fromPackages(targetPackage)
+        val metrics = ArchitectureMetrics.componentDependencyMetrics(components)
+
+        targetPackage.forEach {
+            val targetName = it.name
+            println("======================== Start $targetName ======================== ")
+            println("Ce: " + metrics.getEfferentCoupling(targetName))
+            println("Ca: " + metrics.getAfferentCoupling(targetName))
+            println("I: " + metrics.getInstability(targetName))
+            println("A: " + metrics.getAbstractness(targetName))
+            println("D: " + metrics.getNormalizedDistanceFromMainSequence(targetName))
+            println("======================== E n d $targetName ======================== ")
+        }
+    }
+
+    @Test
+    fun calculateMetrics() {
+        val targetPackage = ClassFileImporter().importPackages(basePackageName)
+            .getPackage(basePackageName)
+            .subpackagesInTree
+        val components = MetricsComponents.fromPackages(targetPackage)
+        val metrics = ArchitectureMetrics.visibilityMetrics(components)
+
+        targetPackage.forEach {
+            val targetName = it.name
+            println("======================== Start $targetName ======================== ")
+            println("RV : " + metrics.getRelativeVisibility(targetName))
+            println("======================== E n d $targetName ======================== ")
+        }
+
+        println("ARV: " + metrics.getAverageRelativeVisibility())
+        println("GRV: " + metrics.getGlobalRelativeVisibility())
     }
 
     private fun defineLayers(architecture: LayeredArchitecture) {
