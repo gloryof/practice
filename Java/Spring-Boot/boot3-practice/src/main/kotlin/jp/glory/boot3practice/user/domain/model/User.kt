@@ -9,7 +9,7 @@ class User(
 )
 
 @JvmInline
-value class UserId(val value: String) {
+value class UserId private constructor(val value: String) {
     companion object {
         fun generate(): UserId = UserId(UUID.randomUUID().toString())
     }

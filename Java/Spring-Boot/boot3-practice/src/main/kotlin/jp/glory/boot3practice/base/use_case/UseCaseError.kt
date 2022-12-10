@@ -12,6 +12,15 @@ class UseCaseUnknownError(
     )
 }
 
+class UseCaseAuthenticationError(
+    val type: Type
+) : UseCaseError() {
+    enum class Type {
+        User,
+        Token
+    }
+}
+
 class UseCaseValidationError(
     val details: List<UseCaseValidationErrorDetail>
 ) : UseCaseError() {
@@ -25,7 +34,7 @@ class UseCaseNotFoundError(
     val idValue: String,
 ) : UseCaseError() {
     enum class ResourceName {
-        Product
+        User
     }
 }
 
