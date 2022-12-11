@@ -1,10 +1,12 @@
 package jp.glory.boot3practice.base.spring.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import jp.glory.boot3practice.base.adaptor.web.EndpointConst
 import jp.glory.boot3practice.base.spring.auth.CustomAuthUserDetailService
+import jp.glory.boot3practice.base.spring.auth.CustomServerAuthenticationEntryPoint
 import jp.glory.boot3practice.base.spring.auth.CustomizedAuthenticationConverter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,6 +19,7 @@ import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter
+import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository
 
 @Configuration(proxyBeanMethods = false)
 @EnableWebFluxSecurity
@@ -24,16 +27,19 @@ class WebConfig {
     @Bean
     fun springSecurityFilterChain(
         http: ServerHttpSecurity,
-        authenticationManager: ReactiveAuthenticationManager
+        authenticationManager: ReactiveAuthenticationManager,
+        objectMapper: ObjectMapper
     ): SecurityWebFilterChain {
         http
             .authorizeExchange { spec ->
                 spec.pathMatchers(EndpointConst.User.register).permitAll()
                 spec.pathMatchers(EndpointConst.Auth.authenticate).permitAll()
-                spec.pathMatchers(EndpointConst.User.user).authenticated()
-                spec.anyExchange().denyAll()
+                spec.anyExchange().authenticated()
             }
         http.csrf().disable()
+        http.securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
+        http.exceptionHandling()
+            .authenticationEntryPoint(CustomServerAuthenticationEntryPoint(objectMapper))
 
         createAuthenticationWebFilter(authenticationManager)
             .also { http.addFilterAt(it, SecurityWebFiltersOrder.AUTHENTICATION) }

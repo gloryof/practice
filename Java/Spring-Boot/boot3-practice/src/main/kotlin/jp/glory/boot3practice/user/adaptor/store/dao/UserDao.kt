@@ -14,6 +14,7 @@ class UserDao {
         .apply { put(sampleUser.id, sampleUser) }
     fun save(table: UserTable) = users.put(table.id, table)
     fun findAll(): List<UserTable> = users.map { it.value }.toList()
+    fun findById(id: String): UserTable? = users[id]
 }
 
 data class UserTable(

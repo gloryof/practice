@@ -1,5 +1,11 @@
 # Spring Boot3の練習場
 
+## TODO
+- ErrorDetailをもう少し掘り下げる
+- 実行しやすいようにPostmanの設定ファイルを作る
+- Actuatorの内容を調べる
+- OpenMetrics/OpenTracingを調べる
+
 ## API
 ### Register API
 #### Create

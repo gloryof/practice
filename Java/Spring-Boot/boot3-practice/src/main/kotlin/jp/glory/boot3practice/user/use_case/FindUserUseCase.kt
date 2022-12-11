@@ -1,6 +1,12 @@
 package jp.glory.boot3practice.user.use_case
 
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.Result
 import jp.glory.boot3practice.base.use_case.UseCase
+import jp.glory.boot3practice.base.use_case.UseCaseNotFoundError
+import jp.glory.boot3practice.user.domain.model.User
+import jp.glory.boot3practice.user.domain.model.UserId
 import jp.glory.boot3practice.user.domain.repository.UserRepository
 import java.time.LocalDate
 
@@ -16,13 +22,29 @@ class FindUserUseCase(
         val birthDay: LocalDate
     )
 
+    class FindInput(
+        val id: String
+    )
+
     fun findAllUsers(): UsersOutput =
         userRepository.findAllUsers()
-            .map {
-                UserOutput(
-                    name = it.name.value,
-                    birthDay = it.birthDay.value
-                )
-            }
+            .map { toUserOutput(it) }
             .let { UsersOutput(it) }
+
+    fun findById(input: FindInput): Result<UserOutput, UseCaseNotFoundError> =
+        userRepository.findById(UserId(input.id))
+            ?.let { Ok(toUserOutput(it)) }
+            ?: Err(
+                UseCaseNotFoundError(
+                    resourceName = UseCaseNotFoundError.ResourceName.User,
+                    idValue = input.id
+                )
+            )
+
+    private fun toUserOutput(user: User): UserOutput =
+        UserOutput(
+            name = user.name.value,
+            birthDay = user.birthDay.value
+        )
+
 }

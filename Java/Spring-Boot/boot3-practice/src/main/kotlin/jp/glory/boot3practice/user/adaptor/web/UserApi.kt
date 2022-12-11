@@ -1,9 +1,12 @@
 package jp.glory.boot3practice.user.adaptor.web
 
+import com.github.michaelbull.result.mapBoth
 import jp.glory.boot3practice.base.adaptor.web.EndpointConst
 import jp.glory.boot3practice.base.adaptor.web.WebApi
+import jp.glory.boot3practice.base.adaptor.web.WebExceptionHelper
 import jp.glory.boot3practice.user.use_case.FindUserUseCase
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import reactor.core.publisher.Mono
 import java.time.LocalDate
@@ -23,16 +26,34 @@ class UserApi(
     @GetMapping
     fun getUsers(): Mono<UsersResponse> =
         Mono.just(findUserUseCase.findAllUsers())
-            .map { toUserResponse(it) }
+            .map { toUsersResponse(it) }
             .map { UsersResponse(it) }
 
-
-    private fun toUserResponse(output: FindUserUseCase.UsersOutput): List<UserResponse> =
-        output.users
-            .map {
-                UserResponse(
-                    name = it.name,
-                    birthDay = it.birthDay
+    @GetMapping
+    @RequestMapping("/{id}")
+    fun getById(
+        @PathVariable id: String
+    ): Mono<UserResponse> =
+        Mono.just(
+            findUserUseCase.findById(
+                FindUserUseCase.FindInput(id)
+            )
+        )
+            .flatMap { result ->
+                result.mapBoth(
+                    success = { Mono.just(it) },
+                    failure = { Mono.error(WebExceptionHelper.create(it))}
                 )
             }
+            .map { toUserResponse(it) }
+
+    private fun toUsersResponse(output: FindUserUseCase.UsersOutput): List<UserResponse> =
+        output.users
+            .map { toUserResponse(it) }
+
+    private fun toUserResponse(output: FindUserUseCase.UserOutput): UserResponse =
+        UserResponse(
+            name = output.name,
+            birthDay = output.birthDay
+        )
 }
