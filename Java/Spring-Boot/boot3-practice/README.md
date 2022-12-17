@@ -2,7 +2,6 @@
 
 ## TODO
 - ErrorDetailをもう少し掘り下げる
-- 実行しやすいようにPostmanの設定ファイルを作る
 - Actuatorの内容を調べる
 - OpenMetrics/OpenTracingを調べる
 
@@ -31,4 +30,10 @@ curl -v \
 curl -v \
     -H "Authorization:Bearer ${TOKEN}"  \
     http://localhost:8080/api/users
+```
+#### Get User
+```
+curl -v \
+    -H "Authorization:Bearer ${TOKEN}"  \
+    http://localhost:8080/api/users/test-user-id
 ```
