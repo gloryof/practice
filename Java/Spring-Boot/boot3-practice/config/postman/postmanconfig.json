@@ -48,6 +48,27 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get User By Id(Not Found)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/not-found-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"not-found-user"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"auth": {

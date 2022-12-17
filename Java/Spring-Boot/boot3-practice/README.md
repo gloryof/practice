@@ -1,7 +1,8 @@
 # Spring Boot3の練習場
 
 ## TODO
-- ErrorDetailをもう少し掘り下げる
+- 認証周りのエラーがレスポンスが帰ってきていないので直す
+- トークンがない場合の認証エラーがBasic扱いになっているので直す
 - Actuatorの内容を調べる
 - OpenMetrics/OpenTracingを調べる
 
