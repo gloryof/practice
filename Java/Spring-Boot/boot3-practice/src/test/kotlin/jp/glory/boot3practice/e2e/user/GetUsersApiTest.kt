@@ -108,6 +108,24 @@ internal class GetUsersApiTest {
                 )
             }
         }
+
+        @Test
+        fun unauthorized() {
+            val userId = EnvironmentExtractor.getTestUserId()
+            val targetPath = "$basePath/$userId"
+            Given {
+                filters(ApiTestFilters.notAuthorizedFilter())
+            } When  {
+                get(targetPath)
+            } Then  {
+                assertErrorResponse(
+                    TestHelper.createErrorResponseFromDetailCode(
+                        detailCode = WebErrorDetailCode.ERD401001,
+                        targetPath = targetPath
+                    )
+                )
+            }
+        }
     }
 
     @Nested
@@ -168,6 +186,22 @@ internal class GetUsersApiTest {
                 assertErrorResponse(
                     TestHelper.createErrorResponseFromDetailCode(
                         detailCode = WebErrorDetailCode.ERD404001,
+                        targetPath = basePath
+                    )
+                )
+            }
+        }
+
+        @Test
+        fun unauthorized() {
+            Given {
+                filters(ApiTestFilters.notAuthorizedFilter())
+            } When  {
+                get(basePath)
+            } Then  {
+                assertErrorResponse(
+                    TestHelper.createErrorResponseFromDetailCode(
+                        detailCode = WebErrorDetailCode.ERD401001,
                         targetPath = basePath
                     )
                 )

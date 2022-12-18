@@ -2,6 +2,11 @@ package jp.glory.boot3practice.base.adaptor.web
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatusCode
+import org.springframework.http.ResponseEntity
+import org.springframework.web.ErrorResponse
+import org.springframework.web.server.ServerWebExchange
+import reactor.core.publisher.Mono
+import java.net.URI
 
 enum class WebErrorCode(
     val message: String,
@@ -15,6 +20,7 @@ enum class WebErrorDetailCode(
     val message: String,
 ) {
     ERD400001("Request is invalid"),
+    ERD400002("Authentication is failed"),
     ERD401001("Token is not authorized"),
     ERD404001("Request URL is not found"),
     ERD404002("%s is not found(id: %s)"),
@@ -31,6 +37,39 @@ sealed class WebErrorDetail {
     fun getErrorDetailCodeValue(): String = getErrorDetailCode().name
     open fun getErrorDetailMessage(): String =  getErrorDetailCode().message
     open fun getErrorDetailMessageArgument(): Array<String> = emptyArray()
+
+    fun toMonoEntity(
+        exchange: ServerWebExchange,
+        exception: Throwable
+    ): Mono<ResponseEntity<ErrorResponse>> =
+        toErrorResponse(
+            exchange = exchange,
+            exception = exception
+        )
+            .let {
+                ResponseEntity
+                    .status(it.statusCode)
+                    .body(it)
+                    .let { Mono.just(it) }
+            }
+
+    fun toErrorResponse(
+        exchange: ServerWebExchange,
+        exception: Throwable
+    ): ErrorResponse {
+        val builder = ErrorResponse.builder(
+            exception,
+            getHttpStatus(),
+            getErrorDetailMessage()
+        )
+            .type(URI.create(exchange.request.path.value()))
+            .title(getErrorMessage())
+            .titleMessageCode(getErrorCodeValue())
+            .detailMessageCode(getErrorDetailCodeValue())
+            .detailMessageArguments(*getErrorDetailMessageArgument())
+
+        return builder.build()
+    }
 }
 
 class WebGenericErrorDetail private constructor(
@@ -94,7 +133,6 @@ class WebGenericErrorDetail private constructor(
     override fun getErrorCode(): WebErrorCode = errorCode
 
     override fun getErrorDetailCode(): WebErrorDetailCode = errorDetailCode
-
 }
 
 class WebTargetNotFoundErrorDetail(
@@ -112,5 +150,15 @@ class WebTargetNotFoundErrorDetail(
 
     override fun getErrorDetailMessageArgument(): Array<String> =
         arrayOf(resourceName, idValue)
+}
+
+
+object WebAuthenticationFailedError: WebErrorDetail() {
+    override fun getHttpStatus(): HttpStatus = HttpStatus.BAD_REQUEST
+
+    override fun getErrorCode(): WebErrorCode = WebErrorCode.ERR400
+
+    override fun getErrorDetailCode(): WebErrorDetailCode = WebErrorDetailCode.ERD400002
+
 }
 

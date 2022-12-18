@@ -16,6 +16,7 @@ object TestHelper {
     ): ExpectedErrorResponse =
         when (detailCode) {
             WebErrorDetailCode.ERD400001 -> createGenericErrorDetail(HttpStatus.BAD_REQUEST)
+            WebErrorDetailCode.ERD400002 -> createGenericErrorDetail(HttpStatus.BAD_REQUEST)
             WebErrorDetailCode.ERD401001 -> createGenericErrorDetail(HttpStatus.UNAUTHORIZED)
             WebErrorDetailCode.ERD404001 -> createGenericErrorDetail(HttpStatus.NOT_FOUND)
             WebErrorDetailCode.ERD500001 -> createGenericErrorDetail(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import jp.glory.boot3practice.base.adaptor.web.EndpointConst
 import jp.glory.boot3practice.base.spring.auth.CustomAuthUserDetailService
 import jp.glory.boot3practice.base.spring.auth.CustomServerAuthenticationEntryPoint
+import jp.glory.boot3practice.base.spring.auth.CustomServerAuthenticationFailureHandler
 import jp.glory.boot3practice.base.spring.auth.CustomizedAuthenticationConverter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -41,7 +42,10 @@ class WebConfig {
         http.exceptionHandling()
             .authenticationEntryPoint(CustomServerAuthenticationEntryPoint(objectMapper))
 
-        createAuthenticationWebFilter(authenticationManager)
+        createAuthenticationWebFilter(
+            authenticationManager = authenticationManager,
+            objectMapper = objectMapper
+        )
             .also { http.addFilterAt(it, SecurityWebFiltersOrder.AUTHENTICATION) }
         return http.build()
     }
@@ -68,11 +72,15 @@ class WebConfig {
         BCryptPasswordEncoder(10)
 
     private fun createAuthenticationWebFilter(
-        authenticationManager: ReactiveAuthenticationManager
+        authenticationManager: ReactiveAuthenticationManager,
+        objectMapper: ObjectMapper
     ): AuthenticationWebFilter =
         AuthenticationWebFilter(authenticationManager)
             .apply {
                 setServerAuthenticationConverter(CustomizedAuthenticationConverter())
+                setAuthenticationFailureHandler(
+                    CustomServerAuthenticationFailureHandler(objectMapper)
+                )
             }
 
 }

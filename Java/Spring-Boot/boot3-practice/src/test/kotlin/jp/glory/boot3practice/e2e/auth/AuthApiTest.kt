@@ -5,7 +5,9 @@ import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
 import jp.glory.boot3practice.auth.adaptor.web.AuthApi
 import jp.glory.boot3practice.base.adaptor.web.EndpointConst
+import jp.glory.boot3practice.base.adaptor.web.WebAuthenticationFailedError
 import jp.glory.boot3practice.base.adaptor.web.WebErrorDetailCode
+import jp.glory.boot3practice.e2e.ExpectedErrorResponse
 import jp.glory.boot3practice.e2e.TestHelper
 import jp.glory.boot3practice.e2e.addApplicationJsonHeader
 import jp.glory.boot3practice.e2e.assertErrorResponse
@@ -32,6 +34,25 @@ internal class AuthApiTest {
             } Then  {
                 statusCode(200)
                 body("token", not(emptyString()))
+            }
+        }
+
+        @Test
+        fun invalidUser() {
+            Given {
+                filters(ApiTestFilters.notAuthorizedFilter())
+                addApplicationJsonHeader()
+                body(createInvalidUserRequest())
+            } When  {
+                post(basePath)
+            } Then  {
+                val errorDetail = WebAuthenticationFailedError
+                assertErrorResponse(
+                    ExpectedErrorResponse(
+                        errorDetail = errorDetail,
+                        targetPath = basePath
+                    )
+                )
             }
         }
 
@@ -96,6 +117,12 @@ internal class AuthApiTest {
             AuthApi.AuthRequest(
                 id = idPassword.userId,
                 password = idPassword.password
+            )
+
+        private fun createInvalidUserRequest(): AuthApi.AuthRequest =
+            AuthApi.AuthRequest(
+                id = "invalid-user",
+                password = "invalid-password"
             )
     }
 }

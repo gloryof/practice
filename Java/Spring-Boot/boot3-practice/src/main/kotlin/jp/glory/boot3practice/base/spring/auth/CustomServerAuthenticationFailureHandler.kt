@@ -1,29 +1,27 @@
 package jp.glory.boot3practice.base.spring.auth
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import jp.glory.boot3practice.base.adaptor.web.WebGenericErrorDetail
+import jp.glory.boot3practice.base.adaptor.web.WebAuthenticationFailedError
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatusCode
 import org.springframework.http.MediaType
 import org.springframework.security.core.AuthenticationException
-import org.springframework.security.web.server.ServerAuthenticationEntryPoint
-import org.springframework.web.server.ServerWebExchange
+import org.springframework.security.web.server.WebFilterExchange
+import org.springframework.security.web.server.authentication.ServerAuthenticationFailureHandler
 import reactor.core.publisher.Mono
 
-class CustomServerAuthenticationEntryPoint(
+class CustomServerAuthenticationFailureHandler(
     private val objectMapper: ObjectMapper
-) : ServerAuthenticationEntryPoint {
-    override fun commence(
-        exchange: ServerWebExchange,
-        ex: AuthenticationException
+) : ServerAuthenticationFailureHandler {
+    override fun onAuthenticationFailure(
+        webFilterExchange: WebFilterExchange,
+        exception: AuthenticationException
     ): Mono<Void> {
-        val errorResponse = WebGenericErrorDetail.createGenericErrorDetail(
-            HttpStatusCode.valueOf(HttpStatus.UNAUTHORIZED.value())
-        )
+        val exchange = webFilterExchange.exchange
+        val errorResponse = WebAuthenticationFailedError
             .toErrorResponse(
                 exchange = exchange,
-                exception = ex
+                exception = exception
             )
         val response = exchange.response
         response.headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)

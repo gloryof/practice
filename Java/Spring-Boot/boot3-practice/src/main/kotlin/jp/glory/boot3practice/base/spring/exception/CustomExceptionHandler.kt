@@ -11,7 +11,6 @@ import org.springframework.web.reactive.result.method.annotation.ResponseEntityE
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 import java.lang.Exception
-import java.net.URI
 import javax.naming.AuthenticationException
 
 @RestControllerAdvice
@@ -28,14 +27,10 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         WebGenericErrorDetail.createGenericErrorDetail(
             httpStatusCode = status
         )
-            .let {
-                createErrorResponse(
-                    exchange = exchange,
-                    exception = exception,
-                    errorDetail = it
-                )
-            }
-            .let { toMonoEntity(it) } as Mono<ResponseEntity<Any>>
+            .toMonoEntity(
+                exchange = exchange,
+                exception = exception
+            ) as Mono<ResponseEntity<Any>>
 
     @ExceptionHandler(AuthenticationException::class)
     fun handleAuthenticationException(
@@ -50,37 +45,10 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         exception: WebNotFoundException,
         exchange: ServerWebExchange
     ): Mono<ResponseEntity<ErrorResponse>> =
-        createErrorResponse(
-            exchange = exchange,
-            exception = exception,
-            errorDetail = exception.errorDetail
-        )
-            .let { toMonoEntity(it) }
-    private fun createErrorResponse(
-        exchange: ServerWebExchange,
-        exception: Throwable,
-        errorDetail: WebErrorDetail
-    ): ErrorResponse {
-        val builder = ErrorResponse.builder(
-            exception,
-            errorDetail.getHttpStatus(),
-            errorDetail.getErrorDetailMessage()
-        )
-            .type(URI.create(exchange.request.path.value()))
-            .title(errorDetail.getErrorMessage())
-            .titleMessageCode(errorDetail.getErrorCodeValue())
-            .detailMessageCode(errorDetail.getErrorDetailCodeValue())
-            .detailMessageArguments(*errorDetail.getErrorDetailMessageArgument())
-
-        return builder.build()
-    }
-
-    private fun toMonoEntity(
-        errorResponse: ErrorResponse
-    ): Mono<ResponseEntity<ErrorResponse>> =
-        ResponseEntity
-            .status(errorResponse.statusCode)
-            .body(errorResponse)
-            .let { Mono.just(it) }
+        exception.errorDetail
+            .toMonoEntity(
+                exchange = exchange,
+                exception = exception
+            )
 
 }
