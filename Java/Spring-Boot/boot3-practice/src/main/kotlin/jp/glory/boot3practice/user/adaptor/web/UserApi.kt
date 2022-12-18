@@ -29,8 +29,7 @@ class UserApi(
             .map { toUsersResponse(it) }
             .map { UsersResponse(it) }
 
-    @GetMapping
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     fun getById(
         @PathVariable id: String
     ): Mono<UserResponse> =

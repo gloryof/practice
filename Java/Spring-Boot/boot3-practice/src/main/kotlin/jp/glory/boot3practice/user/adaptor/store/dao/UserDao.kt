@@ -8,7 +8,7 @@ class UserDao {
     private val sampleUser = UserTable(
         id = "test-user-id",
         name = "sample-user",
-        birthDay = LocalDate.now()
+        birthDay = LocalDate.of(1986, 12, 17)
     )
     private val users = mutableMapOf<String, UserTable>()
         .apply { put(sampleUser.id, sampleUser) }

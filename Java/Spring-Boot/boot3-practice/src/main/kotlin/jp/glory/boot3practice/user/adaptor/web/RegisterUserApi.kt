@@ -27,7 +27,7 @@ class RegisterUserApi(
     )
 
     @PostMapping
-    fun create(
+    fun registerUser(
         @RequestBody request: UserRegisterRequest
     ): Mono<ResponseEntity<UserRegisterResponse>> =
         Mono.just(toUserRegisterInput(request))

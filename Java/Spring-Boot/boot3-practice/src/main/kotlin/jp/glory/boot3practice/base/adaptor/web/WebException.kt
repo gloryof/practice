@@ -16,14 +16,14 @@ class WebValidationException(
 
 class WebNotFoundException private constructor(
     val errorCode: WebErrorCode,
-    val errorDetail: WebNotFoundErrorDetail
-) : WebException(errorDetail.getMessage()) {
+    val errorDetail: WebTargetNotFoundErrorDetail
+) : WebException(errorDetail.getErrorDetailMessage()) {
     companion object {
         fun create(
             resourceName: String,
             idValue: String
         ): WebNotFoundException =
-            WebNotFoundErrorDetail(
+            WebTargetNotFoundErrorDetail(
                 resourceName = resourceName,
                 idValue = idValue
             )

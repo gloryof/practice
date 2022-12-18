@@ -38,6 +38,11 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.security:spring-security-test")
+
+	// Rest assured
+	testImplementation("io.rest-assured:rest-assured:5.3.0")
+	testImplementation("io.rest-assured:kotlin-extensions:5.3.0")
+	testImplementation("io.rest-assured:json-path:5.3.0")
 }
 
 tasks.withType<KotlinCompile> {

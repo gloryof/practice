@@ -2,7 +2,6 @@ package jp.glory.boot3practice.base.spring.exception
 
 import jp.glory.boot3practice.base.adaptor.web.*
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 import org.springframework.web.ErrorResponse
@@ -26,15 +25,17 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         status: HttpStatusCode,
         exchange: ServerWebExchange
     ): Mono<ResponseEntity<Any>> =
-        createErrorResponse(
-            exchange = exchange,
-            exception = exception,
-            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
-            errorCode = WebErrorCode.ERR500,
-            errorDetail = WebUnknownErrorDetail
+        WebGenericErrorDetail.createGenericErrorDetail(
+            httpStatusCode = status
         )
+            .let {
+                createErrorResponse(
+                    exchange = exchange,
+                    exception = exception,
+                    errorDetail = it
+                )
+            }
             .let { toMonoEntity(it) } as Mono<ResponseEntity<Any>>
-
 
     @ExceptionHandler(AuthenticationException::class)
     fun handleAuthenticationException(
@@ -52,28 +53,24 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         createErrorResponse(
             exchange = exchange,
             exception = exception,
-            httpStatus = HttpStatus.NOT_FOUND,
-            errorCode = exception.errorCode,
             errorDetail = exception.errorDetail
         )
             .let { toMonoEntity(it) }
     private fun createErrorResponse(
         exchange: ServerWebExchange,
         exception: Throwable,
-        httpStatus: HttpStatus,
-        errorCode: WebErrorCode,
         errorDetail: WebErrorDetail
     ): ErrorResponse {
         val builder = ErrorResponse.builder(
             exception,
-            httpStatus,
-            errorDetail.getMessage()
+            errorDetail.getHttpStatus(),
+            errorDetail.getErrorDetailMessage()
         )
             .type(URI.create(exchange.request.path.value()))
-            .title(errorCode.message)
-            .titleMessageCode(errorCode.name)
-            .detailMessageCode(errorDetail.getCode().name)
-            .detailMessageArguments(*errorDetail.getMesssageArgument())
+            .title(errorDetail.getErrorMessage())
+            .titleMessageCode(errorDetail.getErrorCodeValue())
+            .detailMessageCode(errorDetail.getErrorDetailCodeValue())
+            .detailMessageArguments(*errorDetail.getErrorDetailMessageArgument())
 
         return builder.build()
     }
@@ -85,4 +82,5 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
             .status(errorResponse.statusCode)
             .body(errorResponse)
             .let { Mono.just(it) }
+
 }
