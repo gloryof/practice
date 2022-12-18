@@ -51,4 +51,14 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
                 exception = exception
             )
 
+    @ExceptionHandler(WebAuthenticateFailedException::class)
+    fun handleWebAuthenticateFailedException(
+        exception: WebAuthenticateFailedException,
+        exchange: ServerWebExchange
+    ) =
+        exception.errorDetail
+            .toMonoEntity(
+                exchange = exchange,
+                exception = exception
+            )
 }

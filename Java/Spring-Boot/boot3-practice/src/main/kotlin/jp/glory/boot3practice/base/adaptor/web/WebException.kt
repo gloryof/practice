@@ -1,7 +1,6 @@
 package jp.glory.boot3practice.base.adaptor.web
 
 import jp.glory.boot3practice.base.use_case.*
-import org.springframework.security.core.userdetails.UsernameNotFoundException
 
 open class WebException(
     override val message: String,
@@ -14,8 +13,13 @@ class WebValidationException(
     message = "Input value is invalid."
 )
 
+object WebAuthenticateFailedException : WebException(
+    message = "Authentication is failed"
+) {
+    val errorDetail: WebAuthenticationFailedError = WebAuthenticationFailedError
+}
+
 class WebNotFoundException private constructor(
-    val errorCode: WebErrorCode,
     val errorDetail: WebTargetNotFoundErrorDetail
 ) : WebException(errorDetail.getErrorDetailMessage()) {
     companion object {
@@ -29,7 +33,6 @@ class WebNotFoundException private constructor(
             )
                 .let {
                     WebNotFoundException(
-                        errorCode = WebErrorCode.ERR404,
                         errorDetail = it
                     )
                 }
@@ -55,8 +58,6 @@ object WebExceptionHelper {
             is UseCaseUnknownError -> InternalServerError(
                 cause = useCaseError.cause
             )
-            is UseCaseAuthenticationError -> UsernameNotFoundException(
-                "Authentication is failed."
-            )
+            is UseCaseAuthenticationError -> WebAuthenticateFailedException
         }
 }
