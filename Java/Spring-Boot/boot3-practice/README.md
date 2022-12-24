@@ -1,7 +1,6 @@
 # Spring Boot3の練習場
 
 ## TODO
-- ログ周りを確認する
 - Actuatorの内容を調べる
 - OpenMetrics/OpenTracingを調べる
 - 入力チェックによるバリデーションを整理する

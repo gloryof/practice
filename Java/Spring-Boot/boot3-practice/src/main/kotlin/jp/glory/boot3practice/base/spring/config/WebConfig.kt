@@ -11,6 +11,7 @@ import jp.glory.boot3practice.base.spring.auth.CustomServerAuthenticationFailure
 import jp.glory.boot3practice.base.spring.auth.CustomizedAuthenticationConverter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.EnableAspectJAutoProxy
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager
@@ -24,6 +25,7 @@ import org.springframework.security.web.server.context.NoOpServerSecurityContext
 
 @Configuration(proxyBeanMethods = false)
 @EnableWebFluxSecurity
+@EnableAspectJAutoProxy
 class WebConfig {
     @Bean
     fun springSecurityFilterChain(
