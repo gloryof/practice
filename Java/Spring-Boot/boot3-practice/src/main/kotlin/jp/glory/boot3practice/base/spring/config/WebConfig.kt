@@ -37,6 +37,7 @@ class WebConfig {
             .authorizeExchange { spec ->
                 spec.pathMatchers(EndpointConst.User.register).permitAll()
                 spec.pathMatchers(EndpointConst.Auth.authenticate).permitAll()
+                spec.pathMatchers("/actuator/**").permitAll()
                 spec.anyExchange().authenticated()
             }
         http.csrf().disable()

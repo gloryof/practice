@@ -1,9 +1,15 @@
 # Spring Boot3の練習場
 
 ## TODO
-- Actuatorの内容を調べる
-- OpenMetrics/OpenTracingを調べる
+- Production Readyを調べる
+  - OpenMetrics/OpenTracingを調べる
+  - Observabilityを調べる
+  - Auditingを調べる
+  - Process Monitoringを調べる
+  - Recording HTTP exchangeを調べる
+  - http://localhost:8080/actuator/にアクセスした時にWhitelabelページが出るのを直す
 - 入力チェックによるバリデーションを整理する
+- ActuatorのSecurityを考える
 
 ## API
 ### Register API
