@@ -1,4 +1,4 @@
-package jp.glory.boot3practice.base.spring.exception
+package jp.glory.boot3practice.base.spring.web.exception
 
 import jp.glory.boot3practice.base.adaptor.web.*
 import org.springframework.http.HttpHeaders

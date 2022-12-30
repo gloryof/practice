@@ -2,14 +2,20 @@
 
 ## TODO
 - Production Readyを調べる
-  - OpenMetrics/OpenTracingを調べる
   - Observabilityを調べる
+  - OpenMetrics/OpenTracingを調べる
   - Auditingを調べる
   - Process Monitoringを調べる
   - Recording HTTP exchangeを調べる
-  - http://localhost:8080/actuator/にアクセスした時にWhitelabelページが出るのを直す
+  - https://github.com/spring-projects/spring-boot/issues/33372 の件を調べる
+  - http://localhost:8080/actuator/ にアクセスした時にWhitelabelページが出るのを直す
+- Problem Detailのtypeの使い方を直す
+  - エラーを解決するためのURLを返す
 - 入力チェックによるバリデーションを整理する
 - ActuatorのSecurityを考える
+- k8s環境でGrafanaやZipkinなどを整える
+  - GrafanaとGrafana LokiでMetricsとTracingがおえるようにする
+  - ZipkinでTracingをおえるようにする
 
 ## API
 ### Register API

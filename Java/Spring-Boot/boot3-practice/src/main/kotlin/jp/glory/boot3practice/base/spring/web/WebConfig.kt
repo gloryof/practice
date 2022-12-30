@@ -1,4 +1,4 @@
-package jp.glory.boot3practice.base.spring.config
+package jp.glory.boot3practice.base.spring.web
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
