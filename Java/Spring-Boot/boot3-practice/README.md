@@ -1,10 +1,20 @@
 # Spring Boot3の練習場
 
+## k8s
+以下のコンポーネントはk8sで起動する。
+
+- Zipkin
+
 ## 起動方法
-### k8s
 ```
-kubectl apply -f k8s --recursive 
+./script/start.sh
 ```
+
+## 停止方法
+```
+./script/start.sh
+```
+
 
 ### Zipkinへのアクセス
 http://localhost:30411/zipkin/
