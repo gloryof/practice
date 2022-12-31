@@ -4,6 +4,8 @@ logging:
     level: "%5p[${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
 
 spring:
+  application:
+    name: "Spring Boot3 Practice"
   webflux:
     problemdetails:
       enabled: true
@@ -16,11 +18,15 @@ management:
     web:
       exposure:
         include: "health,prometheus"
-
   endpoint:
     health:
       enabled: true
     prometheus:
       enabled: true
-
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://localhost:30411/api/v2/spans
 
