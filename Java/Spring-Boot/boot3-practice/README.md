@@ -4,6 +4,9 @@
 以下のコンポーネントはk8sで起動する。
 
 - Zipkin
+- Grafana
+- Grafana Loki
+- Grafana Tempo
 
 ## 起動方法
 ```
@@ -15,6 +18,8 @@
 ./script/start.sh
 ```
 
+### Grafanaへのアクセス
+http://localhost:30000/login
 
 ### Zipkinへのアクセス
 http://localhost:30411/zipkin/
@@ -54,9 +59,6 @@ curl -v \
 
 ## TODO
 - Production Readyを調べる
-  - Auditingを調べる
-  - Process Monitoringを調べる
-  - Recording HTTP exchangeを調べる
   - https://github.com/spring-projects/spring-boot/issues/33372 の件を調べる
   - http://localhost:8080/actuator/ にアクセスした時にWhitelabelページが出るのを直す
 - Problem Detailのtypeの使い方を直す
@@ -64,4 +66,4 @@ curl -v \
 - 入力チェックによるバリデーションを整理する
 - ActuatorのSecurityを考える
 - k8s環境でGrafanaやZipkinなどを整える
-  - GrafanaとGrafana LokiでMetricsとTracingがおえるようにする
+  - Grafana Loki/Grafana Tempoの連携をできるようにする

@@ -31,6 +31,7 @@ dependencies {
 
 	implementation("io.micrometer:micrometer-tracing-bridge-otel")
 	implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
+	implementation("com.github.loki4j:loki-logback-appender:1.3.2")
 
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")

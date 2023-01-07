@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-deployment
+  labels:
+    app: grafana
+spec:
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      name: grafana
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: loki-container
+          image: grafana/loki:2.7.1
+          ports:
+            - containerPort: 3100
+              name: loki-port
+          args:
+            - "-config.file=/etc/loki/loki-local-config.yaml"
+          volumeMounts:
+            - name: loki-config-volume
+              mountPath: /etc/loki/loki-local-config.yaml
+              subPath: loki-local-config.yaml
+          env:
+            - name: JAEGER_AGENT_HOST
+              value: "grafana-inner-service"
+            - name: JAEGER_AGENT_PORT
+              value: "14268"
+            - name: JAEGER_SAMPLER_TYPE
+              value: "const"
+            - name: JAEGER_SAMPLER_PARAM
+              value: "1"
+        - name: grafana-container
+          image: grafana/grafana:9.3.2
+          ports:
+            - containerPort: 3000
+              name: grafana-ui-port
+        - name: promtail-container
+          image: grafana/promtail:2.7.1
+          args:
+            - "-config.file=/etc/promtail/promtail-local-config.yaml"
+          volumeMounts:
+            - name: promtail-config-volume
+              mountPath: /etc/promtail/promtail-local-config.yaml
+              subPath: promtail-local-config.yaml
+        - name: tempo-container
+          image: grafana/tempo:1.5.0
+          args:
+            - "-config.file=/etc/tempo-local-config.yaml"
+          volumeMounts:
+            - name: tempo-config-volume
+              mountPath: /etc/tempo-local-config.yaml
+              subPath: tempo-local-config.yaml
+          ports:
+            - containerPort: 3200
+              name: tempo-port
+            - containerPort: 14268
+              name: tempo-jg-port
+      volumes:
+        - name: loki-config-volume
+          configMap:
+            name: loki-config
+            items:
+              - key: loki-local-config.yaml
+                path: loki-local-config.yaml
+        - name: promtail-config-volume
+          configMap:
+            name: promtail-config
+            items:
+              - key: promtail-local-config.yaml
+                path: promtail-local-config.yaml
+        - name: tempo-config-volume
+          configMap:
+            name: tempo-config
+            items:
+              - key: tempo-local-config.yaml
+                path: tempo-local-config.yaml
