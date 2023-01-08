@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-config
+data:
+  datasource.yaml: |-
+    apiVersion: 1
+    
+    datasources:
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://loki-outer-service:3100
+        jsonData:
+          maxLines: 1000
+      - name: Tempo
+        type: tempo
+        access: proxy
+        url: http://loki-inner-service:3200
+        jsonData:
+          search:
+            hide: false
+          nodeGraph:
+            enabled: false
+          lokiSearch:
+            datasourceUid: 'Loki'
+      - name: Zipkin
+        type: zipkin
+        access: proxy
+        url: http://zipkin-service:9411
+        jsonData:
+          lokiSearch:
+            datasourceUid: 'Loki'

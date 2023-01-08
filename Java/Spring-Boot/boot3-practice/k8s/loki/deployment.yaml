@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grafana-deployment
+  name: loki-deployment
   labels:
-    app: grafana
+    app: loki
 spec:
   selector:
     matchLabels:
-      app: grafana
+      app: loki
   template:
     metadata:
-      name: grafana
+      name: loki
       labels:
-        app: grafana
+        app: loki
     spec:
       containers:
         - name: loki-container
@@ -35,11 +35,6 @@ spec:
               value: "const"
             - name: JAEGER_SAMPLER_PARAM
               value: "1"
-        - name: grafana-container
-          image: grafana/grafana:9.3.2
-          ports:
-            - containerPort: 3000
-              name: grafana-ui-port
         - name: promtail-container
           image: grafana/promtail:2.7.1
           args:

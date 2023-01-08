@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-deployment
+  labels:
+    app: grafana
+spec:
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      name: grafana
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana-container
+          image: grafana/grafana:9.3.2
+          ports:
+            - containerPort: 3000
+              name: grafana-ui-port
+          volumeMounts:
+            - name: grafana-config-volume
+              mountPath: /etc/grafana/provisioning/datasources/datasource.yml
+              subPath: datasource.yaml
+      volumes:
+        - name: grafana-config-volume
+          configMap:
+            name: grafana-config
+            items:
+              - key: datasource.yaml
+                path: datasource.yaml
