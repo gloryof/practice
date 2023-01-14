@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import io.micrometer.core.instrument.MeterRegistry
+import io.micrometer.observation.ObservationRegistry
 import jp.glory.boot3practice.base.adaptor.web.EndpointConst
-import jp.glory.boot3practice.base.spring.auth.CustomAuthUserDetailService
-import jp.glory.boot3practice.base.spring.auth.CustomServerAuthenticationEntryPoint
-import jp.glory.boot3practice.base.spring.auth.CustomServerAuthenticationFailureHandler
-import jp.glory.boot3practice.base.spring.auth.CustomizedAuthenticationConverter
+import jp.glory.boot3practice.base.spring.auth.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.EnableAspectJAutoProxy
@@ -31,7 +30,9 @@ class WebConfig {
     fun springSecurityFilterChain(
         http: ServerHttpSecurity,
         authenticationManager: ReactiveAuthenticationManager,
-        objectMapper: ObjectMapper
+        objectMapper: ObjectMapper,
+        observationRegistry: ObservationRegistry,
+        metricsRegistry: MeterRegistry
     ): SecurityWebFilterChain {
         http
             .authorizeExchange { spec ->
@@ -50,6 +51,12 @@ class WebConfig {
             objectMapper = objectMapper
         )
             .also { http.addFilterAt(it, SecurityWebFiltersOrder.AUTHENTICATION) }
+/*        http.addFilterAt(
+            ServerHttpObservationFilter(observationRegistry),
+            SecurityWebFiltersOrder.REACTOR_CONTEXT
+        )
+
+*/
         return http.build()
     }
 
@@ -84,6 +91,7 @@ class WebConfig {
                 setAuthenticationFailureHandler(
                     CustomServerAuthenticationFailureHandler(objectMapper)
                 )
+                setAuthenticationSuccessHandler(CustomServerAuthenticationSuccessHandler())
             }
 
 }

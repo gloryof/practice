@@ -29,18 +29,24 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
 
+	// Micrometer
 	implementation("io.micrometer:micrometer-tracing-bridge-otel")
+	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+
+	// Reactor
+	implementation("io.projectreactor:reactor-core-micrometer")
+	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+
+	// Open Telemetry
 	implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
 	implementation("com.github.loki4j:loki-logback-appender:1.3.2")
 
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
 	implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.16")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 	runtimeOnly("com.mysql:mysql-connector-j")
-	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.security:spring-security-test")

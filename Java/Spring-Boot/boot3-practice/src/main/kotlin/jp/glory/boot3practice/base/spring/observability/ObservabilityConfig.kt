@@ -18,6 +18,7 @@ class ObservabilityConfig (
                 observationHandler(CustomObservationHandler())
             }
         Observation.createNotStarted("CustomObservation", observationRegistry)
+            .lowCardinalityKeyValue("low-cardinality-key", "low-cardinality-value")
             .observe {
                 logger.info("Observe is started.")
             }

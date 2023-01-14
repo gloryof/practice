@@ -60,6 +60,7 @@ curl -v \
 ## TODO
 - Production Readyを調べる
   - https://github.com/spring-projects/spring-boot/issues/33372 の件を調べる
+  - https://micrometer.io/docs/contextPropagation
   - http://localhost:8080/actuator/ にアクセスした時にWhitelabelページが出るのを直す
 - Problem Detailのtypeの使い方を直す
   - エラーを解決するためのURLを返す
