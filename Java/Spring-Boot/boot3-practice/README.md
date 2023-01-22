@@ -62,6 +62,9 @@ curl -v \
   - https://github.com/spring-projects/spring-boot/issues/33372 の件を調べる
   - https://micrometer.io/docs/contextPropagation
   - http://localhost:8080/actuator/ にアクセスした時にWhitelabelページが出るのを直す
+- GraalVMで作成したバイナリを起動した時にorg.springframework.beans.factory.UnsatisfiedDependencyExceptionが発生する
+
+## Want
 - Problem Detailのtypeの使い方を直す
   - エラーを解決するためのURLを返す
 - 入力チェックによるバリデーションを整理する
