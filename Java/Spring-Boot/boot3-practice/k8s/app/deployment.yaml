@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  labels:
+    app: practice-app
+spec:
+  selector:
+    matchLabels:
+      app: practice-app
+  template:
+    metadata:
+      name: practice-app
+      labels:
+        app: practice-app
+    spec:
+      containers:
+        - name: app-container
+          image: glory/boot3-practice:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+              name: app-port
+            - containerPort: 8888
+              name: metrics-port
+          env:
+            - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
+              value: "http://zipkin-service:9411/api/v2/spans"
+            - name: APP_LOKI_HOST
+              value: "loki-outer-service"
+            - name: APP_LOKI_PORT
+              value: "3100"

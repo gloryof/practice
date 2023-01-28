@@ -13,6 +13,11 @@
 ./script/start.sh
 ```
 
+### アプリケーションもk8sで動かす場合。
+```
+./script/start.sh
+```
+
 ## 停止方法
 ```
 ./script/start.sh
