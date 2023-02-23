@@ -9,6 +9,11 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.multipart.MultipartFile
+import java.io.BufferedInputStream
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.time.OffsetDateTime
 
 @WebApi
@@ -24,15 +29,12 @@ class IOStatsApi(
             .let { FindAllResponse(it) }
 
     @PostMapping
-    fun import(): ResponseEntity<Any> {
-        val stats = listOf(
-            "KB/t,tps,MB/s,us,sy,id,1m,5m,15m",
-            "32.11,8,0.24,6,2,92,3.57,3.36,3.35",
-            "160.26,213,33.26,6,6,88,3.57,3.36,3.35",
-            "10.59,209,2.16,9,7,84,3.57,3.36,3.35"
-        )
-        importUseCase
-            .importStats(stats)
+    fun import(
+        @RequestParam("file") file: MultipartFile
+    ): ResponseEntity<Any> {
+        BufferedReader(InputStreamReader(file.inputStream))
+            .readLines()
+            .let { importUseCase.importStats(it) }
 
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
