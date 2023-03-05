@@ -32,3 +32,5 @@ spec:
               value: "test-org"
             - name: DOCKER_INFLUXDB_INIT_BUCKET
               value: "iostat"
+            - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+              value: "admin-token" # 練習用なので固定のトークンを設定

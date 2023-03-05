@@ -27,13 +27,13 @@ class IOStatsImportData(
             recordAt = recordAt,
             diskStat = DiskStat(
                 bytesPerTransfer = (values[0].toDouble() * 1024).toLong(),
-                transfersPerSecond = values[1].toInt(),
+                transfersPerSecond = values[1].toLong(),
                 bytesPerSecond = (values[2].toDouble() * 1024 * 1024).toLong()
             ),
             cpuStat = CPUStat(
-                user = values[3].toInt(),
-                system = values[4].toInt(),
-                idle = values[5].toInt(),
+                user = values[3].toLong(),
+                system = values[4].toLong(),
+                idle = values[5].toLong(),
                 loadAverage = LoadAverage(
                     per1Minutes = values[6].toDouble(),
                     per5Minutes = values[7].toDouble(),

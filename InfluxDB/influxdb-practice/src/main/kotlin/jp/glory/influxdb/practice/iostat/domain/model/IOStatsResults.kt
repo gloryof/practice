@@ -13,9 +13,9 @@ class IOStatsResult(
 )
 
 class CPUStat(
-    val user: Int,
-    val system: Int,
-    val idle: Int,
+    val user: Long,
+    val system: Long,
+    val idle: Long,
     val loadAverage: LoadAverage
 )
 
@@ -27,6 +27,6 @@ class LoadAverage(
 
 class DiskStat(
     val bytesPerTransfer: Long,
-    val transfersPerSecond: Int,
+    val transfersPerSecond: Long,
     val bytesPerSecond: Long
 )

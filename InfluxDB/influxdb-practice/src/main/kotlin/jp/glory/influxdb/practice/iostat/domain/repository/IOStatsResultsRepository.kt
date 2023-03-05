@@ -4,5 +4,4 @@ import jp.glory.influxdb.practice.iostat.domain.model.IOStatsResults
 
 interface IOStatsResultsRepository {
     fun register(results: IOStatsResults)
-    fun findAll(): List<IOStatsResults>
 }

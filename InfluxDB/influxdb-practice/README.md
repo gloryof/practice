@@ -11,6 +11,8 @@ mkdir generate-data
 ```
 ./script/start.sh
 ```
+
+http://localhost:30086/signin
 #### 停止
 ```
 ./script/stop.sh

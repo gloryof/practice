@@ -1,0 +1,7 @@
+app:
+  store:
+    influxdb:
+      url: http://localhost:30086
+      token: admin-token
+      org: test-org
+      bucket: iostat

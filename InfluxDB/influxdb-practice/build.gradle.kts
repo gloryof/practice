@@ -20,6 +20,11 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+	// InfluxDB
+	implementation("com.influxdb:influxdb-client-kotlin:6.7.0") // Spring Boot Starterあるけど今回はClientを使う
+
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
