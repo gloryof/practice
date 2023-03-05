@@ -1,0 +1,138 @@
+{
+	"info": {
+		"_postman_id": "0ea111c6-748c-4450-981f-98880795b5f2",
+		"name": "InfluxDB Practice",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Latest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `",
+							"    <style>",
+							"        table > tbody > tr > td.value {",
+							"            text-align: right;",
+							"        }",
+							"    </style>",
+							"    <table class=\"result\">",
+							"        <tr bgcolor=\"coffee\">",
+							"            <th>Measurement</th>",
+							"            <th>Time</th>",
+							"            <th>Value</th>",
+							"        </tr>",
+							"",
+							"        {{#each response.user}}",
+							"           <tr bgcolor=\"white\">",
+							"                <td>user</td>",
+							"                <td>{{recordAt}}</td>",
+							"                <td class=\"value\">{{value}}</td>",
+							"            </tr>",
+							"        {{/each}}",
+							"",
+							"        {{#each response.system}}",
+							"           <tr bgcolor=\"white\">",
+							"                <td>system</td>",
+							"                <td>{{recordAt}}</td>",
+							"                <td class=\"value\">{{value}}</td>",
+							"            </tr>",
+							"        {{/each}}",
+							"",
+							"        {{#each response.idle}}",
+							"           <tr bgcolor=\"white\">",
+							"                <td>idle</td>",
+							"                <td>{{recordAt}}</td>",
+							"                <td class=\"value\">{{value}}</td>",
+							"            </tr>",
+							"        {{/each}}",
+							"",
+							"        {{#each response.per1Minutes}}",
+							"           <tr bgcolor=\"white\">",
+							"                <td>per1Minutes</td>",
+							"                <td>{{recordAt}}</td>",
+							"                <td class=\"value\">{{value}}</td>",
+							"            </tr>",
+							"        {{/each}}",
+							"",
+							"        {{#each response.per5Minutes}}",
+							"           <tr bgcolor=\"white\">",
+							"                <td>per5Minutes</td>",
+							"                <td>{{recordAt}}</td>",
+							"                <td class=\"value\">{{value}}</td>",
+							"            </tr>",
+							"        {{/each}}",
+							"",
+							"        {{#each response.per15Minutes}}",
+							"           <tr bgcolor=\"white\">",
+							"                <td>per15Minutes</td>",
+							"                <td>{{recordAt}}</td>",
+							"                <td class=\"value\">{{value}}</td>",
+							"            </tr>",
+							"        {{/each}}",
+							"",
+							"        {{#each response.bytesPerTransfer}}",
+							"           <tr bgcolor=\"white\">",
+							"                <td>bytesPerTransfer</td>",
+							"                <td>{{recordAt}}</td>",
+							"                <td class=\"value\">{{value}}</td>",
+							"            </tr>",
+							"        {{/each}}",
+							"",
+							"        {{#each response.transfersPerSecond}}",
+							"           <tr bgcolor=\"white\">",
+							"                <td>transfersPerSecond</td>",
+							"                <td>{{recordAt}}</td>",
+							"                <td class=\"value\">{{value}}</td>",
+							"            </tr>",
+							"        {{/each}}",
+							"",
+							"        {{#each response.bytesPerSecond}}",
+							"           <tr bgcolor=\"white\">",
+							"                <td>bytesPerSecond</td>",
+							"                <td>{{recordAt}}</td>",
+							"                <td class=\"value\">{{value}}</td>",
+							"            </tr>",
+							"        {{/each}}",
+							"",
+							"    </table>",
+							"`;",
+							"",
+							"pm.visualizer.set(template, {",
+							"    response: pm.response.json()",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/io-stats/latest/:minute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"io-stats",
+						"latest",
+						":minute"
+					],
+					"variable": [
+						{
+							"key": "minute",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

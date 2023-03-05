@@ -20,21 +20,13 @@ http://localhost:30086/signin
 
 
 ### APIの実行
-#### iostatの取得
-```
-./script/import.sh &{秒数}
-```
-
 #### CSVのアップロード
 ```
 ./script/upload.sh
 ```
 
 #### 結果の取得
-```
-./script/get-result.sh
-```
-
+Postmanを使い `config/postman/config.json` をインポートする。
 
 # TODO
 - MetricsをInfluxDBに繋ぐ
