@@ -25,9 +25,21 @@ class IOStatsApi(
     @GetMapping("/latest/{minute}")
     fun gatLatest(
         @PathVariable minute: Int
-    ): FindAllResponse =
+    ): FindLatestResponse =
         findUseCase.findLatest(minute)
-            .let { FindAllResponse(it) }
+            .let { FindLatestResponse(it) }
+
+    @GetMapping("/statistics")
+    fun getStatistics(
+        @RequestParam latest: Int,
+        @RequestParam interval: Int,
+
+    ): FindStatisticsResponse =
+        findUseCase.findStatistics(
+            latest = latest,
+            interval = interval
+        )
+            .let { FindStatisticsResponse(it) }
 
     @PostMapping
     fun import(
@@ -40,7 +52,9 @@ class IOStatsApi(
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
-    class FindAllResponse(
+    class FindLatestResponse(
+        val startedAt: OffsetDateTime,
+        val endedAt: OffsetDateTime,
         val user: List<RowResponse<Long>>,
         val system: List<RowResponse<Long>>,
         val idle: List<RowResponse<Long>>,
@@ -52,7 +66,9 @@ class IOStatsApi(
         val bytesPerSecond: List<RowResponse<Long>>
     ) {
 
-        constructor(view: FindIOStatsUseCase.Output) : this(
+        constructor(view: FindIOStatsUseCase.LatestOutput) : this(
+            startedAt = view.startedAt,
+            endedAt = view.endedAt,
             user = view.user.map { RowResponse(it) },
             system = view.system.map { RowResponse(it) },
             idle = view.idle.map { RowResponse(it) },
@@ -69,9 +85,67 @@ class IOStatsApi(
         val recordAt: OffsetDateTime,
         val value: T
     ) {
-        constructor(result: FindIOStatsUseCase.Row<T>) : this(
+        constructor(result: FindIOStatsUseCase.ViewOutputDetail<T>) : this(
             recordAt = result.recordAt,
             value = result.value
+        )
+    }
+    class FindStatisticsResponse(
+        val startedAt: OffsetDateTime,
+        val endedAt: OffsetDateTime,
+        val user: List<StatisticsResponse<Long>>,
+        val system: List<StatisticsResponse<Long>>,
+        val idle: List<StatisticsResponse<Long>>,
+        val per1Minutes: List<StatisticsResponse<Double>>,
+        val per5Minutes: List<StatisticsResponse<Double>>,
+        val per15Minutes: List<StatisticsResponse<Double>>,
+        val bytesPerTransfer: List<TotalableStatisticsResponse<Long>>,
+        val transfersPerSecond: List<TotalableStatisticsResponse<Long>>,
+        val bytesPerSecond: List<TotalableStatisticsResponse<Long>>
+    ) {
+
+        constructor(view: FindIOStatsUseCase.StatisticsOutput) : this(
+            startedAt = view.startedAt,
+            endedAt = view.endedAt,
+            user = view.user.map { StatisticsResponse(it) },
+            system = view.system.map { StatisticsResponse(it) },
+            idle = view.idle.map { StatisticsResponse(it) },
+            per1Minutes = view.per1Minutes.map { StatisticsResponse(it) },
+            per5Minutes = view.per5Minutes.map { StatisticsResponse(it) },
+            per15Minutes = view.per15Minutes.map { StatisticsResponse(it) },
+            bytesPerTransfer = view.bytesPerTransfer.map { TotalableStatisticsResponse(it) },
+            transfersPerSecond = view.transfersPerSecond.map { TotalableStatisticsResponse(it) },
+            bytesPerSecond = view.bytesPerSecond.map { TotalableStatisticsResponse(it) },
+        )
+    }
+
+    class StatisticsResponse<T> private constructor(
+        val recordAt: OffsetDateTime,
+        val average: Double,
+        val max: T,
+        val min: T,
+    ) {
+        constructor(result: FindIOStatsUseCase.StatisticsOutputDetail<T>) : this(
+            recordAt = result.recordAt,
+            average = result.average,
+            max = result.max,
+            min = result.min
+        )
+    }
+
+    class TotalableStatisticsResponse<T> private constructor(
+        val recordAt: OffsetDateTime,
+        val total: T,
+        val average: Double,
+        val max: T,
+        val min: T,
+    ) {
+        constructor(result: FindIOStatsUseCase.StatisticsOutputTotalableDetail<T>) : this(
+            recordAt = result.recordAt,
+            total = result.total,
+            average = result.average,
+            max = result.max,
+            min = result.min
         )
     }
 }

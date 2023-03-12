@@ -3,6 +3,8 @@ package jp.glory.influxdb.practice.iostat.query.model
 import java.time.OffsetDateTime
 
 class IOStatView(
+    val startedAt: OffsetDateTime,
+    val endedAt: OffsetDateTime,
     val cpuView: CPUView,
     val diskView: DiskView
 )

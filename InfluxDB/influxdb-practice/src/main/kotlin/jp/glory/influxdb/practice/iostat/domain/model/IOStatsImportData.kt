@@ -10,11 +10,12 @@ class IOStatsImportData(
     fun createEvent(clock: Clock): IOStatsResults {
         val resultRows = rows.subList(1, rows.size)
         val baseRecordAt = OffsetDateTime.now(clock)
+            .minusMinutes(rows.size.toLong())
 
         return resultRows
             .mapIndexed { index, row ->
                 parseRow(
-                    recordAt = baseRecordAt.plusSeconds(index.toLong()),
+                    recordAt = baseRecordAt.plusMinutes(index.toLong()),
                     row = row
                 )
             }

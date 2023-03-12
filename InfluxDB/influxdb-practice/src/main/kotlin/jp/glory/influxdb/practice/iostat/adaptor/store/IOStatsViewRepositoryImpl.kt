@@ -19,11 +19,17 @@ class IOStatsViewRepositoryImpl(
         bucketName = influxDBProperty.bucket,
         influxDBClient = influxDBClient
     )
-    override fun findLatest(minutes: Int): IOStatView =
-        IOStatView(
-            cpuView = findCPUViewLatest(minutes),
-            diskView = findDiskViewLatest(minutes)
+    override fun findLatest(minutes: Int): IOStatView {
+        val cpuView = findCPUViewLatest(minutes)
+        val startAt = cpuView.idle.viewRows.first().recordAt
+        val endAt = cpuView.idle.viewRows.last().recordAt
+        return IOStatView(
+            cpuView = cpuView,
+            diskView = findDiskViewLatest(minutes),
+            startedAt = startAt,
+            endedAt = endAt
         )
+    }
 
 
     private fun findCPUViewLatest(minutes: Int): CPUView =
