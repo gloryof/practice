@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 
+// This code is generated from ChatGPT by OpenAI(https://openai.com/)
 internal class TodoTest {
     @Nested
     inner class TestGetStatus {
