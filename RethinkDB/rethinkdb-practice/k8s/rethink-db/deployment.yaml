@@ -18,7 +18,7 @@ spec:
         - name: rethink-db-container
           image: rethinkdb:2.4.2-bullseye-slim
           ports:
-            - containerPort: 29015
+            - containerPort: 28015
               name: db-port
             - containerPort: 8080
               name: admin-port

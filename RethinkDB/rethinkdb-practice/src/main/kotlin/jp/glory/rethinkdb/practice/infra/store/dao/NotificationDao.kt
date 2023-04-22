@@ -1,8 +1,10 @@
 package jp.glory.rethinkdb.practice.infra.store.dao
 
+import org.springframework.stereotype.Component
 import java.time.LocalDate
 
-object NotificationDao {
+@Component
+class NotificationDao {
     private val notifies = mutableMapOf<String, NotificationRecord>()
 
     fun findById(id: String): NotificationRecord? = notifies[id]

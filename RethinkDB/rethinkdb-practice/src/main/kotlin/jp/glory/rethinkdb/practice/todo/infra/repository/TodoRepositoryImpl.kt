@@ -6,29 +6,33 @@ import jp.glory.rethinkdb.practice.todo.domain.model.Todo
 import jp.glory.rethinkdb.practice.todo.domain.model.ProgressStatus
 import jp.glory.rethinkdb.practice.todo.domain.repository.TodoRepository
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
 import java.util.UUID
 
 @Repository
-class TodoRepositoryImpl : TodoRepository {
+class TodoRepositoryImpl(
+    private val todoDao: TodoDao,
+    private val notificationDao: NotificationDao
+) : TodoRepository {
     override fun findById(id: String): Todo? =
-        TodoDao.findById(id)
+        todoDao.findById(id)
             ?.let { toDomainModel(it) }
 
     override fun findAll(): List<Todo> =
-        TodoDao.findAll()
+        todoDao.findAll()
             .map { toDomainModel(it) }
 
     override fun registerRegisteredEvent(registeredTodo: RegisteredTodo) {
         val records = toRecords(registeredTodo)
-        TodoDao.register(records.todo)
-        NotificationDao.register(records.notification)
+        todoDao.register(records.todo)
+        notificationDao.register(records.notification)
     }
 
     override fun registerChangedEvent(changedTodo: ChangedTodo) {
-        val before = TodoDao.findById(changedTodo.id) ?: throw IllegalStateException("Not found")
+        val before = todoDao.findById(changedTodo.id) ?: throw IllegalStateException("Not found")
         val after = before.copy(
             title = changedTodo.newTitle,
-            deadLine = changedTodo.newDeadLine
+            deadLine = changedTodo.newDeadLine.toString()
         )
         val notification = toNotificationRecord(
             id = after.id,
@@ -36,24 +40,24 @@ class TodoRepositoryImpl : TodoRepository {
             before = before,
             modifiedTypeValue = ModifiedTypeValue.Changed
         )
-        TodoDao.update(after)
-        NotificationDao.register(notification)
+        todoDao.update(after)
+        notificationDao.register(notification)
     }
 
     override fun registerDeletedEvent(deletedTodo: DeletedTodo) {
-        val todo = TodoDao.findById(deletedTodo.id) ?: throw IllegalStateException("Not found")
+        val todo = todoDao.findById(deletedTodo.id) ?: throw IllegalStateException("Not found")
         val notification = toNotificationRecord(
             id = todo.id,
             after = null,
             before = todo,
             modifiedTypeValue = ModifiedTypeValue.Deleted
         )
-        TodoDao.delete(todo.id)
-        NotificationDao.register(notification)
+        todoDao.delete(todo.id)
+        notificationDao.register(notification)
     }
 
     override fun registerStatedEvent(startedTodo: StartedTodo) {
-        val before = TodoDao.findById(startedTodo.id) ?: throw IllegalStateException("Not found")
+        val before = todoDao.findById(startedTodo.id) ?: throw IllegalStateException("Not found")
         val progressFlags = createTodoFlags(ProgressStatus.Started)
         val after = before.copy(
             started = progressFlags.started,
@@ -65,12 +69,12 @@ class TodoRepositoryImpl : TodoRepository {
             before = before,
             modifiedTypeValue = ModifiedTypeValue.Started
         )
-        TodoDao.update(after)
-        NotificationDao.register(notification)
+        todoDao.update(after)
+        notificationDao.register(notification)
     }
 
     override fun registerFinishedEvent(finishedTodo: FinishedTodo) {
-        val before = TodoDao.findById(finishedTodo.id) ?: throw IllegalStateException("Not found")
+        val before = todoDao.findById(finishedTodo.id) ?: throw IllegalStateException("Not found")
         val progressFlags = createTodoFlags(ProgressStatus.Finished)
         val after = before.copy(
             started = progressFlags.started,
@@ -82,15 +86,15 @@ class TodoRepositoryImpl : TodoRepository {
             before = before,
             modifiedTypeValue = ModifiedTypeValue.Finished
         )
-        TodoDao.update(after)
-        NotificationDao.register(notification)
+        todoDao.update(after)
+        notificationDao.register(notification)
     }
 
     private fun toDomainModel(todoRecord: TodoRecord): Todo =
         Todo(
             id = todoRecord.id,
             title = todoRecord.title,
-            deadLine = todoRecord.deadLine,
+            deadLine = LocalDate.parse(todoRecord.deadLine),
             started = todoRecord.started,
             finished = todoRecord.finished
         )
@@ -116,7 +120,7 @@ class TodoRepositoryImpl : TodoRepository {
         TodoRecord(
             id = registeredTodo.id,
             title = registeredTodo.title,
-            deadLine = registeredTodo.deadLine,
+            deadLine = registeredTodo.deadLine.toString(),
             started = false,
             finished = false
         )
@@ -140,7 +144,7 @@ class TodoRepositoryImpl : TodoRepository {
     ): NotificationContentRecord =
         NotificationContentRecord(
             title = todo.title,
-            deadLine = todo.deadLine,
+            deadLine = LocalDate.parse(todo.deadLine),
             started = todo.started,
             finished = todo.finished
         )

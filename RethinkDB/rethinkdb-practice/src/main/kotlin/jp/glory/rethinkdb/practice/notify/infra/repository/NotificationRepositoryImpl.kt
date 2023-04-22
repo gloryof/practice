@@ -12,9 +12,11 @@ import jp.glory.rethinkdb.practice.todo.domain.model.ProgressStatus
 import org.springframework.stereotype.Repository
 
 @Repository
-class NotificationRepositoryImpl : NotificationRepository {
+class NotificationRepositoryImpl(
+    private val notificationDao: NotificationDao
+) : NotificationRepository {
     override fun findAll(): List<Notification> =
-        NotificationDao.findAll()
+        notificationDao.findAll()
             .map { toDomainModel(it) }
 
     private fun toDomainModel(
