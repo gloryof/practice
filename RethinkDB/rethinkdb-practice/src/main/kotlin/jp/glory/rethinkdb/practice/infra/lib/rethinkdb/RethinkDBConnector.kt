@@ -5,6 +5,7 @@ import com.rethinkdb.gen.ast.ReqlExpr
 import com.rethinkdb.gen.ast.Table
 import com.rethinkdb.net.Connection
 import com.rethinkdb.net.Result
+import jp.glory.rethinkdb.practice.infra.store.dao.NotificationTable
 import jp.glory.rethinkdb.practice.infra.store.dao.TodoTable
 
 class RethinkDBConnector(
@@ -27,7 +28,7 @@ class RethinkDBConnector(
         )
         listOf(
             TodoTable.name,
-            TableNameConst.Notification
+            NotificationTable.name
         )
             .forEach {
                 createTableIfNotExist(
@@ -40,16 +41,11 @@ class RethinkDBConnector(
     }
 
     fun getTodo(): Table = rethinkDB.db(dbName).table(TodoTable.name)
-    fun getNotification(): Table = rethinkDB.db(dbName).table(TableNameConst.Notification)
+    fun getNotification(): Table = rethinkDB.db(dbName).table(NotificationTable.name)
 
     fun run(expr: ReqlExpr): Result<Map<*, *>> =
         expr.run(connection, Map::class.java)
 
-}
-
-
-private object TableNameConst {
-    const val Notification = "notification"
 }
 
 private fun createDbIfNotExist(

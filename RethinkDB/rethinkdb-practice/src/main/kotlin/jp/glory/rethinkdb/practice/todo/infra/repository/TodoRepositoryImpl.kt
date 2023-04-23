@@ -11,8 +11,7 @@ import java.util.UUID
 
 @Repository
 class TodoRepositoryImpl(
-    private val todoDao: TodoDao,
-    private val notificationDao: NotificationDao
+    private val todoDao: TodoDao
 ) : TodoRepository {
     override fun findById(id: String): Todo? =
         todoDao.findById(id)
@@ -25,7 +24,6 @@ class TodoRepositoryImpl(
     override fun registerRegisteredEvent(registeredTodo: RegisteredTodo) {
         val records = toRecords(registeredTodo)
         todoDao.register(records.todo)
-        notificationDao.register(records.notification)
     }
 
     override fun registerChangedEvent(changedTodo: ChangedTodo) {
@@ -41,7 +39,6 @@ class TodoRepositoryImpl(
             modifiedTypeValue = ModifiedTypeValue.Changed
         )
         todoDao.update(after)
-        notificationDao.register(notification)
     }
 
     override fun registerDeletedEvent(deletedTodo: DeletedTodo) {
@@ -53,7 +50,6 @@ class TodoRepositoryImpl(
             modifiedTypeValue = ModifiedTypeValue.Deleted
         )
         todoDao.delete(todo.id)
-        notificationDao.register(notification)
     }
 
     override fun registerStatedEvent(startedTodo: StartedTodo) {
@@ -70,7 +66,6 @@ class TodoRepositoryImpl(
             modifiedTypeValue = ModifiedTypeValue.Started
         )
         todoDao.update(after)
-        notificationDao.register(notification)
     }
 
     override fun registerFinishedEvent(finishedTodo: FinishedTodo) {
@@ -87,7 +82,6 @@ class TodoRepositoryImpl(
             modifiedTypeValue = ModifiedTypeValue.Finished
         )
         todoDao.update(after)
-        notificationDao.register(notification)
     }
 
     private fun toDomainModel(todoRecord: TodoRecord): Todo =
@@ -144,7 +138,7 @@ class TodoRepositoryImpl(
     ): NotificationContentRecord =
         NotificationContentRecord(
             title = todo.title,
-            deadLine = LocalDate.parse(todo.deadLine),
+            deadLine = todo.deadLine,
             started = todo.started,
             finished = todo.finished
         )

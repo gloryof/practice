@@ -10,6 +10,7 @@ import jp.glory.rethinkdb.practice.notify.domain.model.Notification
 import jp.glory.rethinkdb.practice.notify.domain.repository.NotificationRepository
 import jp.glory.rethinkdb.practice.todo.domain.model.ProgressStatus
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
 
 @Repository
 class NotificationRepositoryImpl(
@@ -40,7 +41,7 @@ class NotificationRepositoryImpl(
     ): ModifiedContent =
         ModifiedContent(
             title = record.title,
-            deadLine = record.deadLine,
+            deadLine = LocalDate.parse(record.deadLine),
             status = toProgressStatus(
                 started = record.started,
                 finished = record.finished

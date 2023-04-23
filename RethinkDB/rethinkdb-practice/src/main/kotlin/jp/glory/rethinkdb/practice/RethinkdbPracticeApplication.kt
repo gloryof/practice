@@ -1,5 +1,7 @@
 package jp.glory.rethinkdb.practice
 
+import jp.glory.rethinkdb.practice.base.spring.conf.listener.ApplicationStartedEventListener
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
@@ -7,5 +9,7 @@ import org.springframework.boot.runApplication
 class RethinkdbPracticeApplication
 
 fun main(args: Array<String>) {
-	runApplication<RethinkdbPracticeApplication>(*args)
+	val app = SpringApplication(RethinkdbPracticeApplication::class.java)
+	app.addListeners(ApplicationStartedEventListener())
+	app.run(*args)
 }
