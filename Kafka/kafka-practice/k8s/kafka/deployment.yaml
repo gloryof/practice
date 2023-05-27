@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-deployment
+  labels:
+    app: kafka
+spec:
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      name: kafka
+      labels:
+        app: kafka
+    spec:
+      containers:
+        - name: kafka-container
+          image: confluentinc/cp-kafka:7.3.3
+          ports:
+            - containerPort: 9092
+              name: kafka-port
+          env:
+            - name: KAFKA_ZOOKEEPER_CONNECT
+              value: "localhost:2181"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://localhost:9092"
+        - name: zookeaper-container
+          image: confluentinc/cp-zookeeper:7.3.3
+          ports:
+            - containerPort: 2181
+              name: zk-port
+          env:
+            - name: ZOOKEEPER_CLIENT_PORT
+              value: "2181"
