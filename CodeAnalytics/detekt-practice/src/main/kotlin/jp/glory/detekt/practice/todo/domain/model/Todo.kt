@@ -42,8 +42,8 @@ data class Todo(
         newDeadLine: LocalDate,
         clock: Clock
     ): ChangedTodo {
-        if (DeadLineService.isOverDue(newDeadLine, clock)) {
-            throw IllegalArgumentException("Dead line must future.")
+        require(DeadLineService.isOverDue(newDeadLine, clock)) {
+            "Dead line must future"
         }
         return ChangedTodo(
             id = this.id,

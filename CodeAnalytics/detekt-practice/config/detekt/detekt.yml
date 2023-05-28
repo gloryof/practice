@@ -136,6 +136,8 @@ complexity:
     ignoreDefaultParameters: false
     ignoreDataClasses: true
     ignoreAnnotatedParameter: []
+    ignoreAnnotated:
+      - 'WebApi'
   MethodOverloading:
     active: false
     threshold: 6
@@ -175,6 +177,8 @@ complexity:
     ignoreDeprecated: false
     ignorePrivate: false
     ignoreOverridden: false
+    ignoreAnnotated:
+      - 'WebApi'
 
 coroutines:
   active: true
@@ -391,7 +395,9 @@ performance:
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**']
   SpreadOperator:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**']
+    excludes:
+     - '**/test/**'
+     - "**/DetektPracticeApplication.kt"
   UnnecessaryPartOfBinaryExpression:
     active: false
   UnnecessaryTemporaryInstantiation:
@@ -750,7 +756,7 @@ style:
   UseCheckNotNull:
     active: true
   UseCheckOrError:
-    active: true
+    active: false
   UseDataClass:
     active: false
     allowVars: false
