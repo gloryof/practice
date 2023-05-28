@@ -1,0 +1,182 @@
+{
+	"info": {
+		"_postman_id": "f42fc3f9-7ba1-435e-a7e3-cf9eda47b3d5",
+		"name": "Detekt Practice",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Todo",
+			"item": [
+				{
+					"name": "List Todo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/todos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Todo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/todos/:todo-id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"todos",
+								":todo-id"
+							],
+							"variable": [
+								{
+									"key": "todo-id",
+									"value": "{{todo_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Todo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"test-name\",\n  \"dead_line\": \"2023-12-31\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/todos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Todo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"changed-test-name\",\n  \"dead_line\": \"2024-12-31\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/todos/:todo-id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"todos",
+								":todo-id"
+							],
+							"variable": [
+								{
+									"key": "todo-id",
+									"value": "{{todo_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start Todo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/todos/:todo-id/start",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"todos",
+								":todo-id",
+								"start"
+							],
+							"variable": [
+								{
+									"key": "todo-id",
+									"value": "{{todo_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Finish Todo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/todos/:todo-id/finish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"todos",
+								":todo-id",
+								"finish"
+							],
+							"variable": [
+								{
+									"key": "todo-id",
+									"value": "{{todo_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
