@@ -15,12 +15,12 @@
 
 ### アプリケーションもk8sで動かす場合。
 ```
-./script/start.sh
+./script/start-all.sh
 ```
 
 ## 停止方法
 ```
-./script/start.sh
+./script/stop.sh
 ```
 
 ### Grafanaへのアクセス

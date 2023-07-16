@@ -10,10 +10,10 @@ buildscript {
 }
 
 plugins {
-	id("org.springframework.boot") version "3.0.2"
+	id("org.springframework.boot") version "3.1.1"
 	id("io.spring.dependency-management") version "1.1.0"
-	kotlin("jvm") version "1.7.21"
-	kotlin("plugin.spring") version "1.7.21"
+	kotlin("jvm") version "1.8.22"
+	kotlin("plugin.spring") version "1.8.22"
 }
 
 group = "jp.glory"
@@ -40,7 +40,7 @@ dependencies {
 
 	// Open Telemetry
 	implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
-	implementation("com.github.loki4j:loki-logback-appender:1.3.2")
+	implementation("com.github.loki4j:loki-logback-appender:1.4.0")
 
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.16")
