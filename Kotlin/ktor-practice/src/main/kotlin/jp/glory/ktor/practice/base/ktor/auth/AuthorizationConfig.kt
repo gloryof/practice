@@ -7,6 +7,7 @@ import io.ktor.server.auth.Authentication
 import io.ktor.server.auth.UserIdPrincipal
 import io.ktor.server.auth.bearer
 import jp.glory.ktor.practice.auth.use_case.AuthenticateUseCase
+import jp.glory.ktor.practice.base.adaptor.web.WebNotAuthorizedException
 
 fun Application.configureAuthorization(
     auth: AuthenticateUseCase
@@ -17,7 +18,7 @@ fun Application.configureAuthorization(
                 auth.authenticateToken(AuthenticateUseCase.TokenAuthInput(credential.token))
                     .mapBoth(
                         success = { UserIdPrincipal(it.id) },
-                        failure = { null }
+                        failure = { throw WebNotAuthorizedException }
                     )
             }
 

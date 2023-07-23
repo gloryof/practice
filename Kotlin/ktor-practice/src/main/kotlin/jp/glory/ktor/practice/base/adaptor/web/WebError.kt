@@ -102,13 +102,18 @@ class WebTargetNotFoundErrorDetail(
         arrayOf(resourceName, idValue)
 }
 
-
 object WebAuthenticationFailedError: WebErrorDetail() {
     override fun getHttpStatus(): HttpStatusCode = HttpStatusCode.BadRequest
 
     override fun getErrorCode(): WebErrorCode = WebErrorCode.ERR400
 
     override fun getErrorDetailCode(): WebErrorDetailCode = WebErrorDetailCode.ERD400002
-
 }
 
+object WebNotAuthorizedError: WebErrorDetail() {
+    override fun getHttpStatus(): HttpStatusCode = HttpStatusCode.Unauthorized
+
+    override fun getErrorCode(): WebErrorCode = WebErrorCode.ERR401
+
+    override fun getErrorDetailCode(): WebErrorDetailCode = WebErrorDetailCode.ERD401001
+}

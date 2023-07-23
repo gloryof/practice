@@ -23,9 +23,9 @@ class AuthApi(
     ): AuthResponse =
         authenticateUser(request)
             .mapBoth(
-                    success = { AuthResponse(it.tokenValue) },
-                    failure = { throw WebExceptionHelper.create(it) }
-                )
+                success = { AuthResponse(it.tokenValue) },
+                failure = { throw WebExceptionHelper.create(it) }
+            )
 
     private fun authenticateUser(
         request: AuthRequest

@@ -1,6 +1,9 @@
 package jp.glory.ktor.practice.base.adaptor.web
 
-import jp.glory.ktor.practice.base.use_case.*
+import jp.glory.ktor.practice.base.use_case.UseCaseAuthenticationError
+import jp.glory.ktor.practice.base.use_case.UseCaseError
+import jp.glory.ktor.practice.base.use_case.UseCaseNotFoundError
+import jp.glory.ktor.practice.base.use_case.UseCaseUnknownError
 
 open class WebException(
     override val message: String,
@@ -17,6 +20,12 @@ object WebAuthenticateFailedException : WebException(
     message = "Authentication is failed"
 ) {
     val errorDetail: WebAuthenticationFailedError = WebAuthenticationFailedError
+}
+
+object WebNotAuthorizedException : WebException(
+    message = "Not authorized"
+) {
+    val errorDetail: WebNotAuthorizedError = WebNotAuthorizedError
 }
 
 class WebNotFoundException private constructor(

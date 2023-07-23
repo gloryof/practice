@@ -7,6 +7,7 @@ import io.micrometer.prometheus.PrometheusMeterRegistry
 import jp.glory.ktor.practice.auth.AuthModule
 import jp.glory.ktor.practice.auth.use_case.AuthenticateUseCase
 import jp.glory.ktor.practice.base.ktor.auth.configureAuthorization
+import jp.glory.ktor.practice.base.ktor.exception.configureException
 import jp.glory.ktor.practice.base.ktor.koin.configureKoin
 import jp.glory.ktor.practice.base.ktor.monitoring.MonitoringModule
 import jp.glory.ktor.practice.base.ktor.monitoring.configureMonitoring
@@ -22,6 +23,7 @@ fun Application.module() {
     val authUseCase by inject<AuthenticateUseCase>()
 
     configureSerialization()
+    configureException()
     configureMonitoring(registry)
     configureAuthorization(authUseCase)
 

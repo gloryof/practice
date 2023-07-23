@@ -28,11 +28,12 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-auth:$ktor_version")
-
     implementation("io.ktor:ktor-serialization-jackson-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-metrics-micrometer-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-metrics-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-status-pages:$ktor_version")
+
 
     // Koin
     implementation("io.insert-koin:koin-core:$koin_version")
