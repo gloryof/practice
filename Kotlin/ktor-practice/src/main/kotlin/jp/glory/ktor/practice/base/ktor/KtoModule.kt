@@ -9,6 +9,7 @@ import jp.glory.ktor.practice.auth.use_case.AuthenticateUseCase
 import jp.glory.ktor.practice.base.ktor.auth.configureAuthorization
 import jp.glory.ktor.practice.base.ktor.exception.configureException
 import jp.glory.ktor.practice.base.ktor.koin.configureKoin
+import jp.glory.ktor.practice.base.ktor.logging.configureLogging
 import jp.glory.ktor.practice.base.ktor.monitoring.MonitoringModule
 import jp.glory.ktor.practice.base.ktor.monitoring.configureMonitoring
 import jp.glory.ktor.practice.base.ktor.serialization.configureSerialization
@@ -24,6 +25,7 @@ fun Application.module() {
 
     configureSerialization()
     configureException()
+    configureLogging()
     configureMonitoring(registry)
     configureAuthorization(authUseCase)
 
