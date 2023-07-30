@@ -27,9 +27,3 @@ ID/PASSによるログイン認証を行う。
 以下のログを提供する。
 
 - アクセスログ
-
-### Open API
-Open APIのドキュメントを提供する。
-
-## TODO
-- Open API
