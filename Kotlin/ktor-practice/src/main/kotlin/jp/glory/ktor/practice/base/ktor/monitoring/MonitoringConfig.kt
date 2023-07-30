@@ -6,6 +6,12 @@ import io.ktor.server.application.install
 import io.ktor.server.application.log
 import io.ktor.server.metrics.dropwizard.DropwizardMetrics
 import io.ktor.server.metrics.micrometer.MicrometerMetrics
+import io.micrometer.core.instrument.binder.jvm.JvmGcMetrics
+import io.micrometer.core.instrument.binder.jvm.JvmHeapPressureMetrics
+import io.micrometer.core.instrument.binder.jvm.JvmInfoMetrics
+import io.micrometer.core.instrument.binder.jvm.JvmMemoryMetrics
+import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
+import io.micrometer.core.instrument.binder.system.ProcessorMetrics
 import io.micrometer.prometheus.PrometheusMeterRegistry
 import java.util.concurrent.TimeUnit
 
@@ -14,6 +20,14 @@ fun Application.configureMonitoring(
 ) {
     install(MicrometerMetrics) {
         registry = appMicrometerRegistry
+        meterBinders = listOf(
+            JvmMemoryMetrics(),
+            JvmGcMetrics(),
+            JvmInfoMetrics(),
+            JvmThreadMetrics(),
+            JvmHeapPressureMetrics(),
+            ProcessorMetrics()
+        )
     }
     install(DropwizardMetrics) {
         Slf4jReporter.forRegistry(registry)

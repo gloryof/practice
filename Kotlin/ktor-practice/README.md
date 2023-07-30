@@ -32,5 +32,4 @@ ID/PASSによるログイン認証を行う。
 Open APIのドキュメントを提供する。
 
 ## TODO
-- メトリクス
 - Open API

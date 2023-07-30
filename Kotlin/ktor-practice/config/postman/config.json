@@ -159,6 +159,14 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Metrics",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
 		}
 	],
 	"event": [
