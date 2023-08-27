@@ -10,6 +10,9 @@ plugins {
 group = "jp.glory"
 version = "0.0.1-SNAPSHOT"
 
+val junitTestSrc = "src/test/junit"
+val pbtTestSrc = "src/test/pbt"
+
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
 }
@@ -24,6 +27,9 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation(libs.either)
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation(testLib.kotest)
+	testImplementation(testLib.kotest.junit)
+	testImplementation(testLib.kotest.pbt)
 }
 
 tasks.withType<KotlinCompile> {
@@ -33,6 +39,45 @@ tasks.withType<KotlinCompile> {
 	}
 }
 
-tasks.withType<Test> {
-	useJUnitPlatform()
+
+testing {
+	suites {
+		val test by getting(JvmTestSuite::class) {
+			useJUnitJupiter()
+			sources {
+				kotlin {
+					srcDir(junitTestSrc)
+					srcDir(pbtTestSrc)
+				}
+			}
+		}
+
+		val junitTest by registering(JvmTestSuite::class) {
+			useJUnitJupiter()
+			dependencies {
+				implementation(project())
+			}
+			sources {
+				kotlin {
+					srcDir(junitTestSrc)
+				}
+			}
+		}
+
+		val pbtTest by registering(JvmTestSuite::class) {
+			useJUnitJupiter()
+			dependencies {
+				implementation(project())
+				implementation(testLib.kotest)
+				implementation(testLib.kotest.junit)
+				implementation(testLib.kotest.pbt)
+			}
+			sources {
+				kotlin {
+					srcDir(pbtTestSrc)
+				}
+			}
+		}
+
+	}
 }

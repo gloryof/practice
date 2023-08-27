@@ -23,5 +23,13 @@ dependencyResolutionManagement {
         create("libs") {
             library("either", "com.michael-bull.kotlin-result:kotlin-result:1.1.16")
         }
+        create("testLib") {
+            val kotestVersion = "plugin"
+            version(kotestVersion, "5.6.2")
+
+            library("kotest", "io.kotest", "kotest-assertions-core").versionRef(kotestVersion)
+            library("kotest.junit", "io.kotest", "kotest-runner-junit5").versionRef(kotestVersion)
+            library("kotest.pbt", "io.kotest", "kotest-property").versionRef(kotestVersion)
+        }
     }
 }

@@ -1,4 +1,4 @@
-package jp.glory.gradle.parctice.api
+package jp.glory.gradle.practice.api
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
@@ -10,7 +10,6 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
 import com.github.michaelbull.result.mapBoth
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.ResponseBody
 
 @RestController
 @RequestMapping("test")
