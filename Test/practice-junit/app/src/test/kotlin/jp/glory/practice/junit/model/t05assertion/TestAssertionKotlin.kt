@@ -1,13 +1,13 @@
 package jp.glory.practice.junit.model.t05assertion
 
 import jp.glory.practice.junit.model.Calculator
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotSame
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
-import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.assertDoesNotThrow
-import kotlin.test.assertEquals
-import kotlin.test.assertNotSame
-import kotlin.test.assertNull
+import org.junit.jupiter.api.assertThrows
 
 class TestAssertionKotlin {
 
