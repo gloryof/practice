@@ -2,8 +2,6 @@ package jp.glory.practice.junit.model.t05assertion
 
 import jp.glory.practice.junit.model.Calculator
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotSame
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -30,18 +28,6 @@ class TestAssertionKotlin {
     @Test
     fun testAssertEquals() {
         assertEquals(5, Calculator.plus(2, 3))
-    }
-
-
-    @Test
-    @SuppressWarnings
-    fun testAssertNotSame() {
-        assertNotSame(Integer(5), Calculator.plus(2, 3) as Integer)
-    }
-
-    @Test
-    fun testAssertNull() {
-        assertNull(null)
     }
 
     @Test
