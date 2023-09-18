@@ -15,6 +15,8 @@ fun main(args: Array<String>) {
 		Config.Builder()
 			.setApplicationName("practice-app")
 			.setProfilingEvent(EventType.ITIMER)
+			.setProfilingAlloc("0")
+			.setProfilingLock("0")
 			.setFormat(Format.JFR)
 			.setServerAddress("http://localhost:30040")
 			.build()
