@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pyroscope-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pyroscope
+  template:
+    metadata:
+      name: pyroscope
+      labels:
+        app: pyroscope
+    spec:
+      containers:
+        - name: app-container
+          image: grafana/pyroscope:1.0.0
+          ports:
+            - containerPort: 4040
+              name: service-port
