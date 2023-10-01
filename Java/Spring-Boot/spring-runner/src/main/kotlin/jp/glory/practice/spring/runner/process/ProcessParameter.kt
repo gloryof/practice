@@ -6,4 +6,13 @@ class ProcessParameter(
 ) {
     fun getParamValues(key: String): List<String> =
         values[key] ?: emptyList()
+
+    fun getParamValue(key: String): String {
+        val values = getParamValues(key)
+        return if (values.isEmpty()) {
+            return ""
+        } else {
+            values.first()
+        }
+    }
 }
