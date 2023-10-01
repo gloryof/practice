@@ -6,7 +6,9 @@ abstract class BaseProcess {
     private val logger  = LoggerFactory.getLogger(this::class.java)
 
     fun execute(param: ProcessParameter) {
+        loggingStart(param)
         doProcess(param)
+        loggingEnd(param)
     }
 
     abstract fun doProcess(param: ProcessParameter)
