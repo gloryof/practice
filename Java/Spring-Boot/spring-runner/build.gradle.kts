@@ -25,7 +25,10 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("io.micrometer:micrometer-registry-prometheus")
+	implementation("io.prometheus:simpleclient_pushgateway")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
