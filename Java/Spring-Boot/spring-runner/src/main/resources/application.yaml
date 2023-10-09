@@ -4,6 +4,9 @@ spring:
 
 
 management:
+  metrics:
+    tags:
+      batch-name: "${BATCH_NAME:test}"
   prometheus:
     metrics:
       export:
