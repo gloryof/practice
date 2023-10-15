@@ -1,6 +1,7 @@
 package jp.glory.practice.spring.runner.runner
 
 import jp.glory.practice.spring.runner.exception.SystemException
+import jp.glory.practice.spring.runner.metrics.BatchCounterMetrics
 import jp.glory.practice.spring.runner.process.BaseProcess
 import jp.glory.practice.spring.runner.process.ProcessParameter
 import org.slf4j.LoggerFactory
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class ProcessRunner(
-    private val applicationContext: ApplicationContext
+    private val applicationContext: ApplicationContext,
+    private val metrics: BatchCounterMetrics
 ) : ApplicationRunner, ExitCodeExceptionMapper {
     private val logger  = LoggerFactory.getLogger(this::class.java)
 
@@ -21,7 +23,7 @@ class ProcessRunner(
         val params = extractParam(args)
         loggingStart(params)
         applicationContext.getBean(params.batchName, BaseProcess::class.java)
-            .let { it.execute(params) }
+            .let { it.execute(metrics, params) }
         loggingEnd(params)
     }
 
