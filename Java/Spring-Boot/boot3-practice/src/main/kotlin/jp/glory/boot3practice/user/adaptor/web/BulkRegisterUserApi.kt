@@ -24,9 +24,9 @@ class BulkRegisterUserApi(
 
     @PostMapping
     fun registerUser(
-        @RequestPart("file") file: Mono<FilePart>
+        @RequestPart("file") uploadFile: Mono<FilePart>
     ): Mono<ResponseEntity<BulkUserRegisterResponse>> =
-        file
+        uploadFile
             .flatMap { file ->
                 file.content().map { it.asInputStream() }
                     .toMono()
