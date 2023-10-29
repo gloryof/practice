@@ -42,10 +42,13 @@ class WebConfig {
                 spec.pathMatchers("/actuator/**").permitAll()
                 spec.anyExchange().authenticated()
             }
-        http.csrf().disable()
+        http.csrf {
+            it.disable()
+        }
         http.securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
-        http.exceptionHandling()
-            .authenticationEntryPoint(CustomServerAuthenticationEntryPoint(objectMapper))
+        http.exceptionHandling {
+            it.authenticationEntryPoint(CustomServerAuthenticationEntryPoint(objectMapper))
+        }
 
         createAuthenticationWebFilter(
             authenticationManager = authenticationManager,
