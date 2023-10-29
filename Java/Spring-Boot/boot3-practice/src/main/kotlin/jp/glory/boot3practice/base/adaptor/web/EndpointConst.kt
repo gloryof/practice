@@ -7,6 +7,7 @@ object EndpointConst {
 
     object User {
         const val register = "/api/register"
+        const val bulkRegister = "/api/bulk-register"
         const val user = "/api/users"
     }
 }
