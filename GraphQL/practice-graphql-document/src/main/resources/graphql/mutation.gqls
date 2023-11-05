@@ -12,7 +12,7 @@ type Mutation {
     """
     Productの情報を更新する。
     更新対象が存在しない場合はエラー。
-    ”””
+    """
     updateProduct(
         """
         更新したいProductの情報を入力する。
