@@ -1,0 +1,88 @@
+spectaql:
+  embeddable: false
+  oneFile: false
+  targetDir: public
+  themeDir: "default"
+  scrollPaddingTopPx: 0
+  errorOnInterpolationReferenceNotFound: true
+  displayAllServers: false
+  resolveWithOutput: true
+
+introspection:
+  url: http://localhost:8080/graphql
+
+  spectaqlDirective:
+    enable: false
+
+  removeTrailingPeriodFromDescriptions: false
+
+  queryNameStrategy: none
+
+  fieldExpansionDepth: 3
+
+  inputValueDeprecation: false
+
+  metadatas: false
+
+  queriesDocumentedDefault: true
+  queryDocumentedDefault: true
+  queryArgDocumentedDefault: true
+  hideQueriesWithUndocumentedReturnType: true
+
+  mutationsDocumentedDefault: true
+  mutationDocumentedDefault: true
+  mutationArgDocumentedDefault: true
+  hideMutationsWithUndocumentedReturnType: true
+
+  subscriptionsDocumentedDefault: true
+  subscriptionDocumentedDefault: true
+  subscriptionArgDocumentedDefault: true
+  hideSubscriptionsWithUndocumentedReturnType: true
+
+  hideUnusedTypes: true
+  objectsDocumentedDefault: true
+  objectDocumentedDefault: true
+
+  inputsDocumentedDefault: true
+
+  inputDocumentedDefault: true
+
+  enumsDocumentedDefault: true
+  enumDocumentedDefault: true
+
+  unionsDocumentedDefault: true
+  unionDocumentedDefault: true
+  hideUnionTypesOfUndocumentedType: true
+
+  fieldDocumentedDefault: true
+  hideFieldsOfUndocumentedType: true
+
+  inputFieldDocumentedDefault: true
+  hideInputFieldsOfUndocumentedType: true
+
+  argDocumentedDefault: true
+  hideArgsOfUndocumentedType: true
+
+extensions:
+  graphqlScalarExamples: true
+
+servers:
+  - url: http://localhost:8080/graphql
+    description: Local Server
+    production: false
+
+info:
+  x-hideIntroduction: false
+  x-hideWelcome: false
+  x-hideIntroItems: false
+  x-hideIsDeprecated: false
+  x-hideDeprecationReason: false
+
+  description: |
+    GraphQLのドキュメント生成の練習用のアプリケーション。
+    下記の関連を持つ。
+
+    - Product -> Member
+    - Product -> Service
+  version: 1.0.0
+  title: GraphQLドキュメント練習用アプリケーション
