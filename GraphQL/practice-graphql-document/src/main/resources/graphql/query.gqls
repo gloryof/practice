@@ -1,0 +1,18 @@
+type Query {
+
+    """
+    全てのProductを取得する
+    """
+    findAllProducts: Products!
+
+    """
+    パラメータ`id`に指定されたProductを取得する。
+    Productが存在しない場合はエラーになる。
+    """
+    findProduct(
+        """
+        取得したいProductのIDを指定する。
+        """
+        id: String!
+    ): Product!
+}

@@ -1,0 +1,191 @@
+"""
+Productのリスト。
+"""
+type Products {
+    """
+    Productのリスト。
+    """
+    products: [Product!]!
+}
+
+"""
+Productの情報。
+"""
+type Product {
+    """
+    Productをユニークに特定するためのID。
+    """
+    id: String!
+
+    """
+    Productのコード。
+    """
+    code: String!
+
+    """
+    Productの名前。
+    """
+    name: String!
+
+    """
+    Productに携わるMemberのリスト。
+    """
+    members: [Member!]!,
+
+    """
+    Productに含まれるServiceのリスト。
+    """
+    services: [Service!]!
+}
+
+"""
+Memberの情報。
+"""
+type Member {
+    """
+    Memberをユニークに特定するためのID。
+    """
+    id: String!
+
+
+    """
+    Memberの名前。
+    """
+    givenName: String!
+
+
+    """
+    Memberの苗字。
+    """
+    familyName: String!
+
+    """
+    メンバーの誕生日。
+    """
+    birthDay: Date!
+}
+
+"""
+Serviceの情報。
+"""
+type Service {
+    """
+    Serviceをユニークに特定するためのID。
+    """
+    id: String!
+
+    """
+    Serviceの名前。
+    """
+    name: String!
+
+    """
+    Serviceの種類。
+    """
+    kind: ServiceKind!
+}
+
+"""
+Serviceの種類。
+"""
+enum ServiceKind {
+    """
+    金融。
+    """
+    Finance
+
+    """
+    エンターテイメント。
+    """
+    Entertainment
+
+    """
+    ヘルスケア。
+    """
+    HealthCare
+}
+
+"""
+Productの登録時の入力情報。
+"""
+input RegisterProductInput {
+    """
+    Productのコード。
+    """
+    code: String! @NotEmpty
+
+    """
+    Productの名前。
+    """
+    name: String! @NotEmpty
+
+    """
+    Productに携わるMemberのIDリスト。
+    """
+    memberIDs: [String!]!
+
+    """
+    Productに含まれるServiceのIDリスト。
+    """
+    serviceIDs: [String!]!
+}
+
+"""
+Productの登録結果。
+"""
+type RegisterProductResult {
+    """
+    登録時に発行されたID。
+    """
+    id: String!
+
+    """
+    登録されたProduct。
+    """
+    product: Product!
+}
+
+"""
+Productの更新時の入力情報。
+"""
+input UpdateProductInput {
+    """
+    更新対象のProductのID。
+    """
+    id: String! @NotEmpty
+    """
+    Productのコード。
+    """
+    code: String! @NotEmpty
+
+    """
+    Productの名前。
+    """
+    name: String! @NotEmpty
+
+    """
+    Productに携わるMemberのIDリスト。
+    """
+    memberIDs: [String!]!
+
+    """
+    Productに含まれるServiceのIDリスト。
+    """
+    serviceIDs: [String!]!
+}
+
+
+"""
+Productの更新結果。
+"""
+type UpdateProductResult {
+    """
+    更新対象のID。
+    """
+    id: String!
+
+    """
+    更新されたProduct。
+    """
+    product: Product!
+}
