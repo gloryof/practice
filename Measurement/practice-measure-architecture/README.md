@@ -11,4 +11,5 @@
 - [進化的アーキテクチャ](https://www.oreilly.co.jp/books/9784873118567/)
 
 ## メモ
+- [アーキテクチャ特性](./memo/bility.md)
 - [コード](./memo/code.md)
