@@ -11,7 +11,6 @@
 - [進化的アーキテクチャ](https://www.oreilly.co.jp/books/9784873118567/)
 - [エリート DevOps チームであることを Four Keys プロジェクトで確認する](https://cloud.google.com/blog/ja/products/gcp/using-the-four-keys-to-measure-your-devops-performance)
 
-## メモ
-- [アーキテクチャ特性](./memo/bility.md)
-- [Four Keys](./memo/four-keys.md)
-- [コード](./memo/code.md)
+- [アーキテクチャ特性](./memo/knowledge/bility.md)
+- [Four Keys](./memo/knowledge/four-keys.md)
+- [コード](./memo/knowledge/code.md)
