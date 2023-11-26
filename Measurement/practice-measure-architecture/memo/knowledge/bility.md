@@ -14,7 +14,7 @@
 ## 構造特性
 - 構成容易性（Configurability）：ソフトウェアの設定を簡単位変更できる度合い
 - 拡張性（Extensibility）：新しい機能をどれだけ追加しやすいか
-- 保守性（maintainability）：どれだけ保守しやすいか
+- 保守性（Maintainability）：どれだけ保守しやすいか
 - 活用性/再利用性（Leverageability/Reuse）：共通のコンポーネントをどれだけ使えるか
 - ローカライゼーション（Localization）：多限度にどれだけ対応しているか
 - 可搬性（Portability）：システムのプラットフォームの移行がどれだけしやすいか
