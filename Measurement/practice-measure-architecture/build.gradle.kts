@@ -45,6 +45,12 @@ tasks.bootBuildImage {
 	builder.set("paketobuildpacks/builder-jammy-base:latest")
 }
 
+tasks.jacocoTestReport {
+	reports {
+		xml.required = true
+	}
+}
+
 sonar {
 	val token = System.getenv("SONAR_TOKEN")
 	properties {
@@ -53,6 +59,6 @@ sonar {
 		// You need token when execute sonar task using sonar.token JVM parameter.
 		property("sonar.token", token)
 		property("sonar.java.coveragePlugin", "jacoco")
-		property("sonar.jacoco.reportPath", "${project.distsDirectory}/jacoco/test.exec")
+		property("sonar.coverage.jacoco.xmlReportPaths", "./build/reports/jacoco/test/jacocoTestReport.xml")
 	}
 }
