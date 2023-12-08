@@ -13,3 +13,5 @@ SonarQubeによる計測をした。
 「Measures」->「Complexity」にて確認ができる。
 
 ### 警告数
+SonarQubeによるIssue管理により数の計測はできる。  
+すべての警告を潰せるわけではないが、Linterと組み合わせればある程度は減らせそう。
