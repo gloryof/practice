@@ -27,7 +27,10 @@ repositories {
 }
 
 dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("io.github.lognet:grpc-spring-boot-starter:5.1.5")
 

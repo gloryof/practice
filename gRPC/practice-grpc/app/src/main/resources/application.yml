@@ -1,3 +1,21 @@
 grpc:
   enableReflection: true
   port: 6565
+
+management:
+  server:
+    port: 8080
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: "info,health,metrics,prometheus"
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
