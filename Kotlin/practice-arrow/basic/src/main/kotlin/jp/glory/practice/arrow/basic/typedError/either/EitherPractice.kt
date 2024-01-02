@@ -1,24 +1,19 @@
-package jp.glory.practice.arrow.basic.typedError
+package jp.glory.practice.arrow.basic.typedError.either
 
 import arrow.core.Either
 import arrow.core.NonEmptyList
 import arrow.core.flatMap
 import arrow.core.getOrElse
-import arrow.core.merge
 import arrow.core.raise.either
 import arrow.core.raise.ensure
-import arrow.core.raise.mapOrAccumulate
 import arrow.core.raise.zipOrAccumulate
 import arrow.core.right
-import arrow.core.zip
-import arrow.fx.coroutines.parZip
 import jp.glory.practice.arrow.basic.typedError.common.InvalidResource
 import jp.glory.practice.arrow.basic.typedError.common.SaveIsFailedError
 import jp.glory.practice.arrow.basic.typedError.common.TypedDomainError
 import jp.glory.practice.arrow.basic.typedError.common.TypedUserStatus
 import jp.glory.practice.arrow.basic.typedError.common.UserNotFoundError
 import jp.glory.practice.arrow.basic.typedError.common.ValidatedError
-import kotlinx.coroutines.flow.combine
 import java.time.LocalDate
 import java.util.UUID
 
@@ -45,7 +40,7 @@ class EitherPractice(
     )
 }
 
-class EitherUser(
+class EitherUser private constructor(
     val userId: EitherUserId,
     val userName: EitherUserName,
     val birthday: EitherUserBirthday,
@@ -124,34 +119,10 @@ class EitherUserRepositoryImpl(
     private val users: MutableMap<EitherUserId, EitherUser> = mutableMapOf()
 ) : EitherUserRepository {
     companion object {
-        val activeUser: EitherUser = EitherUserRepositoryImpl.createUser(
-            userId = "active-user-id",
+        val activeUser: EitherUser = EitherUser.create(
             userName = "active-user-name",
             birthday = LocalDate.of(1986, 12, 16),
-            status = TypedUserStatus.Active
         )
-
-        val suspendedUser = createUser(
-            userId = "suspended-user-id",
-            userName = "suspended-user-name",
-            birthday = LocalDate.of(1987, 1, 1),
-            status = TypedUserStatus.Suspended
-        )
-
-        private fun createUser(
-            userId: String,
-            userName: String,
-            birthday: LocalDate,
-            status: TypedUserStatus
-        ): EitherUser = either<NonEmptyList<ValidatedError>, EitherUser> {
-            zipOrAccumulate(
-                { EitherUserId.create(userId).bind() },
-                { EitherUserName.create(userName).bind() },
-                { EitherUserBirthday.create(birthday).bind() },
-            ) { userId, userName, birthday ->
-                EitherUser(userId, userName, birthday, status)
-            }
-        }
             .getOrElse { throw IllegalArgumentException("Invalid data") }
     }
 

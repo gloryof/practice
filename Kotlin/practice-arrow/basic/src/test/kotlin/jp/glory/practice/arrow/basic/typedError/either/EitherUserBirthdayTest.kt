@@ -1,9 +1,10 @@
-package jp.glory.practice.arrow.basic.typedError
+package jp.glory.practice.arrow.basic.typedError.either
 
 import arrow.core.Either
 import arrow.core.getOrElse
 import jp.glory.practice.arrow.basic.typedError.common.InvalidResource
 import jp.glory.practice.arrow.basic.typedError.common.InvalidType
+import jp.glory.practice.arrow.basic.typedError.either.EitherUserBirthday
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

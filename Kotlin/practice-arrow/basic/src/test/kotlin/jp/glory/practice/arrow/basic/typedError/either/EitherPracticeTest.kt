@@ -1,10 +1,9 @@
-package jp.glory.practice.arrow.basic.typedError
+package jp.glory.practice.arrow.basic.typedError.either
 
 import arrow.core.Either
 import arrow.core.getOrElse
 import jp.glory.practice.arrow.basic.typedError.common.InvalidResource
 import jp.glory.practice.arrow.basic.typedError.common.InvalidType
-import jp.glory.practice.arrow.basic.typedError.common.TypedDomainError
 import jp.glory.practice.arrow.basic.typedError.common.UserNotFoundError
 import jp.glory.practice.arrow.basic.typedError.common.ValidatedError
 import org.junit.jupiter.api.Assertions

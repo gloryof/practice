@@ -1,4 +1,4 @@
-package jp.glory.practice.arrow.basic.typedError
+package jp.glory.practice.arrow.basic.typedError.either
 
 import arrow.core.Either
 import arrow.core.getOrElse
