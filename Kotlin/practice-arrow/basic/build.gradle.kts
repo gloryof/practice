@@ -11,6 +11,8 @@ repositories {
 dependencies {
     implementation(libs.arrow.core)
     implementation(libs.arrow.fx)
+    implementation(libs.arrow.optics)
+    ksp(libs.arrow.ksp)
 
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
