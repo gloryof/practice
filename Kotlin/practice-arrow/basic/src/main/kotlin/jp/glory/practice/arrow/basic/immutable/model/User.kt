@@ -1,6 +1,7 @@
 package jp.glory.practice.arrow.basic.immutable.model
 
 
+import arrow.optics.copy
 import arrow.optics.optics
 import java.time.LocalDate
 import java.util.UUID
@@ -25,6 +26,15 @@ data class User(
                 status = UserStatus.Active
             )
     }
+
+    fun changeProfile(
+        userName: UserName,
+        birthday: Birthday
+    ): User =
+        this.copy {
+            User.userName set userName
+            User.birthday set birthday
+        }
 }
 
 

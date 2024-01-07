@@ -1,7 +1,9 @@
 package jp.glory.practice.arrow.basic.immutable
 
+import jp.glory.practice.arrow.basic.immutable.model.Birthday
 import jp.glory.practice.arrow.basic.immutable.model.User
 import jp.glory.practice.arrow.basic.immutable.model.UserId
+import jp.glory.practice.arrow.basic.immutable.model.UserName
 import jp.glory.practice.arrow.basic.immutable.model.UserRepository
 import jp.glory.practice.arrow.basic.immutable.model.UserStatus
 import jp.glory.practice.arrow.basic.immutable.model.birthday
@@ -26,6 +28,18 @@ class LensesPractice(
         )
             .also { repository.save(it) }
             .let { User.userId.get(it) }
+
+    fun changeProfile(input: ChangeProfileInput) {
+        repository.findByUserId(UserId(input.userId))
+            ?.let {
+                it.changeProfile(
+                    userName = UserName(input.userName),
+                    birthday = Birthday(input.birthday)
+                )
+            }
+            ?.let { repository.save(it) }
+            ?: throw IllegalStateException("User not found")
+    }
 
     private fun toResult(user: User): UserResult =
         UserResult(
@@ -56,6 +70,12 @@ class LensesPractice(
     }
 
     class RegisterInput(
+        val userName: String,
+        val birthday: LocalDate,
+    )
+
+    class ChangeProfileInput(
+        val userId: String,
         val userName: String,
         val birthday: LocalDate,
     )
