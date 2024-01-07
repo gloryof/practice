@@ -3,6 +3,7 @@ package jp.glory.practice.arrow.basic.immutable.model
 
 import arrow.optics.optics
 import java.time.LocalDate
+import java.util.UUID
 
 @optics
 data class User(
@@ -12,7 +13,18 @@ data class User(
     val status: UserStatus
 ) {
 
-    companion object
+    companion object {
+        fun create(
+            userName: String,
+            birthday: LocalDate,
+        ): User =
+            User(
+                userId = UserId.generate(),
+                userName = UserName(userName),
+                birthday = Birthday(birthday),
+                status = UserStatus.Active
+            )
+    }
 }
 
 
@@ -24,7 +36,9 @@ value class UserId(val value: String) {
         assert(value.isNotBlank())
     }
 
-    companion object
+    companion object {
+        fun generate(): UserId = UserId(UUID.randomUUID().toString())
+    }
 }
 
 @JvmInline

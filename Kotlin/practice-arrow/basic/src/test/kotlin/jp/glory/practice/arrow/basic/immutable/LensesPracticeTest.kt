@@ -9,6 +9,7 @@ import jp.glory.practice.arrow.basic.immutable.model.UserStatus
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.fail
 import java.time.LocalDate
 import java.util.UUID
@@ -38,7 +39,7 @@ class LensesPracticeTest {
             Assertions.assertEquals(LensesPractice.UserResult.Status.Active, actual.status)
         }
         @Test
-        fun `when nont exist user return null`() {
+        fun `when not exist user return null`() {
             val expectedUser = User(
                 userId = UserId(UUID.randomUUID().toString()),
                 userName = UserName("test-user"),
@@ -52,6 +53,39 @@ class LensesPracticeTest {
                 .getById(expectedUser.userId.value)
 
             Assertions.assertNull(actual)
+        }
+    }
+
+    @Nested
+    inner class TestRegister {
+        @Test
+        fun success() {
+            val input = LensesPractice.RegisterInput(
+                userName = "test-user",
+                birthday = LocalDate.of(1986, 12, 16)
+            )
+            val repository = UserRepositoryImpl()
+
+            val sut = LensesPractice(repository)
+
+            val actual = sut.register(input)
+
+            Assertions.assertTrue(actual.value.isNotBlank())
+        }
+
+        @Test
+        fun `when invalid input`() {
+            val input = LensesPractice.RegisterInput(
+                userName = "",
+                birthday = LocalDate.of(1986, 12, 16)
+            )
+            val repository = UserRepositoryImpl()
+
+            val sut = LensesPractice(repository)
+
+            assertThrows<AssertionError> {
+                sut.register(input)
+            }
         }
     }
 }

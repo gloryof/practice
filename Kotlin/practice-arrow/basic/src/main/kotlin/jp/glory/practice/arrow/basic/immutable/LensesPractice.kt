@@ -19,6 +19,14 @@ class LensesPractice(
             .findByUserId(UserId(userId))
             ?.let { toResult(it) }
 
+    fun register(input: RegisterInput): UserId =
+        User.create(
+            userName = input.userName,
+            birthday = input.birthday
+        )
+            .also { repository.save(it) }
+            .let { User.userId.get(it) }
+
     private fun toResult(user: User): UserResult =
         UserResult(
             userId = User.userId.value.get(user),
@@ -46,4 +54,9 @@ class LensesPractice(
             }
         }
     }
+
+    class RegisterInput(
+        val userName: String,
+        val birthday: LocalDate,
+    )
 }
