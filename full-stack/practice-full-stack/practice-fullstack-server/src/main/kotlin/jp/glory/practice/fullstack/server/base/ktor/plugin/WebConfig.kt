@@ -9,6 +9,8 @@ import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.respond
 import jp.glory.practice.fullstack.server.base.adaptor.web.ErrorResponse
+import jp.glory.practice.fullstack.server.base.exception.InvalidRequestException
+import jp.glory.practice.fullstack.server.base.exception.NotFoundException
 import java.lang.IllegalStateException
 import kotlin.IllegalArgumentException
 
@@ -35,14 +37,14 @@ private fun toErrorResponse(
     throwable: Throwable
 ): Pair<ErrorResponse, HttpStatusCode> =
     when (throwable) {
-        is IllegalArgumentException ->
+        is InvalidRequestException ->
             Pair(
-                ErrorResponse.createValidationError(),
+                ErrorResponse.createValidationError(throwable.message),
                 HttpStatusCode.BadRequest
             )
-        is IllegalStateException ->
+        is NotFoundException ->
             Pair(
-                ErrorResponse.createValidationError(),
+                ErrorResponse.createValidationError(throwable.message),
                 HttpStatusCode.BadRequest
             )
         else ->

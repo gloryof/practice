@@ -3,6 +3,7 @@ package jp.glory.practice.fullstack.server.auth.usecase
 import jp.glory.practice.fullstack.server.auth.domain.AuthUserId
 import jp.glory.practice.fullstack.server.auth.domain.AuthorizedEventHandler
 import jp.glory.practice.fullstack.server.auth.domain.RegisteredUserRepository
+import jp.glory.practice.fullstack.server.base.exception.InvalidRequestException
 
 class Login(
     private val handler: AuthorizedEventHandler,
@@ -16,7 +17,7 @@ class Login(
             ?.let { it.authorize(input.password) }
             ?.also { handler.register(it) }
             ?.let { Output(it.token.value) }
-            ?: throw IllegalStateException("Login is failed")
+            ?: throw InvalidRequestException("Login is failed")
 
     class Input(
         val userId: String,

@@ -1,5 +1,6 @@
 package jp.glory.practice.fullstack.server.user.usecase
 
+import jp.glory.practice.fullstack.server.base.exception.NotFoundException
 import jp.glory.practice.fullstack.server.user.domain.UserId
 import jp.glory.practice.fullstack.server.user.domain.UserRepository
 import java.time.LocalDate
@@ -16,7 +17,7 @@ class GetUser(
                     birthday = it.birthday.value
                 )
             }
-            ?: throw IllegalStateException("Update is failed")
+            ?: throw NotFoundException("User Not found")
 
     class Input(
         val userId: String

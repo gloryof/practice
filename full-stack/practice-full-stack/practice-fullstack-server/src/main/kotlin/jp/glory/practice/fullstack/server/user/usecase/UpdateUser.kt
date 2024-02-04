@@ -1,5 +1,6 @@
 package jp.glory.practice.fullstack.server.user.usecase
 
+import jp.glory.practice.fullstack.server.base.exception.NotFoundException
 import jp.glory.practice.fullstack.server.base.usecase.ExecuteUser
 import jp.glory.practice.fullstack.server.user.domain.Birthday
 import jp.glory.practice.fullstack.server.user.domain.UserEventHandler
@@ -26,7 +27,7 @@ class UpdateUser(
             }
             ?.also { userEventHandler.update(it) }
             ?.let { Output(it.id.value) }
-            ?: throw IllegalStateException("Update is failed")
+            ?: throw NotFoundException("User Not found")
 
     class Input(
         val name: String,

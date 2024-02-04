@@ -1,20 +1,26 @@
 package jp.glory.practice.fullstack.server.base.adaptor.web
 
 class ErrorResponse private constructor(
+    val message: String,
     val type: ErrorType
 ) {
     companion object {
 
-        fun createValidationError(): ErrorResponse =
+        fun createValidationError(message: String): ErrorResponse =
             ErrorResponse(
-                type = ErrorType.InvalidRequest
+                type = ErrorType.InvalidRequest,
+                message = message
             )
-        fun createUnauthorizedError(): ErrorResponse =
+        fun createNotFoundException(
+            message: String
+        ): ErrorResponse =
             ErrorResponse(
-                type = ErrorType.Unauthorized
+                message = message,
+                type = ErrorType.NotFound
             )
         fun createInternalError(): ErrorResponse =
             ErrorResponse(
+                message = "Internal error is occurred",
                 type = ErrorType.InternalError
             )
     }
@@ -22,6 +28,6 @@ class ErrorResponse private constructor(
 
 enum class ErrorType {
     InvalidRequest,
-    Unauthorized,
+    NotFound,
     InternalError
 }

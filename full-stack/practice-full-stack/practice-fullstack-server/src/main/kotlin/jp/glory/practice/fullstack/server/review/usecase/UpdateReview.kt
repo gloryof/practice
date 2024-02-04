@@ -1,5 +1,6 @@
 package jp.glory.practice.fullstack.server.review.usecase
 
+import jp.glory.practice.fullstack.server.base.exception.NotFoundException
 import jp.glory.practice.fullstack.server.base.usecase.ExecuteUser
 import jp.glory.practice.fullstack.server.review.domain.Rating
 import jp.glory.practice.fullstack.server.review.domain.ReviewEventHandler
@@ -27,7 +28,7 @@ class UpdateReview(
             }
             ?.also { handler.update(it) }
             ?.let { Output(it.id.value) }
-            ?: throw IllegalStateException("Update is failed")
+            ?: throw NotFoundException("Review not found")
 
 
     class Input(
