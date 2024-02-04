@@ -1,11 +1,9 @@
 package jp.glory.practice.fullstack.server.user.usecase
 
-import jp.glory.practice.fullstack.server.base.usecase.UseCase
 import jp.glory.practice.fullstack.server.user.domain.RegisterUserEvent
 import jp.glory.practice.fullstack.server.user.domain.UserEventHandler
 import java.time.LocalDate
 
-@UseCase
 class RegisterUser(
     private val userEventHandler: UserEventHandler
 ) {

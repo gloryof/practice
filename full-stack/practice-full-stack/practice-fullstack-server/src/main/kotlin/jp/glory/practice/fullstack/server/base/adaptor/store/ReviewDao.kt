@@ -1,8 +1,5 @@
 package jp.glory.practice.fullstack.server.base.adaptor.store
 
-import org.springframework.stereotype.Component
-
-@Component
 class ReviewDao {
     private val reviews = mutableMapOf<String, ReviewRecord>()
 

@@ -15,7 +15,7 @@ curl \
     -H "Content-Type:application/json" \
     -X POST \
     -d "{\"name\": \"test-uesr\", \"birthday\": \"1986-12-16\", \"password\":\"test-password\"}" \
-    http://localhost:8080/api/register
+    http://localhost:8080/api/user/register
 ```
 
 #### ログイン
@@ -24,5 +24,5 @@ curl \
     -H "Content-Type:application/json" \
     -X POST \
     -d "{\"userId\": \"${USER_ID}\", \"password\":\"test-password\"}" \
-    http://localhost:8080/api/login
+    http://localhost:8080/api/auth/login
 ```

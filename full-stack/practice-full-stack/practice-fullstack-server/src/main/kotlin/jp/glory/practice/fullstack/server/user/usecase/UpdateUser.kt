@@ -1,7 +1,6 @@
 package jp.glory.practice.fullstack.server.user.usecase
 
 import jp.glory.practice.fullstack.server.base.usecase.ExecuteUser
-import jp.glory.practice.fullstack.server.base.usecase.UseCase
 import jp.glory.practice.fullstack.server.user.domain.Birthday
 import jp.glory.practice.fullstack.server.user.domain.UserEventHandler
 import jp.glory.practice.fullstack.server.user.domain.UserId
@@ -9,7 +8,6 @@ import jp.glory.practice.fullstack.server.user.domain.UserName
 import jp.glory.practice.fullstack.server.user.domain.UserRepository
 import java.time.LocalDate
 
-@UseCase
 class UpdateUser(
     private val repository: UserRepository,
     private val userEventHandler: UserEventHandler

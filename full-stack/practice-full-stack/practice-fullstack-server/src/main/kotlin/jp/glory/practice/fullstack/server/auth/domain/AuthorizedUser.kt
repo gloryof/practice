@@ -4,7 +4,7 @@ import java.util.UUID
 
 class RegisteredUser(
     val userId: AuthUserId,
-    private val password: RegisteredPassword
+    val password: RegisteredPassword
 ) {
     fun authorize(
         inputPassword: String

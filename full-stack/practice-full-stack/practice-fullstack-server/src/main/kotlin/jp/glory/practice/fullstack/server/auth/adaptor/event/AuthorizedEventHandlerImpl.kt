@@ -5,9 +5,7 @@ import jp.glory.practice.fullstack.server.auth.domain.AuthorizedEventHandler
 import jp.glory.practice.fullstack.server.auth.domain.RevokeTokenEvent
 import jp.glory.practice.fullstack.server.base.adaptor.store.TokenDao
 import jp.glory.practice.fullstack.server.base.adaptor.store.TokenRecord
-import org.springframework.stereotype.Component
 
-@Component
 class AuthorizedEventHandlerImpl(
     private val dao: TokenDao
 ) : AuthorizedEventHandler {

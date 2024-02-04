@@ -8,9 +8,7 @@ import jp.glory.practice.fullstack.server.review.domain.ReviewId
 import jp.glory.practice.fullstack.server.review.domain.ReviewRepository
 import jp.glory.practice.fullstack.server.review.domain.ReviewUserId
 import jp.glory.practice.fullstack.server.review.domain.Title
-import org.springframework.stereotype.Repository
 
-@Repository
 class ReviewRepositoryImpl(
     private val dao: ReviewDao
 ) : ReviewRepository {

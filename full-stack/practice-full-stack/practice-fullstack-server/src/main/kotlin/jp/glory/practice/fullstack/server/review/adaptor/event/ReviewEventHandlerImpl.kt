@@ -5,9 +5,7 @@ import jp.glory.practice.fullstack.server.base.adaptor.store.ReviewRecord
 import jp.glory.practice.fullstack.server.review.domain.RegisterReviewEvent
 import jp.glory.practice.fullstack.server.review.domain.ReviewEventHandler
 import jp.glory.practice.fullstack.server.review.domain.UpdateReviewEvent
-import org.springframework.stereotype.Component
 
-@Component
 class ReviewEventHandlerImpl(
     private val dao: ReviewDao
 ) : ReviewEventHandler {

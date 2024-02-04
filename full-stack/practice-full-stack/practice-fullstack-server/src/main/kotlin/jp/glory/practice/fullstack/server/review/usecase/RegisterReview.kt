@@ -1,12 +1,10 @@
 package jp.glory.practice.fullstack.server.review.usecase
 
 import jp.glory.practice.fullstack.server.base.usecase.ExecuteUser
-import jp.glory.practice.fullstack.server.base.usecase.UseCase
 import jp.glory.practice.fullstack.server.review.domain.RegisterReviewEvent
 import jp.glory.practice.fullstack.server.review.domain.ReviewEventHandler
 import jp.glory.practice.fullstack.server.user.domain.UserId
 
-@UseCase
 class RegisterReview(
     private val handler: ReviewEventHandler
 ) {

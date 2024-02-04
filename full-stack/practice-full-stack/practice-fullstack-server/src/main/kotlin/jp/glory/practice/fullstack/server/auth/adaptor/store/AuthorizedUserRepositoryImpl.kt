@@ -5,9 +5,7 @@ import jp.glory.practice.fullstack.server.auth.domain.AuthorizedToken
 import jp.glory.practice.fullstack.server.auth.domain.AuthorizedUser
 import jp.glory.practice.fullstack.server.auth.domain.AuthorizedUserRepository
 import jp.glory.practice.fullstack.server.base.adaptor.store.TokenDao
-import org.springframework.stereotype.Repository
 
-@Repository
 class AuthorizedUserRepositoryImpl(
     private val dao: TokenDao
 ) : AuthorizedUserRepository {

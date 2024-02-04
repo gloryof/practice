@@ -7,9 +7,7 @@ import jp.glory.practice.fullstack.server.base.adaptor.store.UserRecord
 import jp.glory.practice.fullstack.server.user.domain.RegisterUserEvent
 import jp.glory.practice.fullstack.server.user.domain.UpdateUserEvent
 import jp.glory.practice.fullstack.server.user.domain.UserEventHandler
-import org.springframework.stereotype.Component
 
-@Component
 class UserEventHandlerImpl(
     private val userDao: UserDao,
     private val authDao: AuthDao

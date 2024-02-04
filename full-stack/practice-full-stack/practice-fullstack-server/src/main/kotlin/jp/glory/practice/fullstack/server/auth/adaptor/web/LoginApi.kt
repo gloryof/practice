@@ -1,35 +1,29 @@
 package jp.glory.practice.fullstack.server.auth.adaptor.web
 
 import jp.glory.practice.fullstack.server.auth.usecase.Login
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import jp.glory.practice.fullstack.server.base.adaptor.web.WebResponse
 
 
-@RestController
-@RequestMapping("/api/login")
 class LoginApi(
     private val usecase: Login
 ) {
-    @PostMapping
     fun login(
-        @RequestBody request: Request
-    ): Response =
+        request: Request
+    ): WebResponse<ResponseBody> =
         usecase.login(
             Login.Input(
                 userId = request.userId,
                 password = request.password
             )
         )
-            .let { Response(it.token) }
+            .let { WebResponse.ok(ResponseBody(it.token)) }
 
     class Request(
         val userId: String,
         val password: String
     )
 
-    class Response(
+    class ResponseBody(
         val token: String
     )
 }

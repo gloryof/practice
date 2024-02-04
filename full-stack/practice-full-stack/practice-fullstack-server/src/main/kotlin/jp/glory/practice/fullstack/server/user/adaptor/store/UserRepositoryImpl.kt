@@ -6,9 +6,7 @@ import jp.glory.practice.fullstack.server.user.domain.User
 import jp.glory.practice.fullstack.server.user.domain.UserId
 import jp.glory.practice.fullstack.server.user.domain.UserName
 import jp.glory.practice.fullstack.server.user.domain.UserRepository
-import org.springframework.stereotype.Repository
 
-@Repository
 class UserRepositoryImpl(
     private val userDao: UserDao
 ) : UserRepository {

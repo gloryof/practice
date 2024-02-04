@@ -3,9 +3,7 @@ package jp.glory.practice.fullstack.server.auth.usecase
 import jp.glory.practice.fullstack.server.auth.domain.AuthUserId
 import jp.glory.practice.fullstack.server.auth.domain.AuthorizedEventHandler
 import jp.glory.practice.fullstack.server.auth.domain.RegisteredUserRepository
-import jp.glory.practice.fullstack.server.base.usecase.UseCase
 
-@UseCase
 class Login(
     private val handler: AuthorizedEventHandler,
     private val repository: RegisteredUserRepository

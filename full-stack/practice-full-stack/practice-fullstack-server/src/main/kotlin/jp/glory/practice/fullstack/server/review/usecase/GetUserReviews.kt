@@ -1,12 +1,10 @@
 package jp.glory.practice.fullstack.server.review.usecase
 
 import jp.glory.practice.fullstack.server.base.usecase.ExecuteUser
-import jp.glory.practice.fullstack.server.base.usecase.UseCase
 import jp.glory.practice.fullstack.server.review.domain.Review
 import jp.glory.practice.fullstack.server.review.domain.ReviewRepository
 import jp.glory.practice.fullstack.server.review.domain.ReviewUserId
 
-@UseCase
 class GetUserReviews(
     private val repository: ReviewRepository
 ) {

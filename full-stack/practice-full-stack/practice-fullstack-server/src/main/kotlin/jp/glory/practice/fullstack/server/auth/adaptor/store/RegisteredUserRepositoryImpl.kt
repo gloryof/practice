@@ -5,9 +5,7 @@ import jp.glory.practice.fullstack.server.auth.domain.RegisteredPassword
 import jp.glory.practice.fullstack.server.auth.domain.RegisteredUser
 import jp.glory.practice.fullstack.server.auth.domain.RegisteredUserRepository
 import jp.glory.practice.fullstack.server.base.adaptor.store.AuthDao
-import org.springframework.stereotype.Repository
 
-@Repository
 class RegisteredUserRepositoryImpl(
     private val dao: AuthDao
 ) : RegisteredUserRepository {
