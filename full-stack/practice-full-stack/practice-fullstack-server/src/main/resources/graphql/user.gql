@@ -1,0 +1,9 @@
+type Query {
+    me: User!
+}
+
+type User {
+    id: String!
+    name: String!
+    birthday: Date!
+}

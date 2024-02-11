@@ -37,6 +37,9 @@ dependencies {
 	implementation("io.insert-koin:koin-ktor:$koin_version")
 	implementation("io.insert-koin:koin-logger-slf4j:$koin_version")
 
+	implementation("com.graphql-java-kickstart:graphql-java-tools:13.1.1")
+	implementation("com.graphql-java:graphql-java-extended-scalars:21.0")
+
 	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.1")
 
 	testImplementation("io.ktor:ktor-server-tests-jvm")

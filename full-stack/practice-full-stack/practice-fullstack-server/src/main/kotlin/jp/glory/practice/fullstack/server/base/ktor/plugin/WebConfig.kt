@@ -9,10 +9,10 @@ import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.respond
 import jp.glory.practice.fullstack.server.base.adaptor.web.ErrorResponse
+import jp.glory.practice.fullstack.server.base.exception.AuthorizationException
 import jp.glory.practice.fullstack.server.base.exception.InvalidRequestException
 import jp.glory.practice.fullstack.server.base.exception.NotFoundException
-import java.lang.IllegalStateException
-import kotlin.IllegalArgumentException
+
 
 fun Application.configureWeb() {
     install(ContentNegotiation) {
@@ -42,11 +42,19 @@ private fun toErrorResponse(
                 ErrorResponse.createValidationError(throwable.message),
                 HttpStatusCode.BadRequest
             )
+
         is NotFoundException ->
             Pair(
                 ErrorResponse.createValidationError(throwable.message),
                 HttpStatusCode.BadRequest
             )
+
+        is AuthorizationException ->
+            Pair(
+                ErrorResponse.createAuthorizationError(throwable.message),
+                HttpStatusCode.BadRequest
+            )
+
         else ->
             Pair(
                 ErrorResponse.createInternalError(),

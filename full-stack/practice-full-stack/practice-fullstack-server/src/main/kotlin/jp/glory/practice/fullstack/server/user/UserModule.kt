@@ -1,7 +1,7 @@
 package jp.glory.practice.fullstack.server.user
 
-import jp.glory.practice.fullstack.server.base.adaptor.store.UserDao
 import jp.glory.practice.fullstack.server.user.adaptor.event.UserEventHandlerImpl
+import jp.glory.practice.fullstack.server.user.adaptor.grqphql.UserQuery
 import jp.glory.practice.fullstack.server.user.adaptor.store.UserRepositoryImpl
 import jp.glory.practice.fullstack.server.user.adaptor.web.RegisterUserApi
 import jp.glory.practice.fullstack.server.user.domain.UserEventHandler
@@ -29,5 +29,8 @@ object UserModule {
 
         // Web
         singleOf(::RegisterUserApi)
+
+        // GraphQL
+        singleOf(::UserQuery)
     }
 }
