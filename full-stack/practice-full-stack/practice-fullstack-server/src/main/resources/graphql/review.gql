@@ -1,0 +1,34 @@
+type Reviews {
+    items: [Review!]!
+}
+
+type Review {
+    id: String!
+    userId: String!
+    title: String!
+    rating: Int!
+    reviewAt: DateTime!
+    updatedAt: DateTime
+}
+
+input RegisterReviewInput {
+    title: String!
+    rating: Int!
+}
+
+type RegisterReviewPayload {
+    id: String!
+    registered: Review
+}
+
+input UpdateReviewInput {
+    id: String!
+    title: String!
+    rating: Int!
+}
+
+type UpdateReviewPayload {
+    id: String!
+    updated: Review
+}
+

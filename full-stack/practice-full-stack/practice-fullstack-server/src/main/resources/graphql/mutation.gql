@@ -1,0 +1,5 @@
+type Mutation {
+    updateUser(input: UserUpdateInput!): UserUpdatePayload!
+    registerReview(input: RegisterReviewInput!): RegisterReviewPayload!
+    updateReview(input: UpdateReviewInput!): UpdateReviewPayload
+}

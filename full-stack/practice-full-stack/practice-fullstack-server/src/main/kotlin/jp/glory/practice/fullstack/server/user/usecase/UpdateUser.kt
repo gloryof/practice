@@ -35,6 +35,6 @@ class UpdateUser(
     )
 
     class Output(
-        val registeredId: String,
+        val updatedId: String,
     )
 }

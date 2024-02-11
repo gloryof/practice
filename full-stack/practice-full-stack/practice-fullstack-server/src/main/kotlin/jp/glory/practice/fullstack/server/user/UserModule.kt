@@ -1,7 +1,10 @@
 package jp.glory.practice.fullstack.server.user
 
 import jp.glory.practice.fullstack.server.user.adaptor.event.UserEventHandlerImpl
-import jp.glory.practice.fullstack.server.user.adaptor.grqphql.UserQuery
+import jp.glory.practice.fullstack.server.user.adaptor.grqphql.UserResolvers
+import jp.glory.practice.fullstack.server.user.adaptor.grqphql.mutation.UserMutation
+import jp.glory.practice.fullstack.server.user.adaptor.grqphql.mutation.UserUpdatePayloadResolver
+import jp.glory.practice.fullstack.server.user.adaptor.grqphql.query.UserQuery
 import jp.glory.practice.fullstack.server.user.adaptor.store.UserRepositoryImpl
 import jp.glory.practice.fullstack.server.user.adaptor.web.RegisterUserApi
 import jp.glory.practice.fullstack.server.user.domain.UserEventHandler
@@ -32,5 +35,8 @@ object UserModule {
 
         // GraphQL
         singleOf(::UserQuery)
+        singleOf(::UserMutation)
+        singleOf(::UserUpdatePayloadResolver)
+        singleOf(::UserResolvers)
     }
 }

@@ -1,0 +1,4 @@
+type Query {
+    me: User!
+    reviews: Reviews!
+}

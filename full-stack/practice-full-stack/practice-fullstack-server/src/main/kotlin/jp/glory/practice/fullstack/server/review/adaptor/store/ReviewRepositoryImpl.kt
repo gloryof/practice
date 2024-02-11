@@ -4,10 +4,12 @@ import jp.glory.practice.fullstack.server.base.adaptor.store.ReviewDao
 import jp.glory.practice.fullstack.server.base.adaptor.store.ReviewRecord
 import jp.glory.practice.fullstack.server.review.domain.Rating
 import jp.glory.practice.fullstack.server.review.domain.Review
+import jp.glory.practice.fullstack.server.review.domain.ReviewAt
 import jp.glory.practice.fullstack.server.review.domain.ReviewId
 import jp.glory.practice.fullstack.server.review.domain.ReviewRepository
 import jp.glory.practice.fullstack.server.review.domain.ReviewUserId
 import jp.glory.practice.fullstack.server.review.domain.Title
+import jp.glory.practice.fullstack.server.review.domain.UpdatedAt
 
 class ReviewRepositoryImpl(
     private val dao: ReviewDao
@@ -31,6 +33,9 @@ class ReviewRepositoryImpl(
             id = ReviewId(record.id),
             userId = ReviewUserId(record.userId),
             title = Title(record.title),
-            rating = Rating(record.rating)
+            rating = Rating(record.rating),
+            reviewAt = ReviewAt(record.reviewAt),
+            updatedAt = record.updatedAt
+                ?.let { UpdatedAt(it) }
         )
 }

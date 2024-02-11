@@ -1,13 +1,16 @@
 package jp.glory.practice.fullstack.server.review.domain
 
 import jp.glory.practice.fullstack.server.user.domain.UserId
+import java.time.OffsetDateTime
 import java.util.UUID
 
 class Review(
     val id: ReviewId,
     val userId: ReviewUserId,
     val title: Title,
-    val rating: Rating
+    val rating: Rating,
+    val reviewAt: ReviewAt,
+    val updatedAt: UpdatedAt?
 ) {
     fun update(
         userId: ReviewUserId,
@@ -21,7 +24,8 @@ class Review(
             id = id,
             userId = userId,
             title = title,
-            rating = rating
+            rating = rating,
+            updatedAt = UpdatedAt.create()
         )
     }
 
@@ -64,11 +68,28 @@ value class Rating(val value: UInt) {
     }
 }
 
+@JvmInline
+value class ReviewAt(val value: OffsetDateTime) {
+    companion object {
+        fun create(): ReviewAt =
+            ReviewAt(OffsetDateTime.now())
+    }
+}
+
+@JvmInline
+value class UpdatedAt(val value: OffsetDateTime) {
+    companion object {
+        fun create(): UpdatedAt =
+            UpdatedAt(OffsetDateTime.now())
+    }
+}
+
 class RegisterReviewEvent private constructor(
     val id: ReviewId,
     val userId: ReviewUserId,
     val title: Title,
-    val rating: Rating
+    val rating: Rating,
+    val reviewAt: ReviewAt,
 ) {
     companion object {
         fun create(
@@ -80,7 +101,8 @@ class RegisterReviewEvent private constructor(
                 id = ReviewId.generate(),
                 userId = ReviewUserId(userId.value),
                 title = Title(title),
-                rating = Rating(rating)
+                rating = Rating(rating),
+                reviewAt = ReviewAt.create()
             )
     }
 }
@@ -89,7 +111,8 @@ class UpdateReviewEvent(
     val id: ReviewId,
     val userId: ReviewUserId,
     val title: Title,
-    val rating: Rating
+    val rating: Rating,
+    val updatedAt: UpdatedAt
 )
 
 

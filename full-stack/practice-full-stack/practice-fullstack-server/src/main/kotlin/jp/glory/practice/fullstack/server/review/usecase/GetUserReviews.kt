@@ -4,6 +4,7 @@ import jp.glory.practice.fullstack.server.base.usecase.ExecuteUser
 import jp.glory.practice.fullstack.server.review.domain.Review
 import jp.glory.practice.fullstack.server.review.domain.ReviewRepository
 import jp.glory.practice.fullstack.server.review.domain.ReviewUserId
+import java.time.OffsetDateTime
 
 class GetUserReviews(
     private val repository: ReviewRepository
@@ -25,7 +26,9 @@ class GetUserReviews(
             id = review.id.value,
             userId = review.userId.value,
             title = review.title.value,
-            rating = review.rating.value
+            rating = review.rating.value,
+            reviewAt = review.reviewAt.value,
+            updatedAt = review.updatedAt?.value
         )
 
     class Input(
@@ -42,6 +45,8 @@ class GetUserReviews(
         val id: String,
         val userId: String,
         val title: String,
-        val rating: UInt
+        val rating: UInt,
+        val reviewAt: OffsetDateTime,
+        val updatedAt: OffsetDateTime?
     )
 }

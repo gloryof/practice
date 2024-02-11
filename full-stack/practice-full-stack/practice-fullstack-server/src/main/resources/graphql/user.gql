@@ -1,9 +1,15 @@
-type Query {
-    me: User!
-}
-
 type User {
     id: String!
     name: String!
     birthday: Date!
+}
+
+input UserUpdateInput {
+    name: String!,
+    birthday: Date!
+}
+
+type UserUpdatePayload {
+    id: String!
+    updated: User!
 }
