@@ -31,3 +31,33 @@ body {
     text-wrap: balance;
   }
 }
+
+main.login-contents {
+  margin: 10px;
+  display: flex;
+}
+
+
+main.login-contents > nav.side-menu {
+  width: 150px;
+  display: flex;
+  flex-flow: column;
+}
+
+
+ul.side-menu-list {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+
+
+ul.side-menu-list > li {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+form.input-form {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

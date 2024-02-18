@@ -1,17 +1,10 @@
+import { SideMenu } from "@/components/common/side-menu/SideMenu"
+
 
 export default function Login() {
   return (
-    <div>
-      <div>
-        <h1>メニュー</h1>
-        <ul>
-          <li><a href="/reviews">レビュー</a></li>
-          <li><a href="/account">アカウント</a></li>
-        </ul>
-        <div>
-          <button><a href="/login">ログアウト</a></button>
-        </div>
-      </div>
+    <main className="login-contents">
+      <SideMenu/>
       <div>
         <ul>
           <li>
@@ -46,6 +39,6 @@ export default function Login() {
           </li>
         </ul>
       </div>
-    </div>
+    </main>
   )
 }
