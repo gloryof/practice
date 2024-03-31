@@ -1,11 +1,13 @@
 package jp.glory.practice.fullstack.server.base.ktor.plugin
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.jackson.jackson
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.respond
 import jp.glory.practice.fullstack.server.base.adaptor.web.ErrorResponse
@@ -30,6 +32,12 @@ fun Application.configureWeb() {
                 message = response
             )
         }
+    }
+
+    install(CORS) {
+        anyHost()
+        allowHeader(HttpHeaders.ContentType)
+        allowHeader(HttpHeaders.Authorization)
     }
 }
 

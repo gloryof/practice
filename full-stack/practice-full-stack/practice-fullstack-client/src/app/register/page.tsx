@@ -1,25 +1,26 @@
-import Link from "next/link";
+"use client"; 
 
-export default function Login() {
-  return (
-    <main>
-      <h1>ユーザ登録</h1>
-      <form className="input-form" method="POST">
-        <div>
-          <dl>
-            <dt>ユーザID</dt>
-            <dd><input type="text" name="user-id" id="user-id" /></dd>
-            <dt>パスワード</dt>
-            <dd><input type="password" name="password" id="password" /></dd>
-          </dl>
-        </div>
-        <div>
-          <button>ユーザ作成</button>
-        </div>
-        <div>
-          <Link href="/login">ログイン</Link>
-        </div>
-      </form>
-    </main>
-  )
+import { useRouter } from "next/navigation";
+import RegisterPage from "./RegisterPage";
+import { registerUser } from "@/lib/api/register-user";
+
+export default function Page() {
+  const router = useRouter()
+  const redirectToLogin = (event: React.MouseEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    router.push('/login')
+  }
+  const executeRegister = (event: React.MouseEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    registerUser({
+      name: "test-user",
+      password: "test-password",
+      birthday: "1986-12-16"
+    })
+  }
+
+  return <RegisterPage 
+    registerUser={executeRegister}
+    login={redirectToLogin}
+  />
 }
