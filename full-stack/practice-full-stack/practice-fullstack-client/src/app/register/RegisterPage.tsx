@@ -4,7 +4,7 @@ import { MouseEventHandler } from "react";
  
 
 interface RegisterPageProps {
-  registerUser: MouseEventHandler
+  registerUser: (formData: FormData) => void
   login: MouseEventHandler
 }
 
@@ -16,11 +16,11 @@ export default function RegisterPage({
   return (
     <main>
       <h1>ユーザ登録</h1>
-      <form className="input-form" method="POST">
+      <form className="input-form" action={registerUser}>
         <div>
           <dl>
-            <dt>ユーザID</dt>
-            <dd><input type="text" name="user-id" id="user-id" /></dd>
+            <dt>ユーザ名</dt>
+            <dd><input type="text" name="name" id="name" /></dd>
             <dt>誕生日</dt>
             <dd><input type="date" name="birthday" id="birthday" /></dd>
             <dt>パスワード</dt>
@@ -28,12 +28,12 @@ export default function RegisterPage({
           </dl>
         </div>
         <div>
-          <button onClick={registerUser}>ユーザ作成</button>
-        </div>
-        <div>
-          <button onClick={login}>ログイン</button>
+          <button type="submit">ユーザ作成</button>
         </div>
       </form>
+      <div>
+        <button onClick={login}>ログイン</button>
+      </div>
     </main>
   )
 }

@@ -10,12 +10,11 @@ export default function Page() {
     event.preventDefault();
     router.push('/login')
   }
-  const executeRegister = (event: React.MouseEvent<HTMLInputElement>) => {
-    event.preventDefault();
+  const executeRegister = (formData: FormData) => {
     registerUser({
-      name: "test-user",
-      password: "test-password",
-      birthday: "1986-12-16"
+      name: formData.get("name") as string || "",
+      password: formData.get("password") as string || "",
+      birthday: formData.get("birthday") as string || "",
     })
   }
 
