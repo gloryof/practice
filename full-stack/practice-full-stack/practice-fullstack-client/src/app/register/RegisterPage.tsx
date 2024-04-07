@@ -2,15 +2,14 @@
 import { MouseEventHandler } from "react";
 
  
-
 interface RegisterPageProps {
   registerUser: (formData: FormData) => void
-  login: MouseEventHandler
+  redirectToLogin: MouseEventHandler
 }
 
 export default function RegisterPage({
   registerUser,
-  login
+  redirectToLogin
 }: RegisterPageProps) {
 
   return (
@@ -32,7 +31,7 @@ export default function RegisterPage({
         </div>
       </form>
       <div>
-        <button onClick={login}>ログイン</button>
+        <button onClick={redirectToLogin}>ログイン</button>
       </div>
     </main>
   )
