@@ -25,6 +25,22 @@ export class WebResponse<Result> {
         )
     }
 
+    isScucess(): boolean {
+        return this.getResult() != null
+    }
+
+    getResult(): Result | undefined {
+        return this.successResult?.result
+    }
+
+    getFail(): WebErrorResponse | undefined {
+        return this.errorResult
+    }
+
+    isFail(): boolean {
+        return this.getFail() != null
+    }
+
     map(
         success: (response: Result) => void,
         fail: (resepnse: WebErrorResponse) => void

@@ -1,34 +1,62 @@
+import { useState } from "react"
 import { MouseEventHandler } from "react"
+import Link from 'next/link'
+import { signIn } from "@/auth"
 
 
 interface LoginPageProps {
-    loginUser: (formData: FormData) => void
-    redirectToRegister: MouseEventHandler
-  }
+    redirectToRegister: MouseEventHandler,
+    csrfToken: string
+}
 
 export default function LoginPage({
-    loginUser,
-    redirectToRegister
+    redirectToRegister,
+    csrfToken
 }: LoginPageProps) {
-    return (
-      <main>
-        <h1>ログイン</h1>
-        <form className="input-form" action={loginUser}>
-          <div>
-            <dl>
-              <dt>ユーザID</dt>
-              <dd><input type="text" name="user-id" id="user-id" /></dd>
-              <dt>パスワード</dt>
-              <dd><input type="password" name="password" id="password" /></dd>
-            </dl>
-          </div>
-          <div>
-            <button type="submit">ログイン</button>
-          </div>
-          <div>
-            <button onClick={redirectToRegister}>ユーザ登録</button>
-          </div>
-        </form>
-      </main>
-    )
+  const [userId, setUserId] = useState("")
+  const [password, setPassword] = useState("")
+  return (
+    <main>
+      <h1>ログイン</h1>
+      <form
+        className="input-form"
+        method="POST"
+        action={async () => {
+          await signIn("credentials", {
+            userId,
+            password
+          })
+        }}>
+        <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+        <div>
+          <dl>
+            <dt>ユーザID</dt>
+            <dd>
+              <input
+                type="text"
+                name="user-id"
+                id="user-id"
+                onChange={(e) => setUserId(e.target.value)}
+              />
+              </dd>
+            <dt>パスワード</dt>
+            <dd>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </dd>
+          </dl>
+        </div>
+        <div>
+          <button type="submit">ログイン</button>
+        </div>
+      </form>
+      <div>
+        <Link href="/register">ユーザ登録</Link>
+      </div>
+    </main>
+  )
   }

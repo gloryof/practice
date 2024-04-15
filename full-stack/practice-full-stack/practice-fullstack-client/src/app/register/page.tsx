@@ -9,10 +9,10 @@ export default function Page() {
   const router = useRouter()
   const successFn = (res: RegisterUserResponse): void  => {
     alert("User Id [" + res.id + "]で登録されました")
+    router.push('/login')
   }
   const failFn = (res: WebErrorResponse): void => {
       alert("登録に失敗しました");
-      router.push('/login')
   }
   const redirectToLogin = (event: React.MouseEvent<HTMLInputElement>) => {
     event.preventDefault();
