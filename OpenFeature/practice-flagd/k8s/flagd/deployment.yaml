@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flagd
+  labels:
+    app: flagd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flagd
+  template:
+    metadata:
+      labels:
+        app: flagd
+    spec:
+      containers:
+        - name: flagd
+          image: ghcr.io/open-feature/flagd:latest
+          ports:
+            - name: external-port
+              containerPort: 8013
+          args:
+            - "start"
+            - "--uri"
+            - "https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json"
