@@ -7,7 +7,23 @@ spec:
   selector:
     app: flagd
   ports:
-    - protocol: TCP
+    - name: listen-port
+      protocol: TCP
       port: 8013
-      targetPort: external-port
-      nodePort: 30080
+      targetPort: listen-port
+      nodePort: 30083
+    - name: management-port
+      protocol: TCP
+      port: 8014
+      targetPort: management-port
+      nodePort: 30084
+    - name: grpc-port
+      protocol: TCP
+      port: 8015
+      targetPort: grpc-port
+      nodePort: 30085
+    - name: ofrep-port
+      protocol: TCP
+      port: 8016
+      targetPort: ofrep-port
+      nodePort: 30086

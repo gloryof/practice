@@ -18,9 +18,26 @@ spec:
         - name: flagd
           image: ghcr.io/open-feature/flagd:latest
           ports:
-            - name: external-port
+            - name: listen-port
               containerPort: 8013
+            - name: management-port
+              containerPort: 8014
+            - name: grpc-port
+              containerPort: 8015
+            - name: ofrep-port
+              containerPort: 8016
           args:
             - "start"
             - "--uri"
-            - "https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json"
+            - "file:./etc/flagd/flag.json"
+          volumeMounts:
+            - name: flagd-config
+              mountPath: /etc/flagd/flag.json
+              subPath: flag.json
+      volumes:
+        - name: flagd-config
+          configMap:
+            name: flagd
+            items:
+              - key: flag.json
+                path: flag.json
