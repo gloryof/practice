@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: flagd
-          image: ghcr.io/open-feature/flagd:latest
+          image: ghcr.io/open-feature/flagd:v0.10.1
           ports:
             - name: listen-port
               containerPort: 8013
@@ -28,6 +28,7 @@ spec:
               containerPort: 8016
           args:
             - "start"
+            - "--debug"
             - "--uri"
             - "file:./etc/flagd/flag.json"
           volumeMounts:
