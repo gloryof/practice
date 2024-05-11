@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flipt
+  labels:
+    app: flipt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flipt
+  template:
+    metadata:
+      labels:
+        app: flipt
+    spec:
+      containers:
+        - name: flipt
+          image: docker.flipt.io/flipt/flipt:v1.41.1
+          ports:
+            - name: http-port
+              containerPort: 8080
+            - name: grpc-port
+              containerPort: 9000
