@@ -22,6 +22,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+	// OpenFeature
+	implementation("dev.openfeature:sdk:1.7.6")
+	implementation("dev.openfeature.contrib.providers:flipt:0.1.0")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
