@@ -22,3 +22,19 @@ spec:
               containerPort: 8080
             - name: grpc-port
               containerPort: 9000
+          env:
+            - name: FLIPT_STORAGE_TYPE
+              value: local
+            - name: FLIPT_STORAGE_LOCAL_PATH
+              value: /etc/flipt
+          volumeMounts:
+            - name: flipt-config
+              mountPath: /etc/flipt/features.yml
+              subPath: features.yml
+      volumes:
+        - name: flipt-config
+          configMap:
+            name: flipt
+            items:
+              - key: features.yml
+                path: features.yml

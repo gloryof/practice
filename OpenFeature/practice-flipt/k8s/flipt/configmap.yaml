@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flipt
+data:
+  features.yml: |-
+    version: "1.2"
+    namespace: default
+    flags:
+      - key: api_flagController
+        name: FLagController
+        type: BOOLEAN_FLAG_TYPE
+        enabled: true
+      - key: api_contextController
+        name: ContextController
+        type: BOOLEAN_FLAG_TYPE
+        enabled: false
+        rollouts:
+        - segment:
+            key: context_user
+            value: true
+    segments:
+    - key: context_user
+      name: Context User
+      match_type: ALL_MATCH_TYPE
+      constraints:
+      - property: context_id
+        operator: eq
+        value: context-user
+        type: STRING_COMPARISON_TYPE
