@@ -13,7 +13,7 @@ class FlagController(
 ) {
     @GetMapping
     fun get(): Response {
-        val isEnable = client.getBooleanValue("api_flagController", false)
+        val isEnable = client.getBooleanValue("flagController", false)
 
         if (!isEnable) {
             throw IllegalStateException("Not enabled")

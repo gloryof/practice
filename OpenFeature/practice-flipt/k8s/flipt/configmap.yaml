@@ -5,13 +5,13 @@ metadata:
 data:
   features.yml: |-
     version: "1.2"
-    namespace: default
+    namespace: api
     flags:
-      - key: api_flagController
+      - key: flagController
         name: FLagController
         type: BOOLEAN_FLAG_TYPE
         enabled: true
-      - key: api_contextController
+      - key: contextController
         name: ContextController
         type: BOOLEAN_FLAG_TYPE
         enabled: false

@@ -18,6 +18,7 @@ class BeanConfig {
             .url("http://localhost:30090")
         val provider = FliptProviderConfig.builder()
             .fliptClientBuilder(clientBuilder)
+            .namespace("api")
             .build()
             .let { FliptProvider(it) }
 

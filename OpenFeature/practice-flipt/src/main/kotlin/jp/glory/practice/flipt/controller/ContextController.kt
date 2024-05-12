@@ -14,7 +14,7 @@ class ContextController(
     private val client: Client
 ) {
     companion object {
-        private const val TARGET_KEY = "api_contextController"
+        private const val TARGET_KEY = "contextController"
     }
     @GetMapping
     fun get(
