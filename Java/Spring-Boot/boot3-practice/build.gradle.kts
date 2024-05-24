@@ -10,15 +10,15 @@ buildscript {
 }
 
 plugins {
-	id("org.springframework.boot") version "3.1.1"
-	id("io.spring.dependency-management") version "1.1.0"
-	kotlin("jvm") version "1.8.22"
-	kotlin("plugin.spring") version "1.8.22"
+	id("org.springframework.boot") version "3.3.0"
+	id("io.spring.dependency-management") version "1.1.5"
+	kotlin("jvm") version "1.9.24"
+	kotlin("plugin.spring") version "1.9.24"
 }
 
 group = "jp.glory"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_20
 
 repositories {
 	mavenCentral()
@@ -61,7 +61,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "17"
+		jvmTarget = "20"
 	}
 }
 
@@ -72,7 +72,7 @@ tasks.withType<Test> {
 tasks.named<BootBuildImage>("bootBuildImage") {
 	environment.set(
 		environment.get() +
-				mapOf("BP_JVM_VERSION" to "17")
+				mapOf("BP_JVM_VERSION" to "20")
 	)
 	imageName.set("glory/${project.name}")
 }
