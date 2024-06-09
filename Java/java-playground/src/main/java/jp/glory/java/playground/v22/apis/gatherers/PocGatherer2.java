@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 public class PocGatherer2 {
     public static void main(String[] args) {
         test();
-        IntStream.rangeClosed(1, 10)
+        IntStream.rangeClosed(1, 100)
                 .forEachOrdered(PocGatherer2::test2);
     }
 
