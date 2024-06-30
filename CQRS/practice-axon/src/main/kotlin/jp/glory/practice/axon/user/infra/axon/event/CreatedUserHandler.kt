@@ -1,16 +1,17 @@
-package jp.glory.practice.axon.user.infra.event
+package jp.glory.practice.axon.user.infra.axon.event
 
 import jp.glory.practice.axon.user.domain.event.CreatedUser
-import jp.glory.practice.axon.user.domain.event.CreatedUserHandler
 import jp.glory.practice.axon.user.infra.store.UserDao
 import jp.glory.practice.axon.user.infra.store.UserRecord
+import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 
 @Component
-class CreatedUserHandlerImpl(
+class CreatedUserHandler(
     private val userDao: UserDao
-) : CreatedUserHandler {
-    override fun handle(event: CreatedUser) {
+)  {
+    @EventHandler
+    fun on(event: CreatedUser) {
         createRecord(event)
             .let { userDao.save(it) }
     }

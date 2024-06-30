@@ -8,10 +8,6 @@ import jp.glory.practice.axon.user.domain.model.Street
 import jp.glory.practice.axon.user.domain.model.UserId
 import jp.glory.practice.axon.user.domain.model.UserName
 
-interface CreatedUserHandler {
-    fun handle(event: CreatedUser)
-}
-
 class CreatedUser private constructor(
     val userId: UserId,
     val name: UserName,
@@ -19,6 +15,7 @@ class CreatedUser private constructor(
 ) {
     companion object {
         fun create(
+            userId: String,
             name: String,
             postalCode: String,
             prefectureCode: String,
@@ -27,7 +24,7 @@ class CreatedUser private constructor(
         ): CreatedUser {
 
             return CreatedUser(
-                userId = UserId.generate(),
+                userId = UserId.fromString(userId),
                 name = UserName(name),
                 address = Address(
                     postalCode = PostalCode(postalCode),

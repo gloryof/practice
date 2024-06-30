@@ -1,5 +1,9 @@
 # Axonを使ったCQRSの練習
 
+## 事前準備
+### Axon Server
+https://docs.axoniq.io/reference-guide/axon-server/installation/local-installation
+
 ## API
 ### Create 
 ```

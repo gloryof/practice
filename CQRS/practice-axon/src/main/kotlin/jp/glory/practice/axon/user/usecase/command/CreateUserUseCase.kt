@@ -1,17 +1,18 @@
 package jp.glory.practice.axon.user.usecase.command
 
-import jp.glory.practice.axon.user.domain.event.CreatedUser
-import jp.glory.practice.axon.user.domain.event.CreatedUserHandler
+import jp.glory.practice.axon.user.domain.model.UserId
+import jp.glory.practice.axon.user.infra.axon.command.CreateUserCommand
+import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.stereotype.Service
 
 @Service
 class CreateUserUseCase(
-    private val createdUserHandler: CreatedUserHandler
+    private val commandGateway: CommandGateway
 ) {
     fun create(input: Input): Output =
-        input.toEvent()
-            .also { createdUserHandler.handle(it) }
-            .let { Output(it.userId.value) }
+        input.toCommand()
+            .also { commandGateway.send<CreateUserCommand>(it) }
+            .let { Output(it.id) }
 
     class Input(
         val name: String,
@@ -20,8 +21,9 @@ class CreateUserUseCase(
         val city: String,
         val street: String
     ) {
-        fun toEvent(): CreatedUser =
-            CreatedUser.create(
+        fun toCommand(): CreateUserCommand =
+            CreateUserCommand(
+                id = UserId.generate().value,
                 name = name,
                 postalCode = postalCode,
                 prefectureCode = prefectureCode,
