@@ -1,16 +1,17 @@
-package jp.glory.practice.axon.user.infra.event
+package jp.glory.practice.axon.user.infra.axon.event
 
 import jp.glory.practice.axon.user.domain.event.ChangedAddress
-import jp.glory.practice.axon.user.domain.event.ChangedAddressHandler
 import jp.glory.practice.axon.user.infra.store.UserDao
 import jp.glory.practice.axon.user.infra.store.UserRecord
+import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 
 @Component
 class ChangedAddressHandlerImpl(
     private val userDao: UserDao
-) : ChangedAddressHandler {
-    override fun handle(event: ChangedAddress) {
+) {
+    @EventHandler
+    fun on(event: ChangedAddress) {
         userDao.findById(event.userId.value)
             ?.let { update(event, it) }
             ?.let { userDao.save(it) }

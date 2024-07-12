@@ -1,20 +1,21 @@
 package jp.glory.practice.axon.user.usecase.command
 
-import jp.glory.practice.axon.user.domain.event.ChangedNameHandler
+import jp.glory.practice.axon.user.domain.command.ChangeNameCommand
 import jp.glory.practice.axon.user.domain.model.UserId
 import jp.glory.practice.axon.user.domain.model.UserName
 import jp.glory.practice.axon.user.domain.repository.UserRepository
+import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.stereotype.Service
 
 @Service
 class ChangeNameUseCase(
     private val userRepository: UserRepository,
-    private val changedNameHandler: ChangedNameHandler
+    private val commandGateway: CommandGateway
 ) {
     fun change(input: Input) =
         userRepository.findById(UserId.fromString(input.userId))
-            ?.let { it.changeName(UserName(input.name)) }
-            ?.let { changedNameHandler.handle(it) }
+            ?.let { it.executeChangeName(UserName(input.name)) }
+            ?.let { commandGateway.send<ChangeNameCommand>(it) }
             ?: throw IllegalArgumentException("Use not found")
 
     class Input(

@@ -1,15 +1,16 @@
-package jp.glory.practice.axon.user.infra.event
+package jp.glory.practice.axon.user.infra.axon.event
 
 import jp.glory.practice.axon.user.domain.event.ChangedName
-import jp.glory.practice.axon.user.domain.event.ChangedNameHandler
 import jp.glory.practice.axon.user.infra.store.UserDao
+import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 
 @Component
 class ChangedNameHandlerImpl(
     private val userDao: UserDao
-) : ChangedNameHandler {
-    override fun handle(event: ChangedName) {
+) {
+    @EventHandler
+    fun on(event: ChangedName) {
         userDao.findById(event.userId.value)
             ?.let { it.copy(userName = event.name.value) }
             ?.let { userDao.save(it) }

@@ -1,7 +1,13 @@
 package jp.glory.practice.axon.user.usecase.command
 
+import jp.glory.practice.axon.user.domain.command.CreateUserCommand
+import jp.glory.practice.axon.user.domain.model.Address
+import jp.glory.practice.axon.user.domain.model.City
+import jp.glory.practice.axon.user.domain.model.PostalCode
+import jp.glory.practice.axon.user.domain.model.Prefecture
+import jp.glory.practice.axon.user.domain.model.Street
 import jp.glory.practice.axon.user.domain.model.UserId
-import jp.glory.practice.axon.user.infra.axon.command.CreateUserCommand
+import jp.glory.practice.axon.user.domain.model.UserName
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.stereotype.Service
 
@@ -12,7 +18,7 @@ class CreateUserUseCase(
     fun create(input: Input): Output =
         input.toCommand()
             .also { commandGateway.send<CreateUserCommand>(it) }
-            .let { Output(it.id) }
+            .let { Output(it.userId.value) }
 
     class Input(
         val name: String,
@@ -23,12 +29,14 @@ class CreateUserUseCase(
     ) {
         fun toCommand(): CreateUserCommand =
             CreateUserCommand(
-                id = UserId.generate().value,
-                name = name,
-                postalCode = postalCode,
-                prefectureCode = prefectureCode,
-                city = city,
-                street = street
+                userId = UserId.generate(),
+                name = UserName(name),
+                address = Address(
+                    postalCode = PostalCode(postalCode),
+                    prefecture = Prefecture.fromCode(prefectureCode),
+                    city = City(city),
+                    street = Street(street)
+                ),
             )
     }
 

@@ -1,9 +1,9 @@
 package jp.glory.practice.axon.user.domain.model
 
-import jp.glory.practice.axon.user.domain.event.ChangedAddress
-import jp.glory.practice.axon.user.domain.event.ChangedName
-import jp.glory.practice.axon.user.domain.event.ChargedGiftPoint
-import jp.glory.practice.axon.user.domain.event.UsedGiftPoint
+import jp.glory.practice.axon.user.domain.command.ChangeAddressCommand
+import jp.glory.practice.axon.user.domain.command.ChangeNameCommand
+import jp.glory.practice.axon.user.domain.command.ChargeGiftPointCommand
+import jp.glory.practice.axon.user.domain.command.UseGiftPointCommand
 import java.util.UUID
 
 class User(
@@ -12,34 +12,68 @@ class User(
     val address: Address,
     val giftPoint: GiftPoint
 ) {
-    fun changeName(newName: UserName): ChangedName =
-        ChangedName(
+    fun changeName(newName: UserName): User =
+        change(
+            newName = newName
+        )
+
+    fun changeAddress(newAddress: Address): User =
+        change(
+            newAddress = newAddress
+        )
+
+    fun chargeGiftPoint(chargeAmount: UInt): User =
+        change(
+            newGiftPoint = giftPoint.charge(chargeAmount)
+        )
+
+    fun useGiftPoint(chargeAmount: UInt): User =
+        change(
+            newGiftPoint = giftPoint.use(chargeAmount)
+        )
+
+    fun executeChangeName(newName: UserName): ChangeNameCommand =
+        ChangeNameCommand(
             userId = userId,
             name = newName
         )
 
-    fun changeAddress(newAddress: Address): ChangedAddress =
-        ChangedAddress(
+
+    fun executeChangeAddress(newAddress: Address): ChangeAddressCommand =
+        ChangeAddressCommand(
             userId = userId,
             address = newAddress
         )
 
-    fun chargeGiftPoint(chargeAmount: UInt): ChargedGiftPoint =
-        ChargedGiftPoint(
+    fun executeChargeGiftPoint(chargeAmount: UInt): ChargeGiftPointCommand =
+        ChargeGiftPointCommand(
             userId = userId,
             chargeAmount = chargeAmount
         )
 
-    fun useGiftPoint(useAmount: UInt): UsedGiftPoint {
+    fun executeUseGiftPoint(useAmount: UInt): UseGiftPointCommand {
         if (!giftPoint.canUse(useAmount)) {
             throw IllegalArgumentException("Over remaining amount")
         }
 
-        return UsedGiftPoint(
+        return UseGiftPointCommand(
             userId = userId,
             useAmount = useAmount
         )
     }
+
+    private fun change(
+        newName: UserName? = null,
+        newAddress: Address? = null,
+        newGiftPoint: GiftPoint? = null
+    ): User =
+        User(
+            userId = this.userId,
+            name = newName ?: this.name,
+            address = newAddress?: this.address,
+            giftPoint = newGiftPoint ?: this.giftPoint
+        )
+
 }
 
 @JvmInline
@@ -70,6 +104,18 @@ value class UserName(val value: String) {
 value class GiftPoint(
     val value: UInt
 ) {
+    fun use(amount: UInt): GiftPoint {
+        if (!canUse(amount)) {
+            throw IllegalArgumentException("Over remaining amount")
+        }
+
+        return GiftPoint(value - amount)
+    }
+
+    fun charge(amount: UInt): GiftPoint =
+        GiftPoint(value + amount)
+
     fun canUse(amount: UInt): Boolean =
         value >= amount
+
 }

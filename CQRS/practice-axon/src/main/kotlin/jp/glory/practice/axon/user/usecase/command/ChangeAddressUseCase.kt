@@ -1,6 +1,6 @@
 package jp.glory.practice.axon.user.usecase.command
 
-import jp.glory.practice.axon.user.domain.event.ChangedAddressHandler
+import jp.glory.practice.axon.user.domain.command.ChangeAddressCommand
 import jp.glory.practice.axon.user.domain.model.Address
 import jp.glory.practice.axon.user.domain.model.City
 import jp.glory.practice.axon.user.domain.model.PostalCode
@@ -8,17 +8,18 @@ import jp.glory.practice.axon.user.domain.model.Prefecture
 import jp.glory.practice.axon.user.domain.model.Street
 import jp.glory.practice.axon.user.domain.model.UserId
 import jp.glory.practice.axon.user.domain.repository.UserRepository
+import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.stereotype.Service
 
 @Service
 class ChangeAddressUseCase(
     private val userRepository: UserRepository,
-    private val changedAddressHandler: ChangedAddressHandler
+    private val commandGateway: CommandGateway
 ) {
     fun change(input: Input) =
         userRepository.findById(UserId.fromString(input.userId))
-            ?.let { it.changeAddress(input.toAddress()) }
-            ?.let { changedAddressHandler.handle(it) }
+            ?.let { it.executeChangeAddress(input.toAddress()) }
+            ?.let { commandGateway.send<ChangeAddressCommand>(it) }
             ?: throw IllegalArgumentException("Use not found")
 
     class Input(
@@ -36,5 +37,4 @@ class ChangeAddressUseCase(
                 street = Street(street)
             )
     }
-
 }
