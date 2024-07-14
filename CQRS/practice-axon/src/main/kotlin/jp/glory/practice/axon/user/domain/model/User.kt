@@ -1,9 +1,5 @@
 package jp.glory.practice.axon.user.domain.model
 
-import jp.glory.practice.axon.user.domain.command.ChangeAddressCommand
-import jp.glory.practice.axon.user.domain.command.ChangeNameCommand
-import jp.glory.practice.axon.user.domain.command.ChargeGiftPointCommand
-import jp.glory.practice.axon.user.domain.command.UseGiftPointCommand
 import java.util.UUID
 
 class User(
@@ -31,36 +27,6 @@ class User(
         change(
             newGiftPoint = giftPoint.use(chargeAmount)
         )
-
-    fun executeChangeName(newName: UserName): ChangeNameCommand =
-        ChangeNameCommand(
-            userId = userId,
-            name = newName
-        )
-
-
-    fun executeChangeAddress(newAddress: Address): ChangeAddressCommand =
-        ChangeAddressCommand(
-            userId = userId,
-            address = newAddress
-        )
-
-    fun executeChargeGiftPoint(chargeAmount: UInt): ChargeGiftPointCommand =
-        ChargeGiftPointCommand(
-            userId = userId,
-            chargeAmount = chargeAmount
-        )
-
-    fun executeUseGiftPoint(useAmount: UInt): UseGiftPointCommand {
-        if (!giftPoint.canUse(useAmount)) {
-            throw IllegalArgumentException("Over remaining amount")
-        }
-
-        return UseGiftPointCommand(
-            userId = userId,
-            useAmount = useAmount
-        )
-    }
 
     private fun change(
         newName: UserName? = null,
