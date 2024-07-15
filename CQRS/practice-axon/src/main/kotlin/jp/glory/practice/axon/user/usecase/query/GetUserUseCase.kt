@@ -3,7 +3,6 @@ package jp.glory.practice.axon.user.usecase.query
 import jp.glory.practice.axon.user.domain.model.UserId
 import jp.glory.practice.axon.user.domain.query.FindUserQuery
 import jp.glory.practice.axon.user.domain.query.FindUserResult
-import jp.glory.practice.axon.user.domain.repository.UserRepository
 import org.axonframework.messaging.responsetypes.ResponseTypes
 import org.axonframework.queryhandling.GenericQueryMessage
 import org.axonframework.queryhandling.QueryBus
@@ -12,7 +11,6 @@ import jp.glory.practice.axon.user.domain.model.Address as DomainAddress
 
 @Service
 class GetUserUseCase(
-    private val userRepository: UserRepository,
     private val queryBus: QueryBus
 ) {
     fun findById(input: Input): Output =

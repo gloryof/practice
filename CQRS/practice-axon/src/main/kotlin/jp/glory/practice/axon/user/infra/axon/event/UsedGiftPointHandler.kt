@@ -6,7 +6,7 @@ import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 
 @Component
-class UsedGiftPointHandlerImpl(
+class UsedGiftPointHandler(
     private val userDao: UserDao
 ) {
     @EventHandler

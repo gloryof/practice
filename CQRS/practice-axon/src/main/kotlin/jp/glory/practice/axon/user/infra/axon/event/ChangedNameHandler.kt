@@ -6,7 +6,7 @@ import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 
 @Component
-class ChangedNameHandlerImpl(
+class ChangedNameHandler(
     private val userDao: UserDao
 ) {
     @EventHandler

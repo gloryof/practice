@@ -9,6 +9,7 @@ import jp.glory.practice.axon.user.domain.event.ChangedAddress
 import jp.glory.practice.axon.user.domain.event.ChangedName
 import jp.glory.practice.axon.user.domain.event.ChargedGiftPoint
 import jp.glory.practice.axon.user.domain.event.CreatedUser
+import jp.glory.practice.axon.user.domain.event.RecordGiftHistory
 import jp.glory.practice.axon.user.domain.event.UsedGiftPoint
 import jp.glory.practice.axon.user.domain.model.GiftPoint
 import jp.glory.practice.axon.user.domain.model.User
@@ -91,6 +92,12 @@ class UserAggregate {
                 chargeAmount = command.chargeAmount
             )
         )
+        AggregateLifecycle.apply(
+            RecordGiftHistory.charge(
+                userId = command.userId,
+                amount = command.chargeAmount
+            )
+        )
     }
 
     @EventSourcingHandler
@@ -105,6 +112,12 @@ class UserAggregate {
             UsedGiftPoint(
                 userId = command.userId,
                 useAmount = command.useAmount
+            )
+        )
+        AggregateLifecycle.apply(
+            RecordGiftHistory.use(
+                userId = command.userId,
+                amount = command.useAmount
             )
         )
     }

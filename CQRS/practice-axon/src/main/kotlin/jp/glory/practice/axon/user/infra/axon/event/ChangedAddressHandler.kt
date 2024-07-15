@@ -7,7 +7,7 @@ import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 
 @Component
-class ChangedAddressHandlerImpl(
+class ChangedAddressHandler(
     private val userDao: UserDao
 ) {
     @EventHandler

@@ -1,26 +1,30 @@
 package jp.glory.practice.axon.user.infra.axon.query
 
-import jp.glory.practice.axon.user.domain.model.User
-import jp.glory.practice.axon.user.domain.query.FindUserQuery
-import jp.glory.practice.axon.user.domain.query.FindUserResult
-import jp.glory.practice.axon.user.domain.repository.UserRepository
+import jp.glory.practice.axon.user.domain.query.FindGiftPointHistoryQuery
+import jp.glory.practice.axon.user.domain.query.FindGiftPointHistoryResult
+import jp.glory.practice.axon.user.domain.query.FindGiftPointHistoryResultDetail
+import jp.glory.practice.axon.user.infra.store.GiftPointHistoryDao
+import jp.glory.practice.axon.user.infra.store.GiftPointHistoryRecord
 import org.axonframework.queryhandling.QueryHandler
 import org.springframework.stereotype.Component
 
 @Component
 class FindUserQueryHandler(
-    private val repository: UserRepository
+    private val giftPointHistoryDao: GiftPointHistoryDao
 ) {
     @QueryHandler
-    fun handle(query: FindUserQuery): FindUserResult? =
-        repository.findById(query.userId)
-            ?.let { toResult(it) }
+    fun handle(query: FindGiftPointHistoryQuery): FindGiftPointHistoryResult =
+        giftPointHistoryDao.findByUserId(query.userId.value)
+            .map { toResult(it) }
+            .let { FindGiftPointHistoryResult(it) }
 
-    private fun toResult(user: User): FindUserResult =
-        FindUserResult(
-            userId = user.userId,
-            name = user.name,
-            address = user.address,
-            giftPoint = user.giftPoint
+    private fun toResult(record: GiftPointHistoryRecord): FindGiftPointHistoryResultDetail =
+        FindGiftPointHistoryResultDetail(
+            recordedAt = record.recordedAt,
+            type = when (record.type) {
+                GiftPointHistoryRecord.HistoryType.Charge -> FindGiftPointHistoryResultDetail.Type.Charge
+                GiftPointHistoryRecord.HistoryType.Use -> FindGiftPointHistoryResultDetail.Type.Use
+            },
+            amount = record.amount,
         )
 }
