@@ -3,8 +3,8 @@ package jp.glory.practice.eventStoreDb.user.infra.repository
 import jp.glory.practice.eventStoreDb.user.domain.model.GiftPointHistory
 import jp.glory.practice.eventStoreDb.user.domain.model.UserId
 import jp.glory.practice.eventStoreDb.user.domain.repository.GiftPointHistoryRepository
-import jp.glory.practice.eventStoreDb.user.infra.store.GiftPointHistoryDao
-import jp.glory.practice.eventStoreDb.user.infra.store.GiftPointHistoryRecord
+import jp.glory.practice.eventStoreDb.user.infra.store.dao.GiftPointHistoryDao
+import jp.glory.practice.eventStoreDb.user.infra.store.dao.GiftPointHistoryRecord
 import org.springframework.stereotype.Repository
 
 @Repository

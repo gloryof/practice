@@ -1,5 +1,6 @@
-package jp.glory.practice.eventStoreDb.user.infra.store
+package jp.glory.practice.eventStoreDb.user.infra.store.dao
 
+import jp.glory.practice.eventStoreDb.user.infra.store.eventStoreDb.data.EventStoreDbEventData
 import org.springframework.stereotype.Component
 
 @Component

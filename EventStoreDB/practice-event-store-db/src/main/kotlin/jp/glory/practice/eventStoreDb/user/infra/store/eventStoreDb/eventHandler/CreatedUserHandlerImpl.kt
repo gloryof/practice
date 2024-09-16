@@ -1,28 +1,28 @@
-package jp.glory.practice.eventStoreDb.user.infra.eventHandler
+package jp.glory.practice.eventStoreDb.user.infra.store.eventStoreDb.eventHandler
 
 import jp.glory.practice.eventStoreDb.user.domain.event.CreatedUser
 import jp.glory.practice.eventStoreDb.user.domain.event.CreatedUserHandler
-import jp.glory.practice.eventStoreDb.user.infra.store.UserDao
-import jp.glory.practice.eventStoreDb.user.infra.store.UserRecord
+import jp.glory.practice.eventStoreDb.user.infra.store.eventStoreDb.EventStoreDbClient
+import jp.glory.practice.eventStoreDb.user.infra.store.eventStoreDb.data.CreatedUserData
+import jp.glory.practice.eventStoreDb.user.infra.store.eventStoreDb.data.CreatedUserStoreDbData
 import org.springframework.stereotype.Component
 
 @Component
 class CreatedUserHandlerImpl(
-    private val dao: UserDao
+    private val client: EventStoreDbClient
 ) : CreatedUserHandler {
     override fun handle(event: CreatedUser) {
-        toRecord(event)
-            .also { dao.save(it) }
+        toEventData(event)
+            .also { client.append(CreatedUserStoreDbData(it)) }
     }
 
-    private fun toRecord(event: CreatedUser): UserRecord =
-        UserRecord(
+    private fun toEventData(event: CreatedUser): CreatedUserData =
+        CreatedUserData(
             userId = event.userId.value,
             userName = event.name.value,
             postalCode = event.address.postalCode.value,
             prefectureCode = event.address.prefecture.code,
             city = event.address.city.value,
             street = event.address.street.value,
-            giftPoint = 0U
         )
 }

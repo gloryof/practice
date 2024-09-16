@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: event-store-db
-          image: eventstore/eventstore:24.6.0
+          image: eventstore/eventstore:24.6.0-alpha-arm64v8
           ports:
             - name: app-port
               containerPort: 2113

@@ -10,8 +10,8 @@ import jp.glory.practice.eventStoreDb.user.domain.model.User
 import jp.glory.practice.eventStoreDb.user.domain.model.UserId
 import jp.glory.practice.eventStoreDb.user.domain.model.UserName
 import jp.glory.practice.eventStoreDb.user.domain.repository.UserRepository
-import jp.glory.practice.eventStoreDb.user.infra.store.UserDao
-import jp.glory.practice.eventStoreDb.user.infra.store.UserRecord
+import jp.glory.practice.eventStoreDb.user.infra.store.dao.UserDao
+import jp.glory.practice.eventStoreDb.user.infra.store.dao.UserRecord
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -22,16 +22,16 @@ class UserRepositoryImpl(
         userDao.findById(userId.value)
             ?.let { toDomain(it) }
 
-    private fun toDomain(userRecord: UserRecord): User =
+    private fun toDomain(userData: UserRecord): User =
         User(
-            userId = UserId.fromString(userRecord.userId),
-            name = UserName(userRecord.userName),
+            userId = UserId.fromString(userData.userId),
+            name = UserName(userData.userName),
             address = Address(
-                postalCode = PostalCode(userRecord.postalCode),
-                prefecture = Prefecture.fromCode(userRecord.prefectureCode),
-                city = City(userRecord.city),
-                street = Street(userRecord.street)
+                postalCode = PostalCode(userData.postalCode),
+                prefecture = Prefecture.fromCode(userData.prefectureCode),
+                city = City(userData.city),
+                street = Street(userData.street)
             ),
-            giftPoint = GiftPoint(userRecord.giftPoint)
+            giftPoint = GiftPoint(userData.giftPoint)
         )
 }
