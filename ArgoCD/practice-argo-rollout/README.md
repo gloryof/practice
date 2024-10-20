@@ -32,3 +32,10 @@ https://localhost:8080/ にアクセス。
 - Destination
   - Cluster URL: https://kubernetes.default.svc
   - Namespace: practice
+
+
+## 確認
+### Rolloutsの確認
+```
+kubectl argo rollouts get rollout nginx-deployment -n practice
+```
