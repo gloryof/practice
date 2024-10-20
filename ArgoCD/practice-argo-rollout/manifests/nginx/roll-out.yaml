@@ -20,7 +20,6 @@ spec:
   selector:
     matchLabels:
       app: nginx
-  replicas: 0
   template:
     metadata:
       labels:
