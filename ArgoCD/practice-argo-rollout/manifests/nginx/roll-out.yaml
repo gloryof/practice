@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: nginx-deployment
-  namespace: nginx
+  namespace: practice
 spec:
   replicas: 5
   strategy:
