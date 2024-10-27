@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: blue-green-app-preview
+  namespace: practice
+  labels:
+    app: blue-green-app
+spec:
+  type: NodePort
+  ports:
+  - port: 3001
+    targetPort: 80
+    nodePort: 30081
+    protocol: TCP
+  selector:
+    app: blue-green-app

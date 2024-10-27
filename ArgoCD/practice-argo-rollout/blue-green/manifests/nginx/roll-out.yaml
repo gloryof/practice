@@ -7,8 +7,8 @@ spec:
   replicas: 2
   strategy:
     blueGreen:
-      activeService: rollout-bluegreen-active
-      previewService: rollout-bluegreen-preview
+      activeService: blue-green-app
+      previewService: blue-green-app-preview
       autoPromotionEnabled: false
   selector:
     matchLabels:
