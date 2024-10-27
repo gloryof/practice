@@ -37,5 +37,10 @@ https://localhost:8080/ にアクセス。
 ## 確認
 ### Rolloutsの確認
 ```
-kubectl argo rollouts get rollout nginx-deployment -n practice
+./script/watch
+```
+
+### Rolloutの承認
+```
+./script/promote
 ```
