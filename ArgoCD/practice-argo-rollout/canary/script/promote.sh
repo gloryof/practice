@@ -1,2 +1,2 @@
 #!/bin/sh
-kubectl argo rollouts promote nginx-deployment -n practice
+kubectl argo rollouts promote canary-app -n practice

@@ -1,3 +1,3 @@
 #!/bin/sh
 
-kubectl argo rollouts get rollout nginx-deployment -n practice -w
+kubectl argo rollouts get rollout canary-app -n practice -w

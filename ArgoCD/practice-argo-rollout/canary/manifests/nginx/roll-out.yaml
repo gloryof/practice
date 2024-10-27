@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: nginx-deployment
+  name: canary-app
   namespace: practice
 spec:
   replicas: 5
   strategy:
     canary:
-      canaryService: nginx
+      canaryService: canary-app
       steps:
       - setWeight: 20
       - pause: {}
@@ -19,11 +19,11 @@ spec:
       - pause: {duration: 10}
   selector:
     matchLabels:
-      app: nginx
+      app: canary-app
   template:
     metadata:
       labels:
-        app: nginx
+        app: canary-app
     spec:
       containers:
 #      - name: nginx
