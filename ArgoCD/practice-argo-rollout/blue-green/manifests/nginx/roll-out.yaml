@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: blue-green-app
+  namespace: practice
+spec:
+  replicas: 2
+  strategy:
+    blueGreen:
+      activeService: rollout-bluegreen-active
+      previewService: rollout-bluegreen-preview
+      autoPromotionEnabled: false
+  selector:
+    matchLabels:
+      app: blue-green-app
+  template:
+    metadata:
+      labels:
+        app: blue-green-app
+    spec:
+      containers:
+      - name: rollouts-demo
+        image: argoproj/rollouts-demo:blue
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        resources:
+          requests:
+            memory: 32Mi
+            cpu: 5m
