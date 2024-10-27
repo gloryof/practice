@@ -19,28 +19,3 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 
 https://localhost:8080/ にアクセス。
-
-### Argoアプリケーションの追加
-- General
-  - Application Name: argo-rollouts-practice-nginx
-  - Project Name: default
-  - Sync Policy: Automatic
-- Source
-  - Repository URL: https://github.com/gloryof/practice.git
-  - Revision: HEAD
-  - Path: ArgoCD/practice-argo-rollout/manifests/nginx
-- Destination
-  - Cluster URL: https://kubernetes.default.svc
-  - Namespace: practice
-
-
-## 確認
-### Rolloutsの確認
-```
-./script/watch
-```
-
-### Rolloutの承認
-```
-./script/promote
-```

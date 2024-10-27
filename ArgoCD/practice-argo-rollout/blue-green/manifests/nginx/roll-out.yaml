@@ -23,7 +23,7 @@ spec:
         image: argoproj/rollouts-demo:blue
         ports:
         - name: http
-          containerPort: 8080
+          containerPort: 80
           protocol: TCP
         resources:
           requests:
