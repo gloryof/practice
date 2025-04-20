@@ -1,0 +1,44 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/user",
+    "headers": {
+      "Content-Type": {
+        "equalTo": "application/json"
+      }
+    },
+    "bodyPatterns": [
+      {
+        "matchesJsonSchema": {
+          "type": "object",
+          "required": ["name", "birthday", "user_type"],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "birthday": {
+              "type": "string",
+              "format": "date"
+            },
+            "user_type": {
+              "type": "string",
+              "enum": ["FREE", "PAID"]
+            }
+          },
+          "additionalProperties": false
+        },
+        "$schema": "V202012"
+      }
+    ]
+  },
+  "response": {
+    "status": 201,
+    "jsonBody": {
+      "id": "{{randomValue type='UUID'}}"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "transformers": ["response-template"]
+  }
+}
