@@ -1,10 +1,9 @@
-package jp.glory.practice.boot.app.user.domain
+package jp.glory.practice.boot.app.user.domain.command.model
 
 import com.github.michaelbull.result.getError
 import com.github.michaelbull.result.getOrThrow
 import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
 import jp.glory.practice.boot.app.test.tool.DomainErrorAssertion
-import jp.glory.practice.boot.app.user.domain.command.LoginId
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
@@ -18,7 +17,7 @@ import java.util.stream.Stream
 import kotlin.test.assertEquals
 import kotlin.test.fail
 
-class LoginIdTest {
+class PasswordTest {
     @Nested
     inner class Of {
         @Nested
@@ -26,15 +25,23 @@ class LoginIdTest {
             @Test
             fun normal() {
                 val expected = "test"
-                val actual = LoginId.of(expected).getOrThrow { fail("Fail") }
+                val actual = Password.Companion.of(expected).getOrThrow { fail("Fail") }
 
                 assertEquals(expected, actual.value)
             }
 
             @Test
             fun maxLength() {
-                val expected = "a".repeat(LoginId.MAX_LENGTH)
-                val actual = LoginId.of(expected).getOrThrow { fail("Fail") }
+                val expected = "a".repeat(Password.Companion.MAX_LENGTH)
+                val actual = Password.Companion.of(expected).getOrThrow { fail("Fail") }
+
+                assertEquals(expected, actual.value)
+            }
+
+            @Test
+            fun minLength() {
+                val expected = "a".repeat(Password.Companion.MIN_LENGTH)
+                val actual = Password.Companion.of(expected).getOrThrow { fail("Fail") }
 
                 assertEquals(expected, actual.value)
             }
@@ -42,7 +49,7 @@ class LoginIdTest {
             @Test
             fun alphabet() {
                 val expected = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                val actual = LoginId.of(expected).getOrThrow { fail("Fail") }
+                val actual = Password.Companion.of(expected).getOrThrow { fail("Fail") }
 
                 assertEquals(expected, actual.value)
             }
@@ -50,31 +57,15 @@ class LoginIdTest {
             @Test
             fun numeric() {
                 val expected = "1234567890"
-                val actual = LoginId.of(expected).getOrThrow { fail("Fail") }
+                val actual = LoginId.Companion.of(expected).getOrThrow { fail("Fail") }
 
                 assertEquals(expected, actual.value)
             }
 
-            @Test
-            fun hyphen() {
-                val expected = "-"
-                val actual = LoginId.of(expected).getOrThrow { fail("Fail") }
-
-                assertEquals(expected, actual.value)
-            }
-
-            @Test
-            fun dot() {
-                val expected = "."
-                val actual = LoginId.of(expected).getOrThrow { fail("Fail") }
-
-                assertEquals(expected, actual.value)
-            }
-
-            @Test
-            fun underbar() {
-                val expected = "_"
-                val actual = LoginId.of(expected).getOrThrow { fail("Fail") }
+            @ParameterizedTest
+            @ArgumentsSource(ValidCharacterProvider::class)
+            fun symbol(expected: String) {
+                val actual = Password.Companion.of(expected).getOrThrow { fail("Fail") }
 
                 assertEquals(expected, actual.value)
             }
@@ -84,7 +75,7 @@ class LoginIdTest {
         inner class Fail {
             @Test
             fun whenEmpty() {
-                val actual = LoginId.of("").getError()
+                val actual = Password.Companion.of("").getError()
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
@@ -93,7 +84,7 @@ class LoginIdTest {
 
             @Test
             fun whenSpaceOnly() {
-                val actual = LoginId.of("  ").getError()
+                val actual = Password.Companion.of(" ".repeat(Password.Companion.MIN_LENGTH)).getError()
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
@@ -102,17 +93,27 @@ class LoginIdTest {
 
             @Test
             fun whenOver100Length() {
-                val actual = LoginId.of("あ".repeat(LoginId.MAX_LENGTH + 1)).getError()
+                val actual = Password.Companion.of("あ".repeat(Password.Companion.MAX_LENGTH + 1)).getError()
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
                 assertion.assertMaxLength()
             }
 
+
+            @Test
+            fun whenLess16Length() {
+                val actual = Password.Companion.of("あ".repeat(Password.Companion.MIN_LENGTH + 1)).getError()
+
+                assertNotNull(actual)
+                val assertion = createErrorAssertion(actual)
+                assertion.assertMinLength()
+            }
+
             @ParameterizedTest
             @ArgumentsSource(InvalidCharacterProvider::class)
             fun invalidCharacters(value: String) {
-                val actual = LoginId.of(value).getError()
+                val actual = Password.Companion.of(value).getError()
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
@@ -123,19 +124,31 @@ class LoginIdTest {
 
     private fun createErrorAssertion(actual: DomainErrors): DomainErrorAssertion =
         DomainErrorAssertion(
-            name = requireNotNull(LoginId::class.simpleName),
+            name = requireNotNull(Password::class.simpleName),
             actual = actual
         )
 
-    private fun assertName(errors: DomainErrors) {
-        assertEquals(LoginId::class.simpleName, errors.name)
+    class ValidCharacterProvider : ArgumentsProvider {
+        private val symbols: List<String> = listOf(
+            "!", "\"", "#", "$", "%", "&", "'", "(", ")", "=", "^", "~", "¥", "|", "@",
+            "`", "[", "{", ";", "+", ":", "*", "]", "}", ",", "<", ">", "/", "?", "\\"
+        )
+
+        override fun provideArguments(
+            parameters: ParameterDeclarations,
+            context: ExtensionContext
+        ): Stream<out Arguments> {
+            val argumentsList = symbols.map {
+                Arguments.of(it)
+            }
+
+            return argumentsList.stream()
+        }
     }
 
     class InvalidCharacterProvider : ArgumentsProvider {
         private val symbols: List<String> = listOf(
-            "Ａ", "１", "「", " ", "!", "\"", "#", "$", "%", "&", "'", "(", ")", "=",
-            "^", "~", "¥", "|", "@", "`", "[", "{", ";", "+", ":", "*", "]", "}", ",",
-            "<", ">", "/", "?", "\\"
+            "Ａ", "１", "「", " "
         )
 
         override fun provideArguments(

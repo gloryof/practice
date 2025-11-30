@@ -1,10 +1,9 @@
-package jp.glory.practice.boot.app.user.domain
+package jp.glory.practice.boot.app.user.domain.command.model
 
 import com.github.michaelbull.result.getError
 import com.github.michaelbull.result.getOrThrow
 import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
 import jp.glory.practice.boot.app.test.tool.DomainErrorAssertion
-import jp.glory.practice.boot.app.user.domain.command.UserName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
@@ -19,15 +18,15 @@ class UserNameTest {
             @Test
             fun normal() {
                 val expected = "test"
-                val actual = UserName.of(expected).getOrThrow { fail("Fail") }
+                val actual = UserName.Companion.of(expected).getOrThrow { fail("Fail") }
 
                 assertEquals(expected, actual.value)
             }
 
             @Test
             fun maxLength() {
-                val expected = "あ".repeat(UserName.MAX_LENGTH)
-                val actual = UserName.of(expected).getOrThrow { fail("Fail") }
+                val expected = "あ".repeat(UserName.Companion.MAX_LENGTH)
+                val actual = UserName.Companion.of(expected).getOrThrow { fail("Fail") }
 
                 assertEquals(expected, actual.value)
             }
@@ -37,7 +36,7 @@ class UserNameTest {
         inner class Fail {
             @Test
             fun whenEmpty() {
-                val actual = UserName.of("").getError()
+                val actual = UserName.Companion.of("").getError()
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
@@ -46,7 +45,7 @@ class UserNameTest {
 
             @Test
             fun whenSpaceOnly() {
-                val actual = UserName.of("  ").getError()
+                val actual = UserName.Companion.of("  ").getError()
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
@@ -55,7 +54,7 @@ class UserNameTest {
 
             @Test
             fun whenOver100Length() {
-                val actual = UserName.of("あ".repeat(UserName.MAX_LENGTH + 1)).getError()
+                val actual = UserName.Companion.of("あ".repeat(UserName.Companion.MAX_LENGTH + 1)).getError()
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
