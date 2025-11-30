@@ -7,5 +7,7 @@ class DomainErrors(
 
 enum class DomainError {
     REQUIRED,
-    MAX_LENGTH
+    MAX_LENGTH,
+    MIN_LENGTH,
+    FORMAT
 }

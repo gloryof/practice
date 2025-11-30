@@ -3,6 +3,7 @@ package jp.glory.practice.boot.app.user.domain
 import com.github.michaelbull.result.getError
 import com.github.michaelbull.result.getOrThrow
 import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
+import jp.glory.practice.boot.app.test.tool.DomainErrorAssertion
 import jp.glory.practice.boot.app.user.domain.command.UserName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -39,7 +40,8 @@ class UserNameTest {
                 val actual = UserName.of("").getError()
 
                 assertNotNull(actual)
-                assertName(actual)
+                val assertion = createErrorAssertion(actual)
+                assertion.assertRequired()
             }
 
             @Test
@@ -47,7 +49,8 @@ class UserNameTest {
                 val actual = UserName.of("  ").getError()
 
                 assertNotNull(actual)
-                assertName(actual)
+                val assertion = createErrorAssertion(actual)
+                assertion.assertRequired()
             }
 
             @Test
@@ -55,12 +58,15 @@ class UserNameTest {
                 val actual = UserName.of("あ".repeat(UserName.MAX_LENGTH + 1)).getError()
 
                 assertNotNull(actual)
-                assertName(actual)
+                val assertion = createErrorAssertion(actual)
+                assertion.assertMaxLength()
             }
         }
     }
 
-    private fun assertName(errors: DomainErrors) {
-        assertEquals(UserName::class.simpleName, errors.name)
-    }
+    private fun createErrorAssertion(actual: DomainErrors): DomainErrorAssertion =
+        DomainErrorAssertion(
+            name = requireNotNull(UserName::class.simpleName),
+            actual = actual
+        )
 }

@@ -5,6 +5,7 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import jp.glory.practice.boot.app.base.domain.exception.DomainError
 import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
+import java.util.regex.Pattern
 import kotlin.reflect.KClass
 
 
@@ -35,6 +36,18 @@ class StringValidator(
     fun validateMaxLength(length: Int) {
         if (value.count() > length) {
             errors.add(DomainError.MAX_LENGTH)
+        }
+    }
+
+    fun validateMinLength(length: Int) {
+        if (value.count() < length) {
+            errors.add(DomainError.MIN_LENGTH)
+        }
+    }
+
+    fun validatePattern(pattern: Pattern) {
+        if (!pattern.matcher(value).matches()) {
+            errors.add(DomainError.FORMAT)
         }
     }
 }
