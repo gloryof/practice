@@ -9,5 +9,7 @@ enum class DomainError {
     REQUIRED,
     MAX_LENGTH,
     MIN_LENGTH,
-    FORMAT
+    FORMAT,
+
+    DATE_IS_AFTER
 }
