@@ -1,4 +1,4 @@
-package jp.glory.practice.boot.app.user.domain.command.model
+package jp.glory.practice.boot.app.user.command.domain.model
 
 import com.github.michaelbull.result.Result
 import jp.glory.practice.boot.app.base.domain.exception.DomainErrors

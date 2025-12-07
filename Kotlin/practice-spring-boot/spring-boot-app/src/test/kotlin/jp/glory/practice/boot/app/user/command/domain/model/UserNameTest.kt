@@ -1,4 +1,4 @@
-package jp.glory.practice.boot.app.user.domain.command.model
+package jp.glory.practice.boot.app.user.command.domain.model
 
 import com.github.michaelbull.result.getError
 import com.github.michaelbull.result.getOrThrow
