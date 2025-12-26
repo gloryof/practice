@@ -2,7 +2,7 @@ package jp.glory.practice.boot.app.base.domain.validater
 
 import com.github.michaelbull.result.getErrorOrElse
 import com.github.michaelbull.result.getOrElse
-import jp.glory.practice.boot.app.base.domain.exception.DomainError
+import jp.glory.practice.boot.app.base.domain.exception.DomainItemErrorType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -54,9 +54,9 @@ class LocalDateValidatorTest {
                 assertError(actual.errors)
             }
 
-            private fun assertError(actual: List<DomainError>) {
+            private fun assertError(actual: List<DomainItemErrorType>) {
                 assertEquals(1, actual.size)
-                assertEquals(DomainError.DATE_IS_AFTER, actual[0])
+                assertEquals(DomainItemErrorType.DATE_IS_AFTER, actual[0])
             }
         }
     }

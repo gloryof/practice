@@ -2,7 +2,7 @@ package jp.glory.practice.boot.app.user.command.domain.model
 
 import com.github.michaelbull.result.getError
 import com.github.michaelbull.result.getOrThrow
-import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
+import jp.glory.practice.boot.app.base.domain.exception.DomainItemError
 import jp.glory.practice.boot.app.test.tool.DomainErrorAssertion
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -24,7 +24,7 @@ class PasswordTest {
         inner class Success {
             @Test
             fun normal() {
-                val expected = "test"
+                val expected = "test-test-test-test-test-test-test"
                 val actual = Password.Companion.of(expected).getOrThrow { fail("Fail") }
 
                 assertEquals(expected, actual.value)
@@ -64,7 +64,8 @@ class PasswordTest {
 
             @ParameterizedTest
             @ArgumentsSource(ValidCharacterProvider::class)
-            fun symbol(expected: String) {
+            fun symbol(value: String) {
+                val expected = "valid-string-min¥$value"
                 val actual = Password.Companion.of(expected).getOrThrow { fail("Fail") }
 
                 assertEquals(expected, actual.value)
@@ -76,53 +77,68 @@ class PasswordTest {
             @Test
             fun whenEmpty() {
                 val actual = Password.Companion.of("").getError()
+                val assertionConfig = DomainErrorAssertion.AssertionConfig(
+                    required = true
+                )
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
-                assertion.assertRequired()
+                assertion.assertion(assertionConfig)
             }
 
             @Test
             fun whenSpaceOnly() {
                 val actual = Password.Companion.of(" ".repeat(Password.Companion.MIN_LENGTH)).getError()
+                val assertionConfig = DomainErrorAssertion.AssertionConfig(
+                    required = true
+                )
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
-                assertion.assertRequired()
+                assertion.assertion(assertionConfig)
             }
 
             @Test
             fun whenOver100Length() {
                 val actual = Password.Companion.of("あ".repeat(Password.Companion.MAX_LENGTH + 1)).getError()
+                val assertionConfig = DomainErrorAssertion.AssertionConfig(
+                    maxLength = true
+                )
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
-                assertion.assertMaxLength()
+                assertion.assertion(assertionConfig)
             }
 
 
             @Test
             fun whenLess16Length() {
-                val actual = Password.Companion.of("あ".repeat(Password.Companion.MIN_LENGTH + 1)).getError()
+                val actual = Password.Companion.of("あ".repeat(Password.Companion.MIN_LENGTH - 1)).getError()
+                val assertionConfig = DomainErrorAssertion.AssertionConfig(
+                    minLength = true
+                )
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
-                assertion.assertMinLength()
+                assertion.assertion(assertionConfig)
             }
 
             @ParameterizedTest
             @ArgumentsSource(InvalidCharacterProvider::class)
             fun invalidCharacters(value: String) {
                 val actual = Password.Companion.of(value).getError()
+                val assertionConfig = DomainErrorAssertion.AssertionConfig(
+                    format = true
+                )
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
-                assertion.assertFormat()
+                assertion.assertion(assertionConfig)
             }
         }
     }
 
-    private fun createErrorAssertion(actual: DomainErrors): DomainErrorAssertion =
+    private fun createErrorAssertion(actual: DomainItemError): DomainErrorAssertion =
         DomainErrorAssertion(
             name = requireNotNull(Password::class.simpleName),
             actual = actual

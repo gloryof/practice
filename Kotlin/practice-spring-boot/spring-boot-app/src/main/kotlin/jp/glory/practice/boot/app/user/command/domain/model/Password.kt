@@ -1,7 +1,7 @@
 package jp.glory.practice.boot.app.user.command.domain.model
 
 import com.github.michaelbull.result.Result
-import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
+import jp.glory.practice.boot.app.base.domain.exception.DomainItemError
 import jp.glory.practice.boot.app.base.domain.validater.StringValidator
 
 @JvmInline
@@ -11,11 +11,12 @@ value class Password private constructor(val value: String) {
         const val MIN_LENGTH = 16
 
         private val VALID_CHAR = Regex("^[!-~¥]+$").toPattern()
-        fun of(value: String): Result<Password, DomainErrors> =
+        fun of(value: String): Result<Password, DomainItemError> =
             StringValidator(Password::class, value)
                 .apply {
                     validateRequired()
                     validateMaxLength(MAX_LENGTH)
+                    validateMinLength(MIN_LENGTH)
                     validatePattern(VALID_CHAR)
                 }
                 .run { parse { Password(it) } }

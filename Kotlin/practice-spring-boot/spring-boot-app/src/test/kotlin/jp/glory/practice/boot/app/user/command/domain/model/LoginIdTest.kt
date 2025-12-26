@@ -2,7 +2,7 @@ package jp.glory.practice.boot.app.user.command.domain.model
 
 import com.github.michaelbull.result.getError
 import com.github.michaelbull.result.getOrThrow
-import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
+import jp.glory.practice.boot.app.base.domain.exception.DomainItemError
 import jp.glory.practice.boot.app.test.tool.DomainErrorAssertion
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -84,51 +84,59 @@ class LoginIdTest {
             @Test
             fun whenEmpty() {
                 val actual = LoginId.Companion.of("").getError()
+                val assertionConfig = DomainErrorAssertion.AssertionConfig(
+                    required = true
+                )
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
-                assertion.assertRequired()
+                assertion.assertion(assertionConfig)
             }
 
             @Test
             fun whenSpaceOnly() {
                 val actual = LoginId.Companion.of("  ").getError()
+                val assertionConfig = DomainErrorAssertion.AssertionConfig(
+                    required = true
+                )
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
-                assertion.assertRequired()
+                assertion.assertion(assertionConfig)
             }
 
             @Test
             fun whenOver100Length() {
                 val actual = LoginId.Companion.of("あ".repeat(LoginId.Companion.MAX_LENGTH + 1)).getError()
+                val assertionConfig = DomainErrorAssertion.AssertionConfig(
+                    maxLength = true
+                )
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
-                assertion.assertMaxLength()
+                assertion.assertion(assertionConfig)
             }
 
             @ParameterizedTest
             @ArgumentsSource(InvalidCharacterProvider::class)
             fun invalidCharacters(value: String) {
                 val actual = LoginId.Companion.of(value).getError()
+                val assertionConfig = DomainErrorAssertion.AssertionConfig(
+                    format = true
+                )
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
-                assertion.assertFormat()
+                assertion.assertion(assertionConfig)
             }
         }
     }
 
-    private fun createErrorAssertion(actual: DomainErrors): DomainErrorAssertion =
+    private fun createErrorAssertion(actual: DomainItemError): DomainErrorAssertion =
         DomainErrorAssertion(
             name = requireNotNull(LoginId::class.simpleName),
             actual = actual
         )
-
-    private fun assertName(errors: DomainErrors) {
-        assertEquals(LoginId::class.simpleName, errors.name)
-    }
 
     class InvalidCharacterProvider : ArgumentsProvider {
         private val symbols: List<String> = listOf(

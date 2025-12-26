@@ -2,7 +2,7 @@ package jp.glory.practice.boot.app.base.domain.validater
 
 import com.github.michaelbull.result.getErrorOrElse
 import com.github.michaelbull.result.getOrElse
-import jp.glory.practice.boot.app.base.domain.exception.DomainError
+import jp.glory.practice.boot.app.base.domain.exception.DomainItemErrorType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -51,9 +51,9 @@ class StringValidatorTest {
                 assertError(actual.errors)
             }
 
-            private fun assertError(actual: List<DomainError>) {
+            private fun assertError(actual: List<DomainItemErrorType>) {
                 assertEquals(1, actual.size)
-                assertEquals(DomainError.REQUIRED, actual[0])
+                assertEquals(DomainItemErrorType.REQUIRED, actual[0])
             }
         }
     }
@@ -83,9 +83,9 @@ class StringValidatorTest {
             }
         }
 
-        private fun assertError(actual: List<DomainError>) {
+        private fun assertError(actual: List<DomainItemErrorType>) {
             assertEquals(1, actual.size)
-            assertEquals(DomainError.MAX_LENGTH, actual[0])
+            assertEquals(DomainItemErrorType.MAX_LENGTH, actual[0])
         }
     }
 
@@ -114,9 +114,9 @@ class StringValidatorTest {
             }
         }
 
-        private fun assertError(actual: List<DomainError>) {
+        private fun assertError(actual: List<DomainItemErrorType>) {
             assertEquals(1, actual.size)
-            assertEquals(DomainError.MIN_LENGTH, actual[0])
+            assertEquals(DomainItemErrorType.MIN_LENGTH, actual[0])
         }
     }
 
@@ -145,9 +145,9 @@ class StringValidatorTest {
             assertError(actual.errors)
         }
 
-        private fun assertError(actual: List<DomainError>) {
+        private fun assertError(actual: List<DomainItemErrorType>) {
             assertEquals(1, actual.size)
-            assertEquals(DomainError.FORMAT, actual[0])
+            assertEquals(DomainItemErrorType.FORMAT, actual[0])
         }
     }
 }

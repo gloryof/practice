@@ -1,7 +1,7 @@
 package jp.glory.practice.boot.app.user.command.domain.model
 
 import com.github.michaelbull.result.Result
-import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
+import jp.glory.practice.boot.app.base.domain.exception.DomainItemError
 import jp.glory.practice.boot.app.base.domain.validater.StringValidator
 
 @JvmInline
@@ -11,7 +11,7 @@ value class LoginId private constructor(val value: String) {
 
         // 半角文字は-._のみ許可
         private val VALID_CHAR = Regex("^[a-zA-Z0-9.\\-_]+$").toPattern()
-        fun of(value: String): Result<LoginId, DomainErrors> =
+        fun of(value: String): Result<LoginId, DomainItemError> =
             StringValidator(LoginId::class, value)
                 .apply {
                     validateRequired()

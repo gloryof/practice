@@ -2,7 +2,7 @@ package jp.glory.practice.boot.app.user.command.domain.model
 
 import com.github.michaelbull.result.getError
 import com.github.michaelbull.result.getOrThrow
-import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
+import jp.glory.practice.boot.app.base.domain.exception.DomainItemError
 import jp.glory.practice.boot.app.test.tool.DomainErrorAssertion
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -38,6 +38,10 @@ class BirthdayTest {
 
         @Nested
         inner class Fail {
+            private val assertionConfig = DomainErrorAssertion.AssertionConfig(
+                dateIsAfter = true
+            )
+
             @Test
             fun whenIsAfter() {
                 val today = LocalDate.now()
@@ -46,10 +50,10 @@ class BirthdayTest {
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
-                assertion.assertRequired()
+                assertion.assertion(assertionConfig)
             }
 
-            private fun createErrorAssertion(actual: DomainErrors): DomainErrorAssertion =
+            private fun createErrorAssertion(actual: DomainItemError): DomainErrorAssertion =
                 DomainErrorAssertion(
                     name = requireNotNull(Birthday::class.simpleName),
                     actual = actual

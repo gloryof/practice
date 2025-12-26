@@ -2,7 +2,7 @@ package jp.glory.practice.boot.app.user.command.domain.model
 
 import com.github.michaelbull.result.getError
 import com.github.michaelbull.result.getOrThrow
-import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
+import jp.glory.practice.boot.app.base.domain.exception.DomainItemError
 import jp.glory.practice.boot.app.test.tool.DomainErrorAssertion
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -37,33 +37,42 @@ class UserNameTest {
             @Test
             fun whenEmpty() {
                 val actual = UserName.Companion.of("").getError()
+                val assertionConfig = DomainErrorAssertion.AssertionConfig(
+                    required = true
+                )
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
-                assertion.assertRequired()
+                assertion.assertion(assertionConfig)
             }
 
             @Test
             fun whenSpaceOnly() {
                 val actual = UserName.Companion.of("  ").getError()
+                val assertionConfig = DomainErrorAssertion.AssertionConfig(
+                    required = true
+                )
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
-                assertion.assertRequired()
+                assertion.assertion(assertionConfig)
             }
 
             @Test
             fun whenOver100Length() {
                 val actual = UserName.Companion.of("あ".repeat(UserName.Companion.MAX_LENGTH + 1)).getError()
+                val assertionConfig = DomainErrorAssertion.AssertionConfig(
+                    maxLength = true
+                )
 
                 assertNotNull(actual)
                 val assertion = createErrorAssertion(actual)
-                assertion.assertMaxLength()
+                assertion.assertion(assertionConfig)
             }
         }
     }
 
-    private fun createErrorAssertion(actual: DomainErrors): DomainErrorAssertion =
+    private fun createErrorAssertion(actual: DomainItemError): DomainErrorAssertion =
         DomainErrorAssertion(
             name = requireNotNull(UserName::class.simpleName),
             actual = actual
