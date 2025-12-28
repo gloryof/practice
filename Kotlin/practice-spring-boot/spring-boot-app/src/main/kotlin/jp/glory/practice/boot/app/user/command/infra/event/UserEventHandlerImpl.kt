@@ -1,11 +1,11 @@
 package jp.glory.practice.boot.app.user.command.infra.event
 
+import jp.glory.practice.boot.app.auth.data.AuthDao
+import jp.glory.practice.boot.app.auth.data.AuthRecord
 import jp.glory.practice.boot.app.user.command.domain.event.UserCreated
 import jp.glory.practice.boot.app.user.command.domain.event.UserEventHandler
-import jp.glory.practice.boot.app.user.data.auth.AuthDao
-import jp.glory.practice.boot.app.user.data.auth.AuthRecord
-import jp.glory.practice.boot.app.user.data.user.UserDao
-import jp.glory.practice.boot.app.user.data.user.UserRecord
+import jp.glory.practice.boot.app.user.data.UserDao
+import jp.glory.practice.boot.app.user.data.UserRecord
 
 class UserEventHandlerImpl(
     private val userDao: UserDao,

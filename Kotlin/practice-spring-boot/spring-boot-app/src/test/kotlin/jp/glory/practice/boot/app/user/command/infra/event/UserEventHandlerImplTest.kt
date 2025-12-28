@@ -7,12 +7,12 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
+import jp.glory.practice.boot.app.auth.data.AuthDao
+import jp.glory.practice.boot.app.auth.data.AuthRecord
 import jp.glory.practice.boot.app.user.command.domain.event.UserCreated
 import jp.glory.practice.boot.app.user.command.domain.model.UserIdGenerator
-import jp.glory.practice.boot.app.user.data.auth.AuthDao
-import jp.glory.practice.boot.app.user.data.auth.AuthRecord
-import jp.glory.practice.boot.app.user.data.user.UserDao
-import jp.glory.practice.boot.app.user.data.user.UserRecord
+import jp.glory.practice.boot.app.user.data.UserDao
+import jp.glory.practice.boot.app.user.data.UserRecord
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 import java.time.LocalDate

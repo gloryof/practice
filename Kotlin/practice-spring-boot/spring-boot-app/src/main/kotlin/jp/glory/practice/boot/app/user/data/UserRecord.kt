@@ -1,4 +1,4 @@
-package jp.glory.practice.boot.app.user.data.user
+package jp.glory.practice.boot.app.user.data
 
 import java.time.LocalDate
 

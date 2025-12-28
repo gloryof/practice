@@ -1,4 +1,4 @@
-package jp.glory.practice.boot.app.user.data.auth
+package jp.glory.practice.boot.app.auth.data
 
 class AuthDao(
     private val table: MutableMap<String, AuthRecord> = mutableMapOf()

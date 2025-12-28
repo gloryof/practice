@@ -1,0 +1,56 @@
+package jp.glory.practice.boot.app.base.spring.web
+
+import jp.glory.practice.boot.app.base.Usecase.usecase.exception.UsecaseErrors
+import org.springframework.http.HttpStatus
+import org.springframework.http.ProblemDetail
+import org.springframework.web.servlet.function.ServerResponse
+
+object WebErrorHandler {
+    fun createErrorResponse(errors: UsecaseErrors): ServerResponse {
+        val detail = createProblemDetail(errors)
+
+        return ServerResponse.status(detail.status)
+            .body(detail)
+    }
+
+
+    private fun createProblemDetail(errors: UsecaseErrors): ProblemDetail =
+        ProblemDetail.forStatusAndDetail(
+            HttpStatus.BAD_REQUEST,
+            "Your request is invalid"
+        )
+            .apply {
+                title = "Invalid request"
+
+                val details = toErrorDetails(errors)
+                if (details.isNotEmpty()) {
+                    setProperty("errors", details)
+                }
+            }
+
+    private fun toErrorDetails(error: UsecaseErrors): List<ErrorDetail> {
+        val results = mutableListOf<ErrorDetail>()
+
+        error.itemErrors
+            .forEach {
+                results.add(
+                    ErrorDetail(
+                        name = it.name,
+                        errorTypes = it.errors.map { type -> type.name }
+                    )
+                )
+            }
+
+        error.specErrors
+            .forEach {
+                results.add(
+                    ErrorDetail(
+                        name = "",
+                        errorTypes = listOf(it.name)
+                    )
+                )
+            }
+
+        return results
+    }
+}
