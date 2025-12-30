@@ -1,7 +1,5 @@
 package jp.glory.practice.boot.app.user
 
-import jp.glory.practice.boot.app.auth.data.AuthDao
-import jp.glory.practice.boot.app.user.command.domain.event.UserEventHandler
 import jp.glory.practice.boot.app.user.command.domain.model.UserIdGenerator
 import jp.glory.practice.boot.app.user.command.domain.service.UserService
 import jp.glory.practice.boot.app.user.command.infra.event.UserEventHandlerImpl
@@ -23,17 +21,20 @@ class UserBeanRegister : BeanRegistrarDsl({
     domainService()
     repository()
     usecase()
-    webRouting()
-})
-
-private fun BeanRegistrarDsl.webRouting() {
-    registerBean<UserCreateRouter>()
+    webFunction()
 
     registerBean {
-        val pathBase = "/api/v1/user"
+        webRouting(
+            userCreateRouter = bean()
+        )
+    }
+}) {
 
-        val userCreateRouter: UserCreateRouter = bean()
-        router {
+    companion object {
+        fun webRouting(
+            userCreateRouter: UserCreateRouter
+        ) = router {
+            val pathBase = "/api/v1/user"
             accept(APPLICATION_JSON).nest {
                 POST(pathBase, userCreateRouter::create)
             }
@@ -41,13 +42,12 @@ private fun BeanRegistrarDsl.webRouting() {
     }
 }
 
+private fun BeanRegistrarDsl.dao() {
+    registerBean<UserDao>()
+}
+
 private fun BeanRegistrarDsl.eventHandlers() {
-    registerBean<UserEventHandler> {
-        UserEventHandlerImpl(
-            userDao = bean<UserDao>(),
-            authDao = bean<AuthDao>()
-        )
-    }
+    registerBean<UserEventHandlerImpl>()
 }
 
 private fun BeanRegistrarDsl.domainService() {
@@ -55,14 +55,14 @@ private fun BeanRegistrarDsl.domainService() {
     registerBean<UserService>()
 }
 
-private fun BeanRegistrarDsl.usecase() {
-    registerBean<CreateUser>()
-}
-
 private fun BeanRegistrarDsl.repository() {
     registerBean<UserRepositoryImpl>()
 }
 
-private fun BeanRegistrarDsl.dao() {
-    registerBean<UserDao>()
+private fun BeanRegistrarDsl.usecase() {
+    registerBean<CreateUser>()
+}
+
+private fun BeanRegistrarDsl.webFunction() {
+    registerBean<UserCreateRouter>()
 }

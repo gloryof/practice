@@ -39,7 +39,7 @@ class CreateUser(
     }
 
 
-    class Input(
+    data class Input(
         val loginId: String,
         val userName: String,
         val password: String,
