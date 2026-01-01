@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: spring-boot-app
+  jackson:
+    property-naming-strategy: SNAKE_CASE

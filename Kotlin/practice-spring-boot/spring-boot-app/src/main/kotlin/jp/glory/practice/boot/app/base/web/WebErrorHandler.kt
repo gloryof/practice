@@ -1,20 +1,18 @@
-package jp.glory.practice.boot.app.base.spring.web
+package jp.glory.practice.boot.app.base.web
 
-import jp.glory.practice.boot.app.base.Usecase.usecase.exception.UsecaseErrors
 import org.springframework.http.HttpStatus
 import org.springframework.http.ProblemDetail
 import org.springframework.web.servlet.function.ServerResponse
 
 object WebErrorHandler {
-    fun createErrorResponse(errors: UsecaseErrors): ServerResponse {
+    fun createErrorResponse(errors: WebErrors): ServerResponse {
         val detail = createProblemDetail(errors)
 
         return ServerResponse.status(detail.status)
             .body(detail)
     }
 
-
-    private fun createProblemDetail(errors: UsecaseErrors): ProblemDetail =
+    private fun createProblemDetail(errors: WebErrors): ProblemDetail =
         ProblemDetail.forStatusAndDetail(
             HttpStatus.BAD_REQUEST,
             "Your request is invalid"
@@ -28,7 +26,7 @@ object WebErrorHandler {
                 }
             }
 
-    private fun toErrorDetails(error: UsecaseErrors): List<ErrorDetail> {
+    private fun toErrorDetails(error: WebErrors): List<ErrorDetail> {
         val results = mutableListOf<ErrorDetail>()
 
         error.itemErrors

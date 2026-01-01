@@ -13,12 +13,20 @@ value class Password private constructor(val value: String) {
         private val VALID_CHAR = Regex("^[!-~¥]+$").toPattern()
         fun of(value: String): Result<Password, DomainItemError> =
             StringValidator(Password::class, value)
-                .apply {
-                    validateRequired()
-                    validateMaxLength(MAX_LENGTH)
-                    validateMinLength(MIN_LENGTH)
-                    validatePattern(VALID_CHAR)
-                }
+                .configure()
                 .run { parse { Password(it) } }
+
+        fun validate(name: String, value: String): Result<Unit, DomainItemError> =
+            StringValidator(name, value)
+                .configure()
+                .validate()
+
+        private fun StringValidator.configure(): StringValidator =
+            this.also {
+                validateRequired()
+                validateMaxLength(MAX_LENGTH)
+                validateMinLength(MIN_LENGTH)
+                validatePattern(VALID_CHAR)
+            }
     }
 }

@@ -10,9 +10,17 @@ value class Birthday private constructor(val value: LocalDate) {
     companion object {
         fun of(value: LocalDate, today: LocalDate): Result<Birthday, DomainItemError> =
             LocalDateValidator(Birthday::class, value)
-                .apply {
-                    validateIsBeforeOrEquals(today)
-                }
+                .configure(today)
                 .run { parse { Birthday(it) } }
+
+        fun validate(name: String, value: LocalDate, today: LocalDate): Result<Unit, DomainItemError> =
+            LocalDateValidator(name, value)
+                .configure(today)
+                .validate()
+
+        private fun LocalDateValidator.configure(today: LocalDate): LocalDateValidator =
+            this.apply {
+                validateIsBeforeOrEquals(today)
+            }
     }
 }

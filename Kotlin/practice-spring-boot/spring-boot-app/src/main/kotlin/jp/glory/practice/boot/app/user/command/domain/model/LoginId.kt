@@ -13,11 +13,19 @@ value class LoginId private constructor(val value: String) {
         private val VALID_CHAR = Regex("^[a-zA-Z0-9.\\-_]+$").toPattern()
         fun of(value: String): Result<LoginId, DomainItemError> =
             StringValidator(LoginId::class, value)
-                .apply {
-                    validateRequired()
-                    validateMaxLength(MAX_LENGTH)
-                    validatePattern(VALID_CHAR)
-                }
+                .configure()
                 .run { parse { LoginId(it) } }
+
+        fun validate(name: String, value: String): Result<Unit, DomainItemError> =
+            StringValidator(name, value)
+                .configure()
+                .validate()
+
+        private fun StringValidator.configure(): StringValidator =
+            this.also {
+                validateRequired()
+                validateMaxLength(MAX_LENGTH)
+                validatePattern(VALID_CHAR)
+            }
     }
 }

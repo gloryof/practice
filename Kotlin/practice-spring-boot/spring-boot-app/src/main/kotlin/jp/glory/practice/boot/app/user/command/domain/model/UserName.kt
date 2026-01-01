@@ -10,10 +10,18 @@ value class UserName private constructor(val value: String) {
         const val MAX_LENGTH = 100
         fun of(value: String): Result<UserName, DomainItemError> =
             StringValidator(UserName::class, value)
-                .apply {
-                    validateRequired()
-                    validateMaxLength(MAX_LENGTH)
-                }
+                .configure()
                 .run { parse { UserName(it) } }
+
+        fun validate(name: String, value: String): Result<Unit, DomainItemError> =
+            StringValidator(name, value)
+                .configure()
+                .validate()
+
+        private fun StringValidator.configure(): StringValidator =
+            this.also {
+                validateRequired()
+                validateMaxLength(MAX_LENGTH)
+            }
     }
 }
