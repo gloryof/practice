@@ -32,13 +32,15 @@ class WebItemError(
 }
 
 enum class WebSpecErrorType {
-    AUTHENTICATED_IS_FAIL,
+    LOGIN_IS_FAIL,
+    NOT_AUTHORIZED,
     USER_ID_ALREADY_EXIST;
 
     companion object {
         fun fromUsecaseError(error: UsecaseSpecErrorType) =
             when (error) {
-                UsecaseSpecErrorType.AUTHENTICATED_IS_FAIL -> AUTHENTICATED_IS_FAIL
+                UsecaseSpecErrorType.LOGIN_IS_FAIL -> LOGIN_IS_FAIL
+                UsecaseSpecErrorType.NOT_AUTHORIZED -> NOT_AUTHORIZED
                 UsecaseSpecErrorType.USER_ID_ALREADY_EXIST -> USER_ID_ALREADY_EXIST
             }
     }

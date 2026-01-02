@@ -37,7 +37,7 @@ class IssueToken(
             ?.let { Ok(it) }
             ?: Err(
                 UsecaseErrors(
-                    specErrors = listOf(UsecaseSpecErrorType.AUTHENTICATED_IS_FAIL)
+                    specErrors = listOf(UsecaseSpecErrorType.LOGIN_IS_FAIL)
                 )
             )
 

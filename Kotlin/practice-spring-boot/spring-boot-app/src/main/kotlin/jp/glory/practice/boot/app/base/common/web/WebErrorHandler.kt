@@ -14,7 +14,7 @@ object WebErrorHandler {
 
     private fun createProblemDetail(errors: WebErrors): ProblemDetail =
         ProblemDetail.forStatusAndDetail(
-            HttpStatus.BAD_REQUEST,
+            getStatus(errors),
             "Your request is invalid"
         )
             .apply {
@@ -25,6 +25,13 @@ object WebErrorHandler {
                     setProperty("errors", details)
                 }
             }
+
+    private fun getStatus(errors: WebErrors): HttpStatus {
+        if (errors.specErrors.contains(WebSpecErrorType.NOT_AUTHORIZED)) {
+            return HttpStatus.UNAUTHORIZED
+        }
+        return HttpStatus.BAD_REQUEST
+    }
 
     private fun toErrorDetails(error: WebErrors): List<ErrorDetail> {
         val results = mutableListOf<ErrorDetail>()

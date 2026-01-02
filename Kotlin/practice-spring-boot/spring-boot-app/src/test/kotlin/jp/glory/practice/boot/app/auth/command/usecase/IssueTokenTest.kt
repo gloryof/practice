@@ -81,7 +81,7 @@ class IssueTokenTest {
 
                 val actual = sut.issue(input).getError() ?: fail("Unexpected success")
                 UsecaseErrorsAssertion(
-                    specErrors = setOf(UsecaseSpecErrorType.AUTHENTICATED_IS_FAIL),
+                    specErrors = setOf(UsecaseSpecErrorType.LOGIN_IS_FAIL),
                     usecaseErrors = actual
                 )
                     .assertAll()
@@ -110,7 +110,7 @@ class IssueTokenTest {
 
                 val actual = sut.issue(input).getError() ?: fail("Unexpected success")
                 UsecaseErrorsAssertion(
-                    specErrors = setOf(UsecaseSpecErrorType.AUTHENTICATED_IS_FAIL),
+                    specErrors = setOf(UsecaseSpecErrorType.LOGIN_IS_FAIL),
                     usecaseErrors = actual
                 )
                     .assertAll()

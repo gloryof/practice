@@ -6,4 +6,8 @@ class TokenDao(
     fun insert(record: TokenRecord) {
         table.put(record.userId, record)
     }
+
+    fun findByToken(token: String): TokenRecord? =
+        table.filter { it.value.token == token }
+            .firstNotNullOf { it.value }
 }

@@ -1,5 +1,7 @@
 package jp.glory.practice.boot.app.user
 
+import jp.glory.practice.boot.app.auth.query.web.AuthenticateFilter
+import jp.glory.practice.boot.app.user.UserBeanRegister.Command.confitureCommand
 import jp.glory.practice.boot.app.user.command.domain.model.UserIdGenerator
 import jp.glory.practice.boot.app.user.command.domain.service.UserService
 import jp.glory.practice.boot.app.user.command.infra.event.UserEventHandlerImpl
@@ -8,7 +10,7 @@ import jp.glory.practice.boot.app.user.command.usecase.CreateUser
 import jp.glory.practice.boot.app.user.command.web.UserCreateRouter
 import jp.glory.practice.boot.app.user.data.UserDao
 import org.springframework.beans.factory.BeanRegistrarDsl
-import org.springframework.http.MediaType.APPLICATION_JSON
+import org.springframework.http.MediaType
 import org.springframework.web.servlet.function.router
 
 /**
@@ -18,54 +20,69 @@ import org.springframework.web.servlet.function.router
 object UserBeanRegister {
     fun BeanRegistrarDsl.configureUser() {
         dao()
-        eventHandlers()
-        domainService()
-        repository()
-        usecase()
-        webFunction()
+        confitureCommand()
 
         registerBean {
             webRouting(
-                userCreateRouter = bean()
+                userCreateRouter = bean(),
+                authenticateFilter = bean()
             )
         }
     }
 
     fun webRouting(
-        userCreateRouter: UserCreateRouter
+        userCreateRouter: UserCreateRouter,
+        authenticateFilter: AuthenticateFilter
     ) = router {
-        val pathBase = "/api/v1/user"
-        accept(APPLICATION_JSON).nest {
-            POST(pathBase, userCreateRouter::create)
-        }
-        accept(APPLICATION_JSON).nest {
-            POST("test", userCreateRouter::create)
-        }
+
+        path("/api/v1/register")
+            .nest {
+                contentType(MediaType.APPLICATION_JSON)
+                POST("", userCreateRouter::create)
+            }
+
+        path("/api/v1/user")
+            .nest {
+                contentType(MediaType.APPLICATION_JSON)
+                filter { req, next ->
+                    authenticateFilter.filter(req, next)
+                }
+            }
     }
 
     private fun BeanRegistrarDsl.dao() {
         registerBean<UserDao>()
     }
 
-    private fun BeanRegistrarDsl.eventHandlers() {
-        registerBean<UserEventHandlerImpl>()
-    }
+    private object Command {
+        fun BeanRegistrarDsl.confitureCommand() {
+            eventHandlers()
+            repository()
+            domainService()
+            usecase()
+            webFunction()
+        }
 
-    private fun BeanRegistrarDsl.domainService() {
-        registerBean<UserIdGenerator>()
-        registerBean<UserService>()
-    }
+        private fun BeanRegistrarDsl.eventHandlers() {
+            registerBean<UserEventHandlerImpl>()
+        }
 
-    private fun BeanRegistrarDsl.repository() {
-        registerBean<UserRepositoryImpl>()
-    }
+        private fun BeanRegistrarDsl.repository() {
+            registerBean<UserRepositoryImpl>()
+        }
 
-    private fun BeanRegistrarDsl.usecase() {
-        registerBean<CreateUser>()
-    }
+        private fun BeanRegistrarDsl.domainService() {
+            registerBean<UserIdGenerator>()
+            registerBean<UserService>()
+        }
 
-    private fun BeanRegistrarDsl.webFunction() {
-        registerBean<UserCreateRouter>()
+        private fun BeanRegistrarDsl.usecase() {
+            registerBean<CreateUser>()
+        }
+
+        private fun BeanRegistrarDsl.webFunction() {
+            registerBean<UserCreateRouter>()
+        }
     }
 }
 
