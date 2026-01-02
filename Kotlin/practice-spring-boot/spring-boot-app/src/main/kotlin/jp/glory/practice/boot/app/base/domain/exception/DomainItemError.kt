@@ -11,6 +11,7 @@ class DomainItemError(
 )
 
 enum class DomainSpecErrorType {
+    AUTHENTICATED_IS_FAIL,
     USER_ID_ALREADY_EXIST
 }
 

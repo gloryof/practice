@@ -1,36 +1,35 @@
-package jp.glory.practice.boot.app.user.command.web
+package jp.glory.practice.boot.app.auth.command.web
 
 import com.github.michaelbull.result.Ok
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import jp.glory.practice.boot.app.auth.command.usecase.IssueToken
 import jp.glory.practice.boot.app.base.web.WebErrors
 import jp.glory.practice.boot.app.base.web.WebItemError
 import jp.glory.practice.boot.app.base.web.WebItemErrorType
 import jp.glory.practice.boot.app.test.tool.MockMvcCreator
 import jp.glory.practice.boot.app.test.tool.WebErrorAssertion
-import jp.glory.practice.boot.app.user.command.usecase.CreateUser
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActionsDsl
 import org.springframework.test.web.servlet.post
-import java.time.LocalDate
+import java.util.UUID
 
-@WebMvcTest
-class UserCreateRouterTest {
+class LoginRouterTest {
     private lateinit var mockMvc: MockMvc
-    private val useCase = mockk<CreateUser>()
+    private val useCase = mockk<IssueToken>()
+
 
     @BeforeEach
     fun setup() {
         mockMvc = MockMvcCreator()
             .apply {
-                activateUserRoute(
-                    createUser = useCase,
+                activateAuthRoute(
+                    issueToken = useCase,
                 )
             }
             .create()
@@ -38,19 +37,19 @@ class UserCreateRouterTest {
 
     @Test
     fun success() {
-        val expectedUserId = "generated-user-id"
-        val expectedInput = createInput()
+        val token = UUID.randomUUID().toString()
+        val expectedInput: IssueToken.Input = createInput()
 
-        every { useCase.createUser(expectedInput) } returns Ok(expectedUserId)
+        every { useCase.issue(expectedInput) } returns Ok(token)
 
         val jsonRequest = toJsonValue(expectedInput)
 
         callApi(jsonRequest).andExpect {
             status { isOk() }
-            jsonPath("$.user_id") { value(expectedUserId) }
+            jsonPath("$.token") { value(token) }
         }
 
-        verify { useCase.createUser(expectedInput) }
+        verify { useCase.issue(expectedInput) }
     }
 
     @Nested
@@ -97,43 +96,6 @@ class UserCreateRouterTest {
             private fun createItemError(type: WebItemErrorType): WebErrors {
                 val itemError = WebItemError(
                     name = "login_id",
-                    errors = listOf(type)
-                )
-                return WebErrors(
-                    itemErrors = listOf(itemError)
-                )
-            }
-        }
-
-        @Nested
-        inner class UserName {
-            @Test
-            fun isEmpty() {
-                val input = createInput(
-                    userName = ""
-                )
-                val jsonRequest = toJsonValue(input)
-                val expected = createItemError(WebItemErrorType.REQUIRED)
-
-                WebErrorAssertion(callApi(jsonRequest))
-                    .assertBadRequest(expected)
-            }
-
-            @Test
-            fun maxLength() {
-                val input = createInput(
-                    userName = "a".repeat(101)
-                )
-                val jsonRequest = toJsonValue(input)
-                val expected = createItemError(WebItemErrorType.MAX_LENGTH)
-
-                WebErrorAssertion(callApi(jsonRequest))
-                    .assertBadRequest(expected)
-            }
-
-            private fun createItemError(type: WebItemErrorType): WebErrors {
-                val itemError = WebItemError(
-                    name = "user_name",
                     errors = listOf(type)
                 )
                 return WebErrors(
@@ -202,99 +164,29 @@ class UserCreateRouterTest {
                 )
             }
         }
-
-        @Nested
-        inner class Birthday {
-            @Test
-            fun isAfter() {
-                val input = createInput(
-                    birthday = LocalDate.now().plusYears(1)
-                )
-                val jsonRequest = toJsonValue(input)
-                val expected = createItemError()
-
-                WebErrorAssertion(callApi(jsonRequest))
-                    .assertBadRequest(expected)
-            }
-
-            private fun createItemError(): WebErrors {
-                val itemError = WebItemError(
-                    name = "birthday",
-                    errors = listOf(WebItemErrorType.DATE_IS_AFTER)
-                )
-                return WebErrors(
-                    itemErrors = listOf(itemError)
-                )
-            }
-        }
-
-        @Test
-        fun whenMultipleInvalid() {
-            val input = createInput(
-                loginId = "",
-                userName = "",
-                password = "",
-                birthday = LocalDate.now().plusYears(1)
-            )
-            val jsonRequest = toJsonValue(input)
-            val loginIdError = WebItemError(
-                name = "login_id",
-                errors = listOf(
-                    WebItemErrorType.REQUIRED
-                )
-            )
-            val userNameError = WebItemError(
-                name = "user_name",
-                errors = listOf(
-                    WebItemErrorType.REQUIRED
-                )
-            )
-            val passwordError = WebItemError(
-                name = "password",
-                errors = listOf(
-                    WebItemErrorType.REQUIRED
-                )
-            )
-            val birthdayError = WebItemError(
-                name = "birthday",
-                errors = listOf(
-                    WebItemErrorType.DATE_IS_AFTER
-                )
-            )
-            val expected = WebErrors(
-                itemErrors = listOf(loginIdError, userNameError, passwordError, birthdayError)
-            )
-
-            WebErrorAssertion(callApi(jsonRequest))
-                .assertBadRequest(expected)
-        }
     }
 
+
     private fun callApi(jsonRequest: String): ResultActionsDsl =
-        mockMvc.post("/api/v1/user") {
+        mockMvc.post("/api/v1/auth/login") {
             contentType = MediaType.APPLICATION_JSON
             content = jsonRequest
         }
 
+    private fun toJsonValue(input: IssueToken.Input): String =
+        """
+           {
+               "login_id": "${input.loginId}",
+               "password": "${input.password}"
+           }
+        """.trimIndent()
+
     private fun createInput(
         loginId: String = "test-login-id",
-        userName: String = "test-user-name",
-        password: String = "test-password-123456",
-        birthday: LocalDate = LocalDate.now().minusYears(10)
-    ): CreateUser.Input = CreateUser.Input(
-        loginId = loginId,
-        userName = userName,
-        password = password,
-        birthday = birthday
-    )
-
-    private fun toJsonValue(expected: CreateUser.Input): String =
-        """
-            {
-                "login_id": "${expected.loginId}",
-                "user_name": "${expected.userName}",
-                "password": "${expected.password}",
-                "birthday": "${expected.birthday}"
-            }
-        """.trimIndent()
+        password: String = "test-password-123456"
+    ): IssueToken.Input =
+        IssueToken.Input(
+            loginId = loginId,
+            password = password
+        )
 }

@@ -19,7 +19,6 @@ class UserEventHandlerImpl(
     private fun toUserRecord(event: UserCreated): UserRecord =
         UserRecord(
             userId = event.userId.value,
-            loginId = event.loginId.value,
             userName = event.userName.value,
             birthday = event.birthday.value
         )

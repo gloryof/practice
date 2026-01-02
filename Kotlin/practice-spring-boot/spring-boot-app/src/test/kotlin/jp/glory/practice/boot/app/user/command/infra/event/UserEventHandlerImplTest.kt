@@ -53,7 +53,6 @@ class UserEventHandlerImplTest {
 
         val actualUser: UserRecord = userSlot.captured
         assertEquals(created.userId.value, actualUser.userId)
-        assertEquals(created.loginId.value, actualUser.loginId)
         assertEquals(created.userName.value, actualUser.userName)
         assertEquals(created.birthday.value, actualUser.birthday)
 

@@ -9,12 +9,12 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
+import jp.glory.practice.boot.app.auth.command.domain.model.LoginId
 import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
 import jp.glory.practice.boot.app.base.domain.exception.DomainSpecErrorType
 import jp.glory.practice.boot.app.test.tool.UsecaseErrorsAssertion
 import jp.glory.practice.boot.app.user.command.domain.event.UserCreated
 import jp.glory.practice.boot.app.user.command.domain.event.UserEventHandler
-import jp.glory.practice.boot.app.user.command.domain.model.LoginId
 import jp.glory.practice.boot.app.user.command.domain.model.UserId
 import jp.glory.practice.boot.app.user.command.domain.model.UserIdGenerator
 import jp.glory.practice.boot.app.user.command.domain.service.UserService

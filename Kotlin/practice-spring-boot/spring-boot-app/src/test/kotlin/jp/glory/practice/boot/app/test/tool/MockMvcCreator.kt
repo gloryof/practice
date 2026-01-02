@@ -1,6 +1,9 @@
 package jp.glory.practice.boot.app.test.tool
 
 import io.mockk.mockk
+import jp.glory.practice.boot.app.auth.AuthBeanRegister
+import jp.glory.practice.boot.app.auth.command.usecase.IssueToken
+import jp.glory.practice.boot.app.auth.command.web.LoginRouter
 import jp.glory.practice.boot.app.user.UserBeanRegister
 import jp.glory.practice.boot.app.user.command.usecase.CreateUser
 import jp.glory.practice.boot.app.user.command.web.UserCreateRouter
@@ -43,6 +46,18 @@ class MockMvcCreator(
         )
         UserBeanRegister.webRouting(
             userCreateRouter = router
+        )
+            .let { functions.add(it) }
+    }
+
+    fun activateAuthRoute(
+        issueToken: IssueToken = mockk()
+    ) {
+        val router = LoginRouter(
+            issueToken = issueToken
+        )
+        AuthBeanRegister.webRouting(
+            loginRouter = router
         )
             .let { functions.add(it) }
     }

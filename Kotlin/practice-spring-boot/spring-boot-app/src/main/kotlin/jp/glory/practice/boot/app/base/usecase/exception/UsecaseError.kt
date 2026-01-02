@@ -32,11 +32,13 @@ class UsecaseItemError(
 }
 
 enum class UsecaseSpecErrorType {
+    AUTHENTICATED_IS_FAIL,
     USER_ID_ALREADY_EXIST;
 
     companion object {
         fun fromDomainError(error: DomainSpecErrorType) =
             when (error) {
+                DomainSpecErrorType.AUTHENTICATED_IS_FAIL -> AUTHENTICATED_IS_FAIL
                 DomainSpecErrorType.USER_ID_ALREADY_EXIST -> USER_ID_ALREADY_EXIST
             }
     }

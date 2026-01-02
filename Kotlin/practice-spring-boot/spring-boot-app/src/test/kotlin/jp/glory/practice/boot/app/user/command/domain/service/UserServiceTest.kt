@@ -4,9 +4,9 @@ import com.github.michaelbull.result.get
 import com.github.michaelbull.result.getError
 import io.mockk.every
 import io.mockk.mockk
+import jp.glory.practice.boot.app.auth.command.domain.model.LoginId
 import jp.glory.practice.boot.app.base.domain.exception.DomainSpecErrorType
 import jp.glory.practice.boot.app.test.tool.DomainErrorsAssertion
-import jp.glory.practice.boot.app.user.command.domain.model.LoginId
 import jp.glory.practice.boot.app.user.command.domain.repository.UserRepository
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.fail
