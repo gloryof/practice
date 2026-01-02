@@ -13,8 +13,8 @@ import jp.glory.practice.boot.app.auth.command.domain.model.LoginId
 import jp.glory.practice.boot.app.auth.command.domain.model.UserCredential
 import jp.glory.practice.boot.app.auth.command.domain.repository.UserCredentialRepository
 import jp.glory.practice.boot.app.base.command.domain.exception.DomainErrors
-import jp.glory.practice.boot.app.base.command.usecase.exception.UsecaseErrors
-import jp.glory.practice.boot.app.base.command.usecase.exception.UsecaseSpecErrorType
+import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseErrors
+import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseSpecErrorType
 import java.time.Clock
 
 class IssueToken(

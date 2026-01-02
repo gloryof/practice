@@ -1,7 +1,7 @@
 package jp.glory.practice.boot.app.test.tool
 
-import jp.glory.practice.boot.app.base.command.usecase.exception.UsecaseErrors
-import jp.glory.practice.boot.app.base.command.usecase.exception.UsecaseSpecErrorType
+import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseErrors
+import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseSpecErrorType
 import kotlin.reflect.KClass
 import kotlin.test.assertTrue
 

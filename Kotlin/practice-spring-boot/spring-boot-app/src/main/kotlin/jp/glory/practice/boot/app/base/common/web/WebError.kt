@@ -1,9 +1,9 @@
-package jp.glory.practice.boot.app.base.command.web
+package jp.glory.practice.boot.app.base.common.web
 
-import jp.glory.practice.boot.app.base.command.usecase.exception.UsecaseErrors
-import jp.glory.practice.boot.app.base.command.usecase.exception.UsecaseItemError
-import jp.glory.practice.boot.app.base.command.usecase.exception.UsecaseItemErrorType
-import jp.glory.practice.boot.app.base.command.usecase.exception.UsecaseSpecErrorType
+import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseErrors
+import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseItemError
+import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseItemErrorType
+import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseSpecErrorType
 
 class WebErrors(
     val specErrors: List<WebSpecErrorType> = emptyList(),

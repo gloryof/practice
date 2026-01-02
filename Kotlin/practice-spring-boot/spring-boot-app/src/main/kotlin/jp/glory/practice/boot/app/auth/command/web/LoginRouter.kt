@@ -7,10 +7,10 @@ import com.github.michaelbull.result.mapError
 import jp.glory.practice.boot.app.auth.command.domain.model.LoginId
 import jp.glory.practice.boot.app.auth.command.domain.model.Password
 import jp.glory.practice.boot.app.auth.command.usecase.IssueToken
-import jp.glory.practice.boot.app.base.command.web.RequestValidator
-import jp.glory.practice.boot.app.base.command.web.WebErrorHandler
-import jp.glory.practice.boot.app.base.command.web.WebErrors
-import jp.glory.practice.boot.app.base.command.web.WebRequestBody
+import jp.glory.practice.boot.app.base.common.web.RequestValidator
+import jp.glory.practice.boot.app.base.common.web.WebErrorHandler
+import jp.glory.practice.boot.app.base.common.web.WebErrors
+import jp.glory.practice.boot.app.base.common.web.WebRequestBody
 import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
 
