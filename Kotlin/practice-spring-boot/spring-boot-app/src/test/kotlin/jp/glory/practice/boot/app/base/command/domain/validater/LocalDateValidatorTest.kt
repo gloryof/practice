@@ -1,8 +1,8 @@
-package jp.glory.practice.boot.app.base.domain.validater
+package jp.glory.practice.boot.app.base.command.domain.validater
 
 import com.github.michaelbull.result.getErrorOrElse
 import com.github.michaelbull.result.getOrElse
-import jp.glory.practice.boot.app.base.domain.exception.DomainItemErrorType
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainItemErrorType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

@@ -1,7 +1,7 @@
 package jp.glory.practice.boot.app.test.tool
 
-import jp.glory.practice.boot.app.base.domain.exception.DomainItemError
-import jp.glory.practice.boot.app.base.domain.exception.DomainItemErrorType
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainItemError
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainItemErrorType
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 

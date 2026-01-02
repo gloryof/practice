@@ -1,8 +1,8 @@
 package jp.glory.practice.boot.app.auth.command.domain.model
 
 import com.github.michaelbull.result.Result
-import jp.glory.practice.boot.app.base.domain.exception.DomainItemError
-import jp.glory.practice.boot.app.base.domain.validater.StringValidator
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainItemError
+import jp.glory.practice.boot.app.base.command.domain.validater.StringValidator
 
 @JvmInline
 value class LoginId private constructor(val value: String) {

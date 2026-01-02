@@ -2,7 +2,7 @@ package jp.glory.practice.boot.app.user.command.domain.model
 
 import com.github.michaelbull.result.getError
 import com.github.michaelbull.result.getOrThrow
-import jp.glory.practice.boot.app.base.domain.exception.DomainItemError
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainItemError
 import jp.glory.practice.boot.app.test.tool.DomainErrorAssertion
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested

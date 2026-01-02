@@ -1,9 +1,9 @@
-package jp.glory.practice.boot.app.base.Usecase.usecase.exception
+package jp.glory.practice.boot.app.base.command.usecase.exception
 
-import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
-import jp.glory.practice.boot.app.base.domain.exception.DomainItemError
-import jp.glory.practice.boot.app.base.domain.exception.DomainItemErrorType
-import jp.glory.practice.boot.app.base.domain.exception.DomainSpecErrorType
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainErrors
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainItemError
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainItemErrorType
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainSpecErrorType
 
 class UsecaseErrors(
     val specErrors: List<UsecaseSpecErrorType> = emptyList(),

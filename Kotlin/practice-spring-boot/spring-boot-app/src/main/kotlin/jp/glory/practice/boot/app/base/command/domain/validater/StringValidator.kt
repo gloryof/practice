@@ -1,11 +1,11 @@
-package jp.glory.practice.boot.app.base.domain.validater
+package jp.glory.practice.boot.app.base.command.domain.validater
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
-import jp.glory.practice.boot.app.base.domain.exception.DomainItemError
-import jp.glory.practice.boot.app.base.domain.exception.DomainItemErrorType
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainItemError
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainItemErrorType
 import java.util.regex.Pattern
 import kotlin.reflect.KClass
 

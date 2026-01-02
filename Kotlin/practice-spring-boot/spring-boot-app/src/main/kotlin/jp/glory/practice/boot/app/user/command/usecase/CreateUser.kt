@@ -5,8 +5,8 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.mapError
 import jp.glory.practice.boot.app.auth.command.domain.model.LoginId
-import jp.glory.practice.boot.app.base.Usecase.usecase.exception.UsecaseErrors
-import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainErrors
+import jp.glory.practice.boot.app.base.command.usecase.exception.UsecaseErrors
 import jp.glory.practice.boot.app.user.command.domain.event.UserCreated
 import jp.glory.practice.boot.app.user.command.domain.event.UserEventHandler
 import jp.glory.practice.boot.app.user.command.domain.model.UserIdGenerator

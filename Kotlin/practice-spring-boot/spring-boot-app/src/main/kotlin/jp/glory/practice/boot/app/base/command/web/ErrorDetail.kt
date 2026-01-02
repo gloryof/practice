@@ -1,4 +1,4 @@
-package jp.glory.practice.boot.app.base.web
+package jp.glory.practice.boot.app.base.command.web
 
 class ErrorDetail(
     val name: String,

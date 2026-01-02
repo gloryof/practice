@@ -14,7 +14,7 @@ import jp.glory.practice.boot.app.auth.command.domain.model.LoginId
 import jp.glory.practice.boot.app.auth.command.domain.model.Password
 import jp.glory.practice.boot.app.auth.command.domain.model.UserCredential
 import jp.glory.practice.boot.app.auth.command.domain.repository.UserCredentialRepository
-import jp.glory.practice.boot.app.base.Usecase.usecase.exception.UsecaseSpecErrorType
+import jp.glory.practice.boot.app.base.command.usecase.exception.UsecaseSpecErrorType
 import jp.glory.practice.boot.app.test.tool.UsecaseErrorsAssertion
 import jp.glory.practice.boot.app.user.command.domain.model.UserId
 import jp.glory.practice.boot.app.user.command.domain.model.UserIdGenerator

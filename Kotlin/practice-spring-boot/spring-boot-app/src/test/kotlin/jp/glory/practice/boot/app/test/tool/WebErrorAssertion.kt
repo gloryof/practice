@@ -1,6 +1,6 @@
 package jp.glory.practice.boot.app.test.tool
 
-import jp.glory.practice.boot.app.base.web.WebErrors
+import jp.glory.practice.boot.app.base.command.web.WebErrors
 import org.hamcrest.Matchers.containsInAnyOrder
 import org.springframework.test.web.servlet.MockMvcResultMatchersDsl
 import org.springframework.test.web.servlet.ResultActionsDsl

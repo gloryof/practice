@@ -1,4 +1,4 @@
-package jp.glory.practice.boot.app.base.domain.exception
+package jp.glory.practice.boot.app.base.command.domain.exception
 
 class DomainErrors(
     val specErrors: List<DomainSpecErrorType> = emptyList(),

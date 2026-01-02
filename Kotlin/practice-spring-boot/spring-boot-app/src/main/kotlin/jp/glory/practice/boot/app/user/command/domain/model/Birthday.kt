@@ -1,8 +1,8 @@
 package jp.glory.practice.boot.app.user.command.domain.model
 
 import com.github.michaelbull.result.Result
-import jp.glory.practice.boot.app.base.domain.exception.DomainItemError
-import jp.glory.practice.boot.app.base.domain.validater.LocalDateValidator
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainItemError
+import jp.glory.practice.boot.app.base.command.domain.validater.LocalDateValidator
 import java.time.LocalDate
 
 @JvmInline

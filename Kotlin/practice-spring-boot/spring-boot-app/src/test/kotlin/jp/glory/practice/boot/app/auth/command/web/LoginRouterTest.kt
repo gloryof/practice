@@ -5,9 +5,9 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import jp.glory.practice.boot.app.auth.command.usecase.IssueToken
-import jp.glory.practice.boot.app.base.web.WebErrors
-import jp.glory.practice.boot.app.base.web.WebItemError
-import jp.glory.practice.boot.app.base.web.WebItemErrorType
+import jp.glory.practice.boot.app.base.command.web.WebErrors
+import jp.glory.practice.boot.app.base.command.web.WebItemError
+import jp.glory.practice.boot.app.base.command.web.WebItemErrorType
 import jp.glory.practice.boot.app.test.tool.MockMvcCreator
 import jp.glory.practice.boot.app.test.tool.WebErrorAssertion
 import org.junit.jupiter.api.BeforeEach

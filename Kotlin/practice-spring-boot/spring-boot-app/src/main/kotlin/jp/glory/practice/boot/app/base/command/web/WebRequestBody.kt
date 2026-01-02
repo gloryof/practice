@@ -1,4 +1,4 @@
-package jp.glory.practice.boot.app.base.web
+package jp.glory.practice.boot.app.base.command.web
 
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map

@@ -1,7 +1,7 @@
 package jp.glory.practice.boot.app.test.tool
 
-import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
-import jp.glory.practice.boot.app.base.domain.exception.DomainSpecErrorType
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainErrors
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainSpecErrorType
 import kotlin.reflect.KClass
 import kotlin.test.assertTrue
 

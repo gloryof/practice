@@ -1,4 +1,4 @@
-package jp.glory.practice.boot.app.base.web
+package jp.glory.practice.boot.app.base.command.web
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ProblemDetail

@@ -5,7 +5,7 @@ import com.github.michaelbull.result.mapError
 import com.github.michaelbull.result.zipOrAccumulate
 import jp.glory.practice.boot.app.auth.command.domain.model.LoginId
 import jp.glory.practice.boot.app.auth.command.domain.model.Password
-import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainErrors
 import jp.glory.practice.boot.app.user.command.domain.model.Birthday
 import jp.glory.practice.boot.app.user.command.domain.model.UserId
 import jp.glory.practice.boot.app.user.command.domain.model.UserIdGenerator

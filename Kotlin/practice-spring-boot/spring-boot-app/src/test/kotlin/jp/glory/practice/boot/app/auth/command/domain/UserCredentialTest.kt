@@ -5,7 +5,7 @@ import com.github.michaelbull.result.getError
 import jp.glory.practice.boot.app.auth.command.domain.model.LoginId
 import jp.glory.practice.boot.app.auth.command.domain.model.Password
 import jp.glory.practice.boot.app.auth.command.domain.model.UserCredential
-import jp.glory.practice.boot.app.base.domain.exception.DomainSpecErrorType
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainSpecErrorType
 import jp.glory.practice.boot.app.user.command.domain.model.UserId
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.fail

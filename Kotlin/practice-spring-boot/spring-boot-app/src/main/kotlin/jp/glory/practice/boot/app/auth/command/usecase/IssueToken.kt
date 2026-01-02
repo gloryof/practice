@@ -12,9 +12,9 @@ import jp.glory.practice.boot.app.auth.command.domain.event.TokenIssued
 import jp.glory.practice.boot.app.auth.command.domain.model.LoginId
 import jp.glory.practice.boot.app.auth.command.domain.model.UserCredential
 import jp.glory.practice.boot.app.auth.command.domain.repository.UserCredentialRepository
-import jp.glory.practice.boot.app.base.Usecase.usecase.exception.UsecaseErrors
-import jp.glory.practice.boot.app.base.Usecase.usecase.exception.UsecaseSpecErrorType
-import jp.glory.practice.boot.app.base.domain.exception.DomainErrors
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainErrors
+import jp.glory.practice.boot.app.base.command.usecase.exception.UsecaseErrors
+import jp.glory.practice.boot.app.base.command.usecase.exception.UsecaseSpecErrorType
 import java.time.Clock
 
 class IssueToken(

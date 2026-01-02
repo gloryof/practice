@@ -4,7 +4,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import jp.glory.practice.boot.app.auth.command.domain.event.TokenIssued
-import jp.glory.practice.boot.app.base.domain.exception.DomainSpecErrorType
+import jp.glory.practice.boot.app.base.command.domain.exception.DomainSpecErrorType
 import jp.glory.practice.boot.app.user.command.domain.model.UserId
 import java.time.Clock
 

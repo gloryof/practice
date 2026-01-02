@@ -38,6 +38,9 @@ object UserBeanRegister {
         accept(APPLICATION_JSON).nest {
             POST(pathBase, userCreateRouter::create)
         }
+        accept(APPLICATION_JSON).nest {
+            POST("test", userCreateRouter::create)
+        }
     }
 
     private fun BeanRegistrarDsl.dao() {
