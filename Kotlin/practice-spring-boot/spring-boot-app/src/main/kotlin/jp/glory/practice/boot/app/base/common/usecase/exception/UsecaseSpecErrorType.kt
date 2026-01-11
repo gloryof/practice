@@ -4,7 +4,8 @@ import jp.glory.practice.boot.app.base.command.domain.exception.DomainSpecErrorT
 
 enum class UsecaseSpecErrorType {
     LOGIN_IS_FAIL,
-    NOT_AUTHORIZED,
+    UNAUTHORIZED,
+    DATA_IS_NOT_FOUND,
     USER_ID_ALREADY_EXIST;
 
     companion object {

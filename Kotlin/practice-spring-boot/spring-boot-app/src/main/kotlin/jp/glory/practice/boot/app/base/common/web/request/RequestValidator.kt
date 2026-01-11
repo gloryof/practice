@@ -1,4 +1,4 @@
-package jp.glory.practice.boot.app.base.common.web
+package jp.glory.practice.boot.app.base.common.web.request
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
@@ -7,6 +7,7 @@ import com.github.michaelbull.result.mapError
 import jp.glory.practice.boot.app.base.command.domain.exception.DomainErrors
 import jp.glory.practice.boot.app.base.command.domain.exception.DomainItemError
 import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseErrors
+import jp.glory.practice.boot.app.base.common.web.exception.WebErrors
 
 class RequestValidator {
     private val validatorFunctions: MutableList<() -> Result<Unit, DomainItemError>> = mutableListOf()

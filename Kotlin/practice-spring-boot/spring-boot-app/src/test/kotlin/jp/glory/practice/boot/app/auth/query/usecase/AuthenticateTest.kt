@@ -44,7 +44,7 @@ class AuthenticateTest {
 
         val actual = sut.authenticate(token).getError() ?: fail("Unexpected success")
         UsecaseErrorsAssertion(
-            specErrors = setOf(UsecaseSpecErrorType.NOT_AUTHORIZED),
+            specErrors = setOf(UsecaseSpecErrorType.UNAUTHORIZED),
             usecaseErrors = actual
         )
             .assertAll()

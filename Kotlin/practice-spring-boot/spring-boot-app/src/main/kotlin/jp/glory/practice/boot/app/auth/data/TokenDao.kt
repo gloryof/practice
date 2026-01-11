@@ -9,5 +9,5 @@ class TokenDao(
 
     fun findByToken(token: String): TokenRecord? =
         table.filter { it.value.token == token }
-            .firstNotNullOf { it.value }
+            .firstNotNullOfOrNull { it.value }
 }

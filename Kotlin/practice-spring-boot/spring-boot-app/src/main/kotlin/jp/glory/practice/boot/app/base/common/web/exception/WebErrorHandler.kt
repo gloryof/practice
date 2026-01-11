@@ -1,34 +1,29 @@
-package jp.glory.practice.boot.app.base.common.web
+package jp.glory.practice.boot.app.base.common.web.exception
 
 import org.springframework.http.HttpStatus
-import org.springframework.http.ProblemDetail
 import org.springframework.web.servlet.function.ServerResponse
 
 object WebErrorHandler {
     fun createErrorResponse(errors: WebErrors): ServerResponse {
-        val detail = createProblemDetail(errors)
+        val detail = createBody(errors)
 
         return ServerResponse.status(detail.status)
             .body(detail)
     }
 
-    private fun createProblemDetail(errors: WebErrors): ProblemDetail =
-        ProblemDetail.forStatusAndDetail(
-            getStatus(errors),
-            "Your request is invalid"
+    private fun createBody(errors: WebErrors): ErrorResponse =
+        ErrorResponse(
+            status = getStatus(errors).value(),
+            title = "Your request is invalid",
+            errors = toErrorDetails(errors)
         )
-            .apply {
-                title = "Invalid request"
-
-                val details = toErrorDetails(errors)
-                if (details.isNotEmpty()) {
-                    setProperty("errors", details)
-                }
-            }
 
     private fun getStatus(errors: WebErrors): HttpStatus {
-        if (errors.specErrors.contains(WebSpecErrorType.NOT_AUTHORIZED)) {
+        if (errors.specErrors.contains(WebSpecErrorType.UNAUTHORIZED)) {
             return HttpStatus.UNAUTHORIZED
+        }
+        if (errors.specErrors.contains(WebSpecErrorType.DATA_IS_NOT_FOUND)) {
+            return HttpStatus.NOT_FOUND
         }
         return HttpStatus.BAD_REQUEST
     }

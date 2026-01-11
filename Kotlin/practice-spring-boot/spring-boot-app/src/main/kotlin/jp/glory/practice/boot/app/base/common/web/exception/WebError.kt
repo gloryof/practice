@@ -1,4 +1,4 @@
-package jp.glory.practice.boot.app.base.common.web
+package jp.glory.practice.boot.app.base.common.web.exception
 
 import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseErrors
 import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseItemError
@@ -33,14 +33,16 @@ class WebItemError(
 
 enum class WebSpecErrorType {
     LOGIN_IS_FAIL,
-    NOT_AUTHORIZED,
+    UNAUTHORIZED,
+    DATA_IS_NOT_FOUND,
     USER_ID_ALREADY_EXIST;
 
     companion object {
         fun fromUsecaseError(error: UsecaseSpecErrorType) =
             when (error) {
                 UsecaseSpecErrorType.LOGIN_IS_FAIL -> LOGIN_IS_FAIL
-                UsecaseSpecErrorType.NOT_AUTHORIZED -> NOT_AUTHORIZED
+                UsecaseSpecErrorType.UNAUTHORIZED -> UNAUTHORIZED
+                UsecaseSpecErrorType.DATA_IS_NOT_FOUND -> DATA_IS_NOT_FOUND
                 UsecaseSpecErrorType.USER_ID_ALREADY_EXIST -> USER_ID_ALREADY_EXIST
             }
     }

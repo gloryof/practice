@@ -4,29 +4,28 @@ import com.github.michaelbull.result.Ok
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import jp.glory.practice.boot.app.base.common.web.WebErrors
-import jp.glory.practice.boot.app.base.common.web.WebItemError
-import jp.glory.practice.boot.app.base.common.web.WebItemErrorType
+import jp.glory.practice.boot.app.base.common.web.exception.WebErrors
+import jp.glory.practice.boot.app.base.common.web.exception.WebItemError
+import jp.glory.practice.boot.app.base.common.web.exception.WebItemErrorType
 import jp.glory.practice.boot.app.test.tool.MockMvcCreator
 import jp.glory.practice.boot.app.test.tool.WebErrorAssertion
 import jp.glory.practice.boot.app.user.command.usecase.CreateUser
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActionsDsl
 import org.springframework.test.web.servlet.post
 import java.time.LocalDate
 
-@WebMvcTest
 class UserCreateRouterTest {
     private lateinit var mockMvc: MockMvc
-    private val useCase = mockk<CreateUser>()
+    private lateinit var useCase: CreateUser
 
     @BeforeEach
     fun setup() {
+        useCase = mockk()
         mockMvc = MockMvcCreator()
             .apply {
                 activateUserRoute(
@@ -271,7 +270,7 @@ class UserCreateRouterTest {
     }
 
     private fun callApi(jsonRequest: String): ResultActionsDsl =
-        mockMvc.post("/api/v1/user") {
+        mockMvc.post("/api/v1/register") {
             contentType = MediaType.APPLICATION_JSON
             content = jsonRequest
         }

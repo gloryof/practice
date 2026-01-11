@@ -1,45 +1,81 @@
 package jp.glory.practice.boot.app.test.tool
 
-import jp.glory.practice.boot.app.base.common.web.WebErrors
-import org.hamcrest.Matchers.containsInAnyOrder
-import org.springframework.test.web.servlet.MockMvcResultMatchersDsl
+import jp.glory.practice.boot.app.base.common.web.exception.ErrorDetail
+import jp.glory.practice.boot.app.base.common.web.exception.ErrorResponse
+import jp.glory.practice.boot.app.base.common.web.exception.WebErrors
+import jp.glory.practice.boot.app.base.common.web.exception.WebSpecErrorType
+import org.springframework.http.HttpStatus
+import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.ResultActionsDsl
+import kotlin.test.assertEquals
 
 class WebErrorAssertion(
     private val dsl: ResultActionsDsl,
 ) {
+    val objectMapper = JsonMapperBuilderCreator.create().build()
+
     fun assertBadRequest(expected: WebErrors) {
         dsl.andExpect {
             status { isBadRequest() }
-            expectError(expected)
+        }.andReturn().apply {
+            expectError(
+                expected = expected,
+                status = HttpStatus.BAD_REQUEST
+            )
         }
     }
 
-    private fun MockMvcResultMatchersDsl.expectError(expected: WebErrors) {
-        content {
-            if (expected.specErrors.isNotEmpty()) {
-                val expectedCodes = expected.specErrors.map { it.name }
+    fun assertNotFound() {
+        val expected = WebErrors(
+            specErrors = listOf(WebSpecErrorType.DATA_IS_NOT_FOUND)
+        )
+        dsl.andExpect {
+            status { isNotFound() }
+        }.andReturn().apply {
+            expectError(
+                expected = expected,
+                status = HttpStatus.NOT_FOUND
+            )
+        }
+    }
 
-                jsonPath("$.errors[?(@.name == '')].error_types[0].length()") {
-                    value(expectedCodes.size)
-                }
+    fun assertUnauthorized() {
+        val expected = WebErrors(
+            specErrors = listOf(WebSpecErrorType.UNAUTHORIZED)
+        )
+        dsl.andExpect {
+            status { isUnauthorized() }
+        }.andReturn().apply {
+            expectError(
+                expected = expected,
+                status = HttpStatus.UNAUTHORIZED
+            )
+        }
+    }
 
-                jsonPath("$.errors[?(@.name == '')].error_types[0]") {
-                    value(containsInAnyOrder(*expectedCodes.toTypedArray()))
-                }
-            }
+    private fun MvcResult.expectError(
+        expected: WebErrors,
+        status: HttpStatus
+    ) {
+        val body = this.response.contentAsString
+        val actual = objectMapper.readValue(body, ErrorResponse::class.java)
 
-            expected.itemErrors.forEach { itemError ->
-                val expectedCodes = itemError.errors.map { it.name }
+        assertEquals(status.value(), actual.status)
 
-                jsonPath("$.errors[?(@.name == '${itemError.name}')].error_types.length()") {
-                    value(expectedCodes.size)
-                }
+        val errors: List<ErrorDetail> = actual.errors
 
-                jsonPath("$.errors[?(@.name == '${itemError.name}')].error_types[0]") {
-                    value(containsInAnyOrder(*expectedCodes.toTypedArray()))
-                }
-            }
+        if (expected.specErrors.isNotEmpty()) {
+            val expectedCodes = expected.specErrors.map { it.name }
+            val specErrors = errors.first { it.name == "" }
+
+            assertEquals(expectedCodes, specErrors.errorTypes)
+        }
+
+        expected.itemErrors.forEach { itemError ->
+            val expectedCodes = itemError.errors.map { it.name }
+            val specErrors = errors.first { it.name == itemError.name }
+
+            assertEquals(expectedCodes, specErrors.errorTypes)
         }
     }
 }

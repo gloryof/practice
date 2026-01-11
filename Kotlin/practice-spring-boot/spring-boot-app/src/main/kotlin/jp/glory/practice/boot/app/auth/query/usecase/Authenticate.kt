@@ -16,7 +16,7 @@ class Authenticate(
             ?.let { Ok(Output(it.userId)) }
             ?: Err(
                 UsecaseErrors(
-                    specErrors = listOf(UsecaseSpecErrorType.NOT_AUTHORIZED)
+                    specErrors = listOf(UsecaseSpecErrorType.UNAUTHORIZED)
                 )
             )
 

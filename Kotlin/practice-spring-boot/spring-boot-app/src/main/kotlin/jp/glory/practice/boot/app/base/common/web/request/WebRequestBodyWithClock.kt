@@ -1,7 +1,8 @@
-package jp.glory.practice.boot.app.base.common.web
+package jp.glory.practice.boot.app.base.common.web.request
 
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
+import jp.glory.practice.boot.app.base.common.web.exception.WebErrors
 import java.time.Clock
 
 abstract class WebRequestBodyWithClock<T> {

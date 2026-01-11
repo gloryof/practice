@@ -7,10 +7,10 @@ import com.github.michaelbull.result.flatMap
 import com.github.michaelbull.result.mapBoth
 import com.github.michaelbull.result.mapError
 import jp.glory.practice.boot.app.auth.query.usecase.Authenticate
-import jp.glory.practice.boot.app.base.common.web.RequestAttributeKey
-import jp.glory.practice.boot.app.base.common.web.WebErrorHandler
-import jp.glory.practice.boot.app.base.common.web.WebErrors
-import jp.glory.practice.boot.app.base.common.web.WebSpecErrorType
+import jp.glory.practice.boot.app.base.common.web.exception.WebErrorHandler
+import jp.glory.practice.boot.app.base.common.web.exception.WebErrors
+import jp.glory.practice.boot.app.base.common.web.exception.WebSpecErrorType
+import jp.glory.practice.boot.app.base.common.web.request.RequestAttributeKey
 import org.springframework.web.servlet.function.HandlerFilterFunction
 import org.springframework.web.servlet.function.HandlerFunction
 import org.springframework.web.servlet.function.ServerRequest
@@ -36,16 +36,27 @@ class AuthenticateFilter(
             )
 
     private fun ServerRequest.bearerToken(): Result<String, WebErrors> {
-        return this.headers().header("Authorization")
-            .firstOrNull()
-            ?.takeIf { it.startsWith("Bearer ", ignoreCase = true) }
-            ?.substring(7)
+        return getToken(this.headers())
             ?.let { Ok(it) }
             ?: Err(
                 WebErrors(
-                    specErrors = listOf(WebSpecErrorType.NOT_AUTHORIZED)
+                    specErrors = listOf(WebSpecErrorType.UNAUTHORIZED)
                 )
             )
+    }
+
+    private fun getToken(headers: ServerRequest.Headers): String? {
+        val rowString = headers.header("Authorization")
+            .firstOrNull()
+            ?.takeIf { it.startsWith("Bearer ", ignoreCase = true) }
+            ?.substring(7)
+            ?: ""
+
+        if (rowString.isEmpty()) {
+            return null
+        }
+
+        return rowString
     }
 
     private fun authenticate(token: String): Result<Authenticate.Output, WebErrors> =

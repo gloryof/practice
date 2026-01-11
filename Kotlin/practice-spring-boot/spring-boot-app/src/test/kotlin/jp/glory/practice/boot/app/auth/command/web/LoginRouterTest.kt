@@ -5,9 +5,9 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import jp.glory.practice.boot.app.auth.command.usecase.IssueToken
-import jp.glory.practice.boot.app.base.common.web.WebErrors
-import jp.glory.practice.boot.app.base.common.web.WebItemError
-import jp.glory.practice.boot.app.base.common.web.WebItemErrorType
+import jp.glory.practice.boot.app.base.common.web.exception.WebErrors
+import jp.glory.practice.boot.app.base.common.web.exception.WebItemError
+import jp.glory.practice.boot.app.base.common.web.exception.WebItemErrorType
 import jp.glory.practice.boot.app.test.tool.MockMvcCreator
 import jp.glory.practice.boot.app.test.tool.WebErrorAssertion
 import org.junit.jupiter.api.BeforeEach
@@ -21,11 +21,11 @@ import java.util.UUID
 
 class LoginRouterTest {
     private lateinit var mockMvc: MockMvc
-    private val useCase = mockk<IssueToken>()
-
+    private lateinit var useCase: IssueToken
 
     @BeforeEach
     fun setup() {
+        useCase = mockk()
         mockMvc = MockMvcCreator()
             .apply {
                 activateAuthRoute(
@@ -165,7 +165,6 @@ class LoginRouterTest {
             }
         }
     }
-
 
     private fun callApi(jsonRequest: String): ResultActionsDsl =
         mockMvc.post("/api/v1/auth/login") {

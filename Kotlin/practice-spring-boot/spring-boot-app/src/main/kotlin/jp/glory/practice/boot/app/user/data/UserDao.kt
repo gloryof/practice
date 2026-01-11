@@ -6,4 +6,6 @@ class UserDao(
     fun insert(record: UserRecord) {
         table.put(record.userId, record)
     }
+
+    fun findById(id: String): UserRecord? = table[id]
 }
