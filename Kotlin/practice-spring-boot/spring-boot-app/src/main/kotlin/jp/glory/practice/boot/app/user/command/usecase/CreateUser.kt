@@ -11,6 +11,7 @@ import jp.glory.practice.boot.app.user.command.domain.event.UserCreated
 import jp.glory.practice.boot.app.user.command.domain.event.UserEventHandler
 import jp.glory.practice.boot.app.user.command.domain.model.UserIdGenerator
 import jp.glory.practice.boot.app.user.command.domain.service.UserService
+import org.springframework.transaction.support.TransactionTemplate
 import java.time.Clock
 import java.time.LocalDate
 
@@ -18,14 +19,17 @@ class CreateUser(
     private val clock: Clock,
     private val userService: UserService,
     private val userEventHandler: UserEventHandler,
-    private val userIdGenerator: UserIdGenerator
+    private val userIdGenerator: UserIdGenerator,
+    private val tx: TransactionTemplate
 ) {
     fun createUser(input: Input): Result<String, UsecaseErrors> =
-        convertLoginId(input.loginId)
-            .flatMap { userService.validateExistLogin(it) }
-            .flatMap { input.toDomainEvent(clock, userIdGenerator) }
-            .flatMap { Ok(handleEvent(it)) }
-            .mapError { UsecaseErrors.fromDomainError(it) }
+        tx.execute {
+            convertLoginId(input.loginId)
+                .flatMap { userService.validateExistLogin(it) }
+                .flatMap { input.toDomainEvent(clock, userIdGenerator) }
+                .flatMap { Ok(handleEvent(it)) }
+                .mapError { UsecaseErrors.fromDomainError(it) }
+        }
 
     private fun convertLoginId(loginId: String): Result<LoginId, DomainErrors> =
         LoginId.of(loginId)

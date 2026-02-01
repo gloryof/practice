@@ -21,6 +21,8 @@ import jp.glory.practice.boot.app.user.command.domain.service.UserService
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
+import org.springframework.transaction.support.TransactionCallback
+import org.springframework.transaction.support.TransactionTemplate
 import java.time.Clock
 import java.time.LocalDate
 import kotlin.test.assertEquals
@@ -150,10 +152,19 @@ class CreateUserTest {
         userService: UserService = mockk(),
         userEventHandler: UserEventHandler = mockk(),
         userIdGenerator: UserIdGenerator = mockk()
-    ): CreateUser = CreateUser(
-        clock = clock,
-        userService = userService,
-        userEventHandler = userEventHandler,
-        userIdGenerator = userIdGenerator
-    )
+    ): CreateUser {
+        val tx: TransactionTemplate = mockk()
+        every { tx.execute(any<TransactionCallback<Any>>()) } answers {
+            val callback = firstArg<TransactionCallback<Any>>()
+            callback.doInTransaction(mockk()) // 引数にTransactionStatusを渡して実行
+        }
+
+        return CreateUser(
+            clock = clock,
+            userService = userService,
+            userEventHandler = userEventHandler,
+            userIdGenerator = userIdGenerator,
+            tx = tx
+        )
+    }
 }

@@ -15,20 +15,24 @@ import jp.glory.practice.boot.app.auth.command.domain.repository.UserCredentialR
 import jp.glory.practice.boot.app.base.command.domain.exception.DomainErrors
 import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseErrors
 import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseSpecErrorType
+import org.springframework.transaction.support.TransactionTemplate
 import java.time.Clock
 
 open class IssueToken(
     private val repository: UserCredentialRepository,
     private val eventHandler: AuthEventHandler,
-    private val clock: Clock
+    private val clock: Clock,
+    private val tx: TransactionTemplate
 ) {
     fun issue(input: Input): Result<String, UsecaseErrors> =
-        findByLoginId(input.loginId)
-            .flatMap { issueToken(it, input) }
-            .map {
-                eventHandler.handleTokenIssued(it)
-                it.token.value
-            }
+        tx.execute {
+            findByLoginId(input.loginId)
+                .flatMap { issueToken(it, input) }
+                .map {
+                    eventHandler.handleTokenIssued(it)
+                    it.token.value
+                }
+        }
 
     private fun findByLoginId(inputLoginId: String): Result<UserCredential, UsecaseErrors> {
         val loginId: LoginId = requireNotNull(LoginId.of(inputLoginId).get())

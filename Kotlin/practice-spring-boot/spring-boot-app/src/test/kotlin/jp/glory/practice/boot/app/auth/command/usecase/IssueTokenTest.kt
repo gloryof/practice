@@ -22,6 +22,8 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.fail
+import org.springframework.transaction.support.TransactionCallback
+import org.springframework.transaction.support.TransactionTemplate
 import java.time.Clock
 import kotlin.test.assertEquals
 
@@ -122,10 +124,19 @@ class IssueTokenTest {
         repository: UserCredentialRepository = mockk(),
         eventHandler: AuthEventHandler = mockk(),
         clock: Clock = Clock.systemDefaultZone()
-    ): IssueToken = IssueToken(
-        repository = repository,
-        eventHandler = eventHandler,
-        clock = clock
-    )
+    ): IssueToken {
+        val tx: TransactionTemplate = mockk()
+        every { tx.execute(any<TransactionCallback<Any>>()) } answers {
+            val callback = firstArg<TransactionCallback<Any>>()
+            callback.doInTransaction(mockk()) // 引数にTransactionStatusを渡して実行
+        }
+
+        return IssueToken(
+            repository = repository,
+            eventHandler = eventHandler,
+            clock = clock,
+            tx = tx
+        )
+    }
 
 }
