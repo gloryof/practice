@@ -17,12 +17,11 @@ import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseErrors
 import jp.glory.practice.boot.app.base.common.usecase.exception.UsecaseSpecErrorType
 import java.time.Clock
 
-class IssueToken(
+open class IssueToken(
     private val repository: UserCredentialRepository,
     private val eventHandler: AuthEventHandler,
     private val clock: Clock
 ) {
-
     fun issue(input: Input): Result<String, UsecaseErrors> =
         findByLoginId(input.loginId)
             .flatMap { issueToken(it, input) }

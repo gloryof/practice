@@ -1,15 +1,26 @@
 package jp.glory.practice.boot.app.auth.data
 
+import org.komapper.core.dsl.Meta
+import org.komapper.core.dsl.QueryDsl
+import org.komapper.core.dsl.query.singleOrNull
+import org.komapper.jdbc.JdbcDatabase
+
 class AuthDao(
-    private val table: MutableMap<String, AuthRecord> = mutableMapOf()
+    private val database: JdbcDatabase
 ) {
+    private val table = Meta.authRecord
+
     fun insert(record: AuthRecord) {
-        table.put(record.loginId, record)
+        database.runQuery {
+            QueryDsl.insert(table).single(record)
+        }
     }
 
     fun findById(loginId: String): AuthRecord? =
-        table.filter { it.value.loginId == loginId }
-            .firstNotNullOfOrNull {
-                it.value
+        database.runQuery {
+            QueryDsl.from(table).where {
+                table.loginId eq loginId
             }
+                .singleOrNull()
+        }
 }

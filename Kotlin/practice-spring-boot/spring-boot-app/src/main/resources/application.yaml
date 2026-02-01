@@ -3,3 +3,13 @@ spring:
     name: spring-boot-app
   jackson:
     property-naming-strategy: SNAKE_CASE
+  datasource:
+    url: jdbc:mysql://localhost:3306/boot_app?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo
+    username: user
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  flyway:
+    enable: false
+
+doma:
+  dialect: mysql
